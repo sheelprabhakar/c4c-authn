@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * The type ForgotPasswordDto.
+ */
 @Schema(name = "ForgotPasswordParam", description = "Parameters required to request a reset link")
 @Exists.List({
     @Exists(property = "email", repository = "UserRepository", message = "This email doesn't exists in the db!")

@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * The type Permission.
+ */
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor

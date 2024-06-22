@@ -10,10 +10,18 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type MongoEnsureIndexes.
+ */
 @Component
 public class MongoEnsureIndexes implements ApplicationListener<ContextRefreshedEvent> {
   private final MongoTemplate mongoTemplate;
 
+  /**
+   * Instantiates a new Mongo ensure indexes.
+   *
+   * @param mongoTemplate the mongo template
+   */
   public MongoEnsureIndexes(MongoTemplate mongoTemplate) {
     this.mongoTemplate = mongoTemplate;
   }

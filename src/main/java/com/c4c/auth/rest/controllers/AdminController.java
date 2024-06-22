@@ -37,6 +37,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+/**
+ * The type AdminController.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/admins")
@@ -45,11 +48,24 @@ public class AdminController {
 
   private final UserService userService;
 
+  /**
+   * Instantiates a new Admin controller.
+   *
+   * @param roleService the role service
+   * @param userService the user service
+   */
   public AdminController(RoleService roleService, UserService userService) {
     this.roleService = roleService;
     this.userService = userService;
   }
 
+  /**
+   * Create response entity.
+   *
+   * @param createUserDto the create user dto
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_ADMIN_CREATE_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_ADMIN_CREATE_MESSAGE, content = {
@@ -71,6 +87,12 @@ public class AdminController {
     return ResponseEntity.ok(new UserResponse(user));
   }
 
+  /**
+   * Delete response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
   @Operation(summary = SWG_ADMIN_DELETE_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "204", description = SWG_ADMIN_DELETE_MESSAGE, content = {

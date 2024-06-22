@@ -16,6 +16,7 @@ import static com.c4c.auth.common.Constants.TOKEN_NOT_FOUND_MESSAGE;
 import static com.c4c.auth.common.Constants.VALIDATE_TOKEN_SUCCESS_MESSAGE;
 
 import com.c4c.auth.common.exceptions.ResourceNotFoundException;
+import com.c4c.auth.common.utils.JwtTokenUtil;
 import com.c4c.auth.core.models.dtos.RefreshTokenDto;
 import com.c4c.auth.core.models.dtos.ValidateTokenDto;
 import com.c4c.auth.core.models.entities.RefreshToken;
@@ -26,7 +27,6 @@ import com.c4c.auth.rest.response.AuthTokenResponse;
 import com.c4c.auth.rest.response.BadRequestResponse;
 import com.c4c.auth.rest.response.InvalidDataResponse;
 import com.c4c.auth.rest.response.SuccessResponse;
-import com.c4c.auth.common.utils.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,6 +48,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+/**
+ * The type TokenController.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/token")
@@ -61,6 +64,13 @@ public class TokenController {
 
   private final UserService userService;
 
+  /**
+   * Instantiates a new Token controller.
+   *
+   * @param jwtTokenUtil           the jwt token util
+   * @param refreshTokenRepository the refresh token repository
+   * @param userService            the user service
+   */
   public TokenController(
       JwtTokenUtil jwtTokenUtil,
       RefreshTokenRepository refreshTokenRepository,
@@ -71,6 +81,12 @@ public class TokenController {
     this.userService = userService;
   }
 
+  /**
+   * Validate response entity.
+   *
+   * @param validateTokenDto the validate token dto
+   * @return the response entity
+   */
   @Operation(summary = SWG_TOKEN_VALIDATE_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_TOKEN_VALIDATE_MESSAGE, content = {
@@ -110,6 +126,13 @@ public class TokenController {
     return ResponseEntity.badRequest().body(result);
   }
 
+  /**
+   * Refresh response entity.
+   *
+   * @param refreshTokenDto the refresh token dto
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_TOKEN_REFRESH_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_TOKEN_REFRESH_MESSAGE, content = {

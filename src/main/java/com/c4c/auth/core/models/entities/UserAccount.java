@@ -7,6 +7,9 @@ import lombok.experimental.Accessors;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * The type UserAccount.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @Data
@@ -19,6 +22,11 @@ public class UserAccount extends BaseModel {
 
   private long expireAt;
 
+  /**
+   * Is expired boolean.
+   *
+   * @return the boolean
+   */
   public boolean isExpired() {
     return expireAt < new Date().getTime();
   }

@@ -15,10 +15,18 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
+/**
+ * The type TemplateEngineConfig.
+ */
 @Configuration
 public class TemplateEngineConfig implements WebMvcConfigurer {
   private static final String EMAIL_TEMPLATE_ENCODING = "UTF-8";
 
+  /**
+   * Email template engine template engine.
+   *
+   * @return the template engine
+   */
   @Bean
   @Primary
   public TemplateEngine emailTemplateEngine() {
@@ -42,6 +50,11 @@ public class TemplateEngineConfig implements WebMvcConfigurer {
     return templateResolver;
   }
 
+  /**
+   * Web template resolver class loader template resolver.
+   *
+   * @return the class loader template resolver
+   */
   @Bean
   @Description("Thymeleaf template resolver serving HTML 5")
   public ClassLoaderTemplateResolver webTemplateResolver() {
@@ -60,6 +73,11 @@ public class TemplateEngineConfig implements WebMvcConfigurer {
     return templateResolver;
   }
 
+  /**
+   * Web template engine spring template engine.
+   *
+   * @return the spring template engine
+   */
   @Bean
   @Description("Thymeleaf template engine with Spring integration")
   public SpringTemplateEngine webTemplateEngine() {
@@ -70,6 +88,11 @@ public class TemplateEngineConfig implements WebMvcConfigurer {
     return templateEngine;
   }
 
+  /**
+   * View resolver view resolver.
+   *
+   * @return the view resolver
+   */
   @Bean
   @Description("Thymeleaf view resolver")
   public ViewResolver viewResolver() {

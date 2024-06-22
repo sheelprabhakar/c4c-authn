@@ -72,6 +72,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 
+/**
+ * The type UserController.
+ */
 @RestController
 @RequestMapping(value = "/users")
 @Validated
@@ -84,6 +87,13 @@ public class UserController {
 
   private final FileStorageServiceImpl fileStorageServiceImpl;
 
+  /**
+   * Instantiates a new User controller.
+   *
+   * @param userService            the user service
+   * @param permissionService      the permission service
+   * @param fileStorageServiceImpl the file storage service
+   */
   public UserController(UserService userService, PermissionService permissionService,
                         FileStorageServiceImpl fileStorageServiceImpl) {
     this.userService = userService;
@@ -91,6 +101,11 @@ public class UserController {
     this.fileStorageServiceImpl = fileStorageServiceImpl;
   }
 
+  /**
+   * All response entity.
+   *
+   * @return the response entity
+   */
   @Operation(summary = SWG_USER_LIST_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_USER_LIST_MESSAGE, content = {
@@ -109,6 +124,12 @@ public class UserController {
     return ResponseEntity.ok(new UserListResponse(userService.findAll()));
   }
 
+  /**
+   * Current user response entity.
+   *
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_USER_LOGGED_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_USER_LOGGED_MESSAGE, content = {
@@ -126,6 +147,13 @@ public class UserController {
     return ResponseEntity.ok(new UserResponse(userService.findByEmail(authentication.getName())));
   }
 
+  /**
+   * One response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_USER_ITEM_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_USER_ITEM_MESSAGE, content = {
@@ -145,6 +173,14 @@ public class UserController {
     return ResponseEntity.ok(new UserResponse(userService.findById(id)));
   }
 
+  /**
+   * Update response entity.
+   *
+   * @param id            the id
+   * @param updateUserDto the update user dto
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_USER_UPDATE_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_USER_UPDATE_MESSAGE, content = {
@@ -168,6 +204,15 @@ public class UserController {
     return ResponseEntity.ok(new UserResponse(userService.update(id, updateUserDto)));
   }
 
+  /**
+   * Update password response entity.
+   *
+   * @param id                the id
+   * @param updatePasswordDto the update password dto
+   * @return the response entity
+   * @throws PasswordNotMatchException the password not match exception
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_USER_UPDATE_PWD_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_USER_UPDATE_PWD_MESSAGE, content = {
@@ -200,6 +245,12 @@ public class UserController {
     return ResponseEntity.ok(new UserResponse(user));
   }
 
+  /**
+   * Delete response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
   @Operation(summary = SWG_USER_DELETE_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "204", description = SWG_USER_DELETE_MESSAGE, content = {
@@ -220,6 +271,16 @@ public class UserController {
     return ResponseEntity.noContent().build();
   }
 
+  /**
+   * Upload picture response entity.
+   *
+   * @param id     the id
+   * @param file   the file
+   * @param action the action
+   * @return the response entity
+   * @throws IOException               the io exception
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_USER_PICTURE_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_USER_PICTURE_MESSAGE, content = {
@@ -277,6 +338,14 @@ public class UserController {
   }
 
 
+  /**
+   * Assign permissions response entity.
+   *
+   * @param id                      the id
+   * @param updateUserPermissionDto the update user permission dto
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_USER_PERMISSION_ASSIGN_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_USER_PERMISSION_ASSIGN_MESSAGE, content = {
@@ -312,6 +381,14 @@ public class UserController {
     return ResponseEntity.ok().body(new UserResponse(user));
   }
 
+  /**
+   * Revoke permissions response entity.
+   *
+   * @param id                      the id
+   * @param updateUserPermissionDto the update user permission dto
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_USER_PERMISSION_REVOKE_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_USER_PERMISSION_REVOKE_MESSAGE, content = {

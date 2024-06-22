@@ -7,12 +7,17 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
 
 /**
- * The type Authn application.
+ * The type AuthnApplication.
  */
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class,
     ThymeleafAutoConfiguration.class, DataSourceAutoConfiguration.class})
 public class AuthnApplication {
 
+  /**
+   * The entry point of application.
+   *
+   * @param args the input arguments
+   */
   public static void main(String[] args) {
     SpringApplication.run(AuthnApplication.class, args);
   }

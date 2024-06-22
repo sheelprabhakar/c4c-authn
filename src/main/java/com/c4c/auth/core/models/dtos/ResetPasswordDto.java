@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * The type ResetPasswordDto.
+ */
 @Schema(name = "ResetPasswordParam", description = "Parameters required to reset password")
 @FieldMatch.List({
     @FieldMatch(first = "password", second = "confirmPassword", message = "The password fields must match")

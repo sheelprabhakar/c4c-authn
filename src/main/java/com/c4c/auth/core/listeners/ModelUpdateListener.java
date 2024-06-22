@@ -7,6 +7,9 @@ import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent;
 import org.springframework.data.mongodb.core.mapping.event.BeforeSaveEvent;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type ModelUpdateListener.
+ */
 @Component
 public class ModelUpdateListener extends AbstractMongoEventListener<BaseModel> {
   @Override

@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * The type UpdateUserDto.
+ */
 @Schema(name = "UpdateUserParam", description = "Parameters required to update an user")
 @Accessors(chain = true)
 @Setter

@@ -12,6 +12,9 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 
+/**
+ * The type CreateUserDto.
+ */
 @Schema(name = "RegisterParam", description = "Parameters required to create or update user")
 @FieldMatch.List({
     @FieldMatch(first = "password", second = "confirmPassword", message = "The password fields must match")
@@ -67,6 +70,9 @@ public class CreateUserDto {
 
   private Role role;
 
+  /**
+   * Instantiates a new Create user dto.
+   */
   public CreateUserDto() {
     enabled = true;
   }

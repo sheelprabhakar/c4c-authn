@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * The type PermissionLoadDto.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -17,6 +20,11 @@ public class PermissionLoadDto {
 
   private String[] roleNames;
 
+  /**
+   * To permission permission.
+   *
+   * @return the permission
+   */
   public Permission toPermission() {
     return new Permission(name, description);
   }

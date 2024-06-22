@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * The type CreateRoleDto.
+ */
 @Schema(name = "CreateRoleParam", description = "Parameters required to create role")
 @Accessors(chain = true)
 @Setter
@@ -21,7 +24,12 @@ public class CreateRoleDto {
 
   private boolean isDefault;
 
-  public Role toRole() {
+    /**
+     * To role role.
+     *
+     * @return the role
+     */
+    public Role toRole() {
     return new Role()
         .setName(this.name)
         .setDescription(this.description)

@@ -50,6 +50,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The type RoleController.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/roles")
@@ -58,11 +61,23 @@ public class RoleController {
 
   private final PermissionService permissionService;
 
+  /**
+   * Instantiates a new Role controller.
+   *
+   * @param permissionService the permission service
+   * @param roleService       the role service
+   */
   public RoleController(PermissionService permissionService, RoleService roleService) {
     this.roleService = roleService;
     this.permissionService = permissionService;
   }
 
+  /**
+   * Create response entity.
+   *
+   * @param createRoleDto the create role dto
+   * @return the response entity
+   */
   @Operation(summary = SWG_ROLE_CREATE_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_ROLE_CREATE_MESSAGE,
@@ -86,6 +101,11 @@ public class RoleController {
     return ResponseEntity.ok(role);
   }
 
+  /**
+   * All response entity.
+   *
+   * @return the response entity
+   */
   @Operation(summary = SWG_ROLE_LIST_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_ROLE_LIST_MESSAGE, content = {
@@ -104,6 +124,13 @@ public class RoleController {
     return ResponseEntity.ok(new RoleListResponse(roleService.findAll()));
   }
 
+  /**
+   * One response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_ROLE_ITEM_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_ROLE_ITEM_MESSAGE, content = {
@@ -125,6 +152,14 @@ public class RoleController {
     return ResponseEntity.ok(new RoleResponse(role));
   }
 
+  /**
+   * Update response entity.
+   *
+   * @param id            the id
+   * @param createRoleDto the create role dto
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_ROLE_UPDATE_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_ROLE_UPDATE_MESSAGE, content = {
@@ -148,6 +183,12 @@ public class RoleController {
     return ResponseEntity.ok(new RoleResponse(roleService.update(id, createRoleDto)));
   }
 
+  /**
+   * Delete response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
   @Operation(summary = SWG_ROLE_DELETE_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "204", description = SWG_ROLE_DELETE_MESSAGE, content = {
@@ -168,6 +209,14 @@ public class RoleController {
     return ResponseEntity.noContent().build();
   }
 
+  /**
+   * Add permissions response entity.
+   *
+   * @param id                      the id
+   * @param updateRolePermissionDto the update role permission dto
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_ROLE_ASSIGN_PERMISSION_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_ROLE_ASSIGN_PERMISSION_MESSAGE, content = {
@@ -203,6 +252,14 @@ public class RoleController {
     return ResponseEntity.ok().body(new RoleResponse(roleUpdated));
   }
 
+  /**
+   * Remove permissions response entity.
+   *
+   * @param id                      the id
+   * @param updateRolePermissionDto the update role permission dto
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_ROLE_REMOVE_PERMISSION_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_ROLE_REMOVE_PERMISSION_MESSAGE, content = {

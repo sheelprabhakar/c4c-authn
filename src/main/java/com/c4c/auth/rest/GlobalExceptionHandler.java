@@ -4,10 +4,10 @@ import com.c4c.auth.common.exceptions.FileNotFoundException;
 import com.c4c.auth.common.exceptions.FileStorageException;
 import com.c4c.auth.common.exceptions.PasswordNotMatchException;
 import com.c4c.auth.common.exceptions.ResourceNotFoundException;
+import com.c4c.auth.common.utils.Helpers;
 import com.c4c.auth.rest.response.BadRequestResponse;
 import com.c4c.auth.rest.response.GenericResponse;
 import com.c4c.auth.rest.response.InvalidDataResponse;
-import com.c4c.auth.common.utils.Helpers;
 import jakarta.validation.ConstraintViolationException;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+/**
+ * The type GlobalExceptionHandler.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -31,6 +34,13 @@ public class GlobalExceptionHandler {
     return result;
   }
 
+  /**
+   * Resource not found exception response entity.
+   *
+   * @param ex      the ex
+   * @param request the request
+   * @return the response entity
+   */
   @ExceptionHandler(ResourceNotFoundException.class)
   public ResponseEntity<?> resourceNotFoundException(ResourceNotFoundException ex,
                                                      WebRequest request) {
@@ -39,6 +49,13 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
   }
 
+  /**
+   * Password not match exception response entity.
+   *
+   * @param ex      the ex
+   * @param request the request
+   * @return the response entity
+   */
   @ExceptionHandler(PasswordNotMatchException.class)
   public ResponseEntity<?> passwordNotMatchException(PasswordNotMatchException ex,
                                                      WebRequest request) {
@@ -47,6 +64,13 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
 
+  /**
+   * File not found exception response entity.
+   *
+   * @param ex      the ex
+   * @param request the request
+   * @return the response entity
+   */
   @ExceptionHandler(FileNotFoundException.class)
   public ResponseEntity<?> fileNotFoundException(FileNotFoundException ex, WebRequest request) {
     BadRequestResponse response = new BadRequestResponse(formatMessage(ex.getMessage()));
@@ -55,6 +79,13 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
   }
 
+  /**
+   * File storage exception response entity.
+   *
+   * @param ex      the ex
+   * @param request the request
+   * @return the response entity
+   */
   @ExceptionHandler(FileStorageException.class)
   public ResponseEntity<?> fileStorageException(FileStorageException ex, WebRequest request) {
     BadRequestResponse response = new BadRequestResponse(formatMessage(ex.getMessage()));
@@ -63,6 +94,13 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
 
+  /**
+   * Constraint violation exception response entity.
+   *
+   * @param ex      the ex
+   * @param request the request
+   * @return the response entity
+   */
   @ExceptionHandler(ConstraintViolationException.class)
   public ResponseEntity<?> constraintViolationException(ConstraintViolationException ex,
                                                         WebRequest request) {
@@ -82,6 +120,13 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
+  /**
+   * Method argument not valid exception response entity.
+   *
+   * @param ex      the ex
+   * @param request the request
+   * @return the response entity
+   */
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<?> methodArgumentNotValidException(MethodArgumentNotValidException ex,
                                                            WebRequest request) {
@@ -111,6 +156,13 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
+  /**
+   * Access denied exception response entity.
+   *
+   * @param ex      the ex
+   * @param request the request
+   * @return the response entity
+   */
   @ExceptionHandler(AccessDeniedException.class)
   public ResponseEntity<?> accessDeniedException(AccessDeniedException ex, WebRequest request) {
     BadRequestResponse response = new BadRequestResponse(formatMessage(ex.getMessage()));
@@ -118,6 +170,13 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
   }
 
+  /**
+   * Bad credentials exception response entity.
+   *
+   * @param ex      the ex
+   * @param request the request
+   * @return the response entity
+   */
   @ExceptionHandler(BadCredentialsException.class)
   public ResponseEntity<?> badCredentialsException(BadCredentialsException ex, WebRequest request) {
     BadRequestResponse response = new BadRequestResponse(formatMessage(ex.getMessage()));
@@ -125,6 +184,13 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
   }
 
+  /**
+   * Global exception handler response entity.
+   *
+   * @param ex      the ex
+   * @param request the request
+   * @return the response entity
+   */
   @ExceptionHandler(Exception.class)
   public ResponseEntity<?> globalExceptionHandler(Exception ex, WebRequest request) {
     ex.printStackTrace();

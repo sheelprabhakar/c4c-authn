@@ -8,25 +8,92 @@ import com.c4c.auth.core.models.entities.User;
 import java.util.List;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+/**
+ * The interface UserService.
+ */
 public interface UserService extends UserDetailsService {
-  User save(CreateUserDto createUserDto);
+    /**
+     * Save user.
+     *
+     * @param createUserDto the create user dto
+     * @return the user
+     */
+    User save(CreateUserDto createUserDto);
 
-  List<User> findAll();
+    /**
+     * Find all list.
+     *
+     * @return the list
+     */
+    List<User> findAll();
 
-  void delete(String id);
+    /**
+     * Delete.
+     *
+     * @param id the id
+     */
+    void delete(String id);
 
-  User findByEmail(String email) throws ResourceNotFoundException;
+    /**
+     * Find by email user.
+     *
+     * @param email the email
+     * @return the user
+     * @throws ResourceNotFoundException the resource not found exception
+     */
+    User findByEmail(String email) throws ResourceNotFoundException;
 
-  User findById(String id) throws ResourceNotFoundException;
+    /**
+     * Find by id user.
+     *
+     * @param id the id
+     * @return the user
+     * @throws ResourceNotFoundException the resource not found exception
+     */
+    User findById(String id) throws ResourceNotFoundException;
 
-  User update(String id, UpdateUserDto updateUserDto) throws ResourceNotFoundException;
+    /**
+     * Update user.
+     *
+     * @param id            the id
+     * @param updateUserDto the update user dto
+     * @return the user
+     * @throws ResourceNotFoundException the resource not found exception
+     */
+    User update(String id, UpdateUserDto updateUserDto) throws ResourceNotFoundException;
 
-  void update(User user);
+    /**
+     * Update.
+     *
+     * @param user the user
+     */
+    void update(User user);
 
-  User updatePassword(String id, UpdatePasswordDto updatePasswordDto)
+    /**
+     * Update password user.
+     *
+     * @param id                the id
+     * @param updatePasswordDto the update password dto
+     * @return the user
+     * @throws ResourceNotFoundException the resource not found exception
+     */
+    User updatePassword(String id, UpdatePasswordDto updatePasswordDto)
       throws ResourceNotFoundException;
 
-  void updatePassword(String id, String newPassword) throws ResourceNotFoundException;
+    /**
+     * Update password.
+     *
+     * @param id          the id
+     * @param newPassword the new password
+     * @throws ResourceNotFoundException the resource not found exception
+     */
+    void updatePassword(String id, String newPassword) throws ResourceNotFoundException;
 
-  void confirm(String id) throws ResourceNotFoundException;
+    /**
+     * Confirm.
+     *
+     * @param id the id
+     * @throws ResourceNotFoundException the resource not found exception
+     */
+    void confirm(String id) throws ResourceNotFoundException;
 }

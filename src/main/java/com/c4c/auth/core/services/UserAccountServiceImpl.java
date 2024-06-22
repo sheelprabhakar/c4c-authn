@@ -17,10 +17,18 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 
+/**
+ * The type UserAccountServiceImpl.
+ */
 @Service(value = "userAccountService")
 public class UserAccountServiceImpl implements UserAccountService {
   private final UserAccountRepository userAccountRepository;
 
+  /**
+   * Instantiates a new User account service.
+   *
+   * @param userAccountRepository the user account repository
+   */
   public UserAccountServiceImpl(UserAccountRepository userAccountRepository) {
     this.userAccountRepository = userAccountRepository;
   }

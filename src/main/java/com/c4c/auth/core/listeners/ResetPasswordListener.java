@@ -18,6 +18,9 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 
+/**
+ * The type ResetPasswordListener.
+ */
 @Component
 public class ResetPasswordListener implements ApplicationListener<OnResetPasswordEvent> {
   private static final String TEMPLATE_NAME = "html/password-reset";
@@ -31,6 +34,14 @@ public class ResetPasswordListener implements ApplicationListener<OnResetPasswor
 
   private final TemplateEngine htmlTemplateEngine;
 
+  /**
+   * Instantiates a new Reset password listener.
+   *
+   * @param userAccountService the user account service
+   * @param mailSender         the mail sender
+   * @param environment        the environment
+   * @param htmlTemplateEngine the html template engine
+   */
   public ResetPasswordListener(
       UserAccountService userAccountService,
       JavaMailSender mailSender,

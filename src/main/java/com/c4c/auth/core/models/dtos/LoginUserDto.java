@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * The type LoginUserDto.
+ */
 @Schema(name = "LoginUserParam", description = "Parameters required to login user")
 @Accessors(chain = true)
 @Setter

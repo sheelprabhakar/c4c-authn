@@ -17,6 +17,9 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type DataSeeder.
+ */
 @Component
 public class DataSeeder implements ApplicationListener<ContextRefreshedEvent> {
   private final RoleService roleService;
@@ -25,6 +28,13 @@ public class DataSeeder implements ApplicationListener<ContextRefreshedEvent> {
 
   private final PermissionLoader permissionLoader;
 
+  /**
+   * Instantiates a new Data seeder.
+   *
+   * @param roleService      the role service
+   * @param userService      the user service
+   * @param permissionLoader the permission loader
+   */
   public DataSeeder(RoleService roleService, UserService userService,
                     PermissionLoader permissionLoader) {
     this.roleService = roleService;

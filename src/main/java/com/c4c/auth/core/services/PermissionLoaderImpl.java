@@ -23,6 +23,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
+/**
+ * The type PermissionLoaderImpl.
+ */
 @Service
 public class PermissionLoaderImpl implements PermissionLoader {
 
@@ -32,6 +35,12 @@ public class PermissionLoaderImpl implements PermissionLoader {
   @Value("${app.permission.load.mode}")
   private PermissionLoadMode loadMode;
 
+  /**
+   * Instantiates a new Permission loader.
+   *
+   * @param roleRepository       the role repository
+   * @param permissionRepository the permission repository
+   */
   public PermissionLoaderImpl(RoleRepository roleRepository,
                               PermissionRepository permissionRepository) {
     this.roleRepository = roleRepository;

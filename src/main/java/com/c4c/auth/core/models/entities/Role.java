@@ -12,6 +12,9 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+/**
+ * The type Role.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @Data
@@ -27,16 +30,31 @@ public class Role extends BaseModel {
   @DBRef
   private Set<Permission> permissions;
 
+  /**
+   * Instantiates a new Role.
+   */
   public Role() {
     permissions = new HashSet<>();
   }
 
+  /**
+   * Add permission role.
+   *
+   * @param permission the permission
+   * @return the role
+   */
   public Role addPermission(Permission permission) {
     this.permissions.add(permission);
 
     return this;
   }
 
+  /**
+   * Has permission boolean.
+   *
+   * @param permissionName the permission name
+   * @return the boolean
+   */
   public boolean hasPermission(String permissionName) {
     Optional<Permission> permissionItem =
         this.permissions.stream().filter(permission -> permission.getName().equals(permissionName))
@@ -45,6 +63,12 @@ public class Role extends BaseModel {
     return permissionItem.isPresent();
   }
 
+  /**
+   * Remove permission role.
+   *
+   * @param permission the permission
+   * @return the role
+   */
   public Role removePermission(Permission permission) {
     Stream<Permission> newPermissions = this.permissions.stream()
         .filter(permission1 -> !permission1.getName().equals(permission.getName()));

@@ -9,10 +9,18 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type PermissionServiceImpl.
+ */
 @Service
 public class PermissionServiceImpl implements PermissionService {
   private final PermissionRepository permissionRepository;
 
+  /**
+   * Instantiates a new Permission service.
+   *
+   * @param permissionRepository the permission repository
+   */
   public PermissionServiceImpl(PermissionRepository permissionRepository) {
     this.permissionRepository = permissionRepository;
   }

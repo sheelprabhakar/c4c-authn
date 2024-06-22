@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * The type UpdateRoleDto.
+ */
 @Schema(name = "UpdateRoleParam", description = "Parameters required to update the roles of an user")
 @Accessors(chain = true)
 @Setter

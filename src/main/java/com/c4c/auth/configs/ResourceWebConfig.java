@@ -5,10 +5,21 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * The type ResourceWebConfig.
+ */
 @Configuration
 public class ResourceWebConfig implements WebMvcConfigurer {
+  /**
+   * The Environment.
+   */
   final Environment environment;
 
+  /**
+   * Instantiates a new Resource web config.
+   *
+   * @param environment the environment
+   */
   public ResourceWebConfig(Environment environment) {
     this.environment = environment;
   }

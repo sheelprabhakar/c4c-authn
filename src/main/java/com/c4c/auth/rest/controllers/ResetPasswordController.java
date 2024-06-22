@@ -41,6 +41,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+/**
+ * The type ResetPasswordController.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/auth")
@@ -52,6 +55,13 @@ public class ResetPasswordController {
 
   private final UserAccountService userAccountService;
 
+  /**
+   * Instantiates a new Reset password controller.
+   *
+   * @param userService        the user service
+   * @param eventPublisher     the event publisher
+   * @param userAccountService the user account service
+   */
   public ResetPasswordController(UserService userService, ApplicationEventPublisher eventPublisher,
                                  UserAccountService userAccountService) {
     this.userService = userService;
@@ -59,6 +69,13 @@ public class ResetPasswordController {
     this.userAccountService = userAccountService;
   }
 
+  /**
+   * Forgot password response entity.
+   *
+   * @param forgotPasswordDto the forgot password dto
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_RESPWD_FORGOT_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_RESPWD_FORGOT_MESSAGE, content = {
@@ -86,6 +103,13 @@ public class ResetPasswordController {
     return ResponseEntity.ok(result);
   }
 
+  /**
+   * Reset password response entity.
+   *
+   * @param passwordResetDto the password reset dto
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_RESPWD_RESET_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_RESPWD_RESET_MESSAGE, content = {

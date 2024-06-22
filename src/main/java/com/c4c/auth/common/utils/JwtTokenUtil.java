@@ -15,20 +15,43 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type JwtTokenUtil.
+ */
 @Component
 public class JwtTokenUtil implements Serializable {
 
   @Value("${app.jwt.secret.key}")
   private String jwtSecretKey;
 
+  /**
+   * Gets username from token.
+   *
+   * @param token the token
+   * @return the username from token
+   */
   public String getUsernameFromToken(String token) {
     return getClaimFromToken(token, Claims::getSubject);
   }
 
+  /**
+   * Gets expiration date from token.
+   *
+   * @param token the token
+   * @return the expiration date from token
+   */
   public Date getExpirationDateFromToken(String token) {
     return getClaimFromToken(token, Claims::getExpiration);
   }
 
+  /**
+   * Gets claim from token.
+   *
+   * @param <T>            the type parameter
+   * @param token          the token
+   * @param claimsResolver the claims resolver
+   * @return the claim from token
+   */
   public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
     final Claims claims = getAllClaimsFromToken(token);
 
@@ -48,10 +71,22 @@ public class JwtTokenUtil implements Serializable {
     return expiration.before(new Date());
   }
 
+  /**
+   * Create token from auth string.
+   *
+   * @param authentication the authentication
+   * @return the string
+   */
   public String createTokenFromAuth(Authentication authentication) {
     return generateToken(authentication.getName());
   }
 
+  /**
+   * Create token from user string.
+   *
+   * @param user the user
+   * @return the string
+   */
   public String createTokenFromUser(User user) {
     return generateToken(user.getEmail());
   }
@@ -68,6 +103,13 @@ public class JwtTokenUtil implements Serializable {
         .compact();
   }
 
+  /**
+   * Validate token boolean.
+   *
+   * @param token       the token
+   * @param userDetails the user details
+   * @return the boolean
+   */
   public Boolean validateToken(String token, UserDetails userDetails) {
     final String username = getUsernameFromToken(token);
 

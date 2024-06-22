@@ -17,12 +17,20 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * The type FileStorageServiceImpl.
+ */
 @Service
 public class FileStorageServiceImpl {
 
   private final Path fileStorageLocation;
 
-  @Autowired
+    /**
+     * Instantiates a new File storage service.
+     *
+     * @param env the env
+     */
+    @Autowired
   public FileStorageServiceImpl(Environment env) {
     this.fileStorageLocation =
         Paths.get(env.getProperty("app.file.upload-dir", "./uploads/avatars"))
@@ -36,7 +44,13 @@ public class FileStorageServiceImpl {
     }
   }
 
-  public String storeFile(MultipartFile file) {
+    /**
+     * Store file string.
+     *
+     * @param file the file
+     * @return the string
+     */
+    public String storeFile(MultipartFile file) {
     // Normalize file name
     String fileName =
         new Date().getTime() + "-user." + Helpers.getFileExtension(file.getOriginalFilename());
@@ -59,7 +73,13 @@ public class FileStorageServiceImpl {
     }
   }
 
-  public Resource loadFileAsResource(String fileName) {
+    /**
+     * Load file as resource resource.
+     *
+     * @param fileName the file name
+     * @return the resource
+     */
+    public Resource loadFileAsResource(String fileName) {
     try {
       Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
       Resource resource = new UrlResource(filePath.toUri());
@@ -73,7 +93,14 @@ public class FileStorageServiceImpl {
     }
   }
 
-  public boolean deleteFile(String filePath) throws IOException {
+    /**
+     * Delete file boolean.
+     *
+     * @param filePath the file path
+     * @return the boolean
+     * @throws IOException the io exception
+     */
+    public boolean deleteFile(String filePath) throws IOException {
     Resource resource = this.loadFileAsResource(filePath);
 
     return Files.deleteIfExists(resource.getFile().toPath());

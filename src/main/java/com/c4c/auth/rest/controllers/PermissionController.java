@@ -30,6 +30,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The type PermissionController.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/permissions")
@@ -37,10 +40,20 @@ public class PermissionController {
 
   private final PermissionService permissionService;
 
+  /**
+   * Instantiates a new Permission controller.
+   *
+   * @param permissionService the permission service
+   */
   public PermissionController(PermissionService permissionService) {
     this.permissionService = permissionService;
   }
 
+  /**
+   * All response entity.
+   *
+   * @return the response entity
+   */
   @Operation(summary = SWG_PERMISSION_LIST_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_PERMISSION_LIST_MESSAGE, content = {
@@ -55,6 +68,13 @@ public class PermissionController {
     return ResponseEntity.ok(new PermissionListResponse(permissionService.findAll()));
   }
 
+  /**
+   * One response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_PERMISSION_ITEM_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_PERMISSION_ITEM_MESSAGE, content = {

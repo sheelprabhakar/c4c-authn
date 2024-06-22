@@ -13,10 +13,18 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type RoleServiceImpl.
+ */
 @Service(value = "roleService")
 public class RoleServiceImpl implements RoleService {
   private final RoleRepository roleRepository;
 
+  /**
+   * Instantiates a new Role service.
+   *
+   * @param roleRepository the role repository
+   */
   public RoleServiceImpl(RoleRepository roleRepository) {
     this.roleRepository = roleRepository;
   }

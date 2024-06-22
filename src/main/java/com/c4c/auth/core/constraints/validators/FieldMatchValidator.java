@@ -5,6 +5,9 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.apache.commons.beanutils.BeanUtils;
 
+/**
+ * The type FieldMatchValidator.
+ */
 public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
 
   private String firstFieldName;

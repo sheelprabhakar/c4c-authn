@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * The type UpdatePasswordDto.
+ */
 @Schema(name = "UpdatePasswordParam", description = "Parameters required to update the password")
 @Accessors(chain = true)
 @Setter

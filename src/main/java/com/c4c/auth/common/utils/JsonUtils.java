@@ -5,17 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 
 /**
- * The type Json utils.
+ * The type JsonUtils.
  */
 public final class JsonUtils {
-  /**
-   * The constant mapper_.
-   */
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-  /**
-   * Instantiates a new Json utils.
-   */
   private JsonUtils() {
 
   }

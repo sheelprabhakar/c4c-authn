@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * The type ValidateTokenDto.
+ */
 @Schema(name = "ValidateTokenParam", description = "Parameters required to perform a token validation")
 @Accessors(chain = true)
 @Setter

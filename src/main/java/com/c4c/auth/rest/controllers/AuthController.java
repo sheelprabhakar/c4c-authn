@@ -20,6 +20,8 @@ import static com.c4c.auth.common.Constants.SWG_AUTH_REGISTER_OPERATION;
 import static com.c4c.auth.common.Constants.TOKEN_EXPIRED_MESSAGE;
 
 import com.c4c.auth.common.exceptions.ResourceNotFoundException;
+import com.c4c.auth.common.utils.Helpers;
+import com.c4c.auth.common.utils.JwtTokenUtil;
 import com.c4c.auth.core.events.OnRegistrationCompleteEvent;
 import com.c4c.auth.core.models.dtos.CreateUserDto;
 import com.c4c.auth.core.models.dtos.LoginUserDto;
@@ -37,8 +39,6 @@ import com.c4c.auth.rest.response.BadRequestResponse;
 import com.c4c.auth.rest.response.InvalidDataResponse;
 import com.c4c.auth.rest.response.SuccessResponse;
 import com.c4c.auth.rest.response.UserResponse;
-import com.c4c.auth.common.utils.Helpers;
-import com.c4c.auth.common.utils.JwtTokenUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -63,6 +63,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+/**
+ * The type AuthController.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/auth")
@@ -83,6 +86,17 @@ public class AuthController {
 
   private final UserAccountService userAccountService;
 
+  /**
+   * Instantiates a new Auth controller.
+   *
+   * @param authenticationManager  the authentication manager
+   * @param jwtTokenUtil           the jwt token util
+   * @param userService            the user service
+   * @param roleService            the role service
+   * @param refreshTokenRepository the refresh token repository
+   * @param eventPublisher         the event publisher
+   * @param userAccountService     the user account service
+   */
   public AuthController(
       AuthenticationManager authenticationManager,
       JwtTokenUtil jwtTokenUtil,
@@ -101,6 +115,12 @@ public class AuthController {
     this.userAccountService = userAccountService;
   }
 
+  /**
+   * Register response entity.
+   *
+   * @param createUserDto the create user dto
+   * @return the response entity
+   */
   @Operation(summary = SWG_AUTH_REGISTER_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_AUTH_REGISTER_MESSAGE, content = {
@@ -135,6 +155,13 @@ public class AuthController {
     }
   }
 
+  /**
+   * Login response entity.
+   *
+   * @param loginUserDto the login user dto
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_AUTH_LOGIN_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_AUTH_LOGIN_MESSAGE, content = {
@@ -183,6 +210,13 @@ public class AuthController {
     return ResponseEntity.ok(new AuthTokenResponse(token, refreshToken, expirationDate.getTime()));
   }
 
+  /**
+   * Confirm account response entity.
+   *
+   * @param validateTokenDto the validate token dto
+   * @return the response entity
+   * @throws ResourceNotFoundException the resource not found exception
+   */
   @Operation(summary = SWG_AUTH_CONFIRM_ACCOUNT_OPERATION)
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = SWG_AUTH_CONFIRM_ACCOUNT_MESSAGE, content = {

@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * The type RefreshTokenDto.
+ */
 @Schema(name = "RefreshTokenParam", description = "Parameters required to create or update user")
 @Accessors(chain = true)
 @Setter

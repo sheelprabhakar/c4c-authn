@@ -1,7 +1,7 @@
 package com.c4c.auth.core.constraints.validators;
 
-import com.c4c.auth.core.constraints.IsUnique;
 import com.c4c.auth.common.utils.Helpers;
+import com.c4c.auth.core.constraints.IsUnique;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.lang.reflect.InvocationTargetException;
@@ -9,6 +9,9 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type IsUniqueValidator.
+ */
 @Component
 public class IsUniqueValidator implements ConstraintValidator<IsUnique, Object> {
 
@@ -17,6 +20,11 @@ public class IsUniqueValidator implements ConstraintValidator<IsUnique, Object> 
   private String repositoryName;
   private UpdateAction action;
 
+  /**
+   * Instantiates a new Is unique validator.
+   *
+   * @param applicationContext the application context
+   */
   public IsUniqueValidator(ApplicationContext applicationContext) {
     this.applicationContext = applicationContext;
   }
@@ -65,8 +73,17 @@ public class IsUniqueValidator implements ConstraintValidator<IsUnique, Object> 
     }
   }
 
+  /**
+   * The enum UpdateAction.
+   */
   public enum UpdateAction {
+    /**
+     * Insert update action.
+     */
     INSERT,
+    /**
+     * Update update action.
+     */
     UPDATE
   }
 }

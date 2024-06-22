@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * The type OpenApiConfig.
+ */
 @Configuration
-public class OpenAPIConfig {
+class OpenApiConfig {
 
   @Value("${c4c-authn.openapi.dev-url}")
   private String devUrl;
@@ -19,6 +22,11 @@ public class OpenAPIConfig {
   @Value("${c4c-authn.openapi.prod-url}")
   private String prodUrl;
 
+  /**
+   * My open api open api.
+   *
+   * @return the open api
+   */
   @Bean
   public OpenAPI myOpenAPI() {
     Server devServer = new Server();

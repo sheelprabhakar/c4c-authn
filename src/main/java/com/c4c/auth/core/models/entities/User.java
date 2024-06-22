@@ -13,6 +13,9 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+/**
+ * The type User.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @Data
@@ -46,10 +49,22 @@ public class User extends BaseModel {
   @DBRef
   private Set<Permission> permissions;
 
+  /**
+   * Instantiates a new User.
+   */
   public User() {
     permissions = new HashSet<>();
   }
 
+  /**
+   * Instantiates a new User.
+   *
+   * @param firstName the first name
+   * @param lastName  the last name
+   * @param email     the email
+   * @param password  the password
+   * @param gender    the gender
+   */
   public User(String firstName, String lastName, String email, String password, String gender) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -61,11 +76,22 @@ public class User extends BaseModel {
     permissions = new HashSet<>();
   }
 
+  /**
+   * Add permission.
+   *
+   * @param permission the permission
+   */
   public void addPermission(Permission permission) {
     this.permissions.add(permission);
 
   }
 
+  /**
+   * Has permission boolean.
+   *
+   * @param permissionName the permission name
+   * @return the boolean
+   */
   public boolean hasPermission(String permissionName) {
     Optional<Permission> permissionItem =
         this.permissions.stream().filter(permission -> permission.getName().equals(permissionName))
@@ -74,6 +100,11 @@ public class User extends BaseModel {
     return permissionItem.isPresent();
   }
 
+  /**
+   * Remove permission.
+   *
+   * @param permission the permission
+   */
   public void removePermission(Permission permission) {
     Stream<Permission> newPermissions = this.permissions.stream()
         .filter(permission1 -> !permission1.getName().equals(permission.getName()));
@@ -82,6 +113,11 @@ public class User extends BaseModel {
 
   }
 
+  /**
+   * All permissions set.
+   *
+   * @return the set
+   */
   public Set<Permission> allPermissions() {
     Set<Permission> userPermissions = this.permissions;
     Set<Permission> userRolePermissions = this.role.getPermissions();

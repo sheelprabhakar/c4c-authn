@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * The type AuthTokenResponse.
+ */
 @Accessors(chain = true)
 @AllArgsConstructor
 @Setter

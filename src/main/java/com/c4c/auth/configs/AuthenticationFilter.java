@@ -21,11 +21,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+/**
+ * The type AuthenticationFilter.
+ */
 public class AuthenticationFilter extends OncePerRequestFilter {
   private final UserDetailsService userDetailsService;
 
   private final JwtTokenUtil jwtTokenUtil;
 
+  /**
+   * Instantiates a new Authentication filter.
+   *
+   * @param userDetailsService the user details service
+   * @param jwtTokenUtil       the jwt token util
+   */
   public AuthenticationFilter(UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil) {
     this.userDetailsService = userDetailsService;
     this.jwtTokenUtil = jwtTokenUtil;

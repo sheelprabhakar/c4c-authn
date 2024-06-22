@@ -18,6 +18,9 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+/**
+ * The type RegistrationListener.
+ */
 @Component
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
   private static final String TEMPLATE_NAME = "html/registration";
@@ -33,6 +36,14 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
   private final TemplateEngine htmlTemplateEngine;
 
+  /**
+   * Instantiates a new Registration listener.
+   *
+   * @param userAccountService the user account service
+   * @param mailSender         the mail sender
+   * @param environment        the environment
+   * @param htmlTemplateEngine the html template engine
+   */
   public RegistrationListener(
       UserAccountService userAccountService,
       JavaMailSender mailSender,

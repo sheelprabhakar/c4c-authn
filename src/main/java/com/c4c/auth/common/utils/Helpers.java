@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The type Helpers.
+ */
 public class Helpers {
   /**
-   * Generates a random string of the length passed in parameter
+   * Generate random string string.
    *
-   * @param length Length of the string to generate
-   * @return String
+   * @param length the length
+   * @return the string
    */
   public static String generateRandomString(int length) {
     String possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -24,10 +27,10 @@ public class Helpers {
   }
 
   /**
-   * Get the extension of the file name provided
+   * Gets file extension.
    *
-   * @param fileName Name of the file we want to get the extension
-   * @return a string representing the extension
+   * @param fileName the file name
+   * @return the file extension
    */
   public static String getFileExtension(String fileName) {
     if (fileName == null) {
@@ -39,10 +42,10 @@ public class Helpers {
   }
 
   /**
-   * Transform to uppercase the first character of a string
+   * Capitalize string.
    *
-   * @param str
-   * @return the string capitalized
+   * @param str the str
+   * @return the string
    */
   public static String capitalize(String str) {
     char[] chars = str.toCharArray();
@@ -51,6 +54,14 @@ public class Helpers {
     return String.valueOf(chars);
   }
 
+  /**
+   * Update error hash map map.
+   *
+   * @param errors  the errors
+   * @param field   the field
+   * @param message the message
+   * @return the map
+   */
   public static Map<String, List<String>> updateErrorHashMap(
       Map<String, List<String>> errors, String field, String message
   ) {

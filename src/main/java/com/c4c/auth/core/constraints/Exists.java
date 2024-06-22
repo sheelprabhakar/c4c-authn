@@ -12,6 +12,9 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+/**
+ * The interface Exists.
+ */
 @Constraint(validatedBy = ExistsValidator.class)
 @Target({
     TYPE, FIELD,
@@ -20,16 +23,44 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Documented
 public @interface Exists {
+  /**
+   * Message string.
+   *
+   * @return the string
+   */
   String message() default "{constraints.exists}";
 
+  /**
+   * Groups class [ ].
+   *
+   * @return the class [ ]
+   */
   Class<?>[] groups() default {};
 
+  /**
+   * Payload class [ ].
+   *
+   * @return the class [ ]
+   */
   Class<? extends Payload>[] payload() default {};
 
+  /**
+   * Property string.
+   *
+   * @return the string
+   */
   String property();
 
+  /**
+   * Repository string.
+   *
+   * @return the string
+   */
   String repository();
 
+  /**
+   * The interface List.
+   */
   @Target({
       TYPE, FIELD,
       ANNOTATION_TYPE
@@ -37,6 +68,11 @@ public @interface Exists {
   @Retention(RUNTIME)
   @Documented
   @interface List {
+    /**
+     * Value exists [ ].
+     *
+     * @return the exists [ ]
+     */
     Exists[] value();
   }
 }

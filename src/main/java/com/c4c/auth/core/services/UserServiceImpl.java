@@ -23,6 +23,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+/**
+ * The type UserServiceImpl.
+ */
 @Service
 public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
@@ -30,6 +33,11 @@ public class UserServiceImpl implements UserService {
   @Autowired
   private BCryptPasswordEncoder bCryptEncoder; // Fails when injected by the constructor
 
+  /**
+   * Instantiates a new User service.
+   *
+   * @param userRepository the user repository
+   */
   public UserServiceImpl(UserRepository userRepository) {
     this.userRepository = userRepository;
   }

@@ -1,7 +1,7 @@
 package com.c4c.auth.core.constraints.validators;
 
-import com.c4c.auth.core.constraints.Exists;
 import com.c4c.auth.common.utils.Helpers;
+import com.c4c.auth.core.constraints.Exists;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.lang.reflect.InvocationTargetException;
@@ -9,6 +9,9 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type ExistsValidator.
+ */
 @Component
 public class ExistsValidator implements ConstraintValidator<Exists, Object> {
 
@@ -16,6 +19,11 @@ public class ExistsValidator implements ConstraintValidator<Exists, Object> {
   private String propertyName;
   private String repositoryName;
 
+  /**
+   * Instantiates a new Exists validator.
+   *
+   * @param applicationContext the application context
+   */
   public ExistsValidator(ApplicationContext applicationContext) {
     this.applicationContext = applicationContext;
   }
