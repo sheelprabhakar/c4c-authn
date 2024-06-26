@@ -1,11 +1,14 @@
 plugins {
+	id 'checkstyle'
 	id 'java'
 	id 'org.springframework.boot' version '3.3.1'
 	id 'io.spring.dependency-management' version '1.1.5'
+	id 'org.hibernate.orm' version '6.5.2.Final'
+	id 'org.graalvm.buildtools.native' version '0.10.2'
 	id 'io.freefair.lombok' version '8.6'
 }
 
-group = 'com.c4c.auth'
+group = 'com.c4c.housing'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -19,20 +22,21 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-logging'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-mysql'
 
-	implementation 'commons-beanutils:commons-beanutils:1.9.4'
-	implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
-	implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.1'
+	implementation 'org.hibernate:hibernate-validator:8.0.1.Final'
+	implementation 'org.modelmapper:modelmapper:3.2.0'
+	implementation 'io.jsonwebtoken:jjwt:0.12.3'
+	implementation 'dev.samstevens.totp:totp:1.7.1'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
@@ -41,8 +45,21 @@ dependencies {
 	testImplementation 'org.testcontainers:mysql'
 	testImplementation 'org.testcontainers:mongodb'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
 
+}
 tasks.named('test') {
 	useJUnitPlatform()
+}
+tasks.named("bootJar") {
+	launchScript()
+}
+checkstyle {
+	ignoreFailures = true
+}
+tasks.withType(Checkstyle) {
+	checkstyleTest.enabled = false
+	reports {
+		xml.required = false
+		html.required = true
+	}
 }
