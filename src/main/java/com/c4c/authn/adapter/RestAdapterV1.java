@@ -105,4 +105,11 @@ public interface RestAdapterV1 {
    * @return the list
    */
   List<TenantResource> readTenants();
+
+  /**
+   * Delete tenant.
+   *
+   * @param tenantId the tenant id
+   */
+  void deleteTenant(UUID tenantId);
 }

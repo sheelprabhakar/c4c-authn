@@ -111,6 +111,13 @@ public abstract class AbstractIntegrationTest {
         .accept(MediaType.APPLICATION_JSON);
   }
 
+  MockHttpServletRequestBuilder delete(final String url) throws Exception {
+    return MockMvcRequestBuilders
+        .delete(url)
+        .header("Authorization", getAdminToken())
+        .accept(MediaType.APPLICATION_JSON);
+  }
+
   /**
    * Put mock http servlet request builder.
    *

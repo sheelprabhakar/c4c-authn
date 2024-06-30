@@ -1,5 +1,6 @@
 package com.c4c.authn.rest.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import java.io.Serializable;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -34,6 +35,22 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
       final BadCredentialsException ex, final WebRequest request) {
 
     return new ResponseEntity<>("Invalid credentials", HttpStatus.BAD_REQUEST);
+  }
+
+
+  /**
+   * Entity not found response entity.
+   *
+   * @param ex      the ex
+   * @param request the request
+   * @return the response entity
+   */
+  @ExceptionHandler(EntityNotFoundException.class)
+  public ResponseEntity<Object> entityNotFound(
+      final EntityNotFoundException ex, final WebRequest request) {
+
+    return new ResponseEntity<>(ExceptionMessage.builder().code("RESOURCE_NOT_FOUND")
+        .message(ex.getMessage()).build(), HttpStatus.NOT_FOUND);
   }
 
   /**

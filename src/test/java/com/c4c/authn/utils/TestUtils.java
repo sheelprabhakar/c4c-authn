@@ -3,6 +3,8 @@ package com.c4c.authn.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Random;
 
 /**
  * The type Test utils.
@@ -58,5 +60,12 @@ public class TestUtils {
    */
   public static ObjectMapper getMapper() {
     return mapper_;
+  }
+
+
+  public static String generateRandString(int length){
+    byte[] array = new byte[length]; // length is bounded by 7
+    new Random().nextBytes(array);
+    return new String(array, Charset.forName("UTF-8"));
   }
 }

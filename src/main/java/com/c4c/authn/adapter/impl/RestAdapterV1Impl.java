@@ -1,6 +1,7 @@
 package com.c4c.authn.adapter.impl;
 
 import com.c4c.authn.adapter.RestAdapterV1;
+import com.c4c.authn.common.exception.CustomException;
 import com.c4c.authn.core.entity.TenantEntity;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.entity.lookup.CityEntity;
@@ -17,12 +18,13 @@ import com.c4c.authn.rest.resource.auth.JwtResponse;
 import com.c4c.authn.rest.resource.lookup.CityResource;
 import com.c4c.authn.rest.resource.lookup.CountryResource;
 import com.c4c.authn.rest.resource.lookup.StateResource;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 /**
@@ -147,7 +149,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   public List<CountryResource> countries() {
     List<CountryEntity> countryEntities = this.lookupService.countries();
     return countryEntities.stream().map(countryEntity -> this.exactNameModelMapper
-        .map(countryEntity, CountryResource.class)).collect(Collectors.toList());
+        .map(countryEntity, CountryResource.class)).toList();
   }
 
   /**
@@ -160,7 +162,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   public List<StateResource> states(final int countryId) {
     List<StateEntity> stateEntities = this.lookupService.states(countryId);
     return stateEntities.stream().map(stateEntity -> this.exactNameModelMapper
-        .map(stateEntity, StateResource.class)).collect(Collectors.toList());
+        .map(stateEntity, StateResource.class)).toList();
   }
 
   /**
@@ -173,7 +175,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   public List<CityResource> cities(final int stateId) {
     List<CityEntity> cityEntities = this.lookupService.cities(stateId);
     return cityEntities.stream().map(cityEntity -> this.exactNameModelMapper
-        .map(cityEntity, CityResource.class)).collect(Collectors.toList());
+        .map(cityEntity, CityResource.class)).toList();
   }
 
   /**
@@ -222,7 +224,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
    */
   @Override
   public TenantResource readTenant(final UUID tenantId) {
-    TenantEntity tenantEntity = this.tenantService.read(tenantId);
+    TenantEntity tenantEntity = this.getTenantById(tenantId);
     return this.getTenantResource(tenantEntity);
   }
 
@@ -235,7 +237,29 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   public List<TenantResource> readTenants() {
     List<TenantEntity> tenantEntities = this.tenantService.readAll();
     return tenantEntities.stream().map(tenantEntity -> this.mapModel(tenantEntity, TenantResource.class))
-        .collect(Collectors.toList());
+        .toList();
+  }
+
+  /**
+   * @param tenantId the tenant id
+   * @return
+   */
+  @Override
+  public void deleteTenant(final UUID tenantId) {
+    TenantEntity tenantEntity = this.getTenantById(tenantId);
+    tenantEntity.setDeleted(true);
+    tenantEntity = this.tenantService.update(tenantEntity);
+    if (!tenantEntity.isDeleted()){
+      throw new CustomException("Tenant Not Deleted.", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  private TenantEntity getTenantById(final UUID tenantId) {
+    TenantEntity tenantEntity = this.tenantService.read(tenantId);
+    if(tenantEntity == null){
+      throw new EntityNotFoundException(String.format( "Tenant not found with id %s", tenantId));
+    }
+    return tenantEntity;
   }
 
   /**
@@ -245,6 +269,9 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
    * @return the tenant entity
    */
   private TenantEntity getTenantEntity(final TenantResource tenantResource) {
+    if(tenantResource == null){
+      return null;
+    }
     TenantEntity tenantEntity = this.mapModel(tenantResource, TenantEntity.class);
     CityEntity cityEntity = this.lookupService.getCityById(tenantResource.getCityId());
     if (!Objects.isNull(tenantEntity)) {
@@ -254,6 +281,9 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   }
 
   private TenantResource getTenantResource(final TenantEntity tenantEntity) {
+    if(tenantEntity == null){
+      return null;
+    }
     TenantResource resource = this.mapModel(tenantEntity,
         TenantResource.class);
     resource.setCityId(tenantEntity.getCity().getId());

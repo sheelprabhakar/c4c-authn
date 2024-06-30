@@ -1,6 +1,7 @@
 package com.c4c.authn.rest.resource;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -9,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Range;
 
 /**
  * Resource for {@link com.c4c.authn.core.entity.TenantEntity}.
@@ -26,19 +26,20 @@ public class TenantResource extends CommonResourceAttributes implements Serializ
   /**
    * The Name.
    */
-  @NotNull
+  @NotEmpty
   @Size(max = 45)
   private String name;
   /**
    * The Email.
    */
-  @NotNull
+  @NotEmpty
   @Size(max = 255)
+  @Email
   private String email;
   /**
    * The Address.
    */
-  @NotNull
+  @NotEmpty
   @Size(max = 255)
   private String address;
   /**
@@ -53,7 +54,7 @@ public class TenantResource extends CommonResourceAttributes implements Serializ
   /**
    * The Short name.
    */
-  @NotNull
+  @NotEmpty
   @Size(max = 45)
   private String shortName;
   /**
@@ -87,13 +88,11 @@ public class TenantResource extends CommonResourceAttributes implements Serializ
   /**
    * The Mobile.
    */
-  @NotNull
+  @NotEmpty
   private String mobile;
 
   /**
    * The City id.
    */
-  @NotNull
-  @Range(min = Integer.MIN_VALUE, max = Integer.MAX_VALUE)
   private int cityId;
 }

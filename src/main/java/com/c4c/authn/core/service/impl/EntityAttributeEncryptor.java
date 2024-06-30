@@ -1,5 +1,6 @@
 package com.c4c.authn.core.service.impl;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.AttributeConverter;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -33,19 +34,20 @@ public class EntityAttributeEncryptor implements AttributeConverter<String, Stri
   /**
    * The Key.
    */
-  private final Key key;
+  private Key key;
   /**
    * The Cipher.
    */
-  private final Cipher cipher;
+  private Cipher cipher;
 
   /**
    * Instantiates a new Entity attribute encryptor.
    *
    * @throws Exception the exception
    */
-  public EntityAttributeEncryptor() throws NoSuchPaddingException, NoSuchAlgorithmException {
-    key = new SecretKeySpec(secret.getBytes(), AES);
+  @PostConstruct
+  public void init() throws NoSuchPaddingException, NoSuchAlgorithmException {
+    key = new SecretKeySpec(this.secret.getBytes(), AES);
     cipher = Cipher.getInstance(AES);
   }
 
