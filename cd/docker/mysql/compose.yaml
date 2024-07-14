@@ -1,0 +1,17 @@
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=Password4
+      - MYSQL_DATABASE=authn_db
+      - MYSQL_USER=app_user
+      - MYSQL_PASSWORD=Password4
+    command: --mysql-native-password=ON
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+volumes:
+  mysql_data:
