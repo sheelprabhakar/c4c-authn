@@ -12,25 +12,50 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+/**
+ * The type Crypto utils.
+ */
 public class CryptoUtils {
 
-  private CryptoUtils(){
+  private CryptoUtils() {
 
   }
+
+  /**
+   * Get random nonce byte [ ].
+   *
+   * @param numBytes the num bytes
+   * @return the byte [ ]
+   */
   public static byte[] getRandomNonce(int numBytes) {
     byte[] nonce = new byte[numBytes];
     new SecureRandom().nextBytes(nonce);
     return nonce;
   }
 
-  // AES secret key
-  public static SecretKey getAESKey(int keysize) throws NoSuchAlgorithmException {
+  /**
+   * Gets aes key.
+   *
+   * @param keySize the keySize
+   * @return the aes key
+   * @throws NoSuchAlgorithmException the no such algorithm exception
+   */
+  public static SecretKey getAESKey(int keySize) throws NoSuchAlgorithmException {
     KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-    keyGen.init(keysize, SecureRandom.getInstanceStrong());
+    keyGen.init(keySize, SecureRandom.getInstanceStrong());
     return keyGen.generateKey();
   }
 
-  // Password derived AES 256 bits secret key
+
+  /**
+   * Gets aes key from password.
+   *
+   * @param password the password
+   * @param salt     the salt
+   * @return the aes key from password
+   * @throws NoSuchAlgorithmException the no such algorithm exception
+   * @throws InvalidKeySpecException  the invalid key spec exception
+   */
   public static SecretKey getAESKeyFromPassword(char[] password, byte[] salt)
       throws NoSuchAlgorithmException, InvalidKeySpecException {
 
@@ -42,7 +67,13 @@ public class CryptoUtils {
 
   }
 
-  // hex representation
+
+  /**
+   * Hex string.
+   *
+   * @param bytes the bytes
+   * @return the string
+   */
   public static String hex(byte[] bytes) {
     StringBuilder result = new StringBuilder();
     for (byte b : bytes) {
@@ -51,7 +82,13 @@ public class CryptoUtils {
     return result.toString();
   }
 
-  // print hex with block size split
+  /**
+   * Hex with block size string.
+   *
+   * @param bytes     the bytes
+   * @param blockSize the block size
+   * @return the string
+   */
   public static String hexWithBlockSize(byte[] bytes, int blockSize) {
 
     String hex = hex(bytes);

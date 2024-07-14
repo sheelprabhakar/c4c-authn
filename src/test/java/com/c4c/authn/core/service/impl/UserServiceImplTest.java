@@ -1,11 +1,10 @@
-package com.c4c.authn.impl;
+package com.c4c.authn.core.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.repository.UserRepository;
-import com.c4c.authn.core.service.impl.UserServiceImpl;
 import com.c4c.authn.utils.UserEntityHelper;
 import java.util.Optional;
 import java.util.UUID;
