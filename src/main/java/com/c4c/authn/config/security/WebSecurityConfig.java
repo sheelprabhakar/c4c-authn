@@ -48,8 +48,12 @@ public class WebSecurityConfig {
   /**
    * The Jwt token provider.
    */
+  private final JwtTokenProvider jwtTokenProvider;
+
   @Autowired
-  private JwtTokenProvider jwtTokenProvider;
+  public WebSecurityConfig(final JwtTokenProvider jwtTokenProvider) {
+    this.jwtTokenProvider = jwtTokenProvider;
+  }
 
   /**
    * Filter chain security filter chain.
@@ -63,14 +67,14 @@ public class WebSecurityConfig {
     JwtTokenFilter customFilter = new JwtTokenFilter(jwtTokenProvider);
     // Entry points
     return http.csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests((authorize) -> authorize
+        .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(AUTH_WHITELIST).permitAll()
             .requestMatchers("/tenant").hasAuthority("SUPER_ADMIN")
             .requestMatchers(HttpMethod.GET, "/tenant").hasAuthority("ADMIN")
             .anyRequest().authenticated())
         .httpBasic(withDefaults())
         .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class)
-        .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .build();
   }
 
@@ -81,7 +85,7 @@ public class WebSecurityConfig {
    */
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
-    return (web) -> web.debug(securityDebug).ignoring().requestMatchers(AUTH_WHITELIST)
+    return web -> web.debug(securityDebug).ignoring().requestMatchers(AUTH_WHITELIST)
         .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
   }
 
