@@ -1,4 +1,4 @@
-package com.c4c.authn.rest;
+package com.c4c.authn.rest.controller;
 
 import static org.instancio.Select.field;
 import static org.junit.jupiter.api.Assertions.assertTrue;

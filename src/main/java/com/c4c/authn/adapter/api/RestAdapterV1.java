@@ -1,4 +1,4 @@
-package com.c4c.authn.adapter;
+package com.c4c.authn.adapter.api;
 
 import com.c4c.authn.rest.resource.TenantResource;
 import com.c4c.authn.rest.resource.UserResource;
@@ -37,7 +37,7 @@ public interface RestAdapterV1 {
    * @return the string
    * @throws Exception the exception
    */
-  JwtResponse authenticate(JwtRequest request) throws Exception;
+  JwtResponse authenticate(JwtRequest request);
 
   /**
    * Logout.

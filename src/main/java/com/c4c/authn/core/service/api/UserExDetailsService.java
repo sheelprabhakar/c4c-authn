@@ -1,4 +1,4 @@
-package com.c4c.authn.core.service;
+package com.c4c.authn.core.service.api;
 
 import com.c4c.authn.core.entity.UserEntity;
 import org.springframework.security.core.userdetails.UserDetails;

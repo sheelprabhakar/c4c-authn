@@ -1,6 +1,6 @@
 package com.c4c.authn.core.service.impl;
 
-import com.c4c.authn.core.service.TotpService;
+import com.c4c.authn.core.service.api.TotpService;
 import org.springframework.stereotype.Service;
 
 @Service

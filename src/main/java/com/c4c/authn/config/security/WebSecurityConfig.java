@@ -1,7 +1,5 @@
 package com.c4c.authn.config.security;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +15,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 /**
  * The type Web security config.
  */
@@ -24,6 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfig {
+  //https://www.springcloud.io/post/2022-02/easy-dyn-acl-spring-security/#gsc.tab=0
   /**
    * The constant AUTH_WHITELIST.
    */
@@ -50,6 +51,11 @@ public class WebSecurityConfig {
    */
   private final JwtTokenProvider jwtTokenProvider;
 
+  /**
+   * Instantiates a new Web security config.
+   *
+   * @param jwtTokenProvider the jwt token provider
+   */
   @Autowired
   public WebSecurityConfig(final JwtTokenProvider jwtTokenProvider) {
     this.jwtTokenProvider = jwtTokenProvider;

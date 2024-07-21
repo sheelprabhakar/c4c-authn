@@ -1,9 +1,12 @@
 package com.c4c.authn.rest.resource;
 
 import java.util.Calendar;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * The type Common resource attributes.
@@ -11,6 +14,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder(toBuilder = true)
+@EqualsAndHashCode
 public class CommonResourceAttributes {
   /**
    * The Is deleted.

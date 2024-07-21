@@ -3,10 +3,10 @@ package com.c4c.authn.core.service.impl;
 import com.c4c.authn.config.security.JwtTokenProvider;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.entity.UserTokenEntity;
-import com.c4c.authn.core.service.AuthenticationService;
-import com.c4c.authn.core.service.UserExDetailsService;
-import com.c4c.authn.core.service.UserService;
-import com.c4c.authn.core.service.UserTokenService;
+import com.c4c.authn.core.service.api.AuthenticationService;
+import com.c4c.authn.core.service.api.UserExDetailsService;
+import com.c4c.authn.core.service.api.UserService;
+import com.c4c.authn.core.service.api.UserTokenService;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Transactional
 public class AuthenticationServiceImpl implements AuthenticationService {
+  /**
+   * The constant USER_NOT_FOUND.
+   */
   public static final String USER_NOT_FOUND = "USER_NOT_FOUND";
   /**
    * The Jwt token provider.
@@ -72,12 +75,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   /**
-   * Authenticate string.
+   * Authenticate user token entity.
    *
    * @param username the username
    * @param password the password
    * @param isOtp    the is otp
-   * @return the AuthSuccessInfo
+   * @return the user token entity
    * @throws Exception the exception
    */
   @Override
@@ -132,7 +135,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   /**
    * Refresh token user token entity.
    *
-   * @param refreshToken the token
+   * @param refreshToken the refresh token
    * @return the user token entity
    */
   @Override

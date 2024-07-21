@@ -1,16 +1,16 @@
 package com.c4c.authn.adapter.impl;
 
-import com.c4c.authn.adapter.RestAdapterV1;
+import com.c4c.authn.adapter.api.RestAdapterV1;
 import com.c4c.authn.common.exception.CustomException;
 import com.c4c.authn.core.entity.TenantEntity;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.entity.lookup.CityEntity;
 import com.c4c.authn.core.entity.lookup.CountryEntity;
 import com.c4c.authn.core.entity.lookup.StateEntity;
-import com.c4c.authn.core.service.AuthenticationService;
-import com.c4c.authn.core.service.LookupService;
-import com.c4c.authn.core.service.TenantService;
-import com.c4c.authn.core.service.UserService;
+import com.c4c.authn.core.service.api.AuthenticationService;
+import com.c4c.authn.core.service.api.LookupService;
+import com.c4c.authn.core.service.api.TenantService;
+import com.c4c.authn.core.service.api.UserService;
 import com.c4c.authn.rest.resource.TenantResource;
 import com.c4c.authn.rest.resource.UserResource;
 import com.c4c.authn.rest.resource.auth.JwtRequest;
@@ -42,10 +42,11 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   private final AuthenticationService authenticationService;
 
   /**
-   * Instantiates a new Rest adapter v 1.
-   *
-   * @param userService the user service
-   * @param authenticationService the authentication service
+   * The Rest resource converter.
+   */
+  private final RestResourceConverter restResourceConverter;
+  /**
+   * The Exact name model mapper.
    */
   private final ModelMapper exactNameModelMapper;
 
@@ -64,6 +65,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
    *
    * @param userService           the user service
    * @param authenticationService the authentication service
+   * @param restResourceConverter the rest resource converter
    * @param exactNameModelMapper  the exact name model mapper
    * @param lookupService         the lookup service
    * @param tenantService         the tenant service
@@ -71,10 +73,13 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   @Autowired
   public RestAdapterV1Impl(final UserService userService,
                            final AuthenticationService authenticationService,
-                           final ModelMapper exactNameModelMapper, final LookupService lookupService,
+                           final RestResourceConverter restResourceConverter,
+                           final ModelMapper exactNameModelMapper,
+                           final LookupService lookupService,
                            final TenantService tenantService) {
     this.userService = userService;
     this.authenticationService = authenticationService;
+    this.restResourceConverter = restResourceConverter;
     this.exactNameModelMapper = exactNameModelMapper;
     this.lookupService = lookupService;
     this.tenantService = tenantService;
@@ -107,10 +112,10 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   }
 
   /**
-   * Authenticate string.
+   * Authenticate jwt response.
    *
    * @param request the request
-   * @return the string
+   * @return the jwt response
    * @throws Exception the exception
    */
   @Override
@@ -131,7 +136,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   /**
    * Refresh token jwt response.
    *
-   * @param refreshToken the token
+   * @param refreshToken the refresh token
    * @return the jwt response
    */
   @Override
@@ -236,28 +241,36 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   @Override
   public List<TenantResource> readTenants() {
     List<TenantEntity> tenantEntities = this.tenantService.readAll();
-    return tenantEntities.stream().map(tenantEntity -> this.mapModel(tenantEntity, TenantResource.class))
+    return tenantEntities.stream()
+        .map(tenantEntity -> this.mapModel(tenantEntity, TenantResource.class))
         .toList();
   }
 
   /**
+   * Delete tenant.
+   *
    * @param tenantId the tenant id
-   * @return
    */
   @Override
   public void deleteTenant(final UUID tenantId) {
     TenantEntity tenantEntity = this.getTenantById(tenantId);
     tenantEntity.setDeleted(true);
     tenantEntity = this.tenantService.update(tenantEntity);
-    if (!tenantEntity.isDeleted()){
+    if (!tenantEntity.isDeleted()) {
       throw new CustomException("Tenant Not Deleted.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
+  /**
+   * Gets tenant by id.
+   *
+   * @param tenantId the tenant id
+   * @return the tenant by id
+   */
   private TenantEntity getTenantById(final UUID tenantId) {
     TenantEntity tenantEntity = this.tenantService.read(tenantId);
-    if(tenantEntity == null){
-      throw new EntityNotFoundException(String.format( "Tenant not found with id %s", tenantId));
+    if (tenantEntity == null) {
+      throw new EntityNotFoundException(String.format("Tenant not found with id %s", tenantId));
     }
     return tenantEntity;
   }
@@ -269,7 +282,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
    * @return the tenant entity
    */
   private TenantEntity getTenantEntity(final TenantResource tenantResource) {
-    if(tenantResource == null){
+    if (tenantResource == null) {
       return null;
     }
     TenantEntity tenantEntity = this.mapModel(tenantResource, TenantEntity.class);
@@ -280,8 +293,14 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     return tenantEntity;
   }
 
+  /**
+   * Gets tenant resource.
+   *
+   * @param tenantEntity the tenant entity
+   * @return the tenant resource
+   */
   private TenantResource getTenantResource(final TenantEntity tenantEntity) {
-    if(tenantEntity == null){
+    if (tenantEntity == null) {
       return null;
     }
     TenantResource resource = this.mapModel(tenantEntity,

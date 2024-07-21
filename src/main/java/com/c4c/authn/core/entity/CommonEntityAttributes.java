@@ -4,9 +4,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.util.Calendar;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * The type Common entity attributes.
@@ -14,7 +16,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CommonEntityAttributes {
+@EqualsAndHashCode
+@SuperBuilder(toBuilder = true)
+public abstract class CommonEntityAttributes {
 
   /**
    * The constant L255.

@@ -3,7 +3,7 @@ package com.c4c.authn.core.service.impl;
 import com.c4c.authn.core.entity.TenantUserEntity;
 import com.c4c.authn.core.repository.TenantRepository;
 import com.c4c.authn.core.repository.TenantUserRepository;
-import com.c4c.authn.core.service.TenantUserService;
+import com.c4c.authn.core.service.api.TenantUserService;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,7 @@ package com.c4c.authn.core.service.impl;
 
 import com.c4c.authn.core.entity.UserTokenEntity;
 import com.c4c.authn.core.repository.UserTokenRepository;
-import com.c4c.authn.core.service.UserTokenService;
+import com.c4c.authn.core.service.api.UserTokenService;
 import java.util.Calendar;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;

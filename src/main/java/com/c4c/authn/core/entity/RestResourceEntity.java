@@ -1,0 +1,62 @@
+package com.c4c.authn.core.entity;
+
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.util.UUID;
+
+/**
+ * The type Rest resource entity.
+ */
+@Entity(name = "rest_resource")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder(toBuilder = true)
+@EqualsAndHashCode(callSuper = true)
+public class RestResourceEntity extends CommonEntityAttributes {
+
+    /**
+     * The constant L50.
+     */
+    private static final int L50 = 50;
+    /**
+     * The constant L4096.
+     */
+    private static final int L4096 = 4096;
+
+    /**
+     * The Id.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", nullable = false)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID id;
+
+    /**
+     * The Name.
+     */
+    @Column(name = "name", length = L50, nullable = false)
+    private String name;
+
+    /**
+     * The Path.
+     */
+    @Column(name = "path", length = L4096, nullable = false)
+    private String path;
+
+}

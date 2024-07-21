@@ -1,4 +1,4 @@
-package com.c4c.authn.core.service;
+package com.c4c.authn.core.service.api;
 
 import com.c4c.authn.core.entity.UserTokenEntity;
 
@@ -15,7 +15,7 @@ public interface AuthenticationService {
    * @return the string
    * @throws Exception the exception
    */
-  UserTokenEntity authenticate(String username, String password, boolean isOtp) throws Exception;
+  UserTokenEntity authenticate(String username, String password, boolean isOtp);
 
   /**
    * Logout.

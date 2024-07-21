@@ -15,8 +15,20 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * The type Crypto utils.
  */
-public class CryptoUtils {
+public final class CryptoUtils {
 
+  /**
+   * The constant ITERATION_COUNT.
+   */
+  public static final int ITERATION_COUNT = 65536;
+  /**
+   * The constant KEY_LENGTH.
+   */
+  public static final int KEY_LENGTH = 256;
+
+  /**
+   * Instantiates a new Crypto utils.
+   */
   private CryptoUtils() {
 
   }
@@ -27,7 +39,7 @@ public class CryptoUtils {
    * @param numBytes the num bytes
    * @return the byte [ ]
    */
-  public static byte[] getRandomNonce(int numBytes) {
+  public static byte[] getRandomNonce(final int numBytes) {
     byte[] nonce = new byte[numBytes];
     new SecureRandom().nextBytes(nonce);
     return nonce;
@@ -36,11 +48,11 @@ public class CryptoUtils {
   /**
    * Gets aes key.
    *
-   * @param keySize the keySize
+   * @param keySize the key size
    * @return the aes key
    * @throws NoSuchAlgorithmException the no such algorithm exception
    */
-  public static SecretKey getAESKey(int keySize) throws NoSuchAlgorithmException {
+  public static SecretKey getAESKey(final int keySize) throws NoSuchAlgorithmException {
     KeyGenerator keyGen = KeyGenerator.getInstance("AES");
     keyGen.init(keySize, SecureRandom.getInstanceStrong());
     return keyGen.generateKey();
@@ -56,13 +68,13 @@ public class CryptoUtils {
    * @throws NoSuchAlgorithmException the no such algorithm exception
    * @throws InvalidKeySpecException  the invalid key spec exception
    */
-  public static SecretKey getAESKeyFromPassword(char[] password, byte[] salt)
+  public static SecretKey getAESKeyFromPassword(final char[] password, final byte[] salt)
       throws NoSuchAlgorithmException, InvalidKeySpecException {
 
     SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
     // iterationCount = 65536
     // keyLength = 256
-    KeySpec spec = new PBEKeySpec(password, salt, 65536, 256);
+    KeySpec spec = new PBEKeySpec(password, salt, ITERATION_COUNT, KEY_LENGTH);
     return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
 
   }
@@ -74,7 +86,7 @@ public class CryptoUtils {
    * @param bytes the bytes
    * @return the string
    */
-  public static String hex(byte[] bytes) {
+  public static String hex(final byte[] bytes) {
     StringBuilder result = new StringBuilder();
     for (byte b : bytes) {
       result.append(String.format("%02x", b));
@@ -89,19 +101,19 @@ public class CryptoUtils {
    * @param blockSize the block size
    * @return the string
    */
-  public static String hexWithBlockSize(byte[] bytes, int blockSize) {
+  public static String hexWithBlockSize(final byte[] bytes, final int blockSize) {
 
     String hex = hex(bytes);
 
     // one hex = 2 chars
-    blockSize = blockSize * 2;
+    int blockSize2 = blockSize * 2;
 
     // better idea how to print this?
     List<String> result = new ArrayList<>();
     int index = 0;
     while (index < hex.length()) {
-      result.add(hex.substring(index, Math.min(index + blockSize, hex.length())));
-      index += blockSize;
+      result.add(hex.substring(index, Math.min(index + blockSize2, hex.length())));
+      index += blockSize2;
     }
 
     return result.toString();

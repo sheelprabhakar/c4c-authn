@@ -5,20 +5,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 /**
  * The type Tenant user entity.
  */
+@Entity(name = "tenant_user")
+@IdClass(TenantUserEntityId.class)
 @Getter
 @Setter
-@Entity(name = "tenant_user")
 @NoArgsConstructor
-@IdClass(TenantUserEntityId.class)
+@AllArgsConstructor
+@SuperBuilder(toBuilder = true)
+@EqualsAndHashCode(callSuper = true)
 public class TenantUserEntity extends CommonEntityAttributes {
   /**
    * The Role id.

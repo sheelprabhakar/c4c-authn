@@ -81,6 +81,18 @@ INSERT INTO `user` (`id`, `first_name`, `middle_name`, `last_name`, `user_name`,
 INSERT INTO `user_role` (`role_id`, `user_id`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', 'bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', '0', 'SYSTEM', 'SYSTEM');
 INSERT INTO `user_role` (`role_id`, `user_id`, `is_deleted`, `created_by`, `updated_by`) VALUES ('52a05765-a8e0-4fd7-b95b-3b14b52634f5', 'bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', '0', 'SYSTEM', 'SYSTEM');
 
+DROP TABLE IF EXISTS `rest_resource`;
+  CREATE TABLE `rest_resource` (
+    `id` VARCHAR(36) NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
+    `path` VARCHAR(4096) NOT NULL,
+    `is_deleted` TINYINT NOT NULL DEFAULT 1,
+    `create_at` DATETIME NULL,
+    `updated_at` DATETIME NULL,
+    `created_by` VARCHAR(255) NULL,
+    `updated_by` VARCHAR(255) NULL,
+    PRIMARY KEY (`id`));
+
 DROP TABLE IF EXISTS `tenant`;
 CREATE TABLE `tenant` (
   `id` VARCHAR(36) NOT NULL,

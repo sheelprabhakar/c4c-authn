@@ -1,6 +1,6 @@
 package com.c4c.authn.rest.controller;
 
-import com.c4c.authn.adapter.RestAdapterV1;
+import com.c4c.authn.adapter.api.RestAdapterV1;
 import com.c4c.authn.rest.resource.auth.JwtRequest;
 import com.c4c.authn.rest.resource.auth.JwtResponse;
 import jakarta.validation.Valid;
@@ -74,5 +74,4 @@ public class AuthenticationController extends BaseController {
     JwtResponse jwtResponse = this.getRestAdapterV1().refreshToken(refreshToken);
     return ResponseEntity.ok(jwtResponse);
   }
-
 }
