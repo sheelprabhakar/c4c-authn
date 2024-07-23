@@ -12,10 +12,10 @@ public interface RestResourceService {
     /**
      * Create rest resource entity.
      *
-     * @param map the map
+     * @param restResource the rest resource
      * @return the rest resource entity
      */
-    RestResourceEntity create(RestResourceEntity map);
+    RestResourceEntity create(RestResourceEntity restResource);
 
     /**
      * Update rest resource entity.

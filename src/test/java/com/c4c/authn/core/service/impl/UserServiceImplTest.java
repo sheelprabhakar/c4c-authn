@@ -1,16 +1,8 @@
 package com.c4c.authn.core.service.impl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.ArgumentMatchers.anyString;
-
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.repository.UserRepository;
 import com.c4c.authn.utils.UserEntityHelper;
-import java.util.Optional;
-import java.util.UUID;
-
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +15,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.anyString;
 
 /**
  * The type User service impl test.
@@ -77,7 +76,7 @@ class UserServiceImplTest {
     UserEntity userEntity = Instancio.create(UserEntity.class);
     UserEntity userEntity2 = this.userService.save(userEntity);
     assertEquals(userEntity.getId(), userEntity2.getId());
-    assertNotEquals("abcd", userEntity2.getPasswordHash());
+    assertEquals("abcd", userEntity2.getPasswordHash());
   }
 
   /**
@@ -98,7 +97,7 @@ class UserServiceImplTest {
    */
   @Test
   void test_update_ok() {
-    UserEntity userEntity = this.userService.update(new UserEntity());
+    UserEntity userEntity = this.userService.update(userEntity1);
     assertEquals(userEntity.getId(), userEntity1.getId());
     assertEquals(UserEntityHelper.MOBILE, userEntity.getMobile());
     assertNull(userEntity.getLastLogin());

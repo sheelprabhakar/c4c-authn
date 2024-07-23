@@ -18,17 +18,18 @@ public interface UserTokenService {
   /**
    * Update user token entity.
    *
-   * @param id           the id
+   * @param userId       the user id
+   * @param tenantId     the tenant id
    * @param token        the token
-   * @param refreshToken
+   * @param refreshToken the refresh token
    * @return the user token entity
    */
-  UserTokenEntity update(UUID id, String token, String refreshToken);
+  UserTokenEntity update(UUID userId, UUID tenantId, String token, String refreshToken);
 
   /**
    * Delete by id.
    *
-   * @param id the id
+   * @param userId the user id
    */
-  void deleteById(UUID id);
+  void deleteById(UUID userId);
 }

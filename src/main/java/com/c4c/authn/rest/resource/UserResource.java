@@ -27,6 +27,11 @@ public class UserResource extends CommonResourceAttributes {
   private UUID id;
 
   /**
+   * The Tenant id.
+   */
+  private UUID tenantId;
+
+  /**
    * The First name.
    */
   private String firstName;
@@ -83,7 +88,7 @@ public class UserResource extends CommonResourceAttributes {
   private boolean isDeleted;
 
   /**
-   * The Username.
+   * The User name.
    */
   @NotNull
   @Size(max = 45)

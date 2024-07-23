@@ -48,6 +48,13 @@ public class RestResourceEntity extends CommonEntityAttributes {
     private UUID id;
 
     /**
+     * The Tenant id.
+     */
+    @Column(name = "tenant_id", nullable = false)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID tenantId;
+
+    /**
      * The Name.
      */
     @Column(name = "name", length = L50, nullable = false)

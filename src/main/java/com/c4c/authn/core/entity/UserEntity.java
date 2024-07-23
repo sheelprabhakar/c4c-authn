@@ -59,6 +59,13 @@ public class UserEntity extends CommonEntityAttributes implements Serializable {
   private UUID id;
 
   /**
+   * The Tenant id.
+   */
+  @Column(name = "tenant_id", nullable = false)
+  @JdbcTypeCode(SqlTypes.VARCHAR)
+  private UUID tenantId;
+
+  /**
    * The First name.
    */
   @Column(name = "first_name", length = NAME_MAX)

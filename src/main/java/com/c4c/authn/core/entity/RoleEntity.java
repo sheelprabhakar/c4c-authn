@@ -42,6 +42,14 @@ public class RoleEntity extends CommonEntityAttributes implements GrantedAuthori
   @JdbcTypeCode(SqlTypes.VARCHAR)
   private UUID id;
 
+
+  /**
+   * The Tenant id.
+   */
+  @Column(name = "tenant_id", nullable = false)
+  @JdbcTypeCode(SqlTypes.VARCHAR)
+  private UUID tenantId;
+
   /**
    * The Name.
    */

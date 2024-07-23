@@ -1,6 +1,7 @@
 package com.c4c.authn.rest.controller;
 
 import com.c4c.authn.adapter.api.RestAdapterV1;
+import com.c4c.authn.config.tenant.TenantContext;
 import com.c4c.authn.rest.resource.UserResource;
 import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.c4c.authn.common.Constants.API_V1;
+import static com.c4c.authn.common.Constants.USER_URL;
+
 /**
  * The type User controller.
  */
@@ -23,7 +27,7 @@ public class UserController extends BaseController {
   /**
    * The Base url.
    */
-  static final String BASE_URL = "/api/v1/user";
+  static final String BASE_URL = API_V1 + USER_URL;
 
   /**
    * Instantiates a new User controller.
@@ -43,6 +47,7 @@ public class UserController extends BaseController {
    */
   @PostMapping
   public ResponseEntity<UserResource> create(final @RequestBody @Validated UserResource userResource) {
+    userResource.setTenantId(TenantContext.getCurrentTenant());
     UserResource resource = this.getRestAdapterV1().save(userResource);
     return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);
   }
@@ -55,6 +60,7 @@ public class UserController extends BaseController {
    */
   @PutMapping
   public ResponseEntity<UserResource> update(final @RequestBody UserResource userResource) {
+    userResource.setTenantId(TenantContext.getCurrentTenant());
     UserResource resource = this.getRestAdapterV1().update(userResource);
     return ResponseEntity.ok(resource);
   }

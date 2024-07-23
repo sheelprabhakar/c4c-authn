@@ -1,6 +1,8 @@
 package com.c4c.authn.rest.resource.auth;
 
 import java.io.Serializable;
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,4 +31,8 @@ public class JwtResponse implements Serializable {
    */
   private String refreshToken;
 
+  /**
+   * The Tenant id.
+   */
+  private UUID tenantId;
 }

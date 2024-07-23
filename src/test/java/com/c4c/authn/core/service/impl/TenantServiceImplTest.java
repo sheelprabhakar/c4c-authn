@@ -1,10 +1,8 @@
 package com.c4c.authn.core.service.impl;
 
 import com.c4c.authn.core.entity.TenantEntity;
-import com.c4c.authn.core.entity.TenantUserEntity;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.repository.TenantRepository;
-import com.c4c.authn.core.service.api.TenantUserService;
 import com.c4c.authn.core.service.api.UserService;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,9 +37,6 @@ class TenantServiceImplTest {
 
     @Mock
     UserService userService;
-
-    @Mock
-    TenantUserService tenantUserService;
 
     @BeforeEach
     void setUp() {
@@ -71,7 +65,6 @@ class TenantServiceImplTest {
 
         when(this.userService.findByEmail(anyString())).thenReturn(null);
         when(this.userService.save(any(UserEntity.class))).thenAnswer(i -> i.getArguments()[0]);
-        when(this.tenantUserService.save(any(UUID.class), any(UUID.class))).thenReturn(mock(TenantUserEntity.class));
         when(this.tenantRepository.save(any(TenantEntity.class))).thenAnswer(i -> i.getArguments()[0]);
 
         TenantEntity tenantEntity1 = this.tenantService.create(tenantEntity);
@@ -100,7 +93,6 @@ class TenantServiceImplTest {
 
         when(this.userService.findByEmail(anyString())).thenReturn(null);
         when(this.userService.save(any(UserEntity.class))).thenAnswer(i -> i.getArguments()[0]);
-        when(this.tenantUserService.save(any(UUID.class), any(UUID.class))).thenReturn(mock(TenantUserEntity.class));
         when(this.tenantRepository.save(any(TenantEntity.class))).thenAnswer(i -> i.getArguments()[0]);
 
         TenantEntity tenantEntity1 = this.tenantService.create(tenantEntity);

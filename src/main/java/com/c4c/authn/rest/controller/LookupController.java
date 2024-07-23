@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.c4c.authn.common.Constants.API_V1;
+import static com.c4c.authn.common.Constants.LOOKUP_URL;
+
 /**
  * The type Lookup controller.
  */
@@ -23,7 +26,7 @@ public class LookupController extends BaseController {
   /**
    * The Base url.
    */
-  static final String BASE_URL = "/api/v1/lookup";
+  static final String BASE_URL = API_V1 + LOOKUP_URL;
 
   /**
    * Instantiates a new Lookup controller.

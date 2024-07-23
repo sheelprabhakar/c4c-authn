@@ -1,5 +1,7 @@
 package com.c4c.authn.rest.controller;
 
+import static com.c4c.authn.common.Constants.API_V1;
+import static com.c4c.authn.common.Constants.TENANT_URL;
 import static org.instancio.Select.field;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -32,7 +34,7 @@ class TenantControllerTest extends AbstractIntegrationTest {
   /**
    * The Base url.
    */
-  private final String BASE_URL = "/api/v1/tenant";
+  private final String BASE_URL = API_V1 + TENANT_URL;
 
   /**
    * Test create tenant ok.

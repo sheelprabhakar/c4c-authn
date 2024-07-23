@@ -44,6 +44,12 @@ public class UserTokenEntity implements Serializable {
   private UUID userId;
 
   /**
+   * The Tenant id.
+   */
+  @Column(name = "tenant_id", nullable = false)
+  @JdbcTypeCode(SqlTypes.VARCHAR)
+  private UUID tenantId;
+  /**
    * The accesstoken.
    */
   @Column(name = "access_token", nullable = false, length = TOKEN_MAX_LENGTH)

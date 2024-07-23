@@ -1,5 +1,6 @@
 package com.c4c.authn.adapter.api;
 
+import com.c4c.authn.rest.resource.RestResource;
 import com.c4c.authn.rest.resource.TenantResource;
 import com.c4c.authn.rest.resource.UserResource;
 import com.c4c.authn.rest.resource.auth.JwtRequest;
@@ -31,11 +32,10 @@ public interface RestAdapterV1 {
   UserResource update(UserResource userResource);
 
   /**
-   * Authenticate string.
+   * Authenticate jwt response.
    *
    * @param request the request
-   * @return the string
-   * @throws Exception the exception
+   * @return the jwt response
    */
   JwtResponse authenticate(JwtRequest request);
 
@@ -47,7 +47,7 @@ public interface RestAdapterV1 {
   /**
    * Refresh token jwt response.
    *
-   * @param refreshToken the token
+   * @param refreshToken the refresh token
    * @return the jwt response
    */
   JwtResponse refreshToken(String refreshToken);
@@ -112,4 +112,12 @@ public interface RestAdapterV1 {
    * @param tenantId the tenant id
    */
   void deleteTenant(UUID tenantId);
+
+  /**
+   * Create rest resource rest resource.
+   *
+   * @param restResource the rest resource
+   * @return the rest resource
+   */
+  RestResource createRestResource(RestResource restResource);
 }

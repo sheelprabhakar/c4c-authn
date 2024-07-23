@@ -27,6 +27,10 @@ public class RestResource extends CommonResourceAttributes implements Serializab
   private UUID id;
 
   /**
+   * The Tenant id.
+   */
+  private UUID tenantId;
+  /**
    * The Name.
    */
   @NotEmpty(message = "Rest resource name can not be empty.")

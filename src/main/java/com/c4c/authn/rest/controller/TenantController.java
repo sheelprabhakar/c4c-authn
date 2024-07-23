@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.c4c.authn.common.Constants.API_V1;
+import static com.c4c.authn.common.Constants.TENANT_URL;
+
 /**
  * The type Tenant controller.
  */
@@ -30,7 +33,7 @@ public class TenantController extends BaseController {
   /**
    * The Base url.
    */
-  static final String BASE_URL = "/api/v1/tenant";
+  static final String BASE_URL = API_V1 + TENANT_URL;
 
   /**
    * Instantiates a new Tenant controller.
