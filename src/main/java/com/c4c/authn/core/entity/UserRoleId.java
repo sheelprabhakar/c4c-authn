@@ -1,11 +1,14 @@
 package com.c4c.authn.core.entity;
 
+import lombok.Getter;
+
 import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * The type User role id.
  */
+@Getter
 public class UserRoleId implements Serializable {
   /**
    * The Role id.
