@@ -19,13 +19,14 @@ import com.c4c.authn.rest.resource.lookup.CityResource;
 import com.c4c.authn.rest.resource.lookup.CountryResource;
 import com.c4c.authn.rest.resource.lookup.StateResource;
 import jakarta.persistence.EntityNotFoundException;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * The type Rest adapter v 1.
@@ -119,7 +120,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
    * @throws Exception the exception
    */
   @Override
-  public JwtResponse authenticate(final JwtRequest request) throws Exception {
+  public JwtResponse authenticate(final JwtRequest request) {
     return TokenConverter.authSuccessInfoToJwtResponse(
         this.authenticationService.authenticate(request.getUsername(),
             request.getPassword(), request.isOtp()));

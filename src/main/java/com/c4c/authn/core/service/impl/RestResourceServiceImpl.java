@@ -33,12 +33,12 @@ public class RestResourceServiceImpl implements RestResourceService {
     /**
      * Create rest resource entity.
      *
-     * @param map the map
+     * @param restResourceEntity the rest resource entity
      * @return the rest resource entity
      */
     @Override
-    public RestResourceEntity create(final RestResourceEntity map) {
-        return null;
+    public RestResourceEntity create(final RestResourceEntity restResourceEntity) {
+        return this.restResourceRepository.save(restResourceEntity);
     }
 
     /**
@@ -49,7 +49,7 @@ public class RestResourceServiceImpl implements RestResourceService {
      */
     @Override
     public RestResourceEntity update(final RestResourceEntity restResourceEntity) {
-        return null;
+        return this.restResourceRepository.save(restResourceEntity);
     }
 
     /**
@@ -60,7 +60,7 @@ public class RestResourceServiceImpl implements RestResourceService {
      */
     @Override
     public RestResourceEntity read(final UUID resourceId) {
-        return null;
+        return this.restResourceRepository.findById(resourceId).orElse(null);
     }
 
     /**
@@ -69,7 +69,7 @@ public class RestResourceServiceImpl implements RestResourceService {
      * @return the list
      */
     @Override
-    public List<RestResourceEntity> readAll() {
-        return List.of();
+    public List<RestResourceEntity> findAll() {
+        return (List<RestResourceEntity>) this.restResourceRepository.findAll();
     }
 }

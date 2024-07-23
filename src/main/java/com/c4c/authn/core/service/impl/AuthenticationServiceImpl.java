@@ -85,7 +85,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
    */
   @Override
   public UserTokenEntity authenticate(final String username,
-                                      final String password, final boolean isOtp) throws Exception {
+                                      final String password, final boolean isOtp) {
 
     UserEntity userEntity = this.userService.findByEmail(username);
     if (userEntity == null) {

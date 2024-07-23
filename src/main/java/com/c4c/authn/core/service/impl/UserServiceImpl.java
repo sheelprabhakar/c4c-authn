@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
    * The Otp valid duration.
    */
   @Value("${society.management.otp.valid.duration:50000}")
-  private final long otpValidDuration = 500000;
+  private long otpValidDuration = 500000;
   /**
    * The User repository.
    */
@@ -70,6 +70,7 @@ public class UserServiceImpl implements UserService {
    */
   @Override
   public UserEntity save(final UserEntity userEntity) {
+    userEntity.setDeleted(false);
     if (StringUtils.hasLength(userEntity.getPasswordHash())) {
       userEntity.setPasswordHash(this.passwordEncoder.encode(userEntity.getPasswordHash()));
     }
@@ -79,7 +80,7 @@ public class UserServiceImpl implements UserService {
         }*/
     UserEntity entity = this.userRepository.save(userEntity);
     if (Objects.nonNull(SpringUtil.getTenantId())) {
-      TenantUserEntity tenantUserEntity = this.tenantUserService
+      this.tenantUserService
           .save(SpringUtil.getTenantId(), userEntity.getId());
     }
     return entity;

@@ -34,9 +34,9 @@ public interface RestResourceService {
     RestResourceEntity read(UUID resourceId);
 
     /**
-     * Read all list.
+     * Find all list.
      *
      * @return the list
      */
-    List<RestResourceEntity> readAll();
+    List<RestResourceEntity> findAll();
 }
