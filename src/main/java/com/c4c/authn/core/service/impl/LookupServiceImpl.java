@@ -6,7 +6,7 @@ import com.c4c.authn.core.entity.lookup.StateEntity;
 import com.c4c.authn.core.repository.lookup.CityRepository;
 import com.c4c.authn.core.repository.lookup.CountryRepository;
 import com.c4c.authn.core.repository.lookup.StateRepository;
-import com.c4c.authn.core.service.LookupService;
+import com.c4c.authn.core.service.api.LookupService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

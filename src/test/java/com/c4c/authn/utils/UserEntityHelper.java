@@ -28,6 +28,7 @@ public class UserEntityHelper {
   public static UserEntity getNew(final UUID id) {
     UserEntity entity = new UserEntity();
     entity.setId(id);
+    entity.setTenantId(UUID.randomUUID());
     entity.setEmail("ssp@c4c.com");
     entity.setIntro("");
     entity.setMobile(MOBILE);

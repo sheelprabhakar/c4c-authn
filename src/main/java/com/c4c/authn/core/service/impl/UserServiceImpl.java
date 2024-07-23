@@ -1,21 +1,17 @@
 package com.c4c.authn.core.service.impl;
 
-import com.c4c.authn.common.SpringUtil;
-import com.c4c.authn.core.entity.TenantUserEntity;
 import com.c4c.authn.core.entity.UserEntity;
-import com.c4c.authn.core.repository.TenantUserRepository;
 import com.c4c.authn.core.repository.UserRepository;
-import com.c4c.authn.core.service.TenantUserService;
-import com.c4c.authn.core.service.UserService;
+import com.c4c.authn.core.service.api.UserService;
 import jakarta.transaction.Transactional;
-import java.util.Objects;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.UUID;
 
 /**
  * The type User service.
@@ -28,7 +24,7 @@ public class UserServiceImpl implements UserService {
    * The Otp valid duration.
    */
   @Value("${society.management.otp.valid.duration:50000}")
-  private final long otpValidDuration = 500000;
+  private long otpValidDuration = 500000;
   /**
    * The User repository.
    */
@@ -39,27 +35,18 @@ public class UserServiceImpl implements UserService {
    */
   private final PasswordEncoder passwordEncoder;
 
-  /**
-   * The Tenant user service.
-   */
-  private final TenantUserService tenantUserService;
 
   /**
    * Instantiates a new User service.
    *
    * @param userRepository             the user repository
-   * @param tenantUserEntityRepository the tenant user entity repository
-   * @param passwordEncoder            the password encoder
-   * @param tenantUserService          the tenant user service
    */
   @Autowired
   public UserServiceImpl(final UserRepository userRepository,
-                         final TenantUserRepository tenantUserEntityRepository,
-                         final PasswordEncoder passwordEncoder,
-                         final TenantUserService tenantUserService) {
+                         final PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
-    this.tenantUserService = tenantUserService;
+
   }
 
   /**
@@ -70,6 +57,7 @@ public class UserServiceImpl implements UserService {
    */
   @Override
   public UserEntity save(final UserEntity userEntity) {
+    userEntity.setDeleted(false);
     if (StringUtils.hasLength(userEntity.getPasswordHash())) {
       userEntity.setPasswordHash(this.passwordEncoder.encode(userEntity.getPasswordHash()));
     }
@@ -77,12 +65,7 @@ public class UserServiceImpl implements UserService {
             // Add default User Role
             // To-do
         }*/
-    UserEntity entity = this.userRepository.save(userEntity);
-    if (Objects.nonNull(SpringUtil.getTenantId())) {
-      TenantUserEntity tenantUserEntity = this.tenantUserService
-          .save(SpringUtil.getTenantId(), userEntity.getId());
-    }
-    return entity;
+    return this.userRepository.save(userEntity);
   }
 
 

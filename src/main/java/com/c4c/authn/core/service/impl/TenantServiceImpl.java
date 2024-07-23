@@ -4,15 +4,15 @@ package com.c4c.authn.core.service.impl;
 import com.c4c.authn.core.entity.TenantEntity;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.repository.TenantRepository;
-import com.c4c.authn.core.service.TenantService;
-import com.c4c.authn.core.service.TenantUserService;
-import com.c4c.authn.core.service.UserService;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import com.c4c.authn.core.service.api.TenantService;
+import com.c4c.authn.core.service.api.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * The type Tenant service.
@@ -32,22 +32,15 @@ public class TenantServiceImpl implements TenantService {
   private final UserService userService;
 
   /**
-   * The Tenant user service.
-   */
-  private final TenantUserService tenantUserService;
-
-  /**
    * Instantiates a new Tenant service.
    *
    * @param tenantRepository  the tenant repository
    * @param userService       the user service
-   * @param tenantUserService the tenant user service
    */
   public TenantServiceImpl(final TenantRepository tenantRepository,
-                           final UserService userService, final TenantUserService tenantUserService) {
+                           final UserService userService) {
     this.tenantRepository = tenantRepository;
     this.userService = userService;
-    this.tenantUserService = tenantUserService;
   }
 
   /**
@@ -121,9 +114,8 @@ public class TenantServiceImpl implements TenantService {
     // If User not register then automatically register admin user
     if (Objects.isNull(this.userService.findByEmail(entity.getEmail()))) {
       UserEntity userEntity = getNewUserEntity(entity);
-      userEntity = this.userService.save(userEntity);
-      // Todo: implement mapping of user to tenant
-      this.tenantUserService.save(entity.getId(), userEntity.getId());
+      userEntity.setTenantId(entity.getId());
+      this.userService.save(userEntity);
     }
     return entity;
   }

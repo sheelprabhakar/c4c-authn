@@ -1,17 +1,20 @@
 package com.c4c.authn.adapter.impl;
 
+import com.c4c.authn.adapter.api.Converter;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.rest.resource.UserResource;
+import org.springframework.stereotype.Component;
 
 /**
  * The type User converter.
  */
-public final class UserConverter {
+@Component("userConverter")
+public final class UserConverter extends Converter<UserEntity, UserResource> {
   /**
    * Instantiates a new User converter.
    */
   private UserConverter() {
-
+    super(UserConverter::fromUserResource, UserConverter::fromUserEntity);
   }
 
   /**
@@ -20,9 +23,10 @@ public final class UserConverter {
    * @param entity the entity
    * @return the user resource
    */
-  public static UserResource fromUserEntity(final UserEntity entity) {
+  private static UserResource fromUserEntity(final UserEntity entity) {
     UserResource resource = new UserResource();
     resource.setId(entity.getId());
+    resource.setTenantId(entity.getTenantId());
     resource.setEmail(entity.getEmail());
     resource.setIntro(entity.getIntro());
     resource.setMobile(entity.getMobile());
@@ -49,9 +53,10 @@ public final class UserConverter {
    * @param resource the resource
    * @return the user entity
    */
-  public static UserEntity fromUserResource(final UserResource resource) {
+  private static UserEntity fromUserResource(final UserResource resource) {
     UserEntity entity = new UserEntity();
     entity.setId(resource.getId());
+    entity.setTenantId(resource.getTenantId());
     entity.setEmail(resource.getEmail());
     entity.setIntro(resource.getIntro());
     entity.setMobile(resource.getMobile());

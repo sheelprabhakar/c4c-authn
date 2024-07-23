@@ -5,7 +5,7 @@ import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.entity.UserRoleEntity;
 import com.c4c.authn.core.repository.RoleRepository;
 import com.c4c.authn.core.repository.UserRepository;
-import com.c4c.authn.core.service.UserExDetailsService;
+import com.c4c.authn.core.service.api.UserExDetailsService;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;

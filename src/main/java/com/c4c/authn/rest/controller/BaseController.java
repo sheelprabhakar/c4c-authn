@@ -1,6 +1,6 @@
 package com.c4c.authn.rest.controller;
 
-import com.c4c.authn.adapter.RestAdapterV1;
+import com.c4c.authn.adapter.api.RestAdapterV1;
 import com.c4c.authn.common.SpringUtil;
 import java.util.UUID;
 
@@ -54,7 +54,7 @@ public abstract class BaseController {
    *
    * @return the rest adapter v 1
    */
-  public RestAdapterV1 getRestAdapterV1() {
+  RestAdapterV1 getRestAdapterV1() {
     return restAdapterV1;
   }
 

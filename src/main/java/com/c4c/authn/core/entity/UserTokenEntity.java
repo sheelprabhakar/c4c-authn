@@ -10,9 +10,12 @@ import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -23,6 +26,9 @@ import org.hibernate.type.SqlTypes;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder(toBuilder = true)
+@EqualsAndHashCode
 public class UserTokenEntity implements Serializable {
 
   /**
@@ -37,6 +43,12 @@ public class UserTokenEntity implements Serializable {
   @JdbcTypeCode(SqlTypes.VARCHAR)
   private UUID userId;
 
+  /**
+   * The Tenant id.
+   */
+  @Column(name = "tenant_id", nullable = false)
+  @JdbcTypeCode(SqlTypes.VARCHAR)
+  private UUID tenantId;
   /**
    * The accesstoken.
    */

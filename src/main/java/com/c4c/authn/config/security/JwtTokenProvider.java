@@ -3,8 +3,8 @@ package com.c4c.authn.config.security;
 import com.c4c.authn.common.exception.CustomException;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.entity.UserTokenEntity;
-import com.c4c.authn.core.service.UserService;
-import com.c4c.authn.core.service.UserTokenService;
+import com.c4c.authn.core.service.api.UserService;
+import com.c4c.authn.core.service.api.UserTokenService;
 import com.c4c.authn.core.service.impl.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import javax.crypto.SecretKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +37,7 @@ import org.springframework.stereotype.Component;
 public class JwtTokenProvider {
 
   /**
-   * The constant FIVE_.
+   * The constant FIVE.
    */
   public static final int FIVE = 5;
   /**
@@ -44,7 +45,7 @@ public class JwtTokenProvider {
    */
   private static final int BEARER_LENGTH = 7;
   /**
-   * The Validity in milliseconds.
+   * The constant VALIDITY_IN_MILLISECONDS.
    */
   @Value("${security.jwt.token.expire-length:3600000}")
   private static final long VALIDITY_IN_MILLISECONDS = 3600000L; // 1h
@@ -65,6 +66,9 @@ public class JwtTokenProvider {
    */
   @Value("${security.jwt.token.secret-key:secret-key}")
   private String secretKey;
+  /**
+   * The Secret.
+   */
   private SecretKey secret;
 
   /**

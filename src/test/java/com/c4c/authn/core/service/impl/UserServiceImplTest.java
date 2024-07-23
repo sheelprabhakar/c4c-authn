@@ -1,14 +1,9 @@
-package com.c4c.authn.impl;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+package com.c4c.authn.core.service.impl;
 
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.repository.UserRepository;
-import com.c4c.authn.core.service.impl.UserServiceImpl;
 import com.c4c.authn.utils.UserEntityHelper;
-import java.util.Optional;
-import java.util.UUID;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +14,14 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.anyString;
 
 /**
  * The type User service impl test.
@@ -38,6 +41,9 @@ class UserServiceImplTest {
   @Mock
   UserRepository userRepository;
 
+  @Mock
+  PasswordEncoder passwordEncoder;
+
   /**
    * The User entity 1.
    */
@@ -51,12 +57,14 @@ class UserServiceImplTest {
     UserEntity entity = userEntity1;
 
     Mockito.when(userRepository.save(ArgumentMatchers.any()))
-        .thenReturn(entity);
+        .thenAnswer(i->i.getArguments()[0]);
 
     Mockito.when(userRepository.findById(userEntity1.getId()))
         .thenReturn(Optional.of(entity));
     Mockito.when(userRepository.findById(UUID.randomUUID()))
         .thenReturn(Optional.empty());
+
+    Mockito.when(passwordEncoder.encode(anyString())).thenReturn("abcd");
 
   }
 
@@ -65,9 +73,10 @@ class UserServiceImplTest {
    */
   @Test
   void test_save_ok() {
-    UserEntity userEntity = this.userService.save(new UserEntity());
-    assertEquals(userEntity.getId(), userEntity1.getId());
-    assertNull(userEntity.getLastLogin());
+    UserEntity userEntity = Instancio.create(UserEntity.class);
+    UserEntity userEntity2 = this.userService.save(userEntity);
+    assertEquals(userEntity.getId(), userEntity2.getId());
+    assertEquals("abcd", userEntity2.getPasswordHash());
   }
 
   /**
@@ -88,7 +97,7 @@ class UserServiceImplTest {
    */
   @Test
   void test_update_ok() {
-    UserEntity userEntity = this.userService.update(new UserEntity());
+    UserEntity userEntity = this.userService.update(userEntity1);
     assertEquals(userEntity.getId(), userEntity1.getId());
     assertEquals(UserEntityHelper.MOBILE, userEntity.getMobile());
     assertNull(userEntity.getLastLogin());

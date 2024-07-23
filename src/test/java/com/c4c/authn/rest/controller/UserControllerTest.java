@@ -1,5 +1,7 @@
-package com.c4c.authn.rest;
+package com.c4c.authn.rest.controller;
 
+import static com.c4c.authn.common.Constants.API_V1;
+import static com.c4c.authn.common.Constants.USER_URL;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,7 +27,7 @@ class UserControllerTest extends AbstractIntegrationTest {
   /**
    * The Base url.
    */
-  private final String BASE_URL = "/api/v1/user";
+  private final String BASE_URL = API_V1 + USER_URL;
 
   /**
    * The Unq.
