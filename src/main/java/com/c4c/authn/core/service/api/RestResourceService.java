@@ -41,6 +41,13 @@ public interface RestResourceService {
      */
     List<RestResourceEntity> findAll();
 
+    /**
+     * Find by pagination page.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the page
+     */
     Page<RestResourceEntity> findByPagination(int pageNo, int pageSize);
 
     /**

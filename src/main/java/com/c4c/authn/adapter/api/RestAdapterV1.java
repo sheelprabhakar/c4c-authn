@@ -1,6 +1,7 @@
 package com.c4c.authn.adapter.api;
 
 import com.c4c.authn.rest.resource.RestResource;
+import com.c4c.authn.rest.resource.RoleResource;
 import com.c4c.authn.rest.resource.TenantResource;
 import com.c4c.authn.rest.resource.UserResource;
 import com.c4c.authn.rest.resource.auth.JwtRequest;
@@ -161,4 +162,16 @@ public interface RestAdapterV1 {
    * @param restResourceId the rest resource id
    */
   void deleteByIdRestResource(final UUID restResourceId);
+
+  RoleResource findByIdRole(final UUID roleId);
+
+  Page<RoleResource> findByPaginationRole(final int pageNo, final int pageSize);
+
+  List<RoleResource> findAllRole();
+
+  RoleResource createRole(final RoleResource role);
+
+  RoleResource updateRole(final RoleResource role);
+
+  void deleteByIdRole(final UUID roleId);
 }
