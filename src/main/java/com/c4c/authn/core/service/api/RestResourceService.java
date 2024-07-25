@@ -1,6 +1,7 @@
 package com.c4c.authn.core.service.api;
 
 import com.c4c.authn.core.entity.RestResourceEntity;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,12 +27,12 @@ public interface RestResourceService {
     RestResourceEntity update(RestResourceEntity restResourceEntity);
 
     /**
-     * Read rest resource entity.
+     * Find by id rest resource entity.
      *
      * @param resourceId the resource id
      * @return the rest resource entity
      */
-    RestResourceEntity read(UUID resourceId);
+    RestResourceEntity findById(UUID resourceId);
 
     /**
      * Find all list.
@@ -39,4 +40,27 @@ public interface RestResourceService {
      * @return the list
      */
     List<RestResourceEntity> findAll();
+
+    /**
+     * Find by pagination page.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the page
+     */
+    Page<RestResourceEntity> findByPagination(int pageNo, int pageSize);
+
+    /**
+     * Delete by id.
+     *
+     * @param resourceId the resource id
+     */
+    void deleteById(UUID resourceId);
+
+    /**
+     * Delete all by id.
+     *
+     * @param resourceIds the resource ids
+     */
+    void deleteAllById(List<UUID> resourceIds);
 }

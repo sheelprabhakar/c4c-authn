@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
 import java.util.Map;
 
-import static com.c4c.authn.common.Constants.API_V1;
 import static com.c4c.authn.common.Constants.AUTH_URL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -36,7 +35,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
     /**
      * The Base url.
      */
-    private final String BASE_URL = API_V1 + AUTH_URL;
+    private final String BASE_URL = AUTH_URL;
 
     /**
      * The Unq.

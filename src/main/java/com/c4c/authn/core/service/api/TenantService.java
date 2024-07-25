@@ -1,6 +1,8 @@
 package com.c4c.authn.core.service.api;
 
 import com.c4c.authn.core.entity.TenantEntity;
+import org.springframework.data.domain.Page;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -25,17 +27,40 @@ public interface TenantService {
   TenantEntity update(TenantEntity tenantEntity);
 
   /**
-   * Read tenant entity.
+   * Find by id tenant entity.
    *
    * @param tenantId the tenant id
    * @return the tenant entity
    */
-  TenantEntity read(UUID tenantId);
+  TenantEntity findById(UUID tenantId);
 
   /**
-   * Read all list.
+   * Find all list.
    *
    * @return the list
    */
-  List<TenantEntity> readAll();
+  List<TenantEntity> findAll();
+
+  /**
+   * Find by pagination page.
+   *
+   * @param pageNo   the page no
+   * @param pageSize the page size
+   * @return the page
+   */
+  Page<TenantEntity> findByPagination(int pageNo, int pageSize);
+
+  /**
+   * Delete by id.
+   *
+   * @param tenantId the tenant id
+   */
+  void deleteById(UUID tenantId);
+
+  /**
+   * Delete all by id.
+   *
+   * @param tenantIds the tenant ids
+   */
+  void deleteAllById(List<UUID> tenantIds);
 }

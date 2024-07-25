@@ -12,14 +12,14 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * The type Rest resource.
+ * The type Role resource.
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
-public class RestResource extends CommonResourceAttributes implements Serializable {
+public class RoleResource extends CommonResourceAttributes implements Serializable {
 
   /**
    * The Id.
@@ -33,14 +33,7 @@ public class RestResource extends CommonResourceAttributes implements Serializab
   /**
    * The Name.
    */
-  @NotEmpty(message = "Rest resource name can not be empty.")
-  @Size(max = 50, message = "Rest resource name should be less than 50 characters.")
-  private String attributeName;
-
-  /**
-   * The Path.
-   */
-  @NotEmpty(message = "Rest resource path can not be empty.")
-  @Size(max = 4098, message = "Rest resource path should be less than 4098 characters.")
-  private String path;
+  @NotEmpty(message = "Role name can not be empty.")
+  @Size(max = 50, message = "Role name should be less than 50 characters.")
+  private String name;
 }

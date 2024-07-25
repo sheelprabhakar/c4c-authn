@@ -137,7 +137,7 @@ DROP TABLE IF EXISTS `rest_resource`;
   CREATE TABLE `rest_resource` (
     `id` VARCHAR(36) NOT NULL,
     `tenant_id` varchar(36) NOT NULL,
-    `name` VARCHAR(50) NOT NULL,
+    `attribute_name` VARCHAR(50) NOT NULL,
     `path` VARCHAR(4096) NOT NULL,
     `is_deleted` TINYINT NOT NULL DEFAULT 1,
     `create_at` DATETIME NULL,

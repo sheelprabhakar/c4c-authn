@@ -1,5 +1,6 @@
 package com.c4c.authn.core.service.impl;
 
+import com.c4c.authn.config.tenant.CurrentUserContext;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.repository.UserRepository;
 import com.c4c.authn.core.service.api.UserService;
@@ -58,6 +59,11 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserEntity save(final UserEntity userEntity) {
     userEntity.setDeleted(false);
+    if(userEntity.getId() == null) {
+      userEntity.created(CurrentUserContext.getCurrentUser());
+    }else{
+      userEntity.updated(CurrentUserContext.getCurrentUser());
+    }
     if (StringUtils.hasLength(userEntity.getPasswordHash())) {
       userEntity.setPasswordHash(this.passwordEncoder.encode(userEntity.getPasswordHash()));
     }

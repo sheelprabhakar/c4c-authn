@@ -57,8 +57,8 @@ public class RestResourceEntity extends CommonEntityAttributes {
     /**
      * The Name.
      */
-    @Column(name = "name", length = L50, nullable = false)
-    private String name;
+    @Column(name = "attribute_name", length = L50, nullable = false)
+    private String attributeName;
 
     /**
      * The Path.

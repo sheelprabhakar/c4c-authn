@@ -101,23 +101,23 @@ class TenantServiceImplTest {
 
     @Test
     @DisplayName("Test Tenant read by ID")
-    void read() {
+    void findById() {
         TenantEntity tenantEntity = Instancio.create(TenantEntity.class);
         when(this.tenantRepository.findById(any(UUID.class))).thenReturn(Optional.of(tenantEntity));
-        tenantEntity = this.tenantService.read(UUID.randomUUID());
+        tenantEntity = this.tenantService.findById(UUID.randomUUID());
         assertNotNull(tenantEntity);
 
         when(this.tenantRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
-        tenantEntity = this.tenantService.read(UUID.randomUUID());
+        tenantEntity = this.tenantService.findById(UUID.randomUUID());
         assertNull(tenantEntity);
     }
 
     @Test
     @DisplayName("Test read all tenants")
-    void readAll() {
+    void findByIdAll() {
         List<TenantEntity> tenantEntities = Instancio.ofList(TenantEntity.class).size(5).create();
         when(this.tenantRepository.findAll()).thenReturn(tenantEntities);
-        List<TenantEntity> tenantEntities1 = this.tenantService.readAll();
+        List<TenantEntity> tenantEntities1 = this.tenantService.findAll();
         assertEquals(tenantEntities, tenantEntities1);
     }
 }

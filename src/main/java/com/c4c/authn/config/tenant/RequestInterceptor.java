@@ -28,7 +28,7 @@ public class RequestInterceptor implements HandlerInterceptor {
             response.setStatus(400);
             return false;
         }
-        TenantContext.setCurrentTenant(tenantID);
+        CurrentUserContext.setCurrentTenant(tenantID);
         return true;
     }
 
@@ -55,7 +55,7 @@ public class RequestInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
-        TenantContext.clear();
+        CurrentUserContext.clear();
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
 

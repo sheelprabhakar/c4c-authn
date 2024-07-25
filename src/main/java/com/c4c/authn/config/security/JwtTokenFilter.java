@@ -1,6 +1,7 @@
 package com.c4c.authn.config.security;
 
 import com.c4c.authn.common.exception.CustomException;
+import com.c4c.authn.config.tenant.CurrentUserContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,6 +48,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     try {
       if (token != null && jwtTokenProvider.validateToken(token)) {
         Authentication auth = jwtTokenProvider.getAuthentication(token);
+        CurrentUserContext.setCurrentUser(auth.getName());
         SecurityContextHolder.getContext().setAuthentication(auth);
       }
     } catch (CustomException ex) {

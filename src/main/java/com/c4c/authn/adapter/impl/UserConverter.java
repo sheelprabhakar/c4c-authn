@@ -5,6 +5,8 @@ import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.rest.resource.UserResource;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 /**
  * The type User converter.
  */
@@ -24,6 +26,9 @@ public final class UserConverter extends Converter<UserEntity, UserResource> {
    * @return the user resource
    */
   private static UserResource fromUserEntity(final UserEntity entity) {
+    if(Objects.isNull(entity)){
+      return null;
+    }
     UserResource resource = new UserResource();
     resource.setId(entity.getId());
     resource.setTenantId(entity.getTenantId());
@@ -54,6 +59,9 @@ public final class UserConverter extends Converter<UserEntity, UserResource> {
    * @return the user entity
    */
   private static UserEntity fromUserResource(final UserResource resource) {
+    if(Objects.isNull(resource)){
+      return null;
+    }
     UserEntity entity = new UserEntity();
     entity.setId(resource.getId());
     entity.setTenantId(resource.getTenantId());

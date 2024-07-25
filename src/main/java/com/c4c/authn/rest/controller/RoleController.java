@@ -2,7 +2,7 @@ package com.c4c.authn.rest.controller;
 
 import com.c4c.authn.adapter.api.RestAdapterV1;
 import com.c4c.authn.config.tenant.CurrentUserContext;
-import com.c4c.authn.rest.resource.RestResource;
+import com.c4c.authn.rest.resource.RoleResource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,43 +25,43 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static com.c4c.authn.common.Constants.API_V1;
-import static com.c4c.authn.common.Constants.REST_RESOURCE_URL;
-import static com.c4c.authn.rest.controller.RestResourceController.BASE_URL;
+import static com.c4c.authn.common.Constants.ROLE_URL;
+import static com.c4c.authn.rest.controller.RoleController.BASE_URL;
 
 /**
- * The type Rest resource controller.
+ * The type Role controller.
  */
 @Slf4j
 @RestController()
 @RequestMapping(BASE_URL)
-public class RestResourceController extends BaseController {
+public class RoleController extends BaseController {
     /**
      * The constant BASE_URL.
      */
-    static final String BASE_URL = API_V1 + REST_RESOURCE_URL;
+    static final String BASE_URL = API_V1 + ROLE_URL;
 
     /**
-     * Instantiates a new Rest resource controller.
+     * Instantiates a new Role controller.
      *
      * @param restAdapterV1 the rest adapter v 1
      */
     @Autowired
-    protected RestResourceController(final RestAdapterV1 restAdapterV1) {
+    protected RoleController(final RestAdapterV1 restAdapterV1) {
         super(restAdapterV1);
     }
 
     /**
      * Find by id response entity.
      *
-     * @param restResourceId the rest resource id
+     * @param roleId the rest resource id
      * @return the response entity
      */
-    @GetMapping("/{restResourceId}")
-    public ResponseEntity<RestResource> findById(@PathVariable("restResourceId") final UUID restResourceId) {
-        RestResource resource = this.getRestAdapterV1().findByIdRestResource(restResourceId);
-        if(!Objects.isNull(resource)) {
+    @GetMapping("/{roleId}")
+    public ResponseEntity<RoleResource> findById(@PathVariable("roleId") final UUID roleId) {
+        RoleResource resource = this.getRestAdapterV1().findByIdRole(roleId);
+        if (!Objects.isNull(resource)) {
             return ResponseEntity.ok().body(resource);
-        }else {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
@@ -74,14 +74,14 @@ public class RestResourceController extends BaseController {
      * @return the response entity
      */
     @GetMapping
-    public ResponseEntity<Page<RestResource>> findByPagination(
+    public ResponseEntity<Page<RoleResource>> findByPagination(
             @RequestParam(value = "pageNo", required = false, defaultValue = "-1") final int pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize) {
         if (pageSize > 0) {
-            Page<RestResource> resources = this.getRestAdapterV1().findByPaginationRestResource(pageNo, pageSize);
+            Page<RoleResource> resources = this.getRestAdapterV1().findByPaginationRole(pageNo, pageSize);
             return ResponseEntity.ok().body(resources);
         } else {
-            List<RestResource> resources = this.getRestAdapterV1().findAllRestResource();
+            List<RoleResource> resources = this.getRestAdapterV1().findAllRole();
             return ResponseEntity.ok().body(new PageImpl<>(resources));
         }
     }
@@ -89,32 +89,38 @@ public class RestResourceController extends BaseController {
     /**
      * Create response entity.
      *
-     * @param restResource the rest resource
+     * @param role the rest resource
      * @return the response entity
      */
     @PostMapping
-    public ResponseEntity<RestResource> create(final @RequestBody @Validated RestResource restResource) {
-        restResource.setTenantId(CurrentUserContext.getCurrentTenant());
-        RestResource resource = this.getRestAdapterV1().createRestResource(restResource);
+    public ResponseEntity<RoleResource> create(final @RequestBody @Validated RoleResource role) {
+        role.setTenantId(CurrentUserContext.getCurrentTenant());
+        RoleResource resource = this.getRestAdapterV1().createRole(role);
         return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);
     }
 
     /**
-     * Create response entity.
+     * Update response entity.
      *
-     * @param restResource the rest resource
+     * @param role the rest resource
      * @return the response entity
      */
     @PutMapping
-    public ResponseEntity<RestResource> update(final @RequestBody @Validated RestResource restResource) {
-        restResource.setTenantId(CurrentUserContext.getCurrentTenant());
-        RestResource resource = this.getRestAdapterV1().updateRestResource(restResource);
+    public ResponseEntity<RoleResource> update(final @RequestBody @Validated RoleResource role) {
+        role.setTenantId(CurrentUserContext.getCurrentTenant());
+        RoleResource resource = this.getRestAdapterV1().updateRole(role);
         return ResponseEntity.ok().body(resource);
     }
 
-    @DeleteMapping("/{restResourceId}")
-    public ResponseEntity<Void> deleteById(@PathVariable("restResourceId") final UUID restResourceId) {
-        this.getRestAdapterV1().deleteByIdRestResource(restResourceId);
+    /**
+     * Delete by id response entity.
+     *
+     * @param roleId the rest resource id
+     * @return the response entity
+     */
+    @DeleteMapping("/{roleId}")
+    public ResponseEntity<Void> deleteById(@PathVariable("roleId") final UUID roleId) {
+        this.getRestAdapterV1().deleteByIdRole(roleId);
         return ResponseEntity.noContent().build();
     }
 }

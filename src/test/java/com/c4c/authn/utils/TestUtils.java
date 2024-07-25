@@ -1,7 +1,9 @@
 package com.c4c.authn.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Random;
@@ -26,6 +28,11 @@ public class TestUtils {
    */
   public static <T> T convertJsonStringToObject(final String jsonStr,
                                                 final Class<T> classType) throws IOException {
+    return mapper_.readValue(jsonStr, classType);
+  }
+
+  public static <T> T convertJsonStringToObject(final String jsonStr,
+                                                final TypeReference<T> classType) throws IOException {
     return mapper_.readValue(jsonStr, classType);
   }
 

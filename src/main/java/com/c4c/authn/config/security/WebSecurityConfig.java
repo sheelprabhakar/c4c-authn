@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,7 +14,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import static com.c4c.authn.common.Constants.API_V1;
 import static com.c4c.authn.common.Constants.AUTH_URL;
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -38,8 +36,8 @@ public class WebSecurityConfig {
             "/v3/api-docs/**",
             "/actuator/**",
             "/swagger-ui/**",
-            API_V1 + AUTH_URL + "/authenticate",
-            API_V1 + AUTH_URL + "/refreshToken",
+            AUTH_URL + "/authenticate",
+            AUTH_URL + "/refreshToken",
             "/error"
 
     };
@@ -77,8 +75,9 @@ public class WebSecurityConfig {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(AUTH_WHITELIST).permitAll()
-                        .requestMatchers("/tenant").hasAuthority("SUPER_ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/tenant").hasAuthority("ADMIN")
+                        //.requestMatchers("/tenant").hasAuthority("SUPER_ADMIN")
+                        //.requestMatchers(HttpMethod.GET, "/tenant").hasAuthority("ADMIN")
+                        .requestMatchers("/v1/api/**").access(new AnyRequestAuthenticatedAuthorizationManager())
                         .anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class)
