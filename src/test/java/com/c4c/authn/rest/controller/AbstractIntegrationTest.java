@@ -23,7 +23,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 
-import static com.c4c.authn.common.Constants.API_V1;
 import static com.c4c.authn.common.Constants.AUTH_URL;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -74,7 +73,7 @@ public abstract class AbstractIntegrationTest {
     String getAdminToken() throws Exception {
         if (!StringUtils.hasLength(token)) {
             MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
-                            .post(API_V1 + AUTH_URL + "/authenticate")
+                            .post( AUTH_URL + "/authenticate")
                             .content("{\"username\":\"sheel.prabhakar@gmail.com\"," +
                                     " \"password\":\"admin123\", \"isOtp\":false}")
                             .contentType(MediaType.APPLICATION_JSON)

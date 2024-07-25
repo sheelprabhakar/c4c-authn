@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.c4c.authn.common.Constants.API_V1;
 import static com.c4c.authn.common.Constants.AUTH_URL;
 
 /**
@@ -27,7 +26,7 @@ public class AuthenticationController extends BaseController {
     /**
      * The Base url.
      */
-    static final String BASE_URL = API_V1 + AUTH_URL;
+    static final String BASE_URL = AUTH_URL;
 
     /**
      * Instantiates a new Authentication controller.

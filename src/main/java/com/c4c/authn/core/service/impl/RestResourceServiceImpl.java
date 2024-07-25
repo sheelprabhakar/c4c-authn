@@ -5,6 +5,7 @@ import com.c4c.authn.core.repository.RestResourceRepository;
 import com.c4c.authn.core.service.api.RestResourceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +15,7 @@ import java.util.UUID;
  */
 @Service
 @Slf4j
+@Transactional
 public class RestResourceServiceImpl implements RestResourceService {
 
     /**
@@ -53,23 +55,43 @@ public class RestResourceServiceImpl implements RestResourceService {
     }
 
     /**
-     * Read rest resource entity.
+     * Find by id rest resource entity.
      *
      * @param resourceId the resource id
      * @return the rest resource entity
      */
     @Override
-    public RestResourceEntity read(final UUID resourceId) {
+    public RestResourceEntity findById(final UUID resourceId) {
         return this.restResourceRepository.findById(resourceId).orElse(null);
     }
 
     /**
-     * Read all list.
+     * Find all list.
      *
      * @return the list
      */
     @Override
     public List<RestResourceEntity> findAll() {
         return (List<RestResourceEntity>) this.restResourceRepository.findAll();
+    }
+
+    /**
+     * Delete by id.
+     *
+     * @param resourceId the resource id
+     */
+    @Override
+    public void deleteById(UUID resourceId) {
+        this.restResourceRepository.deleteById(resourceId);
+    }
+
+    /**
+     * Delete all by id.
+     *
+     * @param resourceIds the resource ids
+     */
+    @Override
+    public void deleteAllById(List<UUID> resourceIds) {
+        this.restResourceRepository.deleteAllById(resourceIds);
     }
 }

@@ -26,12 +26,12 @@ public interface RestResourceService {
     RestResourceEntity update(RestResourceEntity restResourceEntity);
 
     /**
-     * Read rest resource entity.
+     * Find by id rest resource entity.
      *
      * @param resourceId the resource id
      * @return the rest resource entity
      */
-    RestResourceEntity read(UUID resourceId);
+    RestResourceEntity findById(UUID resourceId);
 
     /**
      * Find all list.
@@ -39,4 +39,18 @@ public interface RestResourceService {
      * @return the list
      */
     List<RestResourceEntity> findAll();
+
+    /**
+     * Delete by id.
+     *
+     * @param resourceId the resource id
+     */
+    void deleteById(UUID resourceId);
+
+    /**
+     * Delete all by id.
+     *
+     * @param resourceIds the resource ids
+     */
+    void deleteAllById(List<UUID> resourceIds);
 }

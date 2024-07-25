@@ -20,13 +20,13 @@ public final class RestResourceConverter extends Converter<RestResourceEntity, R
 
     private static RestResourceEntity convertToEntity(final RestResource res) {
         return RestResourceEntity.builder().id(res.getId()).tenantId(res.getTenantId()).path(res.getPath())
-                .name(res.getName()).createdAt(res.getCreatedAt()).createdBy(res.getCreatedBy())
+                .attributeName(res.getAttributeName()).createdAt(res.getCreatedAt()).createdBy(res.getCreatedBy())
                 .updatedAt(res.getUpdatedAt()).updatedBy(res.getUpdatedBy()).isDeleted(res.isDeleted()).build();
     }
 
     private static RestResource convertToResource(final RestResourceEntity entity) {
         return RestResource.builder().id(entity.getId()).tenantId(entity.getTenantId()).path(entity.getPath())
-                .name(entity.getName()).createdAt(entity.getCreatedAt()).createdBy(entity.getCreatedBy())
+                .attributeName(entity.getAttributeName()).createdAt(entity.getCreatedAt()).createdBy(entity.getCreatedBy())
                 .updatedAt(entity.getUpdatedAt()).updatedBy(entity.getUpdatedBy()).isDeleted(entity.isDeleted())
                 .build();
     }
