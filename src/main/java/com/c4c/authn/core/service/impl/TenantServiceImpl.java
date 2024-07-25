@@ -1,6 +1,7 @@
 package com.c4c.authn.core.service.impl;
 
 
+import com.c4c.authn.config.tenant.CurrentUserContext;
 import com.c4c.authn.core.entity.TenantEntity;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.repository.TenantRepository;
@@ -68,6 +69,7 @@ public class TenantServiceImpl implements TenantService {
   @Override
   public TenantEntity create(final TenantEntity tenantEntity) {
     tenantEntity.setActive(true);
+    tenantEntity.created(CurrentUserContext.getCurrentUser());
     return this.saveTenantEntity(tenantEntity);
   }
 
@@ -79,6 +81,7 @@ public class TenantServiceImpl implements TenantService {
    */
   @Override
   public TenantEntity update(final TenantEntity tenantEntity) {
+    tenantEntity.updated(CurrentUserContext.getCurrentUser());
     return this.saveTenantEntity(tenantEntity);
   }
 

@@ -5,6 +5,8 @@ import com.c4c.authn.core.entity.RestResourceEntity;
 import com.c4c.authn.rest.resource.RestResource;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 /**
  * The type Token log converter.
  */
@@ -19,12 +21,18 @@ public final class RestResourceConverter extends Converter<RestResourceEntity, R
     }
 
     private static RestResourceEntity convertToEntity(final RestResource res) {
+        if(Objects.isNull(res)){
+            return null;
+        }
         return RestResourceEntity.builder().id(res.getId()).tenantId(res.getTenantId()).path(res.getPath())
                 .attributeName(res.getAttributeName()).createdAt(res.getCreatedAt()).createdBy(res.getCreatedBy())
                 .updatedAt(res.getUpdatedAt()).updatedBy(res.getUpdatedBy()).isDeleted(res.isDeleted()).build();
     }
 
     private static RestResource convertToResource(final RestResourceEntity entity) {
+        if(Objects.isNull(entity)){
+            return null;
+        }
         return RestResource.builder().id(entity.getId()).tenantId(entity.getTenantId()).path(entity.getPath())
                 .attributeName(entity.getAttributeName()).createdAt(entity.getCreatedAt()).createdBy(entity.getCreatedBy())
                 .updatedAt(entity.getUpdatedAt()).updatedBy(entity.getUpdatedBy()).isDeleted(entity.isDeleted())

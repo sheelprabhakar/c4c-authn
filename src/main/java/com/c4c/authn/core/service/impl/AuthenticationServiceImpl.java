@@ -1,7 +1,7 @@
 package com.c4c.authn.core.service.impl;
 
 import com.c4c.authn.config.security.JwtTokenProvider;
-import com.c4c.authn.config.tenant.TenantContext;
+import com.c4c.authn.config.tenant.CurrentUserContext;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.entity.UserTokenEntity;
 import com.c4c.authn.core.service.api.AuthenticationService;
@@ -109,11 +109,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             final UserDetails userDetails = this.userDetailsService
                     .loadUserByUsername(username);
             log.info("Authenticated successfully");
-            TenantContext.setCurrentTenant(userEntity.getTenantId());
+            CurrentUserContext.setCurrentTenant(userEntity.getTenantId());
             String token = this.jwtTokenProvider.createToken(userDetails.getUsername(),
                     (Set<GrantedAuthority>) userDetails.getAuthorities());
             String refreshToken = this.jwtTokenProvider.createRefreshToken(userDetails.getUsername());
-            return this.userTokenService.update(userEntity.getId(), TenantContext.getCurrentTenant(), token,
+            return this.userTokenService.update(userEntity.getId(), CurrentUserContext.getCurrentTenant(), token,
                     refreshToken);
         } else {
             log.info("Authenticated failed");
@@ -150,12 +150,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             UserEntity userEntity = this.userService.findByEmail(username);
             UserDetails userDetails = this.userDetailsService
                     .loadUserByUsername(userEntity);
-            TenantContext.setCurrentTenant(userEntity.getTenantId());
+            CurrentUserContext.setCurrentTenant(userEntity.getTenantId());
             String token = this.jwtTokenProvider.createToken(userDetails.getUsername(),
                     (Set<GrantedAuthority>) userDetails.getAuthorities());
 
             String newRefreshToken = this.jwtTokenProvider.createRefreshToken(userDetails.getUsername());
-            return this.userTokenService.update(userEntity.getId(), TenantContext.getCurrentTenant(), token,
+            return this.userTokenService.update(userEntity.getId(), CurrentUserContext.getCurrentTenant(), token,
                     newRefreshToken);
         }
         return null;

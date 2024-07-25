@@ -8,6 +8,8 @@ import com.c4c.authn.rest.resource.auth.JwtResponse;
 import com.c4c.authn.rest.resource.lookup.CityResource;
 import com.c4c.authn.rest.resource.lookup.CountryResource;
 import com.c4c.authn.rest.resource.lookup.StateResource;
+import org.springframework.data.domain.Page;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +23,7 @@ public interface RestAdapterV1 {
    * @param userResource the user resource
    * @return the user resource
    */
-  UserResource save(UserResource userResource);
+  UserResource save(final UserResource userResource);
 
   /**
    * Update user resource.
@@ -29,7 +31,7 @@ public interface RestAdapterV1 {
    * @param userResource the user resource
    * @return the user resource
    */
-  UserResource update(UserResource userResource);
+  UserResource update(final UserResource userResource);
 
   /**
    * Authenticate jwt response.
@@ -37,7 +39,7 @@ public interface RestAdapterV1 {
    * @param request the request
    * @return the jwt response
    */
-  JwtResponse authenticate(JwtRequest request);
+  JwtResponse authenticate(final JwtRequest request);
 
   /**
    * Logout.
@@ -50,7 +52,7 @@ public interface RestAdapterV1 {
    * @param refreshToken the refresh token
    * @return the jwt response
    */
-  JwtResponse refreshToken(String refreshToken);
+  JwtResponse refreshToken(final String refreshToken);
 
   /**
    * Countries list.
@@ -65,7 +67,7 @@ public interface RestAdapterV1 {
    * @param countryId the country id
    * @return the list
    */
-  List<StateResource> states(int countryId);
+  List<StateResource> states(final int countryId);
 
   /**
    * Cities list.
@@ -73,7 +75,7 @@ public interface RestAdapterV1 {
    * @param stateId the state id
    * @return the list
    */
-  List<CityResource> cities(int stateId);
+  List<CityResource> cities(final int stateId);
 
   /**
    * Create tenant tenant resource.
@@ -81,7 +83,7 @@ public interface RestAdapterV1 {
    * @param tenantResource the tenant resource
    * @return the tenant resource
    */
-  TenantResource createTenant(TenantResource tenantResource);
+  TenantResource createTenant(final TenantResource tenantResource);
 
   /**
    * Update tenant tenant resource.
@@ -89,7 +91,7 @@ public interface RestAdapterV1 {
    * @param tenantResource the tenant resource
    * @return the tenant resource
    */
-  TenantResource updateTenant(TenantResource tenantResource);
+  TenantResource updateTenant(final TenantResource tenantResource);
 
   /**
    * Read tenant tenant resource.
@@ -97,7 +99,7 @@ public interface RestAdapterV1 {
    * @param tenantId the tenant id
    * @return the tenant resource
    */
-  TenantResource readTenant(UUID tenantId);
+  TenantResource readTenant(final UUID tenantId);
 
   /**
    * Read tenants list.
@@ -111,7 +113,7 @@ public interface RestAdapterV1 {
    *
    * @param tenantId the tenant id
    */
-  void deleteTenant(UUID tenantId);
+  void deleteTenant(final UUID tenantId);
 
   /**
    * Create rest resource rest resource.
@@ -119,5 +121,44 @@ public interface RestAdapterV1 {
    * @param restResource the rest resource
    * @return the rest resource
    */
-  RestResource createRestResource(RestResource restResource);
+  RestResource createRestResource(final RestResource restResource);
+
+  /**
+   * Find by id rest resource rest resource.
+   *
+   * @param restResourceId the rest resource id
+   * @return the rest resource
+   */
+  RestResource findByIdRestResource(final UUID restResourceId);
+
+  /**
+   * Find all rest resource list.
+   *
+   * @return the list
+   */
+  List<RestResource> findAllRestResource();
+
+  /**
+   * Find by pagination rest resource page.
+   *
+   * @param pageNo   the page no
+   * @param pageSize the page size
+   * @return the page
+   */
+  Page<RestResource> findByPaginationRestResource(final int pageNo, final int pageSize);
+
+  /**
+   * Update rest resource rest resource.
+   *
+   * @param restResource the rest resource
+   * @return the rest resource
+   */
+  RestResource updateRestResource(final RestResource restResource);
+
+  /**
+   * Delete by id rest resource.
+   *
+   * @param restResourceId the rest resource id
+   */
+  void deleteByIdRestResource(final UUID restResourceId);
 }

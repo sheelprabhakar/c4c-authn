@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 /**
  * The type Converter.
@@ -61,6 +63,17 @@ public abstract class Converter<E, R> {
    */
   public final List<R> createFromEntities(final Collection<E> entities) {
     return entities.stream().map(this::covertFromEntity).toList();
+  }
+
+  /**
+   * Create from entities page.
+   *
+   * @param entities the entities
+   * @return the page
+   */
+  public final Page<R> createFromEntities(final Page<E> entities) {
+    List<R> list = entities.getContent().stream().map(this::covertFromEntity).toList();
+    return new PageImpl<>(list);
   }
 }
 

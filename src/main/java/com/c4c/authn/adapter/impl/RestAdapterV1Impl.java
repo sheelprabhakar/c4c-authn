@@ -24,6 +24,7 @@ import com.c4c.authn.rest.resource.lookup.StateResource;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -289,6 +290,58 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
         RestResourceEntity restResourceEntity = this.restResourceConverter.convertFromResource(restResource);
         restResourceEntity = this.restResourceService.create(restResourceEntity);
         return this.restResourceConverter.covertFromEntity(restResourceEntity);
+    }
+
+    /**
+     * Find by id rest resource rest resource.
+     *
+     * @param restResourceId the rest resource id
+     * @return the rest resource
+     */
+    @Override
+    public RestResource findByIdRestResource(final UUID restResourceId) {
+        return this.restResourceConverter.covertFromEntity(this.restResourceService.findById(restResourceId));
+    }
+
+    /**
+     * Find all rest resource list.
+     *
+     * @return the list
+     */
+    @Override
+    public List<RestResource> findAllRestResource() {
+        return this.restResourceConverter.createFromEntities( this.restResourceService.findAll());
+    }
+
+    /**
+     * Find by pagination rest resource page.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the page
+     */
+    @Override
+    public Page<RestResource> findByPaginationRestResource(final int pageNo, final int pageSize) {
+        return this.restResourceConverter.createFromEntities( this.restResourceService.findByPagination(pageSize, pageNo));
+    }
+
+    /**
+     * @param restResource
+     * @return
+     */
+    @Override
+    public RestResource updateRestResource(final RestResource restResource) {
+        RestResourceEntity restResourceEntity = this.restResourceConverter.convertFromResource(restResource);
+        restResourceEntity = this.restResourceService.update(restResourceEntity);
+        return this.restResourceConverter.covertFromEntity(restResourceEntity);
+    }
+
+    /**
+     * @param restResourceId the rest resource id
+     */
+    @Override
+    public void deleteByIdRestResource(UUID restResourceId) {
+        this.restResourceService.deleteById(restResourceId);
     }
 
     /**

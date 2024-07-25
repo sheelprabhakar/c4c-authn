@@ -1,9 +1,13 @@
 package com.c4c.authn.core.service.impl;
 
+import com.c4c.authn.config.tenant.CurrentUserContext;
 import com.c4c.authn.core.entity.RestResourceEntity;
 import com.c4c.authn.core.repository.RestResourceRepository;
 import com.c4c.authn.core.service.api.RestResourceService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +44,7 @@ public class RestResourceServiceImpl implements RestResourceService {
      */
     @Override
     public RestResourceEntity create(final RestResourceEntity restResourceEntity) {
+        restResourceEntity.created(CurrentUserContext.getCurrentUser());
         return this.restResourceRepository.save(restResourceEntity);
     }
 
@@ -51,6 +56,7 @@ public class RestResourceServiceImpl implements RestResourceService {
      */
     @Override
     public RestResourceEntity update(final RestResourceEntity restResourceEntity) {
+        restResourceEntity.updated(CurrentUserContext.getCurrentUser());
         return this.restResourceRepository.save(restResourceEntity);
     }
 
@@ -73,6 +79,19 @@ public class RestResourceServiceImpl implements RestResourceService {
     @Override
     public List<RestResourceEntity> findAll() {
         return (List<RestResourceEntity>) this.restResourceRepository.findAll();
+    }
+
+    /**
+     * Find by pagination list.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the list
+     */
+    @Override
+    public Page<RestResourceEntity> findByPagination(int pageNo, int pageSize) {
+        return this.restResourceRepository.findAll(PageRequest.of(pageNo, pageSize,
+                Sort.by("attributeName").ascending()));
     }
 
     /**

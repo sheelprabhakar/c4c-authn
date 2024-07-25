@@ -1,5 +1,6 @@
 package com.c4c.authn.core.entity;
 
+import com.c4c.authn.config.tenant.CurrentUserContext;
 import jakarta.persistence.Column;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -55,4 +56,25 @@ public abstract class CommonEntityAttributes {
    */
   @Column(name = "updated_by", length = L255, nullable = true)
   private String updatedBy;
+
+  /**
+   * Updated.
+   *
+   * @param user the user
+   */
+  public void updated(String user){
+    this.setUpdatedAt(Calendar.getInstance());
+    this.setUpdatedBy(user);
+  }
+
+  /**
+   * Created.
+   *
+   * @param user the user
+   */
+  public void created(String user){
+    this.setCreatedAt(Calendar.getInstance());
+    this.setCreatedBy(user);
+  }
+
 }
