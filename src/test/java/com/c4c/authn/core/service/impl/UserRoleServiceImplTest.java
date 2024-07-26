@@ -1,6 +1,7 @@
 package com.c4c.authn.core.service.impl;
 
 import com.c4c.authn.core.entity.UserRoleEntity;
+import com.c4c.authn.core.entity.UserRoleId;
 import com.c4c.authn.core.repository.UserRoleRepository;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -76,9 +76,9 @@ class UserRoleServiceImplTest {
     @DisplayName("Test find by id user role OK")
     void findByIdOk() {
         UserRoleEntity roleEntity = Instancio.create(UserRoleEntity.class);
-        when(this.userRoleRepository.findById(any(UUID.class))).thenReturn(Optional.of(roleEntity));
+        when(this.userRoleRepository.findById(any(UserRoleId.class))).thenReturn(Optional.of(roleEntity));
 
-        UserRoleEntity roleEntity1 = this.userRoleService.findById(UUID.randomUUID());
+        UserRoleEntity roleEntity1 = this.userRoleService.findById(new UserRoleId());
         assertEquals(roleEntity, roleEntity1);
     }
 
@@ -123,8 +123,8 @@ class UserRoleServiceImplTest {
     @Test
     @DisplayName("Test deleteBy id OK")
     void deleteByIdOK() {
-        doNothing().when(this.userRoleRepository).deleteById(any(UUID.class));
-        UUID userRoleId = UUID.randomUUID();
+        doNothing().when(this.userRoleRepository).deleteById(any(UserRoleId.class));
+        UserRoleId userRoleId = new UserRoleId();
         this.userRoleService.deleteById(userRoleId);
         verify(this.userRoleRepository, times(1)).deleteById(userRoleId);
     }
@@ -135,8 +135,8 @@ class UserRoleServiceImplTest {
     @Test
     @DisplayName("Test deleteAllById OK")
     void deleteAllByIdOK() {
-        doNothing().when(this.userRoleRepository).deleteAllById(ArgumentMatchers.<UUID>anyList());
-        List<UUID> userRoleIds = Instancio.ofList(UUID.class).size(5).create();
+        doNothing().when(this.userRoleRepository).deleteAllById(ArgumentMatchers.<UserRoleId>anyList());
+        List<UserRoleId> userRoleIds = Instancio.ofList(UserRoleId.class).size(5).create();
         this.userRoleService.deleteAllById(userRoleIds);
         verify(this.userRoleRepository, times(1)).deleteAllById(userRoleIds);
     }

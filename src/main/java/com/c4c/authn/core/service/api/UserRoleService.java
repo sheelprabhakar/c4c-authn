@@ -5,7 +5,6 @@ import com.c4c.authn.core.entity.UserRoleId;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * The interface User role service.
@@ -14,10 +13,10 @@ public interface UserRoleService {
     /**
      * Create user role entity.
      *
-     * @param userRoleEntity the user role entity
+     * @param map the map
      * @return the user role entity
      */
-    UserRoleEntity create(final UserRoleEntity userRoleEntity);
+    UserRoleEntity create(UserRoleEntity map);
 
     /**
      * Update user role entity.
@@ -25,7 +24,7 @@ public interface UserRoleService {
      * @param tenantEntity the tenant entity
      * @return the user role entity
      */
-    UserRoleEntity update(final UserRoleEntity tenantEntity);
+    UserRoleEntity update(UserRoleEntity tenantEntity);
 
     /**
      * Find by id user role entity.
@@ -33,7 +32,7 @@ public interface UserRoleService {
      * @param userRoleId the user role id
      * @return the user role entity
      */
-    UserRoleEntity findById(final UUID userRoleId);
+    UserRoleEntity findById(UserRoleId userRoleId);
 
     /**
      * Find all list.
@@ -49,19 +48,19 @@ public interface UserRoleService {
      * @param pageSize the page size
      * @return the page
      */
-    Page<UserRoleEntity> findByPagination(final int pageNo, final int pageSize);
+    Page<UserRoleEntity> findByPagination(int pageNo, int pageSize);
 
     /**
      * Delete by id.
      *
      * @param roleId the role id
      */
-    void deleteById(final UUID roleId);
+    void deleteById(UserRoleId roleId);
 
     /**
      * Delete all by id.
      *
      * @param roleIds the role ids
      */
-    void deleteAllById(final List<UUID> roleIds);
+    void deleteAllById(List<UserRoleId> roleIds);
 }

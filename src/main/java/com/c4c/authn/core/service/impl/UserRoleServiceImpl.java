@@ -2,6 +2,7 @@ package com.c4c.authn.core.service.impl;
 
 import com.c4c.authn.config.tenant.CurrentUserContext;
 import com.c4c.authn.core.entity.UserRoleEntity;
+import com.c4c.authn.core.entity.UserRoleId;
 import com.c4c.authn.core.repository.UserRoleRepository;
 import com.c4c.authn.core.service.api.UserRoleService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * The type User role service.
@@ -66,7 +66,7 @@ public class UserRoleServiceImpl implements UserRoleService {
      * @return the user role entity
      */
     @Override
-    public UserRoleEntity findById(final UUID userRoleId) {
+    public UserRoleEntity findById(final UserRoleId userRoleId) {
         return this.userRoleRepository.findById(userRoleId).orElse(null);
     }
 
@@ -99,7 +99,7 @@ public class UserRoleServiceImpl implements UserRoleService {
      * @param userRoleId the user role id
      */
     @Override
-    public void deleteById(UUID userRoleId) {
+    public void deleteById(UserRoleId userRoleId) {
         this.userRoleRepository.deleteById(userRoleId);
     }
 
@@ -109,7 +109,7 @@ public class UserRoleServiceImpl implements UserRoleService {
      * @param userRoleIds the user role ids
      */
     @Override
-    public void deleteAllById(List<UUID> userRoleIds) {
+    public void deleteAllById(List<UserRoleId> userRoleIds) {
         this.userRoleRepository.deleteAllById(userRoleIds);
     }
 

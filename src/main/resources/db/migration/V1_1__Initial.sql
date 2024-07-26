@@ -83,7 +83,6 @@ DROP TABLE IF EXISTS `role`;
 
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
-  `id` VARCHAR(36) NOT NULL,
   `role_id` VARCHAR(36) NOT NULL,
   `user_id` VARCHAR(36) NOT NULL,
   `is_deleted` TINYINT NOT NULL DEFAULT 1,
@@ -91,7 +90,7 @@ CREATE TABLE `user_role` (
   `updated_at` DATETIME NULL,
   `created_by` VARCHAR(255) NULL,
   `updated_by` VARCHAR(255) NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`role_id`, `user_id`),
   INDEX `fk_user_user_role_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_role_user_role`
     FOREIGN KEY (`role_id`)
@@ -131,8 +130,8 @@ INSERT INTO `role` (`id`,`tenant_id`, `name`, `is_deleted`, `created_by`, `updat
 
 INSERT INTO `user` (`id`,`tenant_id`, `first_name`, `middle_name`, `last_name`, `user_name`, `mobile`, `email`, `password_hash`, `is_locked`, `is_deleted`, `created_by`, `updated_by`) VALUES ('bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', 'fe9f8f3c-6447-4fb1-a9ba-6856bccd3d9b', 'admin', 'a', 'User', 'admin', '9899098990', 'sheel.prabhakar@gmail.com', '$2a$12$NL54bmIzc2qe9BgHFMCVleKQ/mUYvq7Bv7jIUODO3.jCshcUs0l0q', '0', '0', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `user_role` (`id`, `role_id`, `user_id`, `is_deleted`, `created_by`, `updated_by`) VALUES ('5fc56794-451a-4681-ba6a-8a7936267dd5', '02ec9264-bdf8-4c56-971c-d4ab699e24e6', 'bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', '0', 'SYSTEM', 'SYSTEM');
-INSERT INTO `user_role` (`id`, `role_id`, `user_id`, `is_deleted`, `created_by`, `updated_by`) VALUES ('152a32cf-4793-46d7-81fb-2ab58a2f7daf', '52a05765-a8e0-4fd7-b95b-3b14b52634f5', 'bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', '0', 'SYSTEM', 'SYSTEM');
+INSERT INTO `user_role` (`role_id`, `user_id`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', 'bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', '0', 'SYSTEM', 'SYSTEM');
+INSERT INTO `user_role` (`role_id`, `user_id`, `is_deleted`, `created_by`, `updated_by`) VALUES ('52a05765-a8e0-4fd7-b95b-3b14b52634f5', 'bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', '0', 'SYSTEM', 'SYSTEM');
 
 DROP TABLE IF EXISTS `rest_resource`;
   CREATE TABLE `rest_resource` (

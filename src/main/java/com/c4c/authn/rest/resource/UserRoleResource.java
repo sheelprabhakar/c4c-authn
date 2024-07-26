@@ -21,11 +21,6 @@ import java.util.UUID;
 public class UserRoleResource extends CommonResourceAttributes implements Serializable {
 
     /**
-     * The Id.
-     */
-    private UUID id;
-
-    /**
      * The Role id.
      */
     @NotEmpty(message = "Role Id can not be empty.")

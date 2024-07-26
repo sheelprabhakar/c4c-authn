@@ -49,7 +49,7 @@ public final class UserRoleConverter extends Converter<UserRoleEntity, UserRoleR
         if (Objects.isNull(res)) {
             return null;
         }
-        return UserRoleEntity.builder().id(res.getId()).roleId(res.getRoleId()).userId(res.getUserId())
+        return UserRoleEntity.builder().roleId(res.getRoleId()).userId(res.getUserId())
                 .createdAt(res.getCreatedAt()).createdBy(res.getCreatedBy())
                 .updatedAt(res.getUpdatedAt()).updatedBy(res.getUpdatedBy()).isDeleted(res.isDeleted()).build();
     }
@@ -66,7 +66,7 @@ public final class UserRoleConverter extends Converter<UserRoleEntity, UserRoleR
         }
         UserConverter userConverter = UserConverter.getInstance();
         RoleConverter roleConverter = RoleConverter.getInstance();
-        return UserRoleResource.builder().id(entity.getId()).roleId(entity.getRoleId()).userId(entity.getUserId())
+        return UserRoleResource.builder().roleId(entity.getRoleId()).userId(entity.getUserId())
                 .createdAt(entity.getCreatedAt()).createdBy(entity.getCreatedBy())
                 .updatedAt(entity.getUpdatedAt()).updatedBy(entity.getUpdatedBy()).isDeleted(entity.isDeleted())
                 .userResource(userConverter.covertFromEntity(entity.getUserEntity()))

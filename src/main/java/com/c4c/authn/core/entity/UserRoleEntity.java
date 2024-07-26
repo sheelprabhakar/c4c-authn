@@ -2,14 +2,12 @@ package com.c4c.authn.core.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,20 +28,14 @@ import java.util.UUID;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 //@EqualsAndHashCode(callSuper = true)
+@IdClass(UserRoleId.class)
 public class UserRoleEntity extends CommonEntityAttributes implements Serializable {
 
-    /**
-     * The Id.
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    private UUID id;
 
     /**
      * The Role id.
      */
+    @Id
     @Column(name = "role_id", nullable = false)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID roleId;
@@ -51,6 +43,7 @@ public class UserRoleEntity extends CommonEntityAttributes implements Serializab
     /**
      * The User id.
      */
+    @Id
     @Column(name = "user_id", nullable = false)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID userId;
@@ -69,6 +62,6 @@ public class UserRoleEntity extends CommonEntityAttributes implements Serializab
      */
     @ManyToOne
     @MapsId("roleId")
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id" )
     RoleEntity roleEntity;
 }
