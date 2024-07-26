@@ -5,6 +5,7 @@ import com.c4c.authn.common.exception.CustomException;
 import com.c4c.authn.core.entity.RestResourceEntity;
 import com.c4c.authn.core.entity.TenantEntity;
 import com.c4c.authn.core.entity.UserEntity;
+import com.c4c.authn.core.entity.UserRoleId;
 import com.c4c.authn.core.entity.lookup.CityEntity;
 import com.c4c.authn.core.entity.lookup.CountryEntity;
 import com.c4c.authn.core.entity.lookup.StateEntity;
@@ -13,11 +14,13 @@ import com.c4c.authn.core.service.api.LookupService;
 import com.c4c.authn.core.service.api.RestResourceService;
 import com.c4c.authn.core.service.api.RoleService;
 import com.c4c.authn.core.service.api.TenantService;
+import com.c4c.authn.core.service.api.UserRoleService;
 import com.c4c.authn.core.service.api.UserService;
 import com.c4c.authn.rest.resource.RestResource;
 import com.c4c.authn.rest.resource.RoleResource;
 import com.c4c.authn.rest.resource.TenantResource;
 import com.c4c.authn.rest.resource.UserResource;
+import com.c4c.authn.rest.resource.UserRoleResource;
 import com.c4c.authn.rest.resource.auth.JwtRequest;
 import com.c4c.authn.rest.resource.auth.JwtResponse;
 import com.c4c.authn.rest.resource.lookup.CityResource;
@@ -91,6 +94,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      */
     private final UserRoleConverter userRoleConverter;
 
+    private final UserRoleService userRoleService;
+
     /**
      * Instantiates a new Rest adapter v 1.
      *
@@ -109,7 +114,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
                              final RestResourceConverter restResourceConverter,
                              final ModelMapper exactNameModelMapper,
                              final LookupService lookupService,
-                             final TenantService tenantService, final RestResourceService restResourceService) {
+                             final TenantService tenantService, final RestResourceService restResourceService,
+                             UserRoleService userRoleService) {
         this.roleService = roleService;
         this.userService = userService;
         this.authenticationService = authenticationService;
@@ -118,6 +124,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
         this.lookupService = lookupService;
         this.tenantService = tenantService;
         this.restResourceService = restResourceService;
+        this.userRoleService = userRoleService;
 
         this.roleConverter = RoleConverter.getInstance();
         this.userConverter = UserConverter.getInstance();
@@ -434,6 +441,63 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     @Override
     public void deleteByIdRole(final UUID roleId) {
         this.roleService.deleteById(roleId);
+    }
+
+    /**
+     * @param userId the user id
+     * @param roleId the role id
+     * @return
+     */
+    @Override
+    public UserRoleResource findByIdUserRole(final String userId, final String roleId) {
+        return this.userRoleConverter.covertFromEntity(this.userRoleService.findById(new UserRoleId(userId, roleId)));
+    }
+
+    /**
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return
+     */
+    @Override
+    public Page<UserRoleResource> findByPaginationUserRole(final int pageNo, final int pageSize) {
+        return this.userRoleConverter.createFromEntities(this.userRoleService.findByPagination(pageNo, pageSize));
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public List<UserRoleResource> findAllUserRole() {
+        return this.userRoleConverter.createFromEntities(this.userRoleService.findAll());
+    }
+
+    /**
+     * @param userRoleResource the user role resource
+     * @return
+     */
+    @Override
+    public UserRoleResource createUserRole(UserRoleResource userRoleResource) {
+        return this.userRoleConverter.covertFromEntity(
+                this.userRoleService.create(this.userRoleConverter.convertFromResource(userRoleResource)));
+    }
+
+    /**
+     * @param userRoleResource the user role resource
+     * @return
+     */
+    @Override
+    public UserRoleResource updateUserRole(UserRoleResource userRoleResource) {
+        return this.userRoleConverter.covertFromEntity(
+                this.userRoleService.update(this.userRoleConverter.convertFromResource(userRoleResource)));
+    }
+
+    /**
+     * @param userId the user id
+     * @param roleId the role id
+     */
+    @Override
+    public void deleteByIdUserRole(String userId, String roleId) {
+        this.userRoleService.deleteById(new UserRoleId(userId, roleId));
     }
 
     /**

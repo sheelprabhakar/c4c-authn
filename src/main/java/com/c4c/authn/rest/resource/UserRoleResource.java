@@ -1,6 +1,5 @@
 package com.c4c.authn.rest.resource;
 
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,15 +22,13 @@ public class UserRoleResource extends CommonResourceAttributes implements Serial
     /**
      * The Role id.
      */
-    @NotEmpty(message = "Role Id can not be empty.")
-    @org.hibernate.validator.constraints.UUID
+    //@NotEmpty(message = "Role Id can not be empty.")
     private UUID roleId;
 
     /**
      * The User id.
      */
-    @NotEmpty(message = "User Id can not be empty.")
-    @org.hibernate.validator.constraints.UUID
+    //@NotEmpty(message = "User Id can not be empty.")
     private UUID userId;
 
     /**
