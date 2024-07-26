@@ -39,6 +39,9 @@ import java.util.UUID;
  */
 @Component
 public class RestAdapterV1Impl implements RestAdapterV1 {
+    /**
+     * The Role service.
+     */
     private final RoleService roleService;
     /**
      * The User service.
@@ -78,38 +81,47 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      */
     private final RestResourceService restResourceService;
 
+    /**
+     * The Role converter.
+     */
     private final RoleConverter roleConverter;
+
+    /**
+     * The User role converter.
+     */
+    private final UserRoleConverter userRoleConverter;
 
     /**
      * Instantiates a new Rest adapter v 1.
      *
+     * @param roleService           the role service
      * @param userService           the user service
      * @param authenticationService the authentication service
      * @param restResourceConverter the rest resource converter
-     * @param userConverter         the user converter
      * @param exactNameModelMapper  the exact name model mapper
      * @param lookupService         the lookup service
      * @param tenantService         the tenant service
      * @param restResourceService   the rest resource service
      */
     @Autowired
-    public RestAdapterV1Impl(RoleService roleService, final UserService userService,
+    public RestAdapterV1Impl(final RoleService roleService, final UserService userService,
                              final AuthenticationService authenticationService,
-                             final RestResourceConverter restResourceConverter, UserConverter userConverter,
+                             final RestResourceConverter restResourceConverter,
                              final ModelMapper exactNameModelMapper,
                              final LookupService lookupService,
-                             final TenantService tenantService, RestResourceService restResourceService,
-                             RoleConverter roleConverter) {
+                             final TenantService tenantService, final RestResourceService restResourceService) {
         this.roleService = roleService;
         this.userService = userService;
         this.authenticationService = authenticationService;
         this.restResourceConverter = restResourceConverter;
-        this.userConverter = userConverter;
         this.exactNameModelMapper = exactNameModelMapper;
         this.lookupService = lookupService;
         this.tenantService = tenantService;
         this.restResourceService = restResourceService;
-        this.roleConverter = roleConverter;
+
+        this.roleConverter = RoleConverter.getInstance();
+        this.userConverter = UserConverter.getInstance();
+        this.userRoleConverter = UserRoleConverter.getInstance();
     }
 
     /**
@@ -335,8 +347,10 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * @param restResource
-     * @return
+     * Update rest resource rest resource.
+     *
+     * @param restResource the rest resource
+     * @return the rest resource
      */
     @Override
     public RestResource updateRestResource(final RestResource restResource) {
@@ -346,6 +360,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
+     * Delete by id rest resource.
+     *
      * @param restResourceId the rest resource id
      */
     @Override
@@ -354,8 +370,10 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * @param roleId
-     * @return
+     * Find by id role role resource.
+     *
+     * @param roleId the role id
+     * @return the role resource
      */
     @Override
     public RoleResource findByIdRole(final UUID roleId) {
@@ -363,9 +381,11 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * @param pageNo
-     * @param pageSize
-     * @return
+     * Find by pagination role page.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the page
      */
     @Override
     public Page<RoleResource> findByPaginationRole(final int pageNo, final int pageSize) {
@@ -373,7 +393,9 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * @return
+     * Find all role list.
+     *
+     * @return the list
      */
     @Override
     public List<RoleResource> findAllRole() {
@@ -381,8 +403,10 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * @param role
-     * @return
+     * Create role role resource.
+     *
+     * @param role the role
+     * @return the role resource
      */
     @Override
     public RoleResource createRole(final RoleResource role) {
@@ -391,8 +415,10 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * @param role
-     * @return
+     * Update role role resource.
+     *
+     * @param role the role
+     * @return the role resource
      */
     @Override
     public RoleResource updateRole(RoleResource role) {
@@ -401,7 +427,9 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * @param roleId
+     * Delete by id role.
+     *
+     * @param roleId the role id
      */
     @Override
     public void deleteByIdRole(final UUID roleId) {

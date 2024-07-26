@@ -23,6 +23,7 @@ import org.hibernate.type.SqlTypes;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -159,4 +160,9 @@ public class UserEntity extends CommonEntityAttributes implements Serializable {
   @Column(name = "is_deleted", nullable = false)
   private boolean isDeleted;
 
+  /**
+   * The Role entities.
+   */
+  @OneToMany(mappedBy = "userEntity", fetch = FetchType.EAGER)
+  private Set<UserRoleEntity> userRoleEntities;
 }

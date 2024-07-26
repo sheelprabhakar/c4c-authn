@@ -8,18 +8,43 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 /**
- * The type Token log converter.
+ * The type Role converter.
  */
 @Component("roleConverter")
 public final class RoleConverter extends Converter<RoleEntity, RoleResource> {
 
     /**
-     * Instantiates a new Token log converter.
+     * The type Role converter loader.
+     */
+    private static class RoleConverterLoader {
+        /**
+         * The constant INSTANCE.
+         */
+        private static final RoleConverter INSTANCE = new RoleConverter();
+    }
+
+    /**
+     * Instantiates a new Role converter.
      */
     public RoleConverter() {
         super(RoleConverter::convertToEntity, RoleConverter::convertToResource);
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
+    public static RoleConverter getInstance() {
+        return RoleConverterLoader.INSTANCE;
+    }
+
+    /**
+     * Convert to entity role entity.
+     *
+     * @param res the res
+     * @return the role entity
+     */
     private static RoleEntity convertToEntity(final RoleResource res) {
         if (Objects.isNull(res)) {
             return null;
@@ -29,6 +54,12 @@ public final class RoleConverter extends Converter<RoleEntity, RoleResource> {
                 .updatedAt(res.getUpdatedAt()).updatedBy(res.getUpdatedBy()).isDeleted(res.isDeleted()).build();
     }
 
+    /**
+     * Convert to resource role resource.
+     *
+     * @param entity the entity
+     * @return the role resource
+     */
     private static RoleResource convertToResource(final RoleEntity entity) {
         if (Objects.isNull(entity)) {
             return null;
