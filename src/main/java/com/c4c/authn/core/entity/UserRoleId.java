@@ -22,12 +22,17 @@ public class UserRoleId implements Serializable {
   /**
    * Instantiates a new User role id.
    *
-   * @param roleId the role id
    * @param userId the user id
+   * @param roleId the role id
    */
-  public UserRoleId(final UUID roleId, final UUID userId) {
+  public UserRoleId(final UUID userId, final UUID roleId) {
     this.roleId = roleId;
     this.userId = userId;
+  }
+
+  public UserRoleId(final String userId, final String roleId) {
+    this.roleId = UUID.fromString(roleId);
+    this.userId = UUID.fromString(userId);
   }
 
   /**

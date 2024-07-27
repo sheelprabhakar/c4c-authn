@@ -64,7 +64,7 @@ class RoleControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("Create Rest resource test Bad request")
+    @DisplayName("Create new role test Bad request")
     void testCreateNewResource400() throws Exception {
         RoleResource resource = Instancio.create(RoleResource.class);
         resource.setName("");

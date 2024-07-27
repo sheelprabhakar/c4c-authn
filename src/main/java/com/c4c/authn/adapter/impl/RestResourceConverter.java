@@ -8,20 +8,45 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 /**
- * The type Token log converter.
+ * The type Rest resource converter.
  */
 @Component("restResourceConverter")
 public final class RestResourceConverter extends Converter<RestResourceEntity, RestResource> {
 
     /**
-     * Instantiates a new Token log converter.
+     * The type Rest resource converter loader.
+     */
+    private static class RestResourceConverterLoader {
+        /**
+         * The constant INSTANCE.
+         */
+        private static final RestResourceConverter INSTANCE = new RestResourceConverter();
+    }
+
+    /**
+     * Instantiates a new Rest resource converter.
      */
     public RestResourceConverter() {
         super(RestResourceConverter::convertToEntity, RestResourceConverter::convertToResource);
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
+    public static RestResourceConverter getInstance() {
+        return RestResourceConverterLoader.INSTANCE;
+    }
+
+    /**
+     * Convert to entity rest resource entity.
+     *
+     * @param res the res
+     * @return the rest resource entity
+     */
     private static RestResourceEntity convertToEntity(final RestResource res) {
-        if(Objects.isNull(res)){
+        if (Objects.isNull(res)) {
             return null;
         }
         return RestResourceEntity.builder().id(res.getId()).tenantId(res.getTenantId()).path(res.getPath())
@@ -29,12 +54,19 @@ public final class RestResourceConverter extends Converter<RestResourceEntity, R
                 .updatedAt(res.getUpdatedAt()).updatedBy(res.getUpdatedBy()).isDeleted(res.isDeleted()).build();
     }
 
+    /**
+     * Convert to resource rest resource.
+     *
+     * @param entity the entity
+     * @return the rest resource
+     */
     private static RestResource convertToResource(final RestResourceEntity entity) {
-        if(Objects.isNull(entity)){
+        if (Objects.isNull(entity)) {
             return null;
         }
         return RestResource.builder().id(entity.getId()).tenantId(entity.getTenantId()).path(entity.getPath())
-                .attributeName(entity.getAttributeName()).createdAt(entity.getCreatedAt()).createdBy(entity.getCreatedBy())
+                .attributeName(entity.getAttributeName()).createdAt(entity.getCreatedAt())
+                .createdBy(entity.getCreatedBy())
                 .updatedAt(entity.getUpdatedAt()).updatedBy(entity.getUpdatedBy()).isDeleted(entity.isDeleted())
                 .build();
     }

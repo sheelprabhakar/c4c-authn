@@ -1,15 +1,16 @@
 package com.c4c.authn.core.entity;
 
-import com.c4c.authn.config.tenant.CurrentUserContext;
 import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import java.util.Calendar;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+
+import java.util.Calendar;
 
 /**
  * The type Common entity attributes.
@@ -19,6 +20,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode
 @SuperBuilder(toBuilder = true)
+@MappedSuperclass
 public abstract class CommonEntityAttributes {
 
   /**

@@ -3,7 +3,6 @@ package com.c4c.authn.rest.controller;
 import com.c4c.authn.adapter.api.RestAdapterV1;
 import com.c4c.authn.config.tenant.CurrentUserContext;
 import com.c4c.authn.rest.resource.UserResource;
-import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.net.URI;
 
 import static com.c4c.authn.common.Constants.API_V1;
 import static com.c4c.authn.common.Constants.USER_URL;
@@ -25,7 +26,7 @@ import static com.c4c.authn.common.Constants.USER_URL;
 @RequestMapping(UserController.BASE_URL)
 public class UserController extends BaseController {
   /**
-   * The Base url.
+   * The constant BASE_URL.
    */
   static final String BASE_URL = API_V1 + USER_URL;
 
@@ -48,7 +49,7 @@ public class UserController extends BaseController {
   @PostMapping
   public ResponseEntity<UserResource> create(final @RequestBody @Validated UserResource userResource) {
     userResource.setTenantId(CurrentUserContext.getCurrentTenant());
-    UserResource resource = this.getRestAdapterV1().save(userResource);
+    UserResource resource = this.getRestAdapterV1().createUser(userResource);
     return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);
   }
 
@@ -61,7 +62,7 @@ public class UserController extends BaseController {
   @PutMapping
   public ResponseEntity<UserResource> update(final @RequestBody UserResource userResource) {
     userResource.setTenantId(CurrentUserContext.getCurrentTenant());
-    UserResource resource = this.getRestAdapterV1().update(userResource);
+    UserResource resource = this.getRestAdapterV1().updateUser(userResource);
     return ResponseEntity.ok(resource);
   }
 

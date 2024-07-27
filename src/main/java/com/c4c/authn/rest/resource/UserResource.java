@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
-public class UserResource extends CommonResourceAttributes {
+public class UserResource extends CommonResourceAttributes implements Serializable {
   /**
    * The Id.
    */

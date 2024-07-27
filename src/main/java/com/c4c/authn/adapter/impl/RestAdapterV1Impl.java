@@ -4,7 +4,8 @@ import com.c4c.authn.adapter.api.RestAdapterV1;
 import com.c4c.authn.common.exception.CustomException;
 import com.c4c.authn.core.entity.RestResourceEntity;
 import com.c4c.authn.core.entity.TenantEntity;
-import com.c4c.authn.core.entity.UserEntity;
+import com.c4c.authn.core.entity.UserRoleEntity;
+import com.c4c.authn.core.entity.UserRoleId;
 import com.c4c.authn.core.entity.lookup.CityEntity;
 import com.c4c.authn.core.entity.lookup.CountryEntity;
 import com.c4c.authn.core.entity.lookup.StateEntity;
@@ -13,11 +14,13 @@ import com.c4c.authn.core.service.api.LookupService;
 import com.c4c.authn.core.service.api.RestResourceService;
 import com.c4c.authn.core.service.api.RoleService;
 import com.c4c.authn.core.service.api.TenantService;
+import com.c4c.authn.core.service.api.UserRoleService;
 import com.c4c.authn.core.service.api.UserService;
 import com.c4c.authn.rest.resource.RestResource;
 import com.c4c.authn.rest.resource.RoleResource;
 import com.c4c.authn.rest.resource.TenantResource;
 import com.c4c.authn.rest.resource.UserResource;
+import com.c4c.authn.rest.resource.UserRoleResource;
 import com.c4c.authn.rest.resource.auth.JwtRequest;
 import com.c4c.authn.rest.resource.auth.JwtResponse;
 import com.c4c.authn.rest.resource.lookup.CityResource;
@@ -39,6 +42,9 @@ import java.util.UUID;
  */
 @Component
 public class RestAdapterV1Impl implements RestAdapterV1 {
+    /**
+     * The Role service.
+     */
     private final RoleService roleService;
     /**
      * The User service.
@@ -78,64 +84,80 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      */
     private final RestResourceService restResourceService;
 
+    /**
+     * The Role converter.
+     */
     private final RoleConverter roleConverter;
+
+    /**
+     * The User role converter.
+     */
+    private final UserRoleConverter userRoleConverter;
+
+    /**
+     * The User role service.
+     */
+    private final UserRoleService userRoleService;
+
+    private final TenantConverter tenantConverter;
 
     /**
      * Instantiates a new Rest adapter v 1.
      *
+     * @param roleService           the role service
      * @param userService           the user service
      * @param authenticationService the authentication service
      * @param restResourceConverter the rest resource converter
-     * @param userConverter         the user converter
      * @param exactNameModelMapper  the exact name model mapper
      * @param lookupService         the lookup service
      * @param tenantService         the tenant service
      * @param restResourceService   the rest resource service
+     * @param userRoleService       the user role service
      */
     @Autowired
-    public RestAdapterV1Impl(RoleService roleService, final UserService userService,
+    public RestAdapterV1Impl(final RoleService roleService, final UserService userService,
                              final AuthenticationService authenticationService,
-                             final RestResourceConverter restResourceConverter, UserConverter userConverter,
-                             final ModelMapper exactNameModelMapper,
-                             final LookupService lookupService,
-                             final TenantService tenantService, RestResourceService restResourceService,
-                             RoleConverter roleConverter) {
+                             final RestResourceConverter restResourceConverter, final ModelMapper exactNameModelMapper,
+                             final LookupService lookupService, final TenantService tenantService,
+                             final RestResourceService restResourceService, UserRoleService userRoleService) {
         this.roleService = roleService;
         this.userService = userService;
         this.authenticationService = authenticationService;
         this.restResourceConverter = restResourceConverter;
-        this.userConverter = userConverter;
         this.exactNameModelMapper = exactNameModelMapper;
         this.lookupService = lookupService;
         this.tenantService = tenantService;
         this.restResourceService = restResourceService;
-        this.roleConverter = roleConverter;
+        this.userRoleService = userRoleService;
+
+        this.roleConverter = RoleConverter.getInstance();
+        this.userConverter = UserConverter.getInstance();
+        this.userRoleConverter = UserRoleConverter.getInstance();
+        this.tenantConverter = TenantConverter.getInstance();
     }
 
     /**
-     * Save user resource.
+     * Create user user resource.
      *
      * @param userResource the user resource
      * @return the user resource
      */
     @Override
-    public UserResource save(final UserResource userResource) {
-        return this.exactNameModelMapper.map(this.userService.save(
-                        this.exactNameModelMapper.map(userResource, UserEntity.class)),
-                UserResource.class);
+    public UserResource createUser(final UserResource userResource) {
+        return this.userConverter.covertFromEntity(
+                this.userService.save(this.userConverter.convertFromResource(userResource)));
     }
 
     /**
-     * Update user resource.
+     * Update user user resource.
      *
      * @param userResource the user resource
      * @return the user resource
      */
     @Override
-    public UserResource update(final UserResource userResource) {
-        return this.exactNameModelMapper.map(this.userService.update(
-                        this.exactNameModelMapper.map(userResource, UserEntity.class)),
-                UserResource.class);
+    public UserResource updateUser(final UserResource userResource) {
+        return this.userConverter.covertFromEntity(
+                this.userService.update(this.userConverter.convertFromResource(userResource)));
     }
 
     /**
@@ -147,8 +169,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     @Override
     public JwtResponse authenticate(final JwtRequest request) {
         return TokenConverter.authSuccessInfoToJwtResponse(
-                this.authenticationService.authenticate(request.getUsername(),
-                        request.getPassword(), request.isOtp()));
+                this.authenticationService.authenticate(request.getUsername(), request.getPassword(), request.isOtp()));
     }
 
     /**
@@ -167,8 +188,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      */
     @Override
     public JwtResponse refreshToken(final String refreshToken) {
-        return TokenConverter.authSuccessInfoToJwtResponse(
-                this.authenticationService.refreshToken(refreshToken));
+        return TokenConverter.authSuccessInfoToJwtResponse(this.authenticationService.refreshToken(refreshToken));
     }
 
     /**
@@ -179,8 +199,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     @Override
     public List<CountryResource> countries() {
         List<CountryEntity> countryEntities = this.lookupService.countries();
-        return countryEntities.stream().map(countryEntity -> this.exactNameModelMapper
-                .map(countryEntity, CountryResource.class)).toList();
+        return countryEntities.stream()
+                .map(countryEntity -> this.exactNameModelMapper.map(countryEntity, CountryResource.class)).toList();
     }
 
     /**
@@ -192,8 +212,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     @Override
     public List<StateResource> states(final int countryId) {
         List<StateEntity> stateEntities = this.lookupService.states(countryId);
-        return stateEntities.stream().map(stateEntity -> this.exactNameModelMapper
-                .map(stateEntity, StateResource.class)).toList();
+        return stateEntities.stream()
+                .map(stateEntity -> this.exactNameModelMapper.map(stateEntity, StateResource.class)).toList();
     }
 
     /**
@@ -205,8 +225,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     @Override
     public List<CityResource> cities(final int stateId) {
         List<CityEntity> cityEntities = this.lookupService.cities(stateId);
-        return cityEntities.stream().map(cityEntity -> this.exactNameModelMapper
-                .map(cityEntity, CityResource.class)).toList();
+        return cityEntities.stream().map(cityEntity -> this.exactNameModelMapper.map(cityEntity, CityResource.class))
+                .toList();
     }
 
     /**
@@ -217,16 +237,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      */
     @Override
     public TenantResource createTenant(final TenantResource tenantResource) {
-        TenantEntity tenantEntity = this.getTenantEntity(tenantResource);
-
-        tenantEntity = this.tenantService.create(tenantEntity);
-
-        TenantResource resource = this.mapModel(this.tenantService.create(tenantEntity),
-                TenantResource.class);
-        if (!Objects.isNull(resource)) {
-            resource.setCityId(tenantEntity.getCity().getId());
-        }
-        return resource;
+        return this.tenantConverter.covertFromEntity(this.tenantService.create(this.getTenantEntity(tenantResource)));
     }
 
     /**
@@ -239,46 +250,39 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     public TenantResource updateTenant(final TenantResource tenantResource) {
         TenantEntity tenantEntity = this.getTenantEntity(tenantResource);
         tenantEntity = this.tenantService.update(tenantEntity);
-        TenantResource resource = this.mapModel(this.tenantService.create(tenantEntity),
-                TenantResource.class);
-        if (!Objects.isNull(resource)) {
-            resource.setCityId(tenantEntity.getCity().getId());
-        }
-        return resource;
+        return this.tenantConverter.covertFromEntity(this.tenantService.create(tenantEntity));
     }
 
     /**
-     * Read tenant tenant resource.
+     * Find by id tenant tenant resource.
      *
      * @param tenantId the tenant id
      * @return the tenant resource
      */
     @Override
-    public TenantResource readTenant(final UUID tenantId) {
+    public TenantResource findByIdTenant(final UUID tenantId) {
         TenantEntity tenantEntity = this.getTenantById(tenantId);
-        return this.getTenantResource(tenantEntity);
+        return this.tenantConverter.covertFromEntity(tenantEntity);
     }
 
     /**
-     * Read tenants list.
+     * Find all tenant list.
      *
      * @return the list
      */
     @Override
-    public List<TenantResource> readTenants() {
+    public List<TenantResource> findAllTenant() {
         List<TenantEntity> tenantEntities = this.tenantService.findAll();
-        return tenantEntities.stream()
-                .map(tenantEntity -> this.mapModel(tenantEntity, TenantResource.class))
-                .toList();
+        return this.tenantConverter.createFromEntities(tenantEntities);
     }
 
     /**
-     * Delete tenant.
+     * Delete by id tenant.
      *
      * @param tenantId the tenant id
      */
     @Override
-    public void deleteTenant(final UUID tenantId) {
+    public void deleteByIdTenant(final UUID tenantId) {
         TenantEntity tenantEntity = this.getTenantById(tenantId);
         tenantEntity.setDeleted(true);
         tenantEntity = this.tenantService.update(tenantEntity);
@@ -335,8 +339,10 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * @param restResource
-     * @return
+     * Update rest resource rest resource.
+     *
+     * @param restResource the rest resource
+     * @return the rest resource
      */
     @Override
     public RestResource updateRestResource(final RestResource restResource) {
@@ -346,6 +352,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
+     * Delete by id rest resource.
+     *
      * @param restResourceId the rest resource id
      */
     @Override
@@ -354,8 +362,10 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * @param roleId
-     * @return
+     * Find by id role role resource.
+     *
+     * @param roleId the role id
+     * @return the role resource
      */
     @Override
     public RoleResource findByIdRole(final UUID roleId) {
@@ -363,9 +373,11 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * @param pageNo
-     * @param pageSize
-     * @return
+     * Find by pagination role page.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the page
      */
     @Override
     public Page<RoleResource> findByPaginationRole(final int pageNo, final int pageSize) {
@@ -373,7 +385,9 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * @return
+     * Find all role list.
+     *
+     * @return the list
      */
     @Override
     public List<RoleResource> findAllRole() {
@@ -381,8 +395,10 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * @param role
-     * @return
+     * Create role role resource.
+     *
+     * @param role the role
+     * @return the role resource
      */
     @Override
     public RoleResource createRole(final RoleResource role) {
@@ -391,8 +407,10 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * @param role
-     * @return
+     * Update role role resource.
+     *
+     * @param role the role
+     * @return the role resource
      */
     @Override
     public RoleResource updateRole(RoleResource role) {
@@ -401,11 +419,84 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * @param roleId
+     * Delete by id role.
+     *
+     * @param roleId the role id
      */
     @Override
     public void deleteByIdRole(final UUID roleId) {
         this.roleService.deleteById(roleId);
+    }
+
+    /**
+     * Find by id user role user role resource.
+     *
+     * @param userId the user id
+     * @param roleId the role id
+     * @return the user role resource
+     */
+    @Override
+    public UserRoleResource findByIdUserRole(final UUID userId, final UUID roleId) {
+        return this.userRoleConverter.covertFromEntity(this.userRoleService.findById(new UserRoleId(userId, roleId)));
+    }
+
+    /**
+     * Find by pagination user role page.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the page
+     */
+    @Override
+    public Page<UserRoleResource> findByPaginationUserRole(final int pageNo, final int pageSize) {
+        return this.userRoleConverter.createFromEntities(this.userRoleService.findByPagination(pageNo, pageSize));
+    }
+
+    /**
+     * Find all user role list.
+     *
+     * @return the list
+     */
+    @Override
+    public List<UserRoleResource> findAllUserRole() {
+        return this.userRoleConverter.createFromEntities(this.userRoleService.findAll());
+    }
+
+    /**
+     * Create user role user role resource.
+     *
+     * @param userRoleResource the user role resource
+     * @return the user role resource
+     */
+    @Override
+    public UserRoleResource createUserRole(final UserRoleResource userRoleResource) {
+        UserRoleEntity userRoleEntity = this.userRoleConverter.convertFromResource(userRoleResource);
+        userRoleEntity.setRoleEntity(this.roleService.findById(userRoleEntity.getRoleId()));
+        userRoleEntity.setUserEntity(this.userService.findById(userRoleEntity.getUserId()));
+        return this.userRoleConverter.covertFromEntity(this.userRoleService.create(userRoleEntity));
+    }
+
+    /**
+     * Update user role user role resource.
+     *
+     * @param userRoleResource the user role resource
+     * @return the user role resource
+     */
+    @Override
+    public UserRoleResource updateUserRole(final UserRoleResource userRoleResource) {
+        return this.userRoleConverter.covertFromEntity(
+                this.userRoleService.update(this.userRoleConverter.convertFromResource(userRoleResource)));
+    }
+
+    /**
+     * Delete by id user role.
+     *
+     * @param userId the user id
+     * @param roleId the role id
+     */
+    @Override
+    public void deleteByIdUserRole(final UUID userId, final UUID roleId) {
+        this.userRoleService.deleteById(new UserRoleId(userId, roleId));
     }
 
     /**
@@ -432,43 +523,11 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
         if (tenantResource == null) {
             return null;
         }
-        TenantEntity tenantEntity = this.mapModel(tenantResource, TenantEntity.class);
+        TenantEntity tenantEntity = this.tenantConverter.convertFromResource(tenantResource);
         CityEntity cityEntity = this.lookupService.getCityById(tenantResource.getCityId());
         if (!Objects.isNull(tenantEntity)) {
             tenantEntity.setCity(cityEntity);
         }
         return tenantEntity;
-    }
-
-    /**
-     * Gets tenant resource.
-     *
-     * @param tenantEntity the tenant entity
-     * @return the tenant resource
-     */
-    private TenantResource getTenantResource(final TenantEntity tenantEntity) {
-        if (tenantEntity == null) {
-            return null;
-        }
-        TenantResource resource = this.mapModel(tenantEntity,
-                TenantResource.class);
-        resource.setCityId(tenantEntity.getCity().getId());
-        return resource;
-    }
-
-    /**
-     * Map model d.
-     *
-     * @param <D>             the type parameter
-     * @param source          the source
-     * @param destinationType the destination type
-     * @return the d
-     */
-    private <D> D mapModel(final Object source, final Class<D> destinationType) {
-        if (Objects.isNull(source)) {
-            return null;
-        } else {
-            return this.exactNameModelMapper.map(source, destinationType);
-        }
     }
 }

@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -59,9 +60,9 @@ public class RestResourceController extends BaseController {
     @GetMapping("/{restResourceId}")
     public ResponseEntity<RestResource> findById(@PathVariable("restResourceId") final UUID restResourceId) {
         RestResource resource = this.getRestAdapterV1().findByIdRestResource(restResourceId);
-        if(!Objects.isNull(resource)) {
+        if (!Objects.isNull(resource)) {
             return ResponseEntity.ok().body(resource);
-        }else {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
@@ -74,15 +75,15 @@ public class RestResourceController extends BaseController {
      * @return the response entity
      */
     @GetMapping
-    public ResponseEntity<Page<RestResource>> findByPagination(
+    public ResponseEntity<PagedModel<RestResource>> findByPagination(
             @RequestParam(value = "pageNo", required = false, defaultValue = "-1") final int pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize) {
         if (pageSize > 0) {
             Page<RestResource> resources = this.getRestAdapterV1().findByPaginationRestResource(pageNo, pageSize);
-            return ResponseEntity.ok().body(resources);
+            return ResponseEntity.ok().body(new PagedModel<>(resources));
         } else {
             List<RestResource> resources = this.getRestAdapterV1().findAllRestResource();
-            return ResponseEntity.ok().body(new PageImpl<>(resources));
+            return ResponseEntity.ok().body(new PagedModel<>(new PageImpl<>(resources)));
         }
     }
 
@@ -100,7 +101,7 @@ public class RestResourceController extends BaseController {
     }
 
     /**
-     * Create response entity.
+     * Update response entity.
      *
      * @param restResource the rest resource
      * @return the response entity
@@ -112,6 +113,12 @@ public class RestResourceController extends BaseController {
         return ResponseEntity.ok().body(resource);
     }
 
+    /**
+     * Delete by id response entity.
+     *
+     * @param restResourceId the rest resource id
+     * @return the response entity
+     */
     @DeleteMapping("/{restResourceId}")
     public ResponseEntity<Void> deleteById(@PathVariable("restResourceId") final UUID restResourceId) {
         this.getRestAdapterV1().deleteByIdRestResource(restResourceId);

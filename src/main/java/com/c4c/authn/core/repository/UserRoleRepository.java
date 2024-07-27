@@ -1,23 +1,22 @@
 package com.c4c.authn.core.repository;
 
-import com.c4c.authn.core.entity.RoleEntity;
+import com.c4c.authn.core.entity.UserRoleEntity;
+import com.c4c.authn.core.entity.UserRoleId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
-
 /**
- * The interface Role repository.
+ * The interface User role repository.
  */
 @Repository
-public interface RoleRepository extends CrudRepository<RoleEntity, UUID> {
+public interface UserRoleRepository extends CrudRepository<UserRoleEntity, UserRoleId> {
     /**
      * Find all page.
      *
      * @param pageable the pageable
      * @return the page
      */
-    Page<RoleEntity> findAll(Pageable pageable);
+    Page<UserRoleEntity> findAll(Pageable pageable);
 }
