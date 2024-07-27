@@ -16,7 +16,7 @@ public final class UserRoleConverter extends Converter<UserRoleEntity, UserRoleR
     /**
      * The type User role converter loader.
      */
-    private static class UserRoleConverterLoader {
+    private static final class UserRoleConverterLoader {
         /**
          * The constant INSTANCE.
          */

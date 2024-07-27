@@ -88,9 +88,8 @@ public class UserRoleServiceImpl implements UserRoleService {
      * @return the page
      */
     @Override
-    public Page<UserRoleEntity> findByPagination(int pageNo, int pageSize) {
-        return this.userRoleRepository.findAll(PageRequest.of(pageNo, pageSize,
-                Sort.unsorted()));
+    public Page<UserRoleEntity> findByPagination(final int pageNo, final int pageSize) {
+        return this.userRoleRepository.findAll(PageRequest.of(pageNo, pageSize, Sort.unsorted()));
     }
 
     /**
@@ -99,7 +98,7 @@ public class UserRoleServiceImpl implements UserRoleService {
      * @param userRoleId the user role id
      */
     @Override
-    public void deleteById(UserRoleId userRoleId) {
+    public void deleteById(final UserRoleId userRoleId) {
         this.userRoleRepository.deleteById(userRoleId);
     }
 
@@ -109,7 +108,7 @@ public class UserRoleServiceImpl implements UserRoleService {
      * @param userRoleIds the user role ids
      */
     @Override
-    public void deleteAllById(List<UserRoleId> userRoleIds) {
+    public void deleteAllById(final List<UserRoleId> userRoleIds) {
         this.userRoleRepository.deleteAllById(userRoleIds);
     }
 

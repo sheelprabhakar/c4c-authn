@@ -18,16 +18,16 @@ import org.hibernate.type.SqlTypes;
 import java.util.UUID;
 
 /**
- * The type Rest resource entity.
+ * The type Attribute entity.
  */
-@Entity(name = "rest_resource")
+@Entity(name = "attribute_resource")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
-public class RestResourceEntity extends CommonEntityAttributes {
+public class AttributeEntity extends CommonEntityAttributes {
 
     /**
      * The constant L50.
@@ -55,7 +55,7 @@ public class RestResourceEntity extends CommonEntityAttributes {
     private UUID tenantId;
 
     /**
-     * The Name.
+     * The Attribute name.
      */
     @Column(name = "attribute_name", length = L50, nullable = false)
     private String attributeName;

@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 /**
- * Resource for {@link com.c4c.authn.core.entity.TenantEntity}.
+ * The type Tenant resource.
  */
 @Data
 @NoArgsConstructor

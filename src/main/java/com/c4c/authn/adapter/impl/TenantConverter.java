@@ -14,7 +14,7 @@ public final class TenantConverter extends Converter<TenantEntity, TenantResourc
     /**
      * The type Tenant converter loader.
      */
-    private static class TenantConverterLoader {
+    private static final class TenantConverterLoader {
         /**
          * The constant INSTANCE.
          */

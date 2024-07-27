@@ -12,13 +12,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
-import javax.crypto.SecretKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -29,6 +22,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
+import java.util.Set;
+
 /**
  * The type Jwt token provider.
  */
@@ -36,49 +36,49 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class JwtTokenProvider {
 
-  /**
-   * The constant FIVE.
-   */
-  public static final int FIVE = 5;
-  /**
-   * The constant BEARER_LENGTH.
-   */
-  private static final int BEARER_LENGTH = 7;
-  /**
-   * The constant VALIDITY_IN_MILLISECONDS.
-   */
-  @Value("${security.jwt.token.expire-length:3600000}")
+    /**
+     * The constant FIVE.
+     */
+    public static final int FIVE = 5;
+    /**
+     * The constant BEARER_LENGTH.
+     */
+    private static final int BEARER_LENGTH = 7;
+    /**
+     * The constant VALIDITY_IN_MILLISECONDS.
+     */
+    @Value("${security.jwt.token.expire-length:3600000}")
   private static final long VALIDITY_IN_MILLISECONDS = 3600000L; // 1h
-  /**
-   * The User details service.
-   */
-  private final UserDetailsServiceImpl userDetailsService;
-  /**
-   * The User token service.
-   */
-  private final UserTokenService userTokenService;
-  /**
-   * The User service.
-   */
-  private final UserService userService;
-  /**
-   * The Secret key.
-   */
-  @Value("${security.jwt.token.secret-key:secret-key}")
+    /**
+     * The User details service.
+     */
+    private final UserDetailsServiceImpl userDetailsService;
+    /**
+     * The User token service.
+     */
+    private final UserTokenService userTokenService;
+    /**
+     * The User service.
+     */
+    private final UserService userService;
+    /**
+     * The Secret key.
+     */
+    @Value("${security.jwt.token.secret-key:secret-key}")
   private String secretKey;
-  /**
-   * The Secret.
-   */
-  private SecretKey secret;
+    /**
+     * The Secret.
+     */
+    private SecretKey secret;
 
-  /**
-   * Instantiates a new Jwt token provider.
-   *
-   * @param userDetailsService the user details service
-   * @param userTokenService   the user token service
-   * @param userService        the user service
-   */
-  public JwtTokenProvider(final UserDetailsServiceImpl userDetailsService,
+    /**
+     * Instantiates a new Jwt token provider.
+     *
+     * @param userDetailsService the user details service
+     * @param userTokenService   the user token service
+     * @param userService        the user service
+     */
+    public JwtTokenProvider(final UserDetailsServiceImpl userDetailsService,
                           final UserTokenService userTokenService,
                           final UserService userService) {
     this.userDetailsService = userDetailsService;
@@ -86,22 +86,22 @@ public class JwtTokenProvider {
     this.userService = userService;
   }
 
-  /**
-   * Init.
-   */
-  @PostConstruct
+    /**
+     * Init.
+     */
+    @PostConstruct
   protected void init() {
     this.secret = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
   }
 
-  /**
-   * Create token string.
-   *
-   * @param username the username
-   * @param roles    the roles
-   * @return the string
-   */
-  public String createToken(final String username, final Set<GrantedAuthority> roles) {
+    /**
+     * Create token string.
+     *
+     * @param username the username
+     * @param roles    the roles
+     * @return the string
+     */
+    public String createToken(final String username, final Set<GrantedAuthority> roles) {
 
     Claims claims = Jwts.claims().subject(username).add("authorities", roles.stream().map(
             s -> new SimpleGrantedAuthority(s.getAuthority()))
@@ -118,13 +118,13 @@ public class JwtTokenProvider {
         .compact();
   }
 
-  /**
-   * Create refresh token string.
-   *
-   * @param username the username
-   * @return the string
-   */
-  public String createRefreshToken(final String username) {
+    /**
+     * Create refresh token string.
+     *
+     * @param username the username
+     * @return the string
+     */
+    public String createRefreshToken(final String username) {
 
     Claims claims = Jwts.claims().subject(username).build();
 
@@ -140,13 +140,13 @@ public class JwtTokenProvider {
         .compact();
   }
 
-  /**
-   * Gets authentication.
-   *
-   * @param token the token
-   * @return the authentication
-   */
-  public Authentication getAuthentication(final String token) {
+    /**
+     * Gets authentication.
+     *
+     * @param token the token
+     * @return the authentication
+     */
+    public Authentication getAuthentication(final String token) {
     UserEntity user = this.userService.findByEmail(getUsername(token));
     UserDetails userDetails = this.userDetailsService.loadUserByUsername(user);
 
@@ -159,24 +159,24 @@ public class JwtTokenProvider {
     return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
   }
 
-  /**
-   * Gets username.
-   *
-   * @param token the token
-   * @return the username
-   */
-  public String getUsername(final String token) {
+    /**
+     * Gets username.
+     *
+     * @param token the token
+     * @return the username
+     */
+    public String getUsername(final String token) {
     return Jwts.parser().verifyWith(this.secret).build().parseSignedClaims(token).getPayload()
         .getSubject();
   }
 
-  /**
-   * Resolve token string.
-   *
-   * @param req the req
-   * @return the string
-   */
-  public String resolveToken(final HttpServletRequest req) {
+    /**
+     * Resolve token string.
+     *
+     * @param req the req
+     * @return the string
+     */
+    public String resolveToken(final HttpServletRequest req) {
     String bearerToken = req.getHeader("Authorization");
     if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
       return bearerToken.substring(BEARER_LENGTH);
@@ -185,13 +185,13 @@ public class JwtTokenProvider {
     return null;
   }
 
-  /**
-   * Validate token boolean.
-   *
-   * @param token the token
-   * @return the boolean
-   */
-  public boolean validateToken(final String token) {
+    /**
+     * Validate token boolean.
+     *
+     * @param token the token
+     * @return the boolean
+     */
+    public boolean validateToken(final String token) {
     try {
       Jwts.parser().verifyWith(this.secret).build()
           .parse(token);

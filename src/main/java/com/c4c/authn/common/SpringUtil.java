@@ -13,51 +13,51 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * The type Spring util.
  */
 public final class SpringUtil {
-  /**
-   * Instantiates a new Spring util.
-   */
-  private SpringUtil() {
+    /**
+     * Instantiates a new Spring util.
+     */
+    private SpringUtil() {
 
   }
 
-  /**
-   * Is super admin boolean.
-   *
-   * @return the boolean
-   */
-  public static boolean isSuperAdmin() {
+    /**
+     * Is super admin boolean.
+     *
+     * @return the boolean
+     */
+    public static boolean isSuperAdmin() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     return authentication.getAuthorities().stream()
         .anyMatch(x -> x.getAuthority().equals(Constants.SUPER_ADMIN));
   }
 
-  /**
-   * Is tenant admin boolean.
-   *
-   * @return the boolean
-   */
-  public static boolean isTenantAdmin() {
+    /**
+     * Is tenant admin boolean.
+     *
+     * @return the boolean
+     */
+    public static boolean isTenantAdmin() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     return authentication.getAuthorities().stream()
         .anyMatch(x -> x.getAuthority().equals(Constants.TENANT_ADMIN));
   }
 
-  /**
-   * Gets loggedin user.
-   *
-   * @return the loggedin user
-   */
-  public static String getLoggedinUser() {
+    /**
+     * Gets loggedin user.
+     *
+     * @return the loggedin user
+     */
+    public static String getLoggedinUser() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     return (String) authentication.getPrincipal();
   }
 
-  /**
-   * Gets tenant id.
-   *
-   * @return the tenant id
-   */
-  public static UUID getTenantId() {
+    /**
+     * Gets tenant id.
+     *
+     * @return the tenant id
+     */
+    public static UUID getTenantId() {
     RequestAttributes attribs = RequestContextHolder.getRequestAttributes();
     if (attribs != null) {
       HttpServletRequest request = ((ServletRequestAttributes) attribs).getRequest();

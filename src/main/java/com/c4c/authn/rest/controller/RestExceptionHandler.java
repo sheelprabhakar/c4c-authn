@@ -23,14 +23,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 @Slf4j
 public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
-  /**
-   * Handle bad credential exception response entity.
-   *
-   * @param ex      the ex
-   * @param request the request
-   * @return the response entity
-   */
-  @ExceptionHandler(BadCredentialsException.class)
+    /**
+     * Handle bad credential exception response entity.
+     *
+     * @param ex      the ex
+     * @param request the request
+     * @return the response entity
+     */
+    @ExceptionHandler(BadCredentialsException.class)
   public ResponseEntity<Object> handleBadCredentialException(
       final BadCredentialsException ex, final WebRequest request) {
 
@@ -38,14 +38,14 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
 
-  /**
-   * Entity not found response entity.
-   *
-   * @param ex      the ex
-   * @param request the request
-   * @return the response entity
-   */
-  @ExceptionHandler(EntityNotFoundException.class)
+    /**
+     * Entity not found response entity.
+     *
+     * @param ex      the ex
+     * @param request the request
+     * @return the response entity
+     */
+    @ExceptionHandler(EntityNotFoundException.class)
   public ResponseEntity<Object> entityNotFound(
       final EntityNotFoundException ex, final WebRequest request) {
 
@@ -53,14 +53,14 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
         .message(ex.getMessage()).build(), HttpStatus.NOT_FOUND);
   }
 
-  /**
-   * Constraint violation exception response entity.
-   *
-   * @param ex      the ex
-   * @param request the request
-   * @return the response entity
-   */
-  @ExceptionHandler({SQLIntegrityConstraintViolationException.class,
+    /**
+     * Constraint violation exception response entity.
+     *
+     * @param ex      the ex
+     * @param request the request
+     * @return the response entity
+     */
+    @ExceptionHandler({SQLIntegrityConstraintViolationException.class,
       DataIntegrityViolationException.class,
       ConstraintViolationException.class})
   public ResponseEntity<Object> constraintViolationException(
@@ -70,20 +70,20 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
         .message(ex.getMessage()).build(), HttpStatus.BAD_REQUEST);
   }
 
-  /**
-   * The type Exception message.
-   */
-  @Builder
+    /**
+     * The type Exception message.
+     */
+    @Builder
   @AllArgsConstructor
   @Getter
   static class ExceptionMessage implements Serializable {
-    /**
-     * The Code.
-     */
-    private String code;
-    /**
-     * The Message.
-     */
-    private String message;
+        /**
+         * The Code.
+         */
+        private String code;
+        /**
+         * The Message.
+         */
+        private String message;
   }
 }

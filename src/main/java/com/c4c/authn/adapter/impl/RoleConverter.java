@@ -14,7 +14,7 @@ public final class RoleConverter extends Converter<RoleEntity, RoleResource> {
     /**
      * The type Role converter loader.
      */
-    private static class RoleConverterLoader {
+    private static final class RoleConverterLoader {
         /**
          * The constant INSTANCE.
          */

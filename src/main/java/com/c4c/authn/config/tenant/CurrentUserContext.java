@@ -5,15 +5,15 @@ import java.util.UUID;
 /**
  * The type Current user context.
  */
-public class CurrentUserContext {
+public final class CurrentUserContext {
     /**
      * The constant currentTenant.
      */
-    private static final ThreadLocal<UUID> currentTenant = new InheritableThreadLocal<>();
+    private static final ThreadLocal<UUID> CURRENT_TENANT = new InheritableThreadLocal<>();
     /**
      * The constant currentUser.
      */
-    private static final ThreadLocal<String> currentUser = new InheritableThreadLocal<>();
+    private static final ThreadLocal<String> CURRENT_USER = new InheritableThreadLocal<>();
 
     /**
      * Instantiates a new Current user context.
@@ -27,7 +27,7 @@ public class CurrentUserContext {
      * @return the current tenant
      */
     public static UUID getCurrentTenant() {
-        return currentTenant.get();
+        return CURRENT_TENANT.get();
     }
 
     /**
@@ -35,8 +35,8 @@ public class CurrentUserContext {
      *
      * @param tenantId the tenant id
      */
-    public static void setCurrentTenant(UUID tenantId) {
-        currentTenant.set(tenantId);
+    public static void setCurrentTenant(final UUID tenantId) {
+        CURRENT_TENANT.set(tenantId);
     }
 
 
@@ -45,7 +45,7 @@ public class CurrentUserContext {
      *
      * @param tenantId the tenant id
      */
-    public static void setCurrentTenant(String tenantId) {
+    public static void setCurrentTenant(final String tenantId) {
         setCurrentTenant(UUID.fromString(tenantId));
     }
 
@@ -54,8 +54,8 @@ public class CurrentUserContext {
      *
      * @param userid the userid
      */
-    public static void setCurrentUser(String userid) {
-        currentUser.set(userid);
+    public static void setCurrentUser(final String userid) {
+        CURRENT_USER.set(userid);
     }
 
     /**
@@ -64,7 +64,7 @@ public class CurrentUserContext {
      * @return the current user
      */
     public static String getCurrentUser() {
-        return currentUser.get();
+        return CURRENT_USER.get();
     }
 
 
@@ -72,7 +72,7 @@ public class CurrentUserContext {
      * Clear.
      */
     public static void clear() {
-        currentTenant.remove();
-        currentUser.remove();
+        CURRENT_TENANT.remove();
+        CURRENT_USER.remove();
     }
 }

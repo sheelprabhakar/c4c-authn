@@ -24,7 +24,7 @@ import static com.c4c.authn.common.Constants.AUTH_URL;
 @RequestMapping(AuthenticationController.BASE_URL)
 public class AuthenticationController extends BaseController {
     /**
-     * The Base url.
+     * The constant BASE_URL.
      */
     static final String BASE_URL = AUTH_URL;
 
@@ -39,11 +39,10 @@ public class AuthenticationController extends BaseController {
     }
 
     /**
-     * Do authentication and create authentication token response entity.
+     * Authenticate response entity.
      *
      * @param authenticationRequest the authentication request
      * @return the response entity
-     * @throws Exception the exception
      */
     @PostMapping("/authenticate")
     public ResponseEntity<JwtResponse> authenticate(
@@ -56,7 +55,6 @@ public class AuthenticationController extends BaseController {
      * Logout response entity.
      *
      * @return the response entity
-     * @throws Exception the exception
      */
     @GetMapping("/logout")
     public ResponseEntity<String> logout() {
@@ -67,9 +65,8 @@ public class AuthenticationController extends BaseController {
     /**
      * Refresh token response entity.
      *
-     * @param refreshToken the token
+     * @param refreshToken the refresh token
      * @return the response entity
-     * @throws Exception the exception
      */
     @PostMapping("/refreshToken")
     public ResponseEntity<JwtResponse> refreshToken(final @RequestParam String refreshToken) {

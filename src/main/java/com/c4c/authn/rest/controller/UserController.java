@@ -36,9 +36,9 @@ public class UserController extends BaseController {
    * @param restAdapterV1 the rest adapter v 1
    */
   @Autowired
-  public UserController(final RestAdapterV1 restAdapterV1) {
-    super(restAdapterV1);
-  }
+    public UserController(final RestAdapterV1 restAdapterV1) {
+        super(restAdapterV1);
+    }
 
   /**
    * Create response entity.
@@ -47,11 +47,11 @@ public class UserController extends BaseController {
    * @return the response entity
    */
   @PostMapping
-  public ResponseEntity<UserResource> create(final @RequestBody @Validated UserResource userResource) {
-    userResource.setTenantId(CurrentUserContext.getCurrentTenant());
-    UserResource resource = this.getRestAdapterV1().createUser(userResource);
-    return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);
-  }
+    public ResponseEntity<UserResource> create(final @RequestBody @Validated UserResource userResource) {
+        userResource.setTenantId(CurrentUserContext.getCurrentTenant());
+        UserResource resource = this.getRestAdapterV1().createUser(userResource);
+        return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);
+    }
 
   /**
    * Update response entity.
@@ -60,10 +60,10 @@ public class UserController extends BaseController {
    * @return the response entity
    */
   @PutMapping
-  public ResponseEntity<UserResource> update(final @RequestBody UserResource userResource) {
-    userResource.setTenantId(CurrentUserContext.getCurrentTenant());
-    UserResource resource = this.getRestAdapterV1().updateUser(userResource);
-    return ResponseEntity.ok(resource);
-  }
+    public ResponseEntity<UserResource> update(final @RequestBody UserResource userResource) {
+        userResource.setTenantId(CurrentUserContext.getCurrentTenant());
+        UserResource resource = this.getRestAdapterV1().updateUser(userResource);
+        return ResponseEntity.ok(resource);
+    }
 
 }
