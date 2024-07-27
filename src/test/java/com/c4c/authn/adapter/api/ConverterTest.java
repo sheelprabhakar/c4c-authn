@@ -1,12 +1,12 @@
 package com.c4c.authn.adapter.api;
 
-import com.c4c.authn.adapter.impl.RestResourceConverter;
+import com.c4c.authn.adapter.impl.AttributeConverter;
 import com.c4c.authn.adapter.impl.RoleConverter;
 import com.c4c.authn.adapter.impl.TenantConverter;
-import com.c4c.authn.core.entity.RestResourceEntity;
+import com.c4c.authn.core.entity.AttributeEntity;
 import com.c4c.authn.core.entity.RoleEntity;
 import com.c4c.authn.core.entity.TenantEntity;
-import com.c4c.authn.rest.resource.RestResource;
+import com.c4c.authn.rest.resource.AttributeResource;
 import com.c4c.authn.rest.resource.RoleResource;
 import com.c4c.authn.rest.resource.TenantResource;
 import org.instancio.Instancio;
@@ -19,45 +19,45 @@ import java.util.List;
 
 class ConverterTest {
   @Nested
-  class RestResourceConverterTest {
-    private final RestResourceConverter restResourceConverter = new RestResourceConverter();
+  class AttributeConverterTest {
+    private final AttributeConverter attributeConverter = new AttributeConverter();
     @Test
     @DisplayName("Test convert from resource to entity")
     void convertFromResource() {
-      RestResource restResource = Instancio.of(RestResource.class).create();
-      RestResource restResource1 = this.restResourceConverter.covertFromEntity(
-          this.restResourceConverter.convertFromResource(restResource));
-      Assertions.assertEquals(restResource, restResource1);
+      AttributeResource attributeResource = Instancio.of(AttributeResource.class).create();
+      AttributeResource attributeResource1 = this.attributeConverter.covertFromEntity(
+          this.attributeConverter.convertFromResource(attributeResource));
+      Assertions.assertEquals(attributeResource, attributeResource1);
     }
 
     @Test
     @DisplayName("Test convert from entity to resource")
     void covertFromEntity() {
-      RestResourceEntity restResourceEntity = Instancio.of(RestResourceEntity.class).create();
-      RestResourceEntity restResourceEntity1 = this.restResourceConverter.convertFromResource(
-          this.restResourceConverter.covertFromEntity(restResourceEntity));
-      Assertions.assertEquals(restResourceEntity, restResourceEntity1);
+      AttributeEntity attributeEntity = Instancio.of(AttributeEntity.class).create();
+      AttributeEntity attributeEntity1 = this.attributeConverter.convertFromResource(
+          this.attributeConverter.covertFromEntity(attributeEntity));
+      Assertions.assertEquals(attributeEntity, attributeEntity1);
     }
 
     @Test
     @DisplayName("Test convert from resource list to entity list")
     void createFromResources() {
-      List<RestResource> restResources =
-          Instancio.ofList(RestResource.class).size(5).create();
-      List<RestResource> restResources1 = this.restResourceConverter.createFromEntities(
-          this.restResourceConverter.createFromResources(restResources));
-      Assertions.assertTrue(restResources.size() == restResources1.size() &&
-          restResources.containsAll(restResources1) &&
-          restResources1.containsAll(restResources));
+      List<AttributeResource> attributeResources =
+          Instancio.ofList(AttributeResource.class).size(5).create();
+      List<AttributeResource> attributeResources1 = this.attributeConverter.createFromEntities(
+          this.attributeConverter.createFromResources(attributeResources));
+      Assertions.assertTrue(attributeResources.size() == attributeResources1.size() &&
+          attributeResources.containsAll(attributeResources1) &&
+          attributeResources1.containsAll(attributeResources));
     }
 
     @Test
     @DisplayName("Test convert from entity list to resource list")
     void createFromEntities() {
-      List<RestResourceEntity> tokenLogEntities =
-          Instancio.ofList(RestResourceEntity.class).size(5).create();
-      List<RestResourceEntity> tokenLogEntities1 = this.restResourceConverter.createFromResources(
-          this.restResourceConverter.createFromEntities(tokenLogEntities));
+      List<AttributeEntity> tokenLogEntities =
+          Instancio.ofList(AttributeEntity.class).size(5).create();
+      List<AttributeEntity> tokenLogEntities1 = this.attributeConverter.createFromResources(
+          this.attributeConverter.createFromEntities(tokenLogEntities));
       Assertions.assertTrue(tokenLogEntities.size() == tokenLogEntities1.size() &&
           tokenLogEntities.containsAll(tokenLogEntities1) &&
           tokenLogEntities1.containsAll(tokenLogEntities));
@@ -95,7 +95,7 @@ class ConverterTest {
               Instancio.ofList(TenantResource.class).size(5).create();
       List<TenantResource> resources1 = this.tenantConverter.createFromEntities(
               this.tenantConverter.createFromResources(resources));
-      Assertions.assertTrue(resources.size() == resources1.size());
+        Assertions.assertEquals(resources.size(), resources1.size());
     }
 
     @Test
@@ -106,7 +106,7 @@ class ConverterTest {
       List<TenantEntity> entities1 = this.tenantConverter.createFromResources(
               this.tenantConverter.createFromEntities(entities));
 
-      Assertions.assertTrue(entities.size() == entities1.size());
+        Assertions.assertEquals(entities.size(), entities1.size());
     }
   }
 
@@ -152,7 +152,7 @@ class ConverterTest {
               Instancio.ofList(RoleEntity.class).size(5).create();
       List<RoleEntity> entities1 = this.roleConverter.createFromResources(
               this.roleConverter.createFromEntities(entities));
-      Assertions.assertTrue(entities.size() == entities1.size());
+        Assertions.assertEquals(entities.size(), entities1.size());
     }
   }
 }

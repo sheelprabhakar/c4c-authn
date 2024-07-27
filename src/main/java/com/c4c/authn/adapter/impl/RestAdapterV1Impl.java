@@ -2,21 +2,21 @@ package com.c4c.authn.adapter.impl;
 
 import com.c4c.authn.adapter.api.RestAdapterV1;
 import com.c4c.authn.common.exception.CustomException;
-import com.c4c.authn.core.entity.RestResourceEntity;
+import com.c4c.authn.core.entity.AttributeEntity;
 import com.c4c.authn.core.entity.TenantEntity;
 import com.c4c.authn.core.entity.UserRoleEntity;
 import com.c4c.authn.core.entity.UserRoleId;
 import com.c4c.authn.core.entity.lookup.CityEntity;
 import com.c4c.authn.core.entity.lookup.CountryEntity;
 import com.c4c.authn.core.entity.lookup.StateEntity;
+import com.c4c.authn.core.service.api.AttributeService;
 import com.c4c.authn.core.service.api.AuthenticationService;
 import com.c4c.authn.core.service.api.LookupService;
-import com.c4c.authn.core.service.api.RestResourceService;
 import com.c4c.authn.core.service.api.RoleService;
 import com.c4c.authn.core.service.api.TenantService;
 import com.c4c.authn.core.service.api.UserRoleService;
 import com.c4c.authn.core.service.api.UserService;
-import com.c4c.authn.rest.resource.RestResource;
+import com.c4c.authn.rest.resource.AttributeResource;
 import com.c4c.authn.rest.resource.RoleResource;
 import com.c4c.authn.rest.resource.TenantResource;
 import com.c4c.authn.rest.resource.UserResource;
@@ -56,9 +56,9 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     private final AuthenticationService authenticationService;
 
     /**
-     * The Rest resource converter.
+     * The Attribute converter.
      */
-    private final RestResourceConverter restResourceConverter;
+    private final AttributeConverter attributeConverter;
 
     /**
      * The User converter.
@@ -80,9 +80,9 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     private final TenantService tenantService;
 
     /**
-     * The Rest resource service.
+     * The Attribute service.
      */
-    private final RestResourceService restResourceService;
+    private final AttributeService attributeService;
 
     /**
      * The Role converter.
@@ -99,6 +99,9 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      */
     private final UserRoleService userRoleService;
 
+    /**
+     * The Tenant converter.
+     */
     private final TenantConverter tenantConverter;
 
     /**
@@ -107,33 +110,34 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      * @param roleService           the role service
      * @param userService           the user service
      * @param authenticationService the authentication service
-     * @param restResourceConverter the rest resource converter
-     * @param exactNameModelMapper  the exact name model mapper
      * @param lookupService         the lookup service
      * @param tenantService         the tenant service
-     * @param restResourceService   the rest resource service
+     * @param attributeService      the attribute service
      * @param userRoleService       the user role service
+     * @param exactNameModelMapper  the exact name model mapper
      */
     @Autowired
     public RestAdapterV1Impl(final RoleService roleService, final UserService userService,
                              final AuthenticationService authenticationService,
-                             final RestResourceConverter restResourceConverter, final ModelMapper exactNameModelMapper,
-                             final LookupService lookupService, final TenantService tenantService,
-                             final RestResourceService restResourceService, UserRoleService userRoleService) {
+                             final LookupService lookupService,
+                             final TenantService tenantService,
+                             final AttributeService attributeService,
+                             final UserRoleService userRoleService,
+                             final ModelMapper exactNameModelMapper) {
         this.roleService = roleService;
         this.userService = userService;
         this.authenticationService = authenticationService;
-        this.restResourceConverter = restResourceConverter;
         this.exactNameModelMapper = exactNameModelMapper;
         this.lookupService = lookupService;
         this.tenantService = tenantService;
-        this.restResourceService = restResourceService;
+        this.attributeService = attributeService;
         this.userRoleService = userRoleService;
 
         this.roleConverter = RoleConverter.getInstance();
         this.userConverter = UserConverter.getInstance();
         this.userRoleConverter = UserRoleConverter.getInstance();
         this.tenantConverter = TenantConverter.getInstance();
+        this.attributeConverter = AttributeConverter.getInstance();
     }
 
     /**
@@ -292,73 +296,73 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
-     * Create rest resource rest resource.
+     * Create attribute attribute resource.
      *
-     * @param restResource the rest resource
-     * @return the rest resource
+     * @param attributeResource the attribute resource
+     * @return the attribute resource
      */
     @Override
-    public RestResource createRestResource(final RestResource restResource) {
-        RestResourceEntity restResourceEntity = this.restResourceConverter.convertFromResource(restResource);
-        restResourceEntity = this.restResourceService.create(restResourceEntity);
-        return this.restResourceConverter.covertFromEntity(restResourceEntity);
+    public AttributeResource createAttribute(final AttributeResource attributeResource) {
+        AttributeEntity attributeEntity = this.attributeConverter.convertFromResource(attributeResource);
+        attributeEntity = this.attributeService.create(attributeEntity);
+        return this.attributeConverter.covertFromEntity(attributeEntity);
     }
 
     /**
-     * Find by id rest resource rest resource.
+     * Find by id attribute attribute resource.
      *
-     * @param restResourceId the rest resource id
-     * @return the rest resource
+     * @param attributeId the attribute id
+     * @return the attribute resource
      */
     @Override
-    public RestResource findByIdRestResource(final UUID restResourceId) {
-        return this.restResourceConverter.covertFromEntity(this.restResourceService.findById(restResourceId));
+    public AttributeResource findByIdAttribute(final UUID attributeId) {
+        return this.attributeConverter.covertFromEntity(this.attributeService.findById(attributeId));
     }
 
     /**
-     * Find all rest resource list.
+     * Find all attribute list.
      *
      * @return the list
      */
     @Override
-    public List<RestResource> findAllRestResource() {
-        return this.restResourceConverter.createFromEntities(this.restResourceService.findAll());
+    public List<AttributeResource> findAllAttribute() {
+        return this.attributeConverter.createFromEntities(this.attributeService.findAll());
     }
 
     /**
-     * Find by pagination rest resource page.
+     * Find by pagination attribute page.
      *
      * @param pageNo   the page no
      * @param pageSize the page size
      * @return the page
      */
     @Override
-    public Page<RestResource> findByPaginationRestResource(final int pageNo, final int pageSize) {
-        return this.restResourceConverter.createFromEntities(
-                this.restResourceService.findByPagination(pageSize, pageNo));
+    public Page<AttributeResource> findByPaginationAttribute(final int pageNo, final int pageSize) {
+        return this.attributeConverter.createFromEntities(
+                this.attributeService.findByPagination(pageSize, pageNo));
     }
 
     /**
-     * Update rest resource rest resource.
+     * Update attribute attribute resource.
      *
-     * @param restResource the rest resource
-     * @return the rest resource
+     * @param attributeResource the attribute resource
+     * @return the attribute resource
      */
     @Override
-    public RestResource updateRestResource(final RestResource restResource) {
-        RestResourceEntity restResourceEntity = this.restResourceConverter.convertFromResource(restResource);
-        restResourceEntity = this.restResourceService.update(restResourceEntity);
-        return this.restResourceConverter.covertFromEntity(restResourceEntity);
+    public AttributeResource updateAttribute(final AttributeResource attributeResource) {
+        AttributeEntity attributeEntity = this.attributeConverter.convertFromResource(attributeResource);
+        attributeEntity = this.attributeService.update(attributeEntity);
+        return this.attributeConverter.covertFromEntity(attributeEntity);
     }
 
     /**
-     * Delete by id rest resource.
+     * Delete by id attribute.
      *
-     * @param restResourceId the rest resource id
+     * @param attributeId the attribute id
      */
     @Override
-    public void deleteByIdRestResource(final UUID restResourceId) {
-        this.restResourceService.deleteById(restResourceId);
+    public void deleteByIdAttribute(final UUID attributeId) {
+        this.attributeService.deleteById(attributeId);
     }
 
     /**
@@ -413,7 +417,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      * @return the role resource
      */
     @Override
-    public RoleResource updateRole(RoleResource role) {
+    public RoleResource updateRole(final RoleResource role) {
         return this.roleConverter.covertFromEntity(
                 this.roleService.update(this.roleConverter.convertFromResource(role)));
     }

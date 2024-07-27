@@ -32,6 +32,10 @@ public class UserRoleEntity extends CommonEntityAttributes implements Serializab
 
 
     /**
+     * The constant PRIME_31.
+     */
+    public static final int PRIME_31 = 31;
+    /**
      * The Role id.
      */
     @Id
@@ -54,18 +58,24 @@ public class UserRoleEntity extends CommonEntityAttributes implements Serializab
     @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
-    UserEntity userEntity;
+    private UserEntity userEntity;
 
     /**
      * The Role entity.
      */
     @ManyToOne
     @MapsId("roleId")
-    @JoinColumn(name = "role_id" )
-    RoleEntity roleEntity;
+    @JoinColumn(name = "role_id")
+    private RoleEntity roleEntity;
 
+    /**
+     * Equals boolean.
+     *
+     * @param o the o
+     * @return the boolean
+     */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
@@ -80,11 +90,16 @@ public class UserRoleEntity extends CommonEntityAttributes implements Serializab
         return roleId.equals(that.roleId) && userId.equals(that.userId);
     }
 
+    /**
+     * Hash code int.
+     *
+     * @return the int
+     */
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + roleId.hashCode();
-        result = 31 * result + userId.hashCode();
+        result = PRIME_31 * result + roleId.hashCode();
+        result = PRIME_31 * result + userId.hashCode();
         return result;
     }
 }

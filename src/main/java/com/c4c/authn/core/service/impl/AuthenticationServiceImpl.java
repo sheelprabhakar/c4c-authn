@@ -83,7 +83,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @param password the password
      * @param isOtp    the is otp
      * @return the user token entity
-     * @throws Exception the exception
      */
     @Override
     public UserTokenEntity authenticate(final String username,

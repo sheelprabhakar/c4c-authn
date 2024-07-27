@@ -16,23 +16,23 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JwtResponse implements Serializable {
-  /**
-   * The constant serialVersionUID.
-   */
-  private static final long serialVersionUID = -8091879091924046844L;
+    /**
+     * The constant serialVersionUID.
+     */
+    private static final long serialVersionUID = -8091879091924046844L;
 
-  /**
-   * The Access token.
-   */
-  private String accessToken;
+    /**
+     * The Access token.
+     */
+    private String accessToken;
 
-  /**
-   * The Refresh token.
-   */
-  private String refreshToken;
+    /**
+     * The Refresh token.
+     */
+    private String refreshToken;
 
-  /**
-   * The Tenant id.
-   */
-  private UUID tenantId;
+    /**
+     * The Tenant id.
+     */
+    private UUID tenantId;
 }

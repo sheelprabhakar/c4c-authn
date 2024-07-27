@@ -70,6 +70,9 @@ public class RoleEntity extends CommonEntityAttributes implements GrantedAuthori
     return name;
   }
 
+  /**
+   * The User role entities.
+   */
   @OneToMany(mappedBy = "roleEntity", fetch = FetchType.EAGER)
   private Set<UserRoleEntity> userRoleEntities;
 }

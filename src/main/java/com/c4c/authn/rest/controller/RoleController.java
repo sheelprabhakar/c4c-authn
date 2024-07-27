@@ -54,7 +54,7 @@ public class RoleController extends BaseController {
     /**
      * Find by id response entity.
      *
-     * @param roleId the rest resource id
+     * @param roleId the role id
      * @return the response entity
      */
     @GetMapping("/{roleId}")
@@ -90,7 +90,7 @@ public class RoleController extends BaseController {
     /**
      * Create response entity.
      *
-     * @param role the rest resource
+     * @param role the role
      * @return the response entity
      */
     @PostMapping
@@ -103,7 +103,7 @@ public class RoleController extends BaseController {
     /**
      * Update response entity.
      *
-     * @param role the rest resource
+     * @param role the role
      * @return the response entity
      */
     @PutMapping
@@ -116,7 +116,7 @@ public class RoleController extends BaseController {
     /**
      * Delete by id response entity.
      *
-     * @param roleId the rest resource id
+     * @param roleId the role id
      * @return the response entity
      */
     @DeleteMapping("/{roleId}")

@@ -144,7 +144,7 @@ public class UserEntity extends CommonEntityAttributes implements Serializable {
   private boolean isLocked;
 
   /**
-   * The Role entities.
+   * The User role entities.
    */
   @OneToMany(mappedBy = "userEntity", fetch = FetchType.EAGER)
   private Set<UserRoleEntity> userRoleEntities;

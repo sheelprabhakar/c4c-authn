@@ -31,42 +31,42 @@ import org.hibernate.type.SqlTypes;
 @EqualsAndHashCode
 public class UserTokenEntity implements Serializable {
 
-  /**
-   * The constant TOKEN_MAX_LENGTH.
-   */
-  private static final int TOKEN_MAX_LENGTH = 4096;
-  /**
-   * The Id.
-   */
-  @Id
+    /**
+     * The constant TOKEN_MAX_LENGTH.
+     */
+    private static final int TOKEN_MAX_LENGTH = 4096;
+    /**
+     * The User id.
+     */
+    @Id
   @Column(name = "user_id", nullable = false)
   @JdbcTypeCode(SqlTypes.VARCHAR)
   private UUID userId;
 
-  /**
-   * The Tenant id.
-   */
-  @Column(name = "tenant_id", nullable = false)
+    /**
+     * The Tenant id.
+     */
+    @Column(name = "tenant_id", nullable = false)
   @JdbcTypeCode(SqlTypes.VARCHAR)
   private UUID tenantId;
-  /**
-   * The accesstoken.
-   */
-  @Column(name = "access_token", nullable = false, length = TOKEN_MAX_LENGTH)
+    /**
+     * The Access token.
+     */
+    @Column(name = "access_token", nullable = false, length = TOKEN_MAX_LENGTH)
   @Convert(converter = EntityAttributeEncryptor.class)
   private String accessToken;
 
-  /**
-   * The Refresh token.
-   */
-  @Column(name = "refresh_token", nullable = false, length = TOKEN_MAX_LENGTH)
+    /**
+     * The Refresh token.
+     */
+    @Column(name = "refresh_token", nullable = false, length = TOKEN_MAX_LENGTH)
   @Convert(converter = EntityAttributeEncryptor.class)
   private String refreshToken;
 
-  /**
-   * The Updated at.
-   */
-  @Column(name = "updated_at", nullable = false)
+    /**
+     * The Updated at.
+     */
+    @Column(name = "updated_at", nullable = false)
   @Temporal(TemporalType.TIMESTAMP)
   private Calendar updatedAt;
 }

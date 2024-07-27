@@ -23,7 +23,7 @@ public final class AnyRequestAuthenticatedAuthorizationManager implements
      * @param object         the object
      */
     @Override
-    public void verify(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
+    public void verify(final Supplier<Authentication> authentication, final RequestAuthorizationContext object) {
         AuthorizationManager.super.verify(authentication, object);
     }
 
@@ -35,7 +35,8 @@ public final class AnyRequestAuthenticatedAuthorizationManager implements
      * @return the authorization decision
      */
     @Override
-    public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
+    public AuthorizationDecision check(final Supplier<Authentication> authentication,
+                                       final RequestAuthorizationContext object) {
         return new AuthorityAuthorizationDecision(true,
                 (Collection<GrantedAuthority>) authentication.get().getAuthorities());
     }

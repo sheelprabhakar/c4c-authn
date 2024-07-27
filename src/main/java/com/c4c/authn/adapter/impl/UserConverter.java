@@ -14,7 +14,7 @@ public final class UserConverter extends Converter<UserEntity, UserResource> {
     /**
      * The type User converter loader.
      */
-    private static class UserConverterLoader {
+    private static final class UserConverterLoader {
         /**
          * The constant INSTANCE.
          */

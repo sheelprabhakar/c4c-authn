@@ -1,45 +1,45 @@
 package com.c4c.authn.core.service.api;
 
-import com.c4c.authn.core.entity.RestResourceEntity;
+import com.c4c.authn.core.entity.AttributeEntity;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.UUID;
 
 /**
- * The interface Rest resource service.
+ * The interface Attribute service.
  */
-public interface RestResourceService {
+public interface AttributeService {
     /**
-     * Create rest resource entity.
+     * Create attribute entity.
      *
      * @param restResource the rest resource
-     * @return the rest resource entity
+     * @return the attribute entity
      */
-    RestResourceEntity create(RestResourceEntity restResource);
+    AttributeEntity create(AttributeEntity restResource);
 
     /**
-     * Update rest resource entity.
+     * Update attribute entity.
      *
-     * @param restResourceEntity the rest resource entity
-     * @return the rest resource entity
+     * @param attributeEntity the attribute entity
+     * @return the attribute entity
      */
-    RestResourceEntity update(RestResourceEntity restResourceEntity);
+    AttributeEntity update(AttributeEntity attributeEntity);
 
     /**
-     * Find by id rest resource entity.
+     * Find by id attribute entity.
      *
      * @param resourceId the resource id
-     * @return the rest resource entity
+     * @return the attribute entity
      */
-    RestResourceEntity findById(UUID resourceId);
+    AttributeEntity findById(UUID resourceId);
 
     /**
      * Find all list.
      *
      * @return the list
      */
-    List<RestResourceEntity> findAll();
+    List<AttributeEntity> findAll();
 
     /**
      * Find by pagination page.
@@ -48,7 +48,7 @@ public interface RestResourceService {
      * @param pageSize the page size
      * @return the page
      */
-    Page<RestResourceEntity> findByPagination(int pageNo, int pageSize);
+    Page<AttributeEntity> findByPagination(int pageNo, int pageSize);
 
     /**
      * Delete by id.

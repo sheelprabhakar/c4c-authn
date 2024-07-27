@@ -29,7 +29,7 @@ public class WebConfig implements WebMvcConfigurer {
      *
      * @param requestInterceptor the request interceptor
      */
-    public WebConfig(RequestInterceptor requestInterceptor) {
+    public WebConfig(final RequestInterceptor requestInterceptor) {
         this.requestInterceptor = requestInterceptor;
     }
 
@@ -61,7 +61,7 @@ public class WebConfig implements WebMvcConfigurer {
      * @param registry the registry
      */
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
+    public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(requestInterceptor);
         WebMvcConfigurer.super.addInterceptors(registry);
     }

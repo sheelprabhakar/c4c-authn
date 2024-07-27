@@ -41,8 +41,7 @@ public class TenantServiceImpl implements TenantService {
      * @param tenantRepository the tenant repository
      * @param userService      the user service
      */
-    public TenantServiceImpl(final TenantRepository tenantRepository,
-                             final UserService userService) {
+    public TenantServiceImpl(final TenantRepository tenantRepository, final UserService userService) {
         this.tenantRepository = tenantRepository;
         this.userService = userService;
     }
@@ -55,18 +54,15 @@ public class TenantServiceImpl implements TenantService {
      */
     private static UserEntity getNewUserEntity(final TenantEntity tenantEntity) {
 
-        return UserEntity.builder().userName(tenantEntity.getShortName())
-                .email(tenantEntity.getEmail())
-                .mobile(tenantEntity.getMobile())
-                .firstName(tenantEntity.getShortName())
-                .lastName(tenantEntity.getShortName())
-                .passwordHash("admin123").build();
+        return UserEntity.builder().userName(tenantEntity.getShortName()).email(tenantEntity.getEmail())
+                .mobile(tenantEntity.getMobile()).firstName(tenantEntity.getShortName())
+                .lastName(tenantEntity.getShortName()).passwordHash("admin123").build();
     }
 
     /**
      * Create tenant entity.
      *
-     * @param tenantEntity the map
+     * @param tenantEntity the tenant entity
      * @return the tenant entity
      */
     @Override
@@ -89,7 +85,7 @@ public class TenantServiceImpl implements TenantService {
     }
 
     /**
-     * Read tenant entity.
+     * Find by id tenant entity.
      *
      * @param tenantId the tenant id
      * @return the tenant entity
@@ -100,7 +96,7 @@ public class TenantServiceImpl implements TenantService {
     }
 
     /**
-     * Read all list.
+     * Find all list.
      *
      * @return the list
      */
@@ -110,29 +106,34 @@ public class TenantServiceImpl implements TenantService {
     }
 
     /**
+     * Find by pagination page.
+     *
      * @param pageNo   the page no
      * @param pageSize the page size
-     * @return
+     * @return the page
      */
     @Override
-    public Page<TenantEntity> findByPagination(int pageNo, int pageSize) {
-        return this.tenantRepository.findAll(PageRequest.of(pageNo, pageSize,
-                Sort.by("name").ascending()));
+    public Page<TenantEntity> findByPagination(final int pageNo, final int pageSize) {
+        return this.tenantRepository.findAll(PageRequest.of(pageNo, pageSize, Sort.by("name").ascending()));
     }
 
     /**
+     * Delete by id.
+     *
      * @param tenantId the tenant id
      */
     @Override
-    public void deleteById(UUID tenantId) {
+    public void deleteById(final UUID tenantId) {
         this.tenantRepository.deleteById(tenantId);
     }
 
     /**
+     * Delete all by id.
+     *
      * @param tenantIds the tenant ids
      */
     @Override
-    public void deleteAllById(List<UUID> tenantIds) {
+    public void deleteAllById(final List<UUID> tenantIds) {
         this.tenantRepository.deleteAllById(tenantIds);
     }
 
