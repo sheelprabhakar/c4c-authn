@@ -2,15 +2,15 @@ package com.c4c.authn.rest.resource.lookup;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.Instant;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.Instant;
 
 /**
  * The type City resource.
@@ -24,7 +24,7 @@ public class CityResource implements Serializable {
     /**
      * The Id.
      */
-    private Integer id;
+    private int id;
     /**
      * The Name.
      */
