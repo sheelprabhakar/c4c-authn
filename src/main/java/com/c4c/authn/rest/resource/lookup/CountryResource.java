@@ -24,7 +24,7 @@ public class CountryResource implements Serializable {
     /**
      * The Id.
      */
-    private Integer id;
+    private int id;
     /**
      * The Name.
      */

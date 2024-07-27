@@ -23,7 +23,7 @@ public class StateResource implements Serializable {
     /**
      * The Id.
      */
-    private Integer id;
+    private int id;
     /**
      * The Name.
      */
