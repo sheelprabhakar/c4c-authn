@@ -72,7 +72,7 @@ public final class UserDetailsServiceImpl implements UserExDetailsService {
     @Override
     public UserDetails loadUserByUsername(final UserEntity userEntity) throws UsernameNotFoundException {
         List<RoleEntity> roleEntities = new ArrayList<>();
-        for (UserRoleEntity e : userEntity.getRoles()) {
+        for (UserRoleEntity e : userEntity.getUserRoleEntities()) {
             RoleEntity entity = this.roleRepository.findById(e.getRoleId()).orElse(null);
             if (!Objects.isNull(entity)) {
                 roleEntities.add(entity);

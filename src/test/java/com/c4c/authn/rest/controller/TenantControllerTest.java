@@ -1,19 +1,8 @@
 package com.c4c.authn.rest.controller;
 
-import static com.c4c.authn.common.Constants.API_V1;
-import static com.c4c.authn.common.Constants.TENANT_URL;
-import static org.instancio.Select.field;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.c4c.authn.rest.resource.TenantResource;
 import com.c4c.authn.utils.TenantResourceHelper;
 import com.c4c.authn.utils.TestUtils;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Stream;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +12,18 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Stream;
+
+import static com.c4c.authn.common.Constants.API_V1;
+import static com.c4c.authn.common.Constants.TENANT_URL;
+import static org.instancio.Select.field;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 /**
@@ -43,7 +44,7 @@ class TenantControllerTest extends AbstractIntegrationTest {
    */
   @Test
   @DisplayName("Create new tenant OK")
-  void test_create_tenant_ok() throws Exception {
+  void test_create_Tenant_tenant_ok() throws Exception {
     TenantResource resource = TenantResourceHelper.getNew();
     this.mockMvc.perform(this.post(BASE_URL, resource))
         .andDo(print())
@@ -58,7 +59,7 @@ class TenantControllerTest extends AbstractIntegrationTest {
    */
   @Test
   @DisplayName("Create duplicate tenant bad Request")
-  void test_create_tenant_duplicate() throws Exception {
+  void test_create_Tenant_tenant_duplicate() throws Exception {
     TenantResource resource = TenantResourceHelper.getNew();
     String result = this.mockMvc.perform(this.post(BASE_URL, resource))
         //.andDo(print())
@@ -83,7 +84,7 @@ class TenantControllerTest extends AbstractIntegrationTest {
   @ParameterizedTest
   @MethodSource( "getTestTenantResource")
   @DisplayName("Create tenant check for validation")
-  void test_create_tenant_validation( TenantResource resource) throws Exception {
+  void test_create_Tenant_tenant_validation(TenantResource resource) throws Exception {
     this.mockMvc.perform(this.post(BASE_URL, resource))
         //.andDo(print())
         .andExpect(status().isBadRequest());
@@ -209,7 +210,7 @@ class TenantControllerTest extends AbstractIntegrationTest {
 
   @Test
   @DisplayName("Test Tenant delete operation")
-  void tenantDeleteOk() throws Exception {
+  void tenantDeleteByIdOk() throws Exception {
     TenantResource resource = TenantResourceHelper.getNew();
     String result = this.mockMvc.perform(this.post(BASE_URL, resource))
         //.andDo(print())
@@ -228,7 +229,7 @@ class TenantControllerTest extends AbstractIntegrationTest {
 
   @Test
   @DisplayName("Test Tenant delete operation for non existing tenant UUID")
-  void tenantDeleteNoFound() throws Exception {
+  void tenantDeleteByIdNoFound() throws Exception {
     this.mockMvc.perform(this.delete(BASE_URL + "/" + UUID.randomUUID().toString()))
         //.andDo(print())
         .andExpect(status().isNotFound());

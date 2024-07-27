@@ -49,6 +49,7 @@ public final class UserConverter extends Converter<UserEntity, UserResource> {
         }
         UserResource resource = new UserResource();
         resource.setId(entity.getId());
+        resource.setUserName(entity.getUserName());
         resource.setTenantId(entity.getTenantId());
         resource.setEmail(entity.getEmail());
         resource.setIntro(entity.getIntro());
@@ -83,6 +84,7 @@ public final class UserConverter extends Converter<UserEntity, UserResource> {
         UserEntity entity = new UserEntity();
         entity.setId(resource.getId());
         entity.setTenantId(resource.getTenantId());
+        entity.setUserName(resource.getUserName());
         entity.setEmail(resource.getEmail());
         entity.setIntro(resource.getIntro());
         entity.setMobile(resource.getMobile());
@@ -91,7 +93,7 @@ public final class UserConverter extends Converter<UserEntity, UserResource> {
 
         entity.setLastName(resource.getLastName());
         entity.setMiddleName(resource.getMiddleName());
-        entity.setPasswordHash("");
+        entity.setPasswordHash(resource.getPasswordHash());
         entity.setFirstName(resource.getFirstName());
         entity.setLocked(resource.isLocked());
 

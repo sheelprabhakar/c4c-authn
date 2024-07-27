@@ -3,10 +3,6 @@ package com.c4c.authn.rest.controller;
 import com.c4c.authn.adapter.api.RestAdapterV1;
 import com.c4c.authn.rest.resource.TenantResource;
 import jakarta.validation.Valid;
-import java.net.URI;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+
 import static com.c4c.authn.common.Constants.API_V1;
 import static com.c4c.authn.common.Constants.TENANT_URL;
 
@@ -31,7 +32,7 @@ import static com.c4c.authn.common.Constants.TENANT_URL;
 @RequestMapping(TenantController.BASE_URL)
 public class TenantController extends BaseController {
   /**
-   * The Base url.
+   * The constant BASE_URL.
    */
   static final String BASE_URL = API_V1 + TENANT_URL;
 
@@ -72,15 +73,15 @@ public class TenantController extends BaseController {
   }
 
   /**
-   * Read response entity.
+   * Find by id response entity.
    *
    * @param tenantId the tenant id
    * @return the response entity
    */
   @GetMapping("/{tenantId}")
-  public ResponseEntity<TenantResource> read(@PathVariable("tenantId") final UUID tenantId) {
+  public ResponseEntity<TenantResource> findById(@PathVariable("tenantId") final UUID tenantId) {
     if (this.isSuperAdmin() || tenantId.equals(this.getTenantId())) {
-      TenantResource resource = this.getRestAdapterV1().readTenant(tenantId);
+      TenantResource resource = this.getRestAdapterV1().findByIdTenant(tenantId);
       return ResponseEntity.ok()
           .body(resource);
     } else {
@@ -89,33 +90,33 @@ public class TenantController extends BaseController {
   }
 
   /**
-   * Read response entity.
+   * Find by id response entity.
    *
    * @return the response entity
    */
   @GetMapping()
-  public ResponseEntity<List<TenantResource>> read() {
+  public ResponseEntity<List<TenantResource>> findById() {
     if (this.isSuperAdmin()) {
-      List<TenantResource> resourceList = this.getRestAdapterV1().readTenants();
+      List<TenantResource> resourceList = this.getRestAdapterV1().findAllTenant();
       return ResponseEntity.ok()
           .body(resourceList);
     } else {
-      TenantResource resource = this.getRestAdapterV1().readTenant(this.getTenantId());
+      TenantResource resource = this.getRestAdapterV1().findByIdTenant(this.getTenantId());
       return ResponseEntity.ok()
           .body(Collections.singletonList(resource));
     }
   }
 
   /**
-   * Delete response entity.
+   * Delete by id response entity.
    *
    * @param tenantId the tenant id
    * @return the response entity
    */
   @DeleteMapping("/{tenantId}")
-  public ResponseEntity<Void> delete(@PathVariable("tenantId") final UUID tenantId) {
+  public ResponseEntity<Void> deleteById(@PathVariable("tenantId") final UUID tenantId) {
     if (this.isSuperAdmin()) {
-      this.getRestAdapterV1().deleteTenant(tenantId);
+      this.getRestAdapterV1().deleteByIdTenant(tenantId);
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     } else {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).build();

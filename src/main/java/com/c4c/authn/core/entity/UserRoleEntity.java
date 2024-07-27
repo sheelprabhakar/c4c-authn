@@ -27,7 +27,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
-//@EqualsAndHashCode(callSuper = true)
 @IdClass(UserRoleId.class)
 public class UserRoleEntity extends CommonEntityAttributes implements Serializable {
 
@@ -64,4 +63,28 @@ public class UserRoleEntity extends CommonEntityAttributes implements Serializab
     @MapsId("roleId")
     @JoinColumn(name = "role_id" )
     RoleEntity roleEntity;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        UserRoleEntity that = (UserRoleEntity) o;
+        return roleId.equals(that.roleId) && userId.equals(that.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + roleId.hashCode();
+        result = 31 * result + userId.hashCode();
+        return result;
+    }
 }

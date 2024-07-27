@@ -38,25 +38,25 @@ public class UserRoleServiceImpl implements UserRoleService {
     /**
      * Create user role entity.
      *
-     * @param roleEntity the role entity
+     * @param userRoleEntity the user role entity
      * @return the user role entity
      */
     @Override
-    public UserRoleEntity create(final UserRoleEntity roleEntity) {
-        roleEntity.created(CurrentUserContext.getCurrentUser());
-        return this.saveUserRoleEntity(roleEntity);
+    public UserRoleEntity create(final UserRoleEntity userRoleEntity) {
+        userRoleEntity.created(CurrentUserContext.getCurrentUser());
+        return this.saveUserRoleEntity(userRoleEntity);
     }
 
     /**
      * Update user role entity.
      *
-     * @param roleEntity the role entity
+     * @param userRoleEntity the user role entity
      * @return the user role entity
      */
     @Override
-    public UserRoleEntity update(final UserRoleEntity roleEntity) {
-        roleEntity.updated(CurrentUserContext.getCurrentUser());
-        return this.saveUserRoleEntity(roleEntity);
+    public UserRoleEntity update(final UserRoleEntity userRoleEntity) {
+        userRoleEntity.updated(CurrentUserContext.getCurrentUser());
+        return this.saveUserRoleEntity(userRoleEntity);
     }
 
     /**
@@ -116,10 +116,10 @@ public class UserRoleServiceImpl implements UserRoleService {
     /**
      * Save user role entity user role entity.
      *
-     * @param roleEntity the role entity
+     * @param userRoleEntity the user role entity
      * @return the user role entity
      */
-    private UserRoleEntity saveUserRoleEntity(final UserRoleEntity roleEntity) {
-        return this.userRoleRepository.save(roleEntity);
+    private UserRoleEntity saveUserRoleEntity(final UserRoleEntity userRoleEntity) {
+        return this.userRoleRepository.save(userRoleEntity);
     }
 }

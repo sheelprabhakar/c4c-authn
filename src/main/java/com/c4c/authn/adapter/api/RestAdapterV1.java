@@ -20,20 +20,20 @@ import java.util.UUID;
  */
 public interface RestAdapterV1 {
     /**
-     * Save user resource.
+     * Create user user resource.
      *
      * @param userResource the user resource
      * @return the user resource
      */
-    UserResource save(final UserResource userResource);
+    UserResource createUser(final UserResource userResource);
 
     /**
-     * Update user resource.
+     * Update user user resource.
      *
      * @param userResource the user resource
      * @return the user resource
      */
-    UserResource update(final UserResource userResource);
+    UserResource updateUser(final UserResource userResource);
 
     /**
      * Authenticate jwt response.
@@ -96,26 +96,26 @@ public interface RestAdapterV1 {
     TenantResource updateTenant(final TenantResource tenantResource);
 
     /**
-     * Read tenant tenant resource.
+     * Find by id tenant tenant resource.
      *
      * @param tenantId the tenant id
      * @return the tenant resource
      */
-    TenantResource readTenant(final UUID tenantId);
+    TenantResource findByIdTenant(final UUID tenantId);
 
     /**
-     * Read tenants list.
+     * Find all tenant list.
      *
      * @return the list
      */
-    List<TenantResource> readTenants();
+    List<TenantResource> findAllTenant();
 
     /**
-     * Delete tenant.
+     * Delete by id tenant.
      *
      * @param tenantId the tenant id
      */
-    void deleteTenant(final UUID tenantId);
+    void deleteByIdTenant(final UUID tenantId);
 
     /**
      * Create rest resource rest resource.
@@ -218,7 +218,7 @@ public interface RestAdapterV1 {
      * @param roleId the role id
      * @return the user role resource
      */
-    UserRoleResource findByIdUserRole(final String userId, String roleId);
+    UserRoleResource findByIdUserRole(final UUID userId, UUID roleId);
 
     /**
      * Find by pagination user role page.
@@ -258,5 +258,5 @@ public interface RestAdapterV1 {
      * @param userId the user id
      * @param roleId the role id
      */
-    void deleteByIdUserRole(final String userId, final String roleId);
+    void deleteByIdUserRole(final UUID userId, final UUID roleId);
 }

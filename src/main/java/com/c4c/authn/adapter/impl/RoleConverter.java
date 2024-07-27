@@ -3,14 +3,12 @@ package com.c4c.authn.adapter.impl;
 import com.c4c.authn.adapter.api.Converter;
 import com.c4c.authn.core.entity.RoleEntity;
 import com.c4c.authn.rest.resource.RoleResource;
-import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
 /**
  * The type Role converter.
  */
-@Component("roleConverter")
 public final class RoleConverter extends Converter<RoleEntity, RoleResource> {
 
     /**

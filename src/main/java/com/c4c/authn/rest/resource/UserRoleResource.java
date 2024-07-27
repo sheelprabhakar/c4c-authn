@@ -1,6 +1,8 @@
 package com.c4c.authn.rest.resource;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,18 +19,19 @@ import java.util.UUID;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
+@Builder
 public class UserRoleResource extends CommonResourceAttributes implements Serializable {
 
     /**
      * The Role id.
      */
-    //@NotEmpty(message = "Role Id can not be empty.")
+    @NotNull(message = "Role Id can not be null.")
     private UUID roleId;
 
     /**
      * The User id.
      */
-    //@NotEmpty(message = "User Id can not be empty.")
+    @NotNull(message = "User Id can not be null.")
     private UUID userId;
 
     /**
