@@ -8,14 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SuppressWarnings("CheckStyle")
 @SpringBootApplication
-public final class AuthnApplication {
-    /**
-     * Instantiates a new Authn application.
-     */
-    private AuthnApplication() {
-
-    }
-
+public class AuthnApplication {
     /**
      * Main.
      *

@@ -1,0 +1,66 @@
+package com.c4c.authn.core.service.api;
+
+import com.c4c.authn.core.entity.RoleAttributeEntity;
+import com.c4c.authn.core.entity.RoleAttributeId;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+
+/**
+ * The interface Role attribute service.
+ */
+public interface RoleAttributeService {
+    /**
+     * Create role attribute entity.
+     *
+     * @param attributeEntity the attribute entity
+     * @return the role attribute entity
+     */
+    RoleAttributeEntity create(RoleAttributeEntity attributeEntity);
+
+    /**
+     * Update role attribute entity.
+     *
+     * @param tenantEntity the tenant entity
+     * @return the role attribute entity
+     */
+    RoleAttributeEntity update(RoleAttributeEntity tenantEntity);
+
+    /**
+     * Find by id role attribute entity.
+     *
+     * @param attributeId the attribute id
+     * @return the role attribute entity
+     */
+    RoleAttributeEntity findById(RoleAttributeId attributeId);
+
+    /**
+     * Find all list.
+     *
+     * @return the list
+     */
+    List<RoleAttributeEntity> findAll();
+
+    /**
+     * Find by pagination page.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the page
+     */
+    Page<RoleAttributeEntity> findByPagination(int pageNo, int pageSize);
+
+    /**
+     * Delete by id.
+     *
+     * @param attributeId the attribute id
+     */
+    void deleteById(RoleAttributeId attributeId);
+
+    /**
+     * Delete all by id.
+     *
+     * @param roleAttributeIds the role attribute ids
+     */
+    void deleteAllById(List<RoleAttributeId> roleAttributeIds);
+}

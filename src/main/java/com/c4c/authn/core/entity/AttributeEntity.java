@@ -15,19 +15,20 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * The type Attribute entity.
  */
-@Entity(name = "attribute_resource")
+@Entity(name = "attribute")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
-public class AttributeEntity extends CommonEntityAttributes {
+public class AttributeEntity extends CommonEntityAttributes implements Serializable {
 
     /**
      * The constant L50.
