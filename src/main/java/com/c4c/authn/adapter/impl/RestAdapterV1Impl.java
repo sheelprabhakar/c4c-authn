@@ -3,6 +3,8 @@ package com.c4c.authn.adapter.impl;
 import com.c4c.authn.adapter.api.RestAdapterV1;
 import com.c4c.authn.common.exception.CustomException;
 import com.c4c.authn.core.entity.AttributeEntity;
+import com.c4c.authn.core.entity.RoleAttributeEntity;
+import com.c4c.authn.core.entity.RoleAttributeId;
 import com.c4c.authn.core.entity.TenantEntity;
 import com.c4c.authn.core.entity.UserRoleEntity;
 import com.c4c.authn.core.entity.UserRoleId;
@@ -12,11 +14,13 @@ import com.c4c.authn.core.entity.lookup.StateEntity;
 import com.c4c.authn.core.service.api.AttributeService;
 import com.c4c.authn.core.service.api.AuthenticationService;
 import com.c4c.authn.core.service.api.LookupService;
+import com.c4c.authn.core.service.api.RoleAttributeService;
 import com.c4c.authn.core.service.api.RoleService;
 import com.c4c.authn.core.service.api.TenantService;
 import com.c4c.authn.core.service.api.UserRoleService;
 import com.c4c.authn.core.service.api.UserService;
 import com.c4c.authn.rest.resource.AttributeResource;
+import com.c4c.authn.rest.resource.RoleAttributeResource;
 import com.c4c.authn.rest.resource.RoleResource;
 import com.c4c.authn.rest.resource.TenantResource;
 import com.c4c.authn.rest.resource.UserResource;
@@ -103,6 +107,14 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      * The Tenant converter.
      */
     private final TenantConverter tenantConverter;
+    /**
+     * The Role attribute service.
+     */
+    private final RoleAttributeService roleAttributeService;
+    /**
+     * The Role attribute converter.
+     */
+    private final RoleAttributeConverter roleAttributeConverter;
 
     /**
      * Instantiates a new Rest adapter v 1.
@@ -115,6 +127,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      * @param attributeService      the attribute service
      * @param userRoleService       the user role service
      * @param exactNameModelMapper  the exact name model mapper
+     * @param roleAttributeService  the role attribute service
      */
     @Autowired
     public RestAdapterV1Impl(final RoleService roleService, final UserService userService,
@@ -123,7 +136,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
                              final TenantService tenantService,
                              final AttributeService attributeService,
                              final UserRoleService userRoleService,
-                             final ModelMapper exactNameModelMapper) {
+                             final ModelMapper exactNameModelMapper,
+                             final RoleAttributeService roleAttributeService) {
         this.roleService = roleService;
         this.userService = userService;
         this.authenticationService = authenticationService;
@@ -132,12 +146,14 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
         this.tenantService = tenantService;
         this.attributeService = attributeService;
         this.userRoleService = userRoleService;
+        this.roleAttributeService = roleAttributeService;
 
         this.roleConverter = RoleConverter.getInstance();
         this.userConverter = UserConverter.getInstance();
         this.userRoleConverter = UserRoleConverter.getInstance();
         this.tenantConverter = TenantConverter.getInstance();
         this.attributeConverter = AttributeConverter.getInstance();
+        this.roleAttributeConverter = RoleAttributeConverter.getInstance();
     }
 
     /**
@@ -501,6 +517,78 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     @Override
     public void deleteByIdUserRole(final UUID userId, final UUID roleId) {
         this.userRoleService.deleteById(new UserRoleId(userId, roleId));
+    }
+
+    /**
+     * Find by id role attribute role attribute resource.
+     *
+     * @param roleId      the role id
+     * @param attributeId the attribute id
+     * @return the role attribute resource
+     */
+    @Override
+    public RoleAttributeResource findByIdRoleAttribute(final UUID roleId, final UUID attributeId) {
+        return this.roleAttributeConverter.covertFromEntity(
+                this.roleAttributeService.findById(new RoleAttributeId(roleId, attributeId)));
+    }
+
+    /**
+     * Find by pagination role attribute page.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the page
+     */
+    @Override
+    public Page<RoleAttributeResource> findByPaginationRoleAttribute(final int pageNo, final int pageSize) {
+        return this.roleAttributeConverter.createFromEntities(this.roleAttributeService.findByPagination(pageNo, pageSize));
+    }
+
+    /**
+     * Find all role attribute list.
+     *
+     * @return the list
+     */
+    @Override
+    public List<RoleAttributeResource> findAllRoleAttribute() {
+        return this.roleAttributeConverter.createFromEntities(this.roleAttributeService.findAll());
+    }
+
+    /**
+     * Create role attribute role attribute resource.
+     *
+     * @param roleAttributeResource the role attribute resource
+     * @return the role attribute resource
+     */
+    @Override
+    public RoleAttributeResource createRoleAttribute(final RoleAttributeResource roleAttributeResource) {
+        RoleAttributeEntity roleAttributeEntity = this.roleAttributeConverter.convertFromResource(roleAttributeResource);
+        roleAttributeEntity.setRoleEntity(this.roleService.findById(roleAttributeEntity.getRoleId()));
+        roleAttributeEntity.setAttributeEntity(this.attributeService.findById(roleAttributeEntity.getAttributeId()));
+        return this.roleAttributeConverter.covertFromEntity(this.roleAttributeService.create(roleAttributeEntity));
+    }
+
+    /**
+     * Update role attribute role attribute resource.
+     *
+     * @param roleAttributeResource the role attribute resource
+     * @return the role attribute resource
+     */
+    @Override
+    public RoleAttributeResource updateRoleAttribute(final RoleAttributeResource roleAttributeResource) {
+        return this.roleAttributeConverter.covertFromEntity(
+                this.roleAttributeService.update(this.roleAttributeConverter.convertFromResource(roleAttributeResource)));
+    }
+
+    /**
+     * Delete by id role attribute.
+     *
+     * @param roleId      the role id
+     * @param attributeId the attribute id
+     */
+    @Override
+    public void deleteByIdRoleAttribute(final UUID roleId, final UUID attributeId) {
+        this.roleAttributeService.deleteById(new RoleAttributeId(roleId, attributeId));
     }
 
     /**

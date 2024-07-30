@@ -47,7 +47,12 @@ public final class Constants {
     /**
      * The constant USER_ROLE_URL.
      */
-    public static final String USER_ROLE_URL = "/api/userRole";
+    public static final String USER_ROLE_URL = "/api/user/role";
+
+    /**
+     * The constant ROLE_ATTRIBUTE_URL.
+     */
+    public static final String ROLE_ATTRIBUTE_URL = "/api/role/attribute";
 
     /**
      * Instantiates a new Constants.

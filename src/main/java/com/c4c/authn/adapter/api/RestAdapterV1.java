@@ -1,6 +1,7 @@
 package com.c4c.authn.adapter.api;
 
 import com.c4c.authn.rest.resource.AttributeResource;
+import com.c4c.authn.rest.resource.RoleAttributeResource;
 import com.c4c.authn.rest.resource.RoleResource;
 import com.c4c.authn.rest.resource.TenantResource;
 import com.c4c.authn.rest.resource.UserResource;
@@ -259,4 +260,53 @@ public interface RestAdapterV1 {
      * @param roleId the role id
      */
     void deleteByIdUserRole(UUID userId, UUID roleId);
+
+    /**
+     * Find by id role attribute role attribute resource.
+     *
+     * @param roleId      the role id
+     * @param attributeId the attribute id
+     * @return the role attribute resource
+     */
+    RoleAttributeResource findByIdRoleAttribute(UUID roleId, UUID attributeId);
+
+    /**
+     * Find by pagination role attribute page.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the page
+     */
+    Page<RoleAttributeResource> findByPaginationRoleAttribute(int pageNo, int pageSize);
+
+    /**
+     * Find all role attribute list.
+     *
+     * @return the list
+     */
+    List<RoleAttributeResource> findAllRoleAttribute();
+
+    /**
+     * Create role attribute role attribute resource.
+     *
+     * @param roleAttributeResource the role attribute resource
+     * @return the role attribute resource
+     */
+    RoleAttributeResource createRoleAttribute(RoleAttributeResource roleAttributeResource);
+
+    /**
+     * Update role attribute role attribute resource.
+     *
+     * @param roleAttributeResource the role attribute resource
+     * @return the role attribute resource
+     */
+    RoleAttributeResource updateRoleAttribute(RoleAttributeResource roleAttributeResource);
+
+    /**
+     * Delete by id role attribute.
+     *
+     * @param roleId      the role id
+     * @param attributeId the attribute id
+     */
+    void deleteByIdRoleAttribute(UUID roleId, UUID attributeId);
 }
