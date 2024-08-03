@@ -84,14 +84,14 @@ DROP TABLE IF EXISTS `role`;
 
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
-  `role_id` VARCHAR(36) NOT NULL,
   `user_id` VARCHAR(36) NOT NULL,
+  `role_id` VARCHAR(36) NOT NULL,
   `is_deleted` TINYINT NOT NULL DEFAULT 0,
   `created_at` DATETIME NULL,
   `updated_at` DATETIME NULL,
   `created_by` VARCHAR(255) NULL,
   `updated_by` VARCHAR(255) NULL,
-  PRIMARY KEY (`role_id`, `user_id`),
+  PRIMARY KEY (`user_id`, `role_id`),
   INDEX `fk_user_user_role_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_role_user_role`
     FOREIGN KEY (`role_id`)
@@ -134,20 +134,42 @@ INSERT INTO `user` (`id`,`tenant_id`, `first_name`, `middle_name`, `last_name`, 
 INSERT INTO `user_role` (`role_id`, `user_id`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', 'bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', '0', 'SYSTEM', 'SYSTEM');
 INSERT INTO `user_role` (`role_id`, `user_id`, `is_deleted`, `created_by`, `updated_by`) VALUES ('52a05765-a8e0-4fd7-b95b-3b14b52634f5', 'bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', '0', 'SYSTEM', 'SYSTEM');
 
-DROP TABLE IF EXISTS `attribute_resource`;
-  CREATE TABLE `attribute_resource` (
+DROP TABLE IF EXISTS `attribute`;
+  CREATE TABLE `attribute` (
     `id` VARCHAR(36) NOT NULL,
     `tenant_id` varchar(36) NOT NULL,
     `attribute_name` VARCHAR(50) NOT NULL,
-    `path` VARCHAR(4096) NOT NULL,
+    `path` VARCHAR(1024) NOT NULL,
     `is_deleted` TINYINT NOT NULL DEFAULT 0,
     `created_at` DATETIME NULL,
     `updated_at` DATETIME NULL,
     `created_by` VARCHAR(255) NULL,
     `updated_by` VARCHAR(255) NULL,
     PRIMARY KEY (`id`),
-    CONSTRAINT `fk_tenant_attribute_resource_tenant_id`
+    CONSTRAINT `fk_tenant_attribute_tenant_id`
                  FOREIGN KEY (`tenant_id`)
                  REFERENCES `tenant` (`id`)
                  ON DELETE CASCADE
                  ON UPDATE NO ACTION);
+
+DROP TABLE IF EXISTS `role_attribute`;
+CREATE TABLE `role_attribute` (
+  `role_id` VARCHAR(36) NOT NULL,
+  `attribute_id` VARCHAR(36) NOT NULL,
+  `is_deleted` TINYINT NOT NULL DEFAULT 0,
+  `created_at` DATETIME NULL,
+  `updated_at` DATETIME NULL,
+  `created_by` VARCHAR(255) NULL,
+  `updated_by` VARCHAR(255) NULL,
+  PRIMARY KEY (`role_id`, `attribute_id`),
+  INDEX `fk_attribute_role_attribute_idx` (`attribute_id` ASC) VISIBLE,
+  CONSTRAINT `fk_attribute_role_attribute`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `role` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_role_role_attribute`
+    FOREIGN KEY (`attribute_id`)
+    REFERENCES `attribute` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);

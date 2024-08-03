@@ -2,7 +2,7 @@ package com.c4c.authn.rest.controller;
 
 import com.c4c.authn.AuthnApplication;
 import com.c4c.authn.TestcontainersConfiguration;
-import com.c4c.authn.config.security.JwtTokenProvider;
+import com.c4c.authn.core.service.impl.JwtTokenProvider;
 import com.c4c.authn.rest.resource.auth.JwtResponse;
 import com.c4c.authn.utils.TestUtils;
 import io.jsonwebtoken.security.Keys;

@@ -1,6 +1,6 @@
 package com.c4c.authn.config;
 
-import com.c4c.authn.config.tenant.RequestInterceptor;
+import com.c4c.authn.filters.RequestInterceptor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;

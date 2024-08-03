@@ -1,5 +1,6 @@
-package com.c4c.authn.config.tenant;
+package com.c4c.authn.filters;
 
+import com.c4c.authn.common.CurrentUserContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

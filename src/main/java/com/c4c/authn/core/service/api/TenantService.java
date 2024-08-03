@@ -13,10 +13,10 @@ public interface TenantService {
     /**
      * Create tenant entity.
      *
-     * @param map the map
+     * @param tenantEntity the tenant entity
      * @return the tenant entity
      */
-    TenantEntity create(TenantEntity map);
+    TenantEntity create(TenantEntity tenantEntity);
 
     /**
      * Update tenant entity.

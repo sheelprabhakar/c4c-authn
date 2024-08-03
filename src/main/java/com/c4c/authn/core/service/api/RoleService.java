@@ -13,10 +13,10 @@ public interface RoleService {
     /**
      * Create role entity.
      *
-     * @param map the map
+     * @param roleEntity the role entity
      * @return the role entity
      */
-    RoleEntity create(RoleEntity map);
+    RoleEntity create(RoleEntity roleEntity);
 
     /**
      * Update role entity.

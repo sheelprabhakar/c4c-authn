@@ -1,6 +1,6 @@
 package com.c4c.authn.core.service.impl;
 
-import com.c4c.authn.config.tenant.CurrentUserContext;
+import com.c4c.authn.common.CurrentUserContext;
 import com.c4c.authn.core.entity.AttributeEntity;
 import com.c4c.authn.core.repository.AttributeRepository;
 import com.c4c.authn.core.service.api.AttributeService;

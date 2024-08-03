@@ -10,7 +10,6 @@ import java.util.Objects;
 /**
  * The type User role converter.
  */
-@Component("userRoleConverter")
 public final class UserRoleConverter extends Converter<UserRoleEntity, UserRoleResource> {
 
     /**

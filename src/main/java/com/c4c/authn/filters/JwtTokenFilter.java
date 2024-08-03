@@ -1,7 +1,8 @@
-package com.c4c.authn.config.security;
+package com.c4c.authn.filters;
 
 import com.c4c.authn.common.exception.CustomException;
-import com.c4c.authn.config.tenant.CurrentUserContext;
+import com.c4c.authn.common.CurrentUserContext;
+import com.c4c.authn.core.service.impl.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
