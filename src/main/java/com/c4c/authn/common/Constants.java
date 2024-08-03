@@ -57,6 +57,9 @@ public final class Constants {
     /**
      * Instantiates a new Constants.
      */
+
+    public static final String IDEMPOTENCY_CACHE = "idempotencyCache";
+    public static final String ITEM_CACHE = "itemCache";
     private Constants() {
 
     }

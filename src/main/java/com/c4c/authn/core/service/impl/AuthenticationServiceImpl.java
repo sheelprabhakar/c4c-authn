@@ -1,7 +1,6 @@
 package com.c4c.authn.core.service.impl;
 
-import com.c4c.authn.config.security.JwtTokenProvider;
-import com.c4c.authn.config.tenant.CurrentUserContext;
+import com.c4c.authn.common.CurrentUserContext;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.entity.UserTokenEntity;
 import com.c4c.authn.core.service.api.AuthenticationService;

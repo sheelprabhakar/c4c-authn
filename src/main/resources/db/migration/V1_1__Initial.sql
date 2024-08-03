@@ -139,7 +139,7 @@ DROP TABLE IF EXISTS `attribute`;
     `id` VARCHAR(36) NOT NULL,
     `tenant_id` varchar(36) NOT NULL,
     `attribute_name` VARCHAR(50) NOT NULL,
-    `path` VARCHAR(4096) NOT NULL,
+    `path` VARCHAR(1024) NOT NULL,
     `is_deleted` TINYINT NOT NULL DEFAULT 0,
     `created_at` DATETIME NULL,
     `updated_at` DATETIME NULL,

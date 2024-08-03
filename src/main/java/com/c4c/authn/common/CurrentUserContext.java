@@ -1,4 +1,4 @@
-package com.c4c.authn.config.tenant;
+package com.c4c.authn.common;
 
 import java.util.UUID;
 

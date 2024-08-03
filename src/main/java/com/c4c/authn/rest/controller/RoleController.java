@@ -1,7 +1,7 @@
 package com.c4c.authn.rest.controller;
 
 import com.c4c.authn.adapter.api.RestAdapterV1;
-import com.c4c.authn.config.tenant.CurrentUserContext;
+import com.c4c.authn.common.CurrentUserContext;
 import com.c4c.authn.rest.resource.RoleResource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

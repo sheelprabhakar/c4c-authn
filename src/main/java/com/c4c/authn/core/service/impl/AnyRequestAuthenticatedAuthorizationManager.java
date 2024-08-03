@@ -1,4 +1,4 @@
-package com.c4c.authn.config.security;
+package com.c4c.authn.core.service.impl;
 
 import org.springframework.security.authorization.AuthorityAuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationDecision;

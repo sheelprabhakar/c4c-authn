@@ -1,5 +1,8 @@
 package com.c4c.authn.config.security;
 
+import com.c4c.authn.core.service.impl.AnyRequestAuthenticatedAuthorizationManager;
+import com.c4c.authn.core.service.impl.JwtTokenProvider;
+import com.c4c.authn.filters.JwtTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

@@ -1,11 +1,10 @@
-package com.c4c.authn.config.security;
+package com.c4c.authn.core.service.impl;
 
 import com.c4c.authn.common.exception.CustomException;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.entity.UserTokenEntity;
 import com.c4c.authn.core.service.api.UserService;
 import com.c4c.authn.core.service.api.UserTokenService;
-import com.c4c.authn.core.service.impl.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -48,7 +47,7 @@ public class JwtTokenProvider {
      * The constant VALIDITY_IN_MILLISECONDS.
      */
     @Value("${security.jwt.token.expire-length:3600000}")
-  private static final long VALIDITY_IN_MILLISECONDS = 3600000L; // 1h
+    private static final long VALIDITY_IN_MILLISECONDS = 3600000L; // 1h
     /**
      * The User details service.
      */
@@ -65,7 +64,7 @@ public class JwtTokenProvider {
      * The Secret key.
      */
     @Value("${security.jwt.token.secret-key:secret-key}")
-  private String secretKey;
+    private String secretKey;
     /**
      * The Secret.
      */
@@ -79,20 +78,20 @@ public class JwtTokenProvider {
      * @param userService        the user service
      */
     public JwtTokenProvider(final UserDetailsServiceImpl userDetailsService,
-                          final UserTokenService userTokenService,
-                          final UserService userService) {
-    this.userDetailsService = userDetailsService;
-    this.userTokenService = userTokenService;
-    this.userService = userService;
-  }
+                            final UserTokenService userTokenService,
+                            final UserService userService) {
+        this.userDetailsService = userDetailsService;
+        this.userTokenService = userTokenService;
+        this.userService = userService;
+    }
 
     /**
      * Init.
      */
     @PostConstruct
-  protected void init() {
-    this.secret = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-  }
+    protected void init() {
+        this.secret = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+    }
 
     /**
      * Create token string.
@@ -103,20 +102,20 @@ public class JwtTokenProvider {
      */
     public String createToken(final String username, final Set<GrantedAuthority> roles) {
 
-    Claims claims = Jwts.claims().subject(username).add("authorities", roles.stream().map(
-            s -> new SimpleGrantedAuthority(s.getAuthority()))
-        .filter(Objects::nonNull).toList()).build();
+        Claims claims = Jwts.claims().subject(username).add("authorities", roles.stream().map(
+                        s -> new SimpleGrantedAuthority(s.getAuthority()))
+                .filter(Objects::nonNull).toList()).build();
 
-    Date now = new Date();
-    Date validity = new Date(now.getTime() + VALIDITY_IN_MILLISECONDS);
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + VALIDITY_IN_MILLISECONDS);
 
-    return Jwts.builder()//
-        .claims(claims)//
-        .issuedAt(now)//
-        .expiration(validity)//
-        .signWith(this.secret)//
-        .compact();
-  }
+        return Jwts.builder()//
+                .claims(claims)//
+                .issuedAt(now)//
+                .expiration(validity)//
+                .signWith(this.secret)//
+                .compact();
+    }
 
     /**
      * Create refresh token string.
@@ -126,19 +125,19 @@ public class JwtTokenProvider {
      */
     public String createRefreshToken(final String username) {
 
-    Claims claims = Jwts.claims().subject(username).build();
+        Claims claims = Jwts.claims().subject(username).build();
 
-    Calendar c = Calendar.getInstance();
-    c.add(Calendar.MINUTE, FIVE);
-    Date validity = new Date(c.getTimeInMillis() + VALIDITY_IN_MILLISECONDS);
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MINUTE, FIVE);
+        Date validity = new Date(c.getTimeInMillis() + VALIDITY_IN_MILLISECONDS);
 
-    return Jwts.builder()//
-        .claims(claims)//
-        .issuedAt(new Date(c.getTimeInMillis()))//
-        .expiration(validity)//
-        .signWith(this.secret)//
-        .compact();
-  }
+        return Jwts.builder()//
+                .claims(claims)//
+                .issuedAt(new Date(c.getTimeInMillis()))//
+                .expiration(validity)//
+                .signWith(this.secret)//
+                .compact();
+    }
 
     /**
      * Gets authentication.
@@ -147,17 +146,17 @@ public class JwtTokenProvider {
      * @return the authentication
      */
     public Authentication getAuthentication(final String token) {
-    UserEntity user = this.userService.findByEmail(getUsername(token));
-    UserDetails userDetails = this.userDetailsService.loadUserByUsername(user);
+        UserEntity user = this.userService.findByEmail(getUsername(token));
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(user);
 
-    if (user != null) {
-      UserTokenEntity userTokenEntity = this.userTokenService.getById(user.getId());
-      if (userTokenEntity == null || !userTokenEntity.getAccessToken().equals(token)) {
-        throw new CustomException("Invalid token", HttpStatus.UNAUTHORIZED);
-      }
+        if (user != null) {
+            UserTokenEntity userTokenEntity = this.userTokenService.getById(user.getId());
+            if (userTokenEntity == null || !userTokenEntity.getAccessToken().equals(token)) {
+                throw new CustomException("Invalid token", HttpStatus.UNAUTHORIZED);
+            }
+        }
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
-    return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-  }
 
     /**
      * Gets username.
@@ -166,9 +165,9 @@ public class JwtTokenProvider {
      * @return the username
      */
     public String getUsername(final String token) {
-    return Jwts.parser().verifyWith(this.secret).build().parseSignedClaims(token).getPayload()
-        .getSubject();
-  }
+        return Jwts.parser().verifyWith(this.secret).build().parseSignedClaims(token).getPayload()
+                .getSubject();
+    }
 
     /**
      * Resolve token string.
@@ -177,13 +176,13 @@ public class JwtTokenProvider {
      * @return the string
      */
     public String resolveToken(final HttpServletRequest req) {
-    String bearerToken = req.getHeader("Authorization");
-    if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-      return bearerToken.substring(BEARER_LENGTH);
+        String bearerToken = req.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(BEARER_LENGTH);
+        }
+        log.info("Invalid Token");
+        return null;
     }
-    log.info("Invalid Token");
-    return null;
-  }
 
     /**
      * Validate token boolean.
@@ -192,14 +191,14 @@ public class JwtTokenProvider {
      * @return the boolean
      */
     public boolean validateToken(final String token) {
-    try {
-      Jwts.parser().verifyWith(this.secret).build()
-          .parse(token);
-      return true;
-    } catch (JwtException | IllegalArgumentException e) {
-      log.info("Expired or invalid JWT token");
-      throw new CustomException("Expired or invalid JWT token", HttpStatus.UNAUTHORIZED);
+        try {
+            Jwts.parser().verifyWith(this.secret).build()
+                    .parse(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            log.info("Expired or invalid JWT token");
+            throw new CustomException("Expired or invalid JWT token", HttpStatus.UNAUTHORIZED);
+        }
     }
-  }
 
 }

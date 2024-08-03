@@ -1,6 +1,6 @@
 package com.c4c.authn.core.service.impl;
 
-import com.c4c.authn.config.tenant.CurrentUserContext;
+import com.c4c.authn.common.CurrentUserContext;
 import com.c4c.authn.core.entity.UserRoleEntity;
 import com.c4c.authn.core.entity.UserRoleId;
 import com.c4c.authn.core.repository.UserRoleRepository;
