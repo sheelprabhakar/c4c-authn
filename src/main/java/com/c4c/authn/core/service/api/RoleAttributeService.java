@@ -5,6 +5,7 @@ import com.c4c.authn.core.entity.RoleAttributeId;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The interface Role attribute service.
@@ -40,6 +41,14 @@ public interface RoleAttributeService {
      * @return the list
      */
     List<RoleAttributeEntity> findAll();
+
+    /**
+     * Find all by role id list.
+     *
+     * @param roleId the role id
+     * @return the list
+     */
+    List<RoleAttributeEntity> findAllByRoleId(UUID roleId);
 
     /**
      * Find by pagination page.

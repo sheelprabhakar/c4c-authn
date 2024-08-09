@@ -1,5 +1,6 @@
 package com.c4c.authn.core.service.impl;
 
+import com.c4c.authn.core.service.api.RoleAttributeService;
 import org.springframework.security.authorization.AuthorityAuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -15,6 +16,19 @@ import java.util.function.Supplier;
  */
 public final class AnyRequestAuthenticatedAuthorizationManager implements
         AuthorizationManager<RequestAuthorizationContext> {
+    /**
+     * The Role attribute service.
+     */
+    private final RoleAttributeService roleAttributeService;
+
+    /**
+     * Instantiates a new Any request authenticated authorization manager.
+     *
+     * @param roleAttributeService the role attribute service
+     */
+    public AnyRequestAuthenticatedAuthorizationManager(RoleAttributeService roleAttributeService) {
+        this.roleAttributeService = roleAttributeService;
+    }
 
     /**
      * Verify.

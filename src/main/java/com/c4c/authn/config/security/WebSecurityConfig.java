@@ -1,5 +1,6 @@
 package com.c4c.authn.config.security;
 
+import com.c4c.authn.core.service.api.RoleAttributeService;
 import com.c4c.authn.core.service.impl.AnyRequestAuthenticatedAuthorizationManager;
 import com.c4c.authn.core.service.impl.JwtTokenProvider;
 import com.c4c.authn.filters.JwtTokenFilter;
@@ -55,13 +56,20 @@ public class WebSecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
 
     /**
+     * The Role attribute service.
+     */
+    private final RoleAttributeService roleAttributeService;
+
+    /**
      * Instantiates a new Web security config.
      *
-     * @param jwtTokenProvider the jwt token provider
+     * @param jwtTokenProvider     the jwt token provider
+     * @param roleAttributeService the role attribute service
      */
     @Autowired
-    public WebSecurityConfig(final JwtTokenProvider jwtTokenProvider) {
+    public WebSecurityConfig(final JwtTokenProvider jwtTokenProvider, final RoleAttributeService roleAttributeService) {
         this.jwtTokenProvider = jwtTokenProvider;
+        this.roleAttributeService = roleAttributeService;
     }
 
     /**
@@ -80,7 +88,7 @@ public class WebSecurityConfig {
                         .requestMatchers(AUTH_WHITELIST).permitAll()
                         //.requestMatchers("/tenant").hasAuthority("SUPER_ADMIN")
                         //.requestMatchers(HttpMethod.GET, "/tenant").hasAuthority("ADMIN")
-                        .requestMatchers("/v1/api/**").access(new AnyRequestAuthenticatedAuthorizationManager())
+                        .requestMatchers("/v1/api/**").access(new AnyRequestAuthenticatedAuthorizationManager(this.roleAttributeService))
                         .anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class)
