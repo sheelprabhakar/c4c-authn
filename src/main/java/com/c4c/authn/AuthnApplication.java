@@ -2,12 +2,13 @@ package com.c4c.authn;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 /**
  * The type Authn application.
  */
 @SuppressWarnings("CheckStyle")
-@SpringBootApplication
+@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 public class AuthnApplication {
     /**
      * Main.

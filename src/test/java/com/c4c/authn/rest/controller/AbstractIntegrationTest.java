@@ -1,6 +1,5 @@
 package com.c4c.authn.rest.controller;
 
-import com.c4c.authn.AuthnApplication;
 import com.c4c.authn.TestcontainersConfiguration;
 import com.c4c.authn.core.service.impl.JwtTokenProvider;
 import com.c4c.authn.rest.resource.auth.JwtResponse;
@@ -11,14 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.StringUtils;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -29,12 +26,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * The type Abstract integration test.
  */
-@SpringBootTest(classes = AuthnApplication.class,
+@SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@Import(TestcontainersConfiguration.class)
-@Testcontainers
-public abstract class AbstractIntegrationTest {
+public abstract class AbstractIntegrationTest extends TestcontainersConfiguration {
     //ToDo write idempotency tests
     public static final String TENANT_ID = "fe9f8f3c-6447-4fb1-a9ba-6856bccd3d9b";
     /**
@@ -74,7 +69,7 @@ public abstract class AbstractIntegrationTest {
     String getAdminToken() throws Exception {
         if (!StringUtils.hasLength(token)) {
             MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders
-                            .post( AUTH_URL + "/authenticate")
+                            .post(AUTH_URL + "/authenticate")
                             .content("{\"username\":\"sheel.prabhakar@gmail.com\"," +
                                     " \"password\":\"admin123\", \"isOtp\":false}")
                             .contentType(MediaType.APPLICATION_JSON)

@@ -19,7 +19,7 @@ import java.util.UUID;
  */
 @Service
 @Slf4j
-@Transactional
+@Transactional(readOnly = true)
 public class AttributeServiceImpl implements AttributeService {
 
     /**
@@ -43,6 +43,7 @@ public class AttributeServiceImpl implements AttributeService {
      * @return the attribute entity
      */
     @Override
+    @Transactional(readOnly = false)
     public AttributeEntity create(final AttributeEntity attributeEntity) {
         attributeEntity.created(CurrentUserContext.getCurrentUser());
         return this.attributeRepository.save(attributeEntity);
@@ -55,6 +56,7 @@ public class AttributeServiceImpl implements AttributeService {
      * @return the attribute entity
      */
     @Override
+    @Transactional(readOnly = false)
     public AttributeEntity update(final AttributeEntity attributeEntity) {
         attributeEntity.updated(CurrentUserContext.getCurrentUser());
         return this.attributeRepository.save(attributeEntity);
@@ -100,6 +102,7 @@ public class AttributeServiceImpl implements AttributeService {
      * @param resourceId the resource id
      */
     @Override
+    @Transactional(readOnly = false)
     public void deleteById(final UUID resourceId) {
         this.attributeRepository.deleteById(resourceId);
     }
@@ -110,6 +113,7 @@ public class AttributeServiceImpl implements AttributeService {
      * @param resourceIds the resource ids
      */
     @Override
+    @Transactional(readOnly = false)
     public void deleteAllById(final List<UUID> resourceIds) {
         this.attributeRepository.deleteAllById(resourceIds);
     }
