@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -49,7 +50,7 @@ class RoleAttributeServiceImplTest {
      * Create ok.
      */
     @Test
-    @DisplayName("Test Create new user role OK")
+    @DisplayName("Test Create new role attribute OK")
     void createOk() {
         when(this.roleAttributeRepository.save(any(RoleAttributeEntity.class))).thenAnswer(i -> i.getArguments()[0]);
         RoleAttributeEntity roleAttributeEntity = Instancio.create(RoleAttributeEntity.class);
@@ -61,7 +62,7 @@ class RoleAttributeServiceImplTest {
      * Update ok.
      */
     @Test
-    @DisplayName("Test update user role OK")
+    @DisplayName("Test update role attribute OK")
     void updateOK() {
         when(this.roleAttributeRepository.save(any(RoleAttributeEntity.class))).thenAnswer(i -> i.getArguments()[0]);
         RoleAttributeEntity roleAttributeEntity = Instancio.create(RoleAttributeEntity.class);
@@ -73,7 +74,7 @@ class RoleAttributeServiceImplTest {
      * Find by id ok.
      */
     @Test
-    @DisplayName("Test find by id user role OK")
+    @DisplayName("Test find by id role attribute OK")
     void findByIdOk() {
         RoleAttributeEntity roleAttributeEntity = Instancio.create(RoleAttributeEntity.class);
         when(this.roleAttributeRepository.findById(any(RoleAttributeId.class))).thenReturn(
@@ -87,7 +88,7 @@ class RoleAttributeServiceImplTest {
      * Find all ok.
      */
     @Test
-    @DisplayName("Test find all user role OK")
+    @DisplayName("Test find all role attribute OK")
     void findAllOk() {
         List<RoleAttributeEntity> roleAttributeEntities = Instancio.ofList(RoleAttributeEntity.class).size(5).create();
         when(this.roleAttributeRepository.findAll()).thenReturn(roleAttributeEntities);
@@ -101,11 +102,26 @@ class RoleAttributeServiceImplTest {
         assertEquals(0, roleAttributeEntities1.size());
     }
 
+    @Test
+    @DisplayName("Test find all role attribute by role id OK")
+    void findAllByRoleIdOk() {
+        List<RoleAttributeEntity> roleAttributeEntities = Instancio.ofList(RoleAttributeEntity.class).size(5).create();
+        when(this.roleAttributeRepository.findAllByRoleId(any(UUID.class))).thenReturn(roleAttributeEntities);
+
+        List<RoleAttributeEntity> roleAttributeEntities1 = this.roleAttributeService.findAllByRoleId(UUID.randomUUID());
+        assertEquals(5, roleAttributeEntities1.size());
+        assertEquals(roleAttributeEntities, roleAttributeEntities1);
+
+        when(this.roleAttributeRepository.findAllByRoleId(any(UUID.class))).thenReturn(Collections.emptyList());
+        roleAttributeEntities1 = this.roleAttributeService.findAll();
+        assertEquals(0, roleAttributeEntities1.size());
+    }
+
     /**
      * Find by pagination ok.
      */
     @Test
-    @DisplayName("Test find findByPagination user role OK")
+    @DisplayName("Test find findByPagination role attribute OK")
     void findByPaginationOk() {
         List<RoleAttributeEntity> roleAttributeEntities = Instancio.ofList(RoleAttributeEntity.class).size(11).create();
         PageImpl<RoleAttributeEntity> entityPage =

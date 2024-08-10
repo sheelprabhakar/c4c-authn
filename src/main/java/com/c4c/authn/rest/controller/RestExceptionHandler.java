@@ -1,9 +1,8 @@
 package com.c4c.authn.rest.controller;
 
+import io.lettuce.core.RedisConnectionException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
-import java.io.Serializable;
-import java.sql.SQLIntegrityConstraintViolationException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +15,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.io.Serializable;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * The type Rest exception handler.
@@ -31,11 +33,11 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @return the response entity
      */
     @ExceptionHandler(BadCredentialsException.class)
-  public ResponseEntity<Object> handleBadCredentialException(
-      final BadCredentialsException ex, final WebRequest request) {
+    public ResponseEntity<Object> handleBadCredentialException(
+            final BadCredentialsException ex, final WebRequest request) {
 
-    return new ResponseEntity<>("Invalid credentials", HttpStatus.BAD_REQUEST);
-  }
+        return new ResponseEntity<>("Invalid credentials", HttpStatus.BAD_REQUEST);
+    }
 
 
     /**
@@ -46,12 +48,12 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @return the response entity
      */
     @ExceptionHandler(EntityNotFoundException.class)
-  public ResponseEntity<Object> entityNotFound(
-      final EntityNotFoundException ex, final WebRequest request) {
+    public ResponseEntity<Object> entityNotFound(
+            final EntityNotFoundException ex, final WebRequest request) {
 
-    return new ResponseEntity<>(ExceptionMessage.builder().code("RESOURCE_NOT_FOUND")
-        .message(ex.getMessage()).build(), HttpStatus.NOT_FOUND);
-  }
+        return new ResponseEntity<>(ExceptionMessage.builder().code("RESOURCE_NOT_FOUND")
+                .message(ex.getMessage()).build(), HttpStatus.NOT_FOUND);
+    }
 
     /**
      * Constraint violation exception response entity.
@@ -61,22 +63,30 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @return the response entity
      */
     @ExceptionHandler({SQLIntegrityConstraintViolationException.class,
-      DataIntegrityViolationException.class,
-      ConstraintViolationException.class})
-  public ResponseEntity<Object> constraintViolationException(
-      final RuntimeException ex, final WebRequest request) {
-    log.debug("DATA_INTEGRITY_VIOLATION", ex);
-    return new ResponseEntity<>(ExceptionMessage.builder().code("DATA_INTEGRITY_VIOLATION")
-        .message(ex.getMessage()).build(), HttpStatus.BAD_REQUEST);
-  }
+            DataIntegrityViolationException.class,
+            ConstraintViolationException.class})
+    public ResponseEntity<Object> constraintViolationException(
+            final RuntimeException ex, final WebRequest request) {
+        log.debug("DATA_INTEGRITY_VIOLATION", ex);
+        return new ResponseEntity<>(ExceptionMessage.builder().code("DATA_INTEGRITY_VIOLATION")
+                .message(ex.getMessage()).build(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({RedisConnectionException.class})
+    public ResponseEntity<Object> serverError(
+            final RuntimeException ex, final WebRequest request) {
+        log.debug("SERVER_ERROR", ex);
+        return new ResponseEntity<>(ExceptionMessage.builder().code("SERVER_ERROR")
+                .message(ex.getMessage()).build(), HttpStatus.BAD_REQUEST);
+    }
 
     /**
      * The type Exception message.
      */
     @Builder
-  @AllArgsConstructor
-  @Getter
-  static class ExceptionMessage implements Serializable {
+    @AllArgsConstructor
+    @Getter
+    static class ExceptionMessage implements Serializable {
         /**
          * The Code.
          */
@@ -85,5 +95,5 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
          * The Message.
          */
         private String message;
-  }
+    }
 }

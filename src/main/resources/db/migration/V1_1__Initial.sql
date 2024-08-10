@@ -156,6 +156,10 @@ DROP TABLE IF EXISTS `role_attribute`;
 CREATE TABLE `role_attribute` (
   `role_id` VARCHAR(36) NOT NULL,
   `attribute_id` VARCHAR(36) NOT NULL,
+  `can_create` TINYINT NULL DEFAULT 0,
+  `can_read` TINYINT NULL DEFAULT 0,
+  `can_update` TINYINT NULL DEFAULT 0,
+  `can_delete` TINYINT NULL DEFAULT 0,
   `is_deleted` TINYINT NOT NULL DEFAULT 0,
   `created_at` DATETIME NULL,
   `updated_at` DATETIME NULL,

@@ -7,9 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import java.io.Serializable;
-import java.util.Calendar;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,6 +15,10 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.UUID;
 
 /**
  * The type User token entity.
@@ -39,34 +40,34 @@ public class UserTokenEntity implements Serializable {
      * The User id.
      */
     @Id
-  @Column(name = "user_id", nullable = false)
-  @JdbcTypeCode(SqlTypes.VARCHAR)
-  private UUID userId;
+    @Column(name = "user_id", nullable = false)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID userId;
 
     /**
      * The Tenant id.
      */
     @Column(name = "tenant_id", nullable = false)
-  @JdbcTypeCode(SqlTypes.VARCHAR)
-  private UUID tenantId;
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID tenantId;
     /**
      * The Access token.
      */
     @Column(name = "access_token", nullable = false, length = TOKEN_MAX_LENGTH)
-  @Convert(converter = EntityAttributeEncryptor.class)
-  private String accessToken;
+    @Convert(converter = EntityAttributeEncryptor.class)
+    private String accessToken;
 
     /**
      * The Refresh token.
      */
     @Column(name = "refresh_token", nullable = false, length = TOKEN_MAX_LENGTH)
-  @Convert(converter = EntityAttributeEncryptor.class)
-  private String refreshToken;
+    @Convert(converter = EntityAttributeEncryptor.class)
+    private String refreshToken;
 
     /**
      * The Updated at.
      */
     @Column(name = "updated_at", nullable = false)
-  @Temporal(TemporalType.TIMESTAMP)
-  private Calendar updatedAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar updatedAt;
 }

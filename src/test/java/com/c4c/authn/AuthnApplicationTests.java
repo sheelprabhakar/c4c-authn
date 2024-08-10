@@ -5,12 +5,10 @@ import com.c4c.authn.core.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Import(TestcontainersConfiguration.class)
 @SpringBootTest
-class AuthnApplicationTests {
+class AuthnApplicationTests extends TestcontainersConfiguration{
 
   /**
    * The Password encoder.

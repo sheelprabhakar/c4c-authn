@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The type Role attribute service.
@@ -78,6 +79,17 @@ public class RoleAttributeServiceImpl implements RoleAttributeService {
     @Override
     public List<RoleAttributeEntity> findAll() {
         return (List<RoleAttributeEntity>) this.roleAttributeRepository.findAll();
+    }
+
+    /**
+     * Find all by role id list.
+     *
+     * @param roleId the role id
+     * @return the list
+     */
+    @Override
+    public List<RoleAttributeEntity> findAllByRoleId(final UUID roleId) {
+        return this.roleAttributeRepository.findAllByRoleId(roleId);
     }
 
     /**

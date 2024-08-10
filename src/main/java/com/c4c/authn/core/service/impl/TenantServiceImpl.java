@@ -23,7 +23,7 @@ import java.util.UUID;
  */
 @Service
 @Slf4j
-@Transactional
+@Transactional(readOnly = true)
 public class TenantServiceImpl implements TenantService {
     /**
      * The Tenant repository.
@@ -66,6 +66,7 @@ public class TenantServiceImpl implements TenantService {
      * @return the tenant entity
      */
     @Override
+    @Transactional(readOnly = false)
     public TenantEntity create(final TenantEntity tenantEntity) {
         tenantEntity.setActive(true);
         tenantEntity.created(CurrentUserContext.getCurrentUser());
@@ -79,6 +80,7 @@ public class TenantServiceImpl implements TenantService {
      * @return the tenant entity
      */
     @Override
+    @Transactional(readOnly = false)
     public TenantEntity update(final TenantEntity tenantEntity) {
         tenantEntity.updated(CurrentUserContext.getCurrentUser());
         return this.saveTenantEntity(tenantEntity);
@@ -123,6 +125,7 @@ public class TenantServiceImpl implements TenantService {
      * @param tenantId the tenant id
      */
     @Override
+    @Transactional(readOnly = false)
     public void deleteById(final UUID tenantId) {
         this.tenantRepository.deleteById(tenantId);
     }
@@ -133,6 +136,7 @@ public class TenantServiceImpl implements TenantService {
      * @param tenantIds the tenant ids
      */
     @Override
+    @Transactional(readOnly = false)
     public void deleteAllById(final List<UUID> tenantIds) {
         this.tenantRepository.deleteAllById(tenantIds);
     }

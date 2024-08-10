@@ -1,27 +1,37 @@
 package com.c4c.authn;
 
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.context.annotation.Bean;
-import org.testcontainers.containers.GenericContainer;
+import com.redis.testcontainers.RedisStackContainer;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.utility.DockerImageName;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
-@TestConfiguration(proxyBeanMethods = false)
+@Testcontainers
 public class TestcontainersConfiguration {
+    @Container
+    private static final MySQLContainer database = new MySQLContainer("mysql:latest");
 
-  @Bean
-  @ServiceConnection
-  MySQLContainer mysqlContainer() {
-    return new MySQLContainer<>(DockerImageName.parse("mysql:latest"))
-        .withReuse(true);
-  }
+    @Container
+    private static final RedisStackContainer redis
+            = new RedisStackContainer("redis:latest").withExposedPorts(6379);
 
-  @Bean
-  @ServiceConnection(name = "redis")
-  GenericContainer<?> redisContainer() {
-    return new GenericContainer<>(DockerImageName.parse("redis:latest"))
-        .withExposedPorts(6379).withReuse(false);
-  }
+    @DynamicPropertySource
+    static void databaseProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", database::getJdbcUrl);
+        registry.add("spring.datasource-replica.url", database::getJdbcUrl);
+        registry.add("spring.datasource.username", database::getUsername);
+        registry.add("spring.datasource.password", database::getPassword);
+
+        registry.add("spring.flyway.url", database::getJdbcUrl);
+        registry.add("spring.flyway.user", database::getUsername);
+        registry.add("spring.flyway.password", database::getPassword);
+
+
+        registry.add("spring.data.redis.database", "0"::toString);
+        registry.add("spring.data.redis.host", redis::getHost);
+        registry.add("spring.data.redis.port", redis::getFirstMappedPort);
+        registry.add("spring.data.redis.timeout", "60000"::toString);
+    }
 
 }

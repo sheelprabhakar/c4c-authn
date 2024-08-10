@@ -49,6 +49,8 @@ public final class RoleAttributeConverter extends Converter<RoleAttributeEntity,
             return null;
         }
         return RoleAttributeEntity.builder().roleId(res.getRoleId()).attributeId(res.getAttributeId())
+                .canCreate(res.isCanCreate()).canDelete(res.isCanDelete()).canRead(res.isCanRead())
+                .canUpdate(res.isCanUpdate())
                 .createdAt(res.getCreatedAt()).createdBy(res.getCreatedBy())
                 .updatedAt(res.getUpdatedAt()).updatedBy(res.getUpdatedBy()).isDeleted(res.isDeleted()).build();
     }
@@ -66,6 +68,8 @@ public final class RoleAttributeConverter extends Converter<RoleAttributeEntity,
         AttributeConverter attributeConverter = AttributeConverter.getInstance();
         RoleConverter roleConverter = RoleConverter.getInstance();
         return RoleAttributeResource.builder().roleId(entity.getRoleId()).attributeId(entity.getAttributeId())
+                .canCreate(entity.isCanCreate()).canDelete(entity.isCanDelete()).canRead(entity.isCanRead())
+                .canUpdate(entity.isCanUpdate())
                 .createdAt(entity.getCreatedAt()).createdBy(entity.getCreatedBy())
                 .updatedAt(entity.getUpdatedAt()).updatedBy(entity.getUpdatedBy()).isDeleted(entity.isDeleted())
                 .attributeResource(attributeConverter.covertFromEntity(entity.getAttributeEntity()))

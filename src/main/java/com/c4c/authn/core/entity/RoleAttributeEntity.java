@@ -69,6 +69,34 @@ public class RoleAttributeEntity extends CommonEntityAttributes implements Seria
     private RoleEntity roleEntity;
 
     /**
+     * The Can create.
+     */
+    @Column(name = "can_create", nullable = false)
+    @JdbcTypeCode(SqlTypes.TINYINT)
+    private boolean canCreate;
+
+    /**
+     * The Can read.
+     */
+    @Column(name = "can_read", nullable = false)
+    @JdbcTypeCode(SqlTypes.TINYINT)
+    private boolean canRead;
+
+    /**
+     * The Can update.
+     */
+    @Column(name = "can_update", nullable = false)
+    @JdbcTypeCode(SqlTypes.TINYINT)
+    private boolean canUpdate;
+
+    /**
+     * The Can delete.
+     */
+    @Column(name = "can_delete", nullable = false)
+    @JdbcTypeCode(SqlTypes.TINYINT)
+    private boolean canDelete;
+
+    /**
      * Equals boolean.
      *
      * @param o the o

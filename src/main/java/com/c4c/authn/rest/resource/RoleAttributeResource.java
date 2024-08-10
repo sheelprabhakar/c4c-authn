@@ -35,6 +35,25 @@ public class RoleAttributeResource extends CommonResourceAttributes implements S
     private UUID attributeId;
 
     /**
+     * The Can create.
+     */
+    private boolean canCreate;
+
+    /**
+     * The Can read.
+     */
+    private boolean canRead;
+
+    /**
+     * The Can update.
+     */
+    private boolean canUpdate;
+
+    /**
+     * The Can delete.
+     */
+    private boolean canDelete;
+    /**
      * The Attribute resource.
      */
     private AttributeResource attributeResource;
