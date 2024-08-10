@@ -64,7 +64,25 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.attributeId").value(resource.getAttributeId().toString()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.roleId").value(resource.getRoleId().toString()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.roleId").value(resource.getRoleId().toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.canCreate").value(resource.isCanCreate()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.canRead").value(resource.isCanCreate()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.canDelete").value(resource.isCanCreate()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.canUpdate").value(resource.isCanCreate()));
+
+        attributeId = this.addAttribute();
+        roleId = this.addRole();
+        resource = RoleAttributeResource.builder().attributeId(attributeId).roleId(roleId).canCreate(true)
+                .canDelete(true).canRead(true).canUpdate(true).build();
+        this.mockMvc.perform(this.post(BASE_URL, resource))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.attributeId").value(resource.getAttributeId().toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.roleId").value(resource.getRoleId().toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.canCreate").value(resource.isCanCreate()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.canRead").value(resource.isCanCreate()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.canDelete").value(resource.isCanCreate()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.canUpdate").value(resource.isCanCreate()));
     }
 
     @Test
