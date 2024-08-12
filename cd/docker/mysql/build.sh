@@ -3,6 +3,8 @@
 docker-compose down -v
 rm -rf ./master/data/*
 rm -rf ./slave/data/*
+chmod 444 ./slave/conf/mysql.conf.cnf
+chmod 444 ./master/conf/mysql.conf.cnf
 docker-compose build
 docker-compose up -d
 
@@ -26,7 +28,7 @@ MS_STATUS=`docker exec mysql_master sh -c 'export MYSQL_PWD=Password4; mysql -u 
 CURRENT_LOG=`echo $MS_STATUS | awk '{print $6}'`
 CURRENT_POS=`echo $MS_STATUS | awk '{print $7}'`
 
-start_slave_stmt="CHANGE REPLICATION SOURCE TO SOURCE_HOST='mysql_master',SOURCE_USER='app_user',SOURCE_PASSWORD='Password4',SOURCE_LOG_FILE='$CURRENT_LOG',SOURCE_LOG_POS=$CURRENT_POS; START REPLICA;"
+start_slave_stmt="CHANGE REPLICATION SOURCE TO SOURCE_HOST='mysql_master',SOURCE_USER='app_user',SOURCE_PASSWORD='Password4', GET_SOURCE_PUBLIC_KEY=1, SOURCE_LOG_FILE='$CURRENT_LOG',SOURCE_LOG_POS=$CURRENT_POS; START REPLICA;"
 start_slave_cmd='export MYSQL_PWD=Password4; mysql -u root -e "'
 start_slave_cmd+="$start_slave_stmt"
 start_slave_cmd+='"'

@@ -21,7 +21,7 @@ services:
       - ./slave/mysql_slave.env
     volumes:
       - slave_data:/var/lib/mysql
-      - ./master/conf/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+      - ./slave/conf/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 3307:3306

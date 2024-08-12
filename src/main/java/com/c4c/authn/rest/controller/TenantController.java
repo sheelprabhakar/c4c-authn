@@ -95,7 +95,7 @@ public class TenantController extends BaseController {
    * @return the response entity
    */
   @GetMapping()
-  public ResponseEntity<List<TenantResource>> findById() {
+  public ResponseEntity<List<TenantResource>> findAll() {
     if (this.isSuperAdmin()) {
       List<TenantResource> resourceList = this.getRestAdapterV1().findAllTenant();
       return ResponseEntity.ok()
