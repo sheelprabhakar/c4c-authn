@@ -1,7 +1,9 @@
 package com.c4c.authn.core.service.impl;
 
+import com.c4c.authn.common.CurrentUserContext;
 import com.c4c.authn.core.entity.RoleEntity;
 import com.c4c.authn.core.repository.RoleRepository;
+import com.c4c.authn.core.service.api.SystemTenantService;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
@@ -24,6 +27,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,6 +38,11 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class RoleServiceImplTest {
+    /**
+     * The System tenant service.
+     */
+    @Mock
+    SystemTenantService systemTenantService;
     /**
      * The Role service.
      */
@@ -88,16 +97,33 @@ class RoleServiceImplTest {
     @Test
     @DisplayName("Test find all role OK")
     void findAllOk() {
-        List<RoleEntity> roleEntities = Instancio.ofList(RoleEntity.class).size(5).create();
-        when(this.roleRepository.findAll()).thenReturn(roleEntities);
+        try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
+            // Define the behavior of the static method
+            mockedStatic.when(CurrentUserContext::getCurrentTenant).thenReturn(UUID.randomUUID());
+            when(this.systemTenantService.isSystemTenant(any(UUID.class))).thenReturn(true);
+            List<RoleEntity> roleEntities = Instancio.ofList(RoleEntity.class).size(5).create();
+            when(this.roleRepository.findAll()).thenReturn(roleEntities);
 
-        List<RoleEntity> roleEntities1 = this.roleService.findAll();
-        assertEquals(5, roleEntities1.size());
-        assertEquals(roleEntities, roleEntities1);
+            List<RoleEntity> roleEntities1 = this.roleService.findAll();
+            assertEquals(5, roleEntities1.size());
+            assertEquals(roleEntities, roleEntities1);
 
-        when(this.roleRepository.findAll()).thenReturn(Collections.emptyList());
-        roleEntities1 = this.roleService.findAll();
-        assertEquals(0, roleEntities1.size());
+            when(this.roleRepository.findAll()).thenReturn(Collections.emptyList());
+            roleEntities1 = this.roleService.findAll();
+            assertEquals(0, roleEntities1.size());
+
+            when(this.systemTenantService.isSystemTenant(any(UUID.class))).thenReturn(false);
+            roleEntities = Instancio.ofList(RoleEntity.class).size(5).create();
+            when(this.roleRepository.findAllByTenantId(any(UUID.class))).thenReturn(roleEntities);
+
+            roleEntities1 = this.roleService.findAll();
+            assertEquals(5, roleEntities1.size());
+            assertEquals(roleEntities, roleEntities1);
+
+            when(this.roleRepository.findAllByTenantId(any(UUID.class))).thenReturn(Collections.emptyList());
+            roleEntities1 = this.roleService.findAll();
+            assertEquals(0, roleEntities1.size());
+        }
     }
 
     /**
@@ -106,15 +132,32 @@ class RoleServiceImplTest {
     @Test
     @DisplayName("Test find findByPagination role OK")
     void findByPaginationOk() {
-        List<RoleEntity> roleEntities = Instancio.ofList(RoleEntity.class).size(11).create();
-        PageImpl<RoleEntity> entityPage =
-                new PageImpl<>(roleEntities);
-        when(this.roleRepository.findAll(any(Pageable.class))).thenReturn(entityPage);
+        try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
+            // Define the behavior of the static method
+            mockedStatic.when(CurrentUserContext::getCurrentTenant).thenReturn(UUID.randomUUID());
+            when(this.systemTenantService.isSystemTenant(any(UUID.class))).thenReturn(true);
+            List<RoleEntity> roleEntities = Instancio.ofList(RoleEntity.class).size(11).create();
+            PageImpl<RoleEntity> entityPage =
+                    new PageImpl<>(roleEntities);
+            when(this.roleRepository.findAll(any(Pageable.class))).thenReturn(entityPage);
 
-        Page<RoleEntity> roleEntities1 = this.roleService.findByPagination(0, 11);
+            Page<RoleEntity> roleEntities1 = this.roleService.findByPagination(0, 11);
 
-        assertEquals(roleEntities, roleEntities1.getContent());
-        assertEquals(1, roleEntities1.getTotalPages());
+            assertEquals(roleEntities, roleEntities1.getContent());
+            assertEquals(1, roleEntities1.getTotalPages());
+
+
+            when(this.systemTenantService.isSystemTenant(any(UUID.class))).thenReturn(false);
+            roleEntities = Instancio.ofList(RoleEntity.class).size(11).create();
+            entityPage =
+                    new PageImpl<>(roleEntities);
+            when(this.roleRepository.findAllByTenantId(any(Pageable.class), any(UUID.class))).thenReturn(entityPage);
+
+            roleEntities1 = this.roleService.findByPagination(0, 11);
+
+            assertEquals(roleEntities, roleEntities1.getContent());
+            assertEquals(1, roleEntities1.getTotalPages());
+        }
     }
 
     /**

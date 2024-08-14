@@ -2,7 +2,6 @@ package com.c4c.authn.core.repository;
 
 import com.c4c.authn.core.entity.RoleEntity;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -34,9 +33,9 @@ public interface RoleRepository extends CrudRepository<RoleEntity, UUID> {
     /**
      * Find all by tenant id page.
      *
-     * @param pageRequest   the page request
+     * @param pageable      the pageable
      * @param currentTenant the current tenant
      * @return the page
      */
-    Page<RoleEntity> findAllByTenantId(PageRequest pageRequest, UUID currentTenant);
+    Page<RoleEntity> findAllByTenantId(Pageable pageable, UUID currentTenant);
 }
