@@ -56,10 +56,10 @@ public class AttributeEntity extends CommonEntityAttributes implements Serializa
     private UUID tenantId;
 
     /**
-     * The Attribute name.
+     * The Name.
      */
-    @Column(name = "attribute_name", length = L50, nullable = false)
-    private String attributeName;
+    @Column(name = "name", length = L50, nullable = false)
+    private String name;
 
     /**
      * The Path.

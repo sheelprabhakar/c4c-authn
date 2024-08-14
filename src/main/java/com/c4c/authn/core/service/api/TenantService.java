@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * The interface Tenant service.
  */
-public interface TenantService {
+public interface TenantService extends SystemTenantService {
     /**
      * Create tenant entity.
      *
@@ -63,4 +63,5 @@ public interface TenantService {
      * @param tenantIds the tenant ids
      */
     void deleteAllById(List<UUID> tenantIds);
+
 }

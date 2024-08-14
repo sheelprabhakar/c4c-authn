@@ -1,13 +1,18 @@
 package com.c4c.authn.common;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Objects;
-import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * The type Spring util.
@@ -18,7 +23,7 @@ public final class SpringUtil {
      */
     private SpringUtil() {
 
-  }
+    }
 
     /**
      * Is super admin boolean.
@@ -26,10 +31,10 @@ public final class SpringUtil {
      * @return the boolean
      */
     public static boolean isSuperAdmin() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return authentication.getAuthorities().stream()
-        .anyMatch(x -> x.getAuthority().equals(Constants.SUPER_ADMIN));
-  }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getAuthorities().stream()
+                .anyMatch(x -> x.getAuthority().equals(Constants.SUPER_ADMIN));
+    }
 
     /**
      * Is tenant admin boolean.
@@ -37,10 +42,10 @@ public final class SpringUtil {
      * @return the boolean
      */
     public static boolean isTenantAdmin() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return authentication.getAuthorities().stream()
-        .anyMatch(x -> x.getAuthority().equals(Constants.TENANT_ADMIN));
-  }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getAuthorities().stream()
+                .anyMatch(x -> x.getAuthority().equals(Constants.TENANT_ADMIN));
+    }
 
     /**
      * Gets loggedin user.
@@ -48,9 +53,9 @@ public final class SpringUtil {
      * @return the loggedin user
      */
     public static String getLoggedinUser() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    return (String) authentication.getPrincipal();
-  }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (String) authentication.getPrincipal();
+    }
 
     /**
      * Gets tenant id.
@@ -58,13 +63,39 @@ public final class SpringUtil {
      * @return the tenant id
      */
     public static UUID getTenantId() {
-    RequestAttributes attribs = RequestContextHolder.getRequestAttributes();
-    if (attribs != null) {
-      HttpServletRequest request = ((ServletRequestAttributes) attribs).getRequest();
-      if (Objects.nonNull(request.getHeader("X-TENANT-ID"))) {
-        return UUID.fromString(request.getHeader("X-TENANT-ID"));
-      }
+        RequestAttributes attribs = RequestContextHolder.getRequestAttributes();
+        if (attribs != null) {
+            HttpServletRequest request = ((ServletRequestAttributes) attribs).getRequest();
+            if (Objects.nonNull(request.getHeader("X-TENANT-ID"))) {
+                return UUID.fromString(request.getHeader("X-TENANT-ID"));
+            }
+        }
+        return null;
     }
-    return null;
-  }
+
+    /**
+     * From single item list.
+     *
+     * @param <T> the type parameter
+     * @param t   the t
+     * @return the list
+     */
+    public static <T> List<T> fromSingleItem(T t) {
+        List<T> list = new ArrayList<>();
+        if (null != t) {
+            list.add(t);
+        }
+        return list;
+    }
+
+    /**
+     * Paged from single item page.
+     *
+     * @param <T> the type parameter
+     * @param t   the t
+     * @return the page
+     */
+    public static <T> Page<T> pagedFromSingleItem(T t) {
+        return new PageImpl<>(SpringUtil.fromSingleItem(t));
+    }
 }

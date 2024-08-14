@@ -1,9 +1,11 @@
 package com.c4c.authn.rest.controller;
 
 import com.c4c.authn.rest.resource.AttributeResource;
+import com.c4c.authn.rest.resource.PagedModelResponse;
 import com.c4c.authn.utils.TestUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -29,7 +31,7 @@ class AttributeControllerTest extends AbstractIntegrationTest {
     /**
      * The Base url.
      */
-    private final String BASE_URL = API_V1 + ATTRIBUTE_URL;
+    private static final String BASE_URL = API_V1 + ATTRIBUTE_URL;
 
     /**
      * Test create new resource ok.
@@ -43,7 +45,7 @@ class AttributeControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(this.post(BASE_URL, resource))
                 //.andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.attributeName").value(resource.getAttributeName()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(resource.getName()));
     }
 
     /**
@@ -61,7 +63,7 @@ class AttributeControllerTest extends AbstractIntegrationTest {
         String string = mvcResult.getResponse().getContentAsString();
         AttributeResource resource1 = TestUtils.convertJsonStringToObject(string, AttributeResource.class);
         this.mockMvc.perform(this.get(BASE_URL + "/" + resource1.getId())).andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.attributeName").value(resource.getAttributeName()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(resource.getName()));
 
         this.mockMvc.perform(this.get(BASE_URL + "/" + "non exist")).andExpect(status().isBadRequest());
 
@@ -82,7 +84,7 @@ class AttributeControllerTest extends AbstractIntegrationTest {
     @DisplayName("Create Rest resource test Bad request")
     void testCreateNewResource400() throws Exception {
         AttributeResource resource = Instancio.create(AttributeResource.class);
-        resource.setAttributeName("");
+        resource.setName("");
         resource.setPath(null);
         this.mockMvc.perform(this.post(BASE_URL, resource))
                 .andDo(print())
@@ -125,5 +127,41 @@ class AttributeControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(this.delete(BASE_URL + "/" + resource1.getId())).andExpect(status().isNoContent());
 
         this.mockMvc.perform(this.get(BASE_URL + "/" + resource1.getId())).andExpect(status().isNotFound());
+    }
+
+    /**
+     * Test tenant read ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    @DisplayName("Test Attribute Read operation")
+    void attributeReadOk() throws Exception {
+        AttributeResource resource = Instancio.create(AttributeResource.class);
+        String result = this.mockMvc.perform(this.post(BASE_URL, resource))
+                //.andDo(print())
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+
+        AttributeResource tenantResource = TestUtils.convertJsonStringToObject(result, AttributeResource.class);
+        this.mockMvc.perform(this.get(BASE_URL + "/" + tenantResource.getId()))
+                //.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(tenantResource.getName()));
+
+        result = this.mockMvc.perform(this.get(BASE_URL))
+                //.andDo(print())
+                .  andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        PagedModelResponse<AttributeResource>
+                resourceList = TestUtils.convertJsonStringToObject(result, PagedModelResponse.class);
+        Assertions.assertTrue(resourceList.getContent().size() > 0);
+
+        result = this.mockMvc.perform(this.get(BASE_URL+"?pageSize=10&pageNo=0"))
+                //.andDo(print())
+                .  andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+                resourceList = TestUtils.convertJsonStringToObject(result, PagedModelResponse.class);
+        Assertions.assertTrue(resourceList.getContent().size() > 0);
     }
 }

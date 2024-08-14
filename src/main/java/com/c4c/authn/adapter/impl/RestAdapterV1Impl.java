@@ -297,6 +297,19 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
+     * Find by pagination tenant page.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the page
+     */
+    @Override
+    public Page<TenantResource> findByPaginationTenant(final int pageNo, final int pageSize) {
+        return this.tenantConverter.createFromEntities(
+                this.tenantService.findByPagination(pageNo, pageSize));
+    }
+
+    /**
      * Delete by id tenant.
      *
      * @param tenantId the tenant id
@@ -355,7 +368,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     @Override
     public Page<AttributeResource> findByPaginationAttribute(final int pageNo, final int pageSize) {
         return this.attributeConverter.createFromEntities(
-                this.attributeService.findByPagination(pageSize, pageNo));
+                this.attributeService.findByPagination(pageNo, pageSize));
     }
 
     /**

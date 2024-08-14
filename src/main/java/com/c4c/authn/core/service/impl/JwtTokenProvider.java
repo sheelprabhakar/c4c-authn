@@ -1,5 +1,6 @@
 package com.c4c.authn.core.service.impl;
 
+import com.c4c.authn.common.CurrentUserContext;
 import com.c4c.authn.common.exception.CustomException;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.entity.UserTokenEntity;
@@ -151,7 +152,9 @@ public class JwtTokenProvider {
 
         if (user != null) {
             UserTokenEntity userTokenEntity = this.userTokenService.getById(user.getId());
-            if (userTokenEntity == null || !userTokenEntity.getAccessToken().equals(token)) {
+            if (userTokenEntity == null || !userTokenEntity.getAccessToken().equals(token)
+                    // Validate Tenant Id in Header with user's tenant id
+            || !user.getTenantId().equals(CurrentUserContext.getCurrentTenant())) {
                 throw new CustomException("Invalid token", HttpStatus.UNAUTHORIZED);
             }
         }

@@ -20,15 +20,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class UserControllerTest extends AbstractIntegrationTest {
+  //ToDo add test case
   /**
    * The Base url.
    */
-  private final String BASE_URL = API_V1 + USER_URL;
-
-  /**
-   * The Unq.
-   */
-  private final int unq = 0;
+  private static final String BASE_URL = API_V1 + USER_URL;
 
   /**
    * Test add user ok.

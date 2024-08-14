@@ -1,12 +1,12 @@
 package com.c4c.authn.rest.controller;
 
 import com.c4c.authn.adapter.api.RestAdapterV1;
+import com.c4c.authn.rest.resource.PagedModelResponse;
 import com.c4c.authn.rest.resource.RoleAttributeResource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.web.PagedModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -77,16 +77,16 @@ public class RoleAttributeController extends BaseController {
      * @return the response entity
      */
     @GetMapping
-    public ResponseEntity<PagedModel<RoleAttributeResource>> findByPagination(
+    public ResponseEntity<PagedModelResponse<RoleAttributeResource>> findByPagination(
             @RequestParam(value = "pageNo", required = false, defaultValue = "-1") final int pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize) {
         if (pageSize > 0) {
             Page<RoleAttributeResource> resources =
                     this.getRestAdapterV1().findByPaginationRoleAttribute(pageNo, pageSize);
-            return ResponseEntity.ok().body(new PagedModel<>(resources));
+            return ResponseEntity.ok().body(new PagedModelResponse<>(resources));
         } else {
             List<RoleAttributeResource> resources = this.getRestAdapterV1().findAllRoleAttribute();
-            return ResponseEntity.ok().body(new PagedModel<>(new PageImpl<>(resources)));
+            return ResponseEntity.ok().body(new PagedModelResponse<>(new PageImpl<>(resources)));
         }
     }
 

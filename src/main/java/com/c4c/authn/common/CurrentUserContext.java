@@ -15,6 +15,7 @@ public final class CurrentUserContext {
      */
     private static final ThreadLocal<String> CURRENT_USER = new InheritableThreadLocal<>();
 
+
     /**
      * Instantiates a new Current user context.
      */
@@ -29,6 +30,7 @@ public final class CurrentUserContext {
     public static UUID getCurrentTenant() {
         return CURRENT_TENANT.get();
     }
+
 
     /**
      * Sets current tenant.

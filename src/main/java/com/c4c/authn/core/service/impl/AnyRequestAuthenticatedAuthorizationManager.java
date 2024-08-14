@@ -4,6 +4,8 @@ import com.c4c.authn.core.domain.AttributeRecord;
 import com.c4c.authn.core.entity.RoleAttributeEntity;
 import com.c4c.authn.core.entity.RoleEntity;
 import com.c4c.authn.core.service.api.RoleAttributeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authorization.AuthorityAuthorizationDecision;
@@ -25,6 +27,7 @@ import java.util.function.Supplier;
  */
 public final class AnyRequestAuthenticatedAuthorizationManager implements
         AuthorizationManager<RequestAuthorizationContext> {
+    private static final Logger log = LoggerFactory.getLogger(AnyRequestAuthenticatedAuthorizationManager.class);
     /**
      * The Role attribute service.
      */
@@ -81,6 +84,9 @@ public final class AnyRequestAuthenticatedAuthorizationManager implements
                 break;
             }
         }
+        if(!granted){
+            log.info("{} {} not authorised", requestPath, verb);
+        }
         return new AuthorityAuthorizationDecision(granted,
                 (Collection<GrantedAuthority>) authentication.get().getAuthorities());
     }
@@ -98,7 +104,7 @@ public final class AnyRequestAuthenticatedAuthorizationManager implements
         List<AttributeRecord> attributeRecords = new ArrayList<>();
         allByRoleId.forEach(entity -> {
 
-            AttributeRecord attributeRecord = new AttributeRecord(entity.getAttributeEntity().getAttributeName(),
+            AttributeRecord attributeRecord = new AttributeRecord(entity.getAttributeEntity().getName(),
                     entity.getAttributeEntity().getPath(), getVerbs(entity));
             attributeRecords.add(attributeRecord);
         });

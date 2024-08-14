@@ -48,7 +48,7 @@ public final class AttributeConverter extends Converter<AttributeEntity, Attribu
             return null;
         }
         return AttributeEntity.builder().id(res.getId()).tenantId(res.getTenantId()).path(res.getPath())
-                .attributeName(res.getAttributeName()).createdAt(res.getCreatedAt()).createdBy(res.getCreatedBy())
+                .name(res.getName()).createdAt(res.getCreatedAt()).createdBy(res.getCreatedBy())
                 .updatedAt(res.getUpdatedAt()).updatedBy(res.getUpdatedBy()).isDeleted(res.isDeleted()).build();
     }
 
@@ -63,7 +63,7 @@ public final class AttributeConverter extends Converter<AttributeEntity, Attribu
             return null;
         }
         return AttributeResource.builder().id(entity.getId()).tenantId(entity.getTenantId()).path(entity.getPath())
-                .attributeName(entity.getAttributeName()).createdAt(entity.getCreatedAt())
+                .name(entity.getName()).createdAt(entity.getCreatedAt())
                 .createdBy(entity.getCreatedBy())
                 .updatedAt(entity.getUpdatedAt()).updatedBy(entity.getUpdatedBy()).isDeleted(entity.isDeleted())
                 .build();
