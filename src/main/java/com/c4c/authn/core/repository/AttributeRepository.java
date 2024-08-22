@@ -28,7 +28,7 @@ public interface AttributeRepository extends CrudRepository<AttributeEntity, UUI
      * @param tenantId the tenant id
      * @return the list
      */
-    List<AttributeEntity> findAllByTenantId( UUID tenantId);
+    List<AttributeEntity> findAllByTenantId(UUID tenantId);
 
     /**
      * Find all by tenant id page.

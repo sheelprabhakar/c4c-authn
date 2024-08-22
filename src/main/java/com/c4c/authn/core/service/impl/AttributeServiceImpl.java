@@ -23,6 +23,9 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class AttributeServiceImpl implements AttributeService {
 
+    /**
+     * The System tenant service.
+     */
     private final SystemTenantService systemTenantService;
     /**
      * The Attribute repository.
@@ -32,6 +35,7 @@ public class AttributeServiceImpl implements AttributeService {
     /**
      * Instantiates a new Attribute service.
      *
+     * @param systemTenantService the system tenant service
      * @param attributeRepository the attribute repository
      */
     public AttributeServiceImpl(final SystemTenantService systemTenantService,

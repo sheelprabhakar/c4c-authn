@@ -80,7 +80,7 @@ public final class SpringUtil {
      * @param t   the t
      * @return the list
      */
-    public static <T> List<T> fromSingleItem(T t) {
+    public static <T> List<T> fromSingleItem(final T t) {
         List<T> list = new ArrayList<>();
         if (null != t) {
             list.add(t);
@@ -95,7 +95,7 @@ public final class SpringUtil {
      * @param t   the t
      * @return the page
      */
-    public static <T> Page<T> pagedFromSingleItem(T t) {
+    public static <T> Page<T> pagedFromSingleItem(final T t) {
         return new PageImpl<>(SpringUtil.fromSingleItem(t));
     }
 }

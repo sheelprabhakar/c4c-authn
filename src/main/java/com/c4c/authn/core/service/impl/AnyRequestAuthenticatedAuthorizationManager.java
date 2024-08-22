@@ -4,8 +4,7 @@ import com.c4c.authn.core.domain.AttributeRecord;
 import com.c4c.authn.core.entity.RoleAttributeEntity;
 import com.c4c.authn.core.entity.RoleEntity;
 import com.c4c.authn.core.service.api.RoleAttributeService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authorization.AuthorityAuthorizationDecision;
@@ -25,9 +24,9 @@ import java.util.function.Supplier;
 /**
  * The type Any request authenticated authorization manager.
  */
+@Slf4j
 public final class AnyRequestAuthenticatedAuthorizationManager implements
         AuthorizationManager<RequestAuthorizationContext> {
-    private static final Logger log = LoggerFactory.getLogger(AnyRequestAuthenticatedAuthorizationManager.class);
     /**
      * The Role attribute service.
      */
@@ -42,7 +41,7 @@ public final class AnyRequestAuthenticatedAuthorizationManager implements
      *
      * @param roleAttributeService the role attribute service
      */
-    public AnyRequestAuthenticatedAuthorizationManager(RoleAttributeService roleAttributeService) {
+    public AnyRequestAuthenticatedAuthorizationManager(final RoleAttributeService roleAttributeService) {
         this.roleAttributeService = roleAttributeService;
     }
 
@@ -74,8 +73,8 @@ public final class AnyRequestAuthenticatedAuthorizationManager implements
         for (RoleEntity roleEntity : roleEntities) {
             List<AttributeRecord> attributeRecords = this.getAttributesByRoleId(roleEntity.getId());
             for (AttributeRecord attributeRecord : attributeRecords) {
-                if (this.pathMatcher.match(attributeRecord.path(), requestPath) &&
-                        attributeRecord.verbs().contains(verb)) {
+                if (this.pathMatcher.match(attributeRecord.path(), requestPath)
+                        && attributeRecord.verbs().contains(verb)) {
                     granted = true;
                     break;
                 }
@@ -84,7 +83,7 @@ public final class AnyRequestAuthenticatedAuthorizationManager implements
                 break;
             }
         }
-        if(!granted){
+        if (!granted) {
             log.info("{} {} not authorised", requestPath, verb);
         }
         return new AuthorityAuthorizationDecision(granted,

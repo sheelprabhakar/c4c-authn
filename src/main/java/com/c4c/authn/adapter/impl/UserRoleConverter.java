@@ -3,7 +3,6 @@ package com.c4c.authn.adapter.impl;
 import com.c4c.authn.adapter.api.Converter;
 import com.c4c.authn.core.entity.UserRoleEntity;
 import com.c4c.authn.rest.resource.UserRoleResource;
-import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 

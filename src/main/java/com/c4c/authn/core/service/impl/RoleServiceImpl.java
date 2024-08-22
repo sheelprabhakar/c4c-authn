@@ -22,6 +22,9 @@ import java.util.UUID;
 @Slf4j
 @Transactional
 public class RoleServiceImpl implements RoleService {
+    /**
+     * The System tenant service.
+     */
     private final SystemTenantService systemTenantService;
     /**
      * The Role repository.
@@ -31,7 +34,8 @@ public class RoleServiceImpl implements RoleService {
     /**
      * Instantiates a new Role service.
      *
-     * @param roleRepository the role repository
+     * @param systemTenantService the system tenant service
+     * @param roleRepository      the role repository
      */
     public RoleServiceImpl(final SystemTenantService systemTenantService, final RoleRepository roleRepository) {
         this.systemTenantService = systemTenantService;

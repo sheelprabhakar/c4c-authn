@@ -17,9 +17,12 @@ import java.util.List;
 @Setter
 public class PagedModelResponse<T> {
     /**
-     * The Content.
+     * The Items.
      */
     private List<T> items;
+    /**
+     * The Total.
+     */
     private int total;
     /**
      * The Page.
@@ -42,14 +45,14 @@ public class PagedModelResponse<T> {
         Assert.notNull(page, "Page must not be null");
         this.items = page.getContent();
         this.total = this.items.size();
-        this.page = new PagedModel.PageMetadata(page.getSize(),page.getNumber(), page.getTotalElements(),
+        this.page = new PagedModel.PageMetadata(page.getSize(), page.getNumber(), page.getTotalElements(),
                 page.getTotalPages());
     }
 
     /**
      * The type Page metadata.
      */
-    public static record PageMetadata(long size, long number, long totalElements, long totalPages) {
+    public record PageMetadata(long size, long number, long totalElements, long totalPages) {
 
     }
 }

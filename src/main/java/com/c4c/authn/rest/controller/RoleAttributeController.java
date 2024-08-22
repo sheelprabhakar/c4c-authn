@@ -101,7 +101,8 @@ public class RoleAttributeController extends BaseController {
             final @RequestBody @Validated RoleAttributeResource roleAttributeResource) {
         RoleAttributeResource resource = this.getRestAdapterV1().createRoleAttribute(roleAttributeResource);
         return ResponseEntity.created(
-                        URI.create(BASE_URL + "?roleId=" + resource.getRoleId() + "&attributeId=" + resource.getAttributeId()))
+                        URI.create(BASE_URL + "?roleId=" + resource.getRoleId()
+                                + "&attributeId=" + resource.getAttributeId()))
                 .body(resource);
     }
 
