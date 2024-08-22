@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -20,4 +21,21 @@ public interface RoleRepository extends CrudRepository<RoleEntity, UUID> {
      * @return the page
      */
     Page<RoleEntity> findAll(Pageable pageable);
+
+    /**
+     * Find all by tenant id list.
+     *
+     * @param currentTenant the current tenant
+     * @return the list
+     */
+    List<RoleEntity> findAllByTenantId(UUID currentTenant);
+
+    /**
+     * Find all by tenant id page.
+     *
+     * @param pageable      the pageable
+     * @param currentTenant the current tenant
+     * @return the page
+     */
+    Page<RoleEntity> findAllByTenantId(Pageable pageable, UUID currentTenant);
 }

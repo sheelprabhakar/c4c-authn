@@ -4,6 +4,7 @@ import com.c4c.authn.common.CurrentUserContext;
 import com.c4c.authn.core.entity.AttributeEntity;
 import com.c4c.authn.core.repository.AttributeRepository;
 import com.c4c.authn.core.service.api.AttributeService;
+import com.c4c.authn.core.service.api.SystemTenantService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,10 @@ import java.util.UUID;
 public class AttributeServiceImpl implements AttributeService {
 
     /**
+     * The System tenant service.
+     */
+    private final SystemTenantService systemTenantService;
+    /**
      * The Attribute repository.
      */
     private final AttributeRepository attributeRepository;
@@ -30,9 +35,12 @@ public class AttributeServiceImpl implements AttributeService {
     /**
      * Instantiates a new Attribute service.
      *
+     * @param systemTenantService the system tenant service
      * @param attributeRepository the attribute repository
      */
-    public AttributeServiceImpl(final AttributeRepository attributeRepository) {
+    public AttributeServiceImpl(final SystemTenantService systemTenantService,
+                                final AttributeRepository attributeRepository) {
+        this.systemTenantService = systemTenantService;
         this.attributeRepository = attributeRepository;
     }
 
@@ -80,7 +88,11 @@ public class AttributeServiceImpl implements AttributeService {
      */
     @Override
     public List<AttributeEntity> findAll() {
-        return (List<AttributeEntity>) this.attributeRepository.findAll();
+        if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenant())) {
+            return (List<AttributeEntity>) this.attributeRepository.findAll();
+        } else {
+            return this.attributeRepository.findAllByTenantId(CurrentUserContext.getCurrentTenant());
+        }
     }
 
     /**
@@ -92,8 +104,12 @@ public class AttributeServiceImpl implements AttributeService {
      */
     @Override
     public Page<AttributeEntity> findByPagination(final int pageNo, final int pageSize) {
-        return this.attributeRepository.findAll(PageRequest.of(pageNo, pageSize,
-                Sort.by("attributeName").ascending()));
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());
+        if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenant())) {
+            return this.attributeRepository.findAll(pageRequest);
+        } else {
+            return this.attributeRepository.findAllByTenantId(pageRequest, CurrentUserContext.getCurrentTenant());
+        }
     }
 
     /**

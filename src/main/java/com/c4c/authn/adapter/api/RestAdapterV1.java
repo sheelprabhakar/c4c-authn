@@ -104,6 +104,16 @@ public interface RestAdapterV1 {
      */
     TenantResource findByIdTenant(UUID tenantId);
 
+
+    /**
+     * Find by pagination tenant page.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the page
+     */
+    Page<TenantResource> findByPaginationTenant(int pageNo, int pageSize);
+
     /**
      * Find all tenant list.
      *
@@ -309,4 +319,5 @@ public interface RestAdapterV1 {
      * @param attributeId the attribute id
      */
     void deleteByIdRoleAttribute(UUID roleId, UUID attributeId);
+
 }

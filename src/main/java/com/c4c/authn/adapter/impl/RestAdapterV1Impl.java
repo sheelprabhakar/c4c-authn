@@ -297,6 +297,19 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     }
 
     /**
+     * Find by pagination tenant page.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the page
+     */
+    @Override
+    public Page<TenantResource> findByPaginationTenant(final int pageNo, final int pageSize) {
+        return this.tenantConverter.createFromEntities(
+                this.tenantService.findByPagination(pageNo, pageSize));
+    }
+
+    /**
      * Delete by id tenant.
      *
      * @param tenantId the tenant id
@@ -355,7 +368,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     @Override
     public Page<AttributeResource> findByPaginationAttribute(final int pageNo, final int pageSize) {
         return this.attributeConverter.createFromEntities(
-                this.attributeService.findByPagination(pageSize, pageNo));
+                this.attributeService.findByPagination(pageNo, pageSize));
     }
 
     /**
@@ -541,7 +554,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      */
     @Override
     public Page<RoleAttributeResource> findByPaginationRoleAttribute(final int pageNo, final int pageSize) {
-        return this.roleAttributeConverter.createFromEntities(this.roleAttributeService.findByPagination(pageNo, pageSize));
+        return this.roleAttributeConverter.createFromEntities(
+                this.roleAttributeService.findByPagination(pageNo, pageSize));
     }
 
     /**
@@ -562,7 +576,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      */
     @Override
     public RoleAttributeResource createRoleAttribute(final RoleAttributeResource roleAttributeResource) {
-        RoleAttributeEntity roleAttributeEntity = this.roleAttributeConverter.convertFromResource(roleAttributeResource);
+        RoleAttributeEntity roleAttributeEntity =
+                this.roleAttributeConverter.convertFromResource(roleAttributeResource);
         roleAttributeEntity.setRoleEntity(this.roleService.findById(roleAttributeEntity.getRoleId()));
         roleAttributeEntity.setAttributeEntity(this.attributeService.findById(roleAttributeEntity.getAttributeId()));
         return this.roleAttributeConverter.covertFromEntity(this.roleAttributeService.create(roleAttributeEntity));
@@ -577,7 +592,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     @Override
     public RoleAttributeResource updateRoleAttribute(final RoleAttributeResource roleAttributeResource) {
         return this.roleAttributeConverter.covertFromEntity(
-                this.roleAttributeService.update(this.roleAttributeConverter.convertFromResource(roleAttributeResource)));
+                this.roleAttributeService.update(
+                        this.roleAttributeConverter.convertFromResource(roleAttributeResource)));
     }
 
     /**

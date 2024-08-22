@@ -2,12 +2,15 @@ package com.c4c.authn.core.service.impl;
 
 
 import com.c4c.authn.common.CurrentUserContext;
+import com.c4c.authn.common.SpringUtil;
 import com.c4c.authn.core.entity.TenantEntity;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.repository.TenantRepository;
 import com.c4c.authn.core.service.api.TenantService;
 import com.c4c.authn.core.service.api.UserService;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -17,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
+import static com.c4c.authn.common.Constants.SYSTEM_TENANT;
 
 /**
  * The type Tenant service.
@@ -35,6 +40,12 @@ public class TenantServiceImpl implements TenantService {
      */
     private final UserService userService;
 
+
+    /**
+     * The System tenant entity.
+     */
+    private TenantEntity systemTenantEntity;
+
     /**
      * Instantiates a new Tenant service.
      *
@@ -44,6 +55,14 @@ public class TenantServiceImpl implements TenantService {
     public TenantServiceImpl(final TenantRepository tenantRepository, final UserService userService) {
         this.tenantRepository = tenantRepository;
         this.userService = userService;
+    }
+
+    /**
+     * Init.
+     */
+    @PostConstruct
+    void init() {
+        systemTenantEntity = this.tenantRepository.findByShortName(SYSTEM_TENANT);
     }
 
     /**
@@ -104,7 +123,12 @@ public class TenantServiceImpl implements TenantService {
      */
     @Override
     public List<TenantEntity> findAll() {
-        return this.tenantRepository.findAll();
+        if (this.isSystemTenant(CurrentUserContext.getCurrentTenant())) {
+            return this.tenantRepository.findAll();
+        } else {
+            return SpringUtil.fromSingleItem(
+                    this.tenantRepository.findById(CurrentUserContext.getCurrentTenant()).orElse(null));
+        }
     }
 
     /**
@@ -116,7 +140,12 @@ public class TenantServiceImpl implements TenantService {
      */
     @Override
     public Page<TenantEntity> findByPagination(final int pageNo, final int pageSize) {
-        return this.tenantRepository.findAll(PageRequest.of(pageNo, pageSize, Sort.by("name").ascending()));
+        if (this.isSystemTenant(CurrentUserContext.getCurrentTenant())) {
+            return this.tenantRepository.findAll(PageRequest.of(pageNo, pageSize, Sort.by("name").ascending()));
+        } else {
+            return SpringUtil.pagedFromSingleItem(
+                    this.tenantRepository.findById(CurrentUserContext.getCurrentTenant()).orElse(null));
+        }
     }
 
     /**
@@ -139,6 +168,18 @@ public class TenantServiceImpl implements TenantService {
     @Transactional(readOnly = false)
     public void deleteAllById(final List<UUID> tenantIds) {
         this.tenantRepository.deleteAllById(tenantIds);
+    }
+
+    /**
+     * Is system tenant boolean.
+     *
+     * @param tenantId the tenant id
+     * @return the boolean
+     */
+    @Override
+    @Cacheable(value = "tenants", key = "#p0")
+    public boolean isSystemTenant(final UUID tenantId) {
+        return tenantId.equals(this.systemTenantEntity.getId());
     }
 
     /**

@@ -4,6 +4,7 @@ import com.c4c.authn.common.CurrentUserContext;
 import com.c4c.authn.core.entity.RoleEntity;
 import com.c4c.authn.core.repository.RoleRepository;
 import com.c4c.authn.core.service.api.RoleService;
+import com.c4c.authn.core.service.api.SystemTenantService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +23,10 @@ import java.util.UUID;
 @Transactional
 public class RoleServiceImpl implements RoleService {
     /**
+     * The System tenant service.
+     */
+    private final SystemTenantService systemTenantService;
+    /**
      * The Role repository.
      */
     private final RoleRepository roleRepository;
@@ -29,9 +34,11 @@ public class RoleServiceImpl implements RoleService {
     /**
      * Instantiates a new Role service.
      *
-     * @param roleRepository the role repository
+     * @param systemTenantService the system tenant service
+     * @param roleRepository      the role repository
      */
-    public RoleServiceImpl(final RoleRepository roleRepository) {
+    public RoleServiceImpl(final SystemTenantService systemTenantService, final RoleRepository roleRepository) {
+        this.systemTenantService = systemTenantService;
         this.roleRepository = roleRepository;
     }
 
@@ -77,7 +84,11 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public List<RoleEntity> findAll() {
-        return (List<RoleEntity>) this.roleRepository.findAll();
+        if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenant())) {
+            return (List<RoleEntity>) this.roleRepository.findAll();
+        } else {
+            return this.roleRepository.findAllByTenantId(CurrentUserContext.getCurrentTenant());
+        }
     }
 
     /**
@@ -89,8 +100,12 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public Page<RoleEntity> findByPagination(final int pageNo, final int pageSize) {
-        return this.roleRepository.findAll(PageRequest.of(pageNo, pageSize,
-                Sort.by("name").ascending()));
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());
+        if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenant())) {
+            return this.roleRepository.findAll(pageRequest);
+        } else {
+            return this.roleRepository.findAllByTenantId(pageRequest, CurrentUserContext.getCurrentTenant());
+        }
     }
 
     /**

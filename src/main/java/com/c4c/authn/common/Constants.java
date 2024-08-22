@@ -5,6 +5,10 @@ package com.c4c.authn.common;
  */
 public final class Constants {
     /**
+     * The constant SYSTEM_TENANT.
+     */
+    public static final String SYSTEM_TENANT = "SYSTEM";
+    /**
      * The constant SUPER_ADMIN.
      */
     public static final String SUPER_ADMIN = "SUPER_ADMIN";
@@ -55,11 +59,17 @@ public final class Constants {
     public static final String ROLE_ATTRIBUTE_URL = "/api/role/attribute";
 
     /**
+     * The constant IDEMPOTENCY_CACHE.
+     */
+    public static final String IDEMPOTENCY_CACHE = "idempotencyCache";
+    /**
+     * The constant ITEM_CACHE.
+     */
+    public static final String ITEM_CACHE = "itemCache";
+
+    /**
      * Instantiates a new Constants.
      */
-
-    public static final String IDEMPOTENCY_CACHE = "idempotencyCache";
-    public static final String ITEM_CACHE = "itemCache";
     private Constants() {
 
     }

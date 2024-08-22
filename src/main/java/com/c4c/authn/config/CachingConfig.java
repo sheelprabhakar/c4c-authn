@@ -19,9 +19,21 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 public class CachingConfig {
+    /**
+     * The constant DEFAULT_CACHE_TTL.
+     */
     public static final int DEFAULT_CACHE_TTL = 60;
+    /**
+     * The constant IDEMPOTENCY_CACHE_TTL.
+     */
     public static final int IDEMPOTENCY_CACHE_TTL = 2;
 
+    /**
+     * Redis template redis template.
+     *
+     * @param lettuceConnectionFactory the lettuce connection factory
+     * @return the redis template
+     */
     @Bean
     public RedisTemplate<String, Object> redisTemplate(final LettuceConnectionFactory lettuceConnectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
@@ -29,6 +41,11 @@ public class CachingConfig {
         return template;
     }
 
+    /**
+     * Cache configuration redis cache configuration.
+     *
+     * @return the redis cache configuration
+     */
     @Bean
     public RedisCacheConfiguration cacheConfiguration() {
         return RedisCacheConfiguration.defaultCacheConfig()
@@ -37,6 +54,11 @@ public class CachingConfig {
                         new GenericJackson2JsonRedisSerializer()));
     }
 
+    /**
+     * Redis cache manager builder customizer redis cache manager builder customizer.
+     *
+     * @return the redis cache manager builder customizer
+     */
     @Bean
     public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
         return builder -> builder

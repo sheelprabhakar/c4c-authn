@@ -19,39 +19,78 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+/**
+ * The type Dynamic data source configuration.
+ */
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory",
         transactionManagerRef = "transactionManager", basePackages = {"com.c4c.authn.core.repository"})
 public class DynamicDataSourceConfiguration {
+    /**
+     * The constant CPU_COUNT.
+     */
+    public static final int CPU_COUNT = 4;
+    /**
+     * The Primary url.
+     */
     @Value("${spring.datasource.url}")
     private String primaryUrl;
 
+    /**
+     * The Replica url.
+     */
     @Value("${spring.datasource-replica.url}")
     private String replicaUrl;
 
+    /**
+     * The Username.
+     */
     @Value("${spring.datasource.username}")
     private String username;
 
+    /**
+     * The Password.
+     */
     @Value("${spring.datasource.password}")
     private String password;
 
+    /**
+     * The Driver class name.
+     */
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
 
+    /**
+     * The Show sql.
+     */
     @Value("${spring.jpa.show-sql}")
     private boolean showSql;
 
+    /**
+     * The Generate ddl.
+     */
     @Value("${spring.jpa.generate-ddl}")
     private boolean generateDdl;
 
+    /**
+     * The Hibernate dialect.
+     */
     @Value("${spring.jpa.properties.hibernate.dialect}")
     private String hibernateDialect;
 
+    /**
+     * The Ddl auto.
+     */
     @Value("${spring.jpa.hibernate.ddl-auto}")
     private String ddlAuto;
 
 
+    /**
+     * Read write data source data source.
+     *
+     * @return the data source
+     */
     @Bean
     public DataSource readWriteDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -62,12 +101,17 @@ public class DynamicDataSourceConfiguration {
         return connectionPoolDataSource(dataSource);
     }
 
+    /**
+     * Read only data source data source.
+     *
+     * @return the data source
+     */
     @Bean
     public DataSource readOnlyDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        if(!this.replicaUrl.equals("none")) {
+        if (!this.replicaUrl.equals("none")) {
             dataSource.setUrl(this.replicaUrl);
-        }else {
+        } else {
             dataSource.setUrl(this.primaryUrl);
         }
         dataSource.setUsername(this.username);
@@ -76,6 +120,11 @@ public class DynamicDataSourceConfiguration {
         return connectionPoolDataSource(dataSource);
     }
 
+    /**
+     * Data source proxy lazy connection data source proxy.
+     *
+     * @return the lazy connection data source proxy
+     */
     @Bean("dataSource")
     public LazyConnectionDataSourceProxy dataSourceProxy() {
         LazyConnectionDataSourceProxy sourceProxy = new LazyConnectionDataSourceProxy();
@@ -85,22 +134,39 @@ public class DynamicDataSourceConfiguration {
         return sourceProxy;
     }
 
+    /**
+     * Hikari config hikari config.
+     *
+     * @param dataSource the data source
+     * @return the hikari config
+     */
     protected HikariConfig hikariConfig(
-            DataSource dataSource) {
+            final DataSource dataSource) {
         HikariConfig hikariConfig = new HikariConfig();
         int cpuCores = Runtime.getRuntime().availableProcessors();
-        hikariConfig.setMaximumPoolSize(cpuCores * 4);
+        hikariConfig.setMaximumPoolSize(cpuCores * CPU_COUNT);
         hikariConfig.setDataSource(dataSource);
 
         hikariConfig.setAutoCommit(false);
         return hikariConfig;
     }
 
+    /**
+     * Connection pool data source hikari data source.
+     *
+     * @param dataSource the data source
+     * @return the hikari data source
+     */
     protected HikariDataSource connectionPoolDataSource(
-            DataSource dataSource) {
+            final DataSource dataSource) {
         return new HikariDataSource(hikariConfig(dataSource));
     }
 
+    /**
+     * Hibernate jpa vendor adapter hibernate jpa vendor adapter.
+     *
+     * @return the hibernate jpa vendor adapter
+     */
     @Bean
     public HibernateJpaVendorAdapter hibernateJpaVendorAdapter() {
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
@@ -111,9 +177,15 @@ public class DynamicDataSourceConfiguration {
         return adapter;
     }
 
+    /**
+     * Entity manager factory local container entity manager factory bean.
+     *
+     * @param dataSource the data source
+     * @return the local container entity manager factory bean
+     */
     @Bean(name = "entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-            @Qualifier("dataSource") DataSource dataSource) {
+            @Qualifier("dataSource") final DataSource dataSource) {
 
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
@@ -129,9 +201,15 @@ public class DynamicDataSourceConfiguration {
     }
 
 
+    /**
+     * Content transaction manager platform transaction manager.
+     *
+     * @param entityManagerFactory the entity manager factory
+     * @return the platform transaction manager
+     */
     @Bean(name = "transactionManager")
     public PlatformTransactionManager contentTransactionManager(
-            @Qualifier("entityManagerFactory") EntityManagerFactory entityManagerFactory) {
+            @Qualifier("entityManagerFactory") final EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
 }

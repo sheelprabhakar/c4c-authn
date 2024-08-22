@@ -72,6 +72,13 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .message(ex.getMessage()).build(), HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Server error response entity.
+     *
+     * @param ex      the ex
+     * @param request the request
+     * @return the response entity
+     */
     @ExceptionHandler({RedisConnectionException.class})
     public ResponseEntity<Object> serverError(
             final RuntimeException ex, final WebRequest request) {

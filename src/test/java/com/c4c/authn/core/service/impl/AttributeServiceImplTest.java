@@ -1,7 +1,9 @@
 package com.c4c.authn.core.service.impl;
 
+import com.c4c.authn.common.CurrentUserContext;
 import com.c4c.authn.core.entity.AttributeEntity;
 import com.c4c.authn.core.repository.AttributeRepository;
+import com.c4c.authn.core.service.api.SystemTenantService;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
@@ -24,6 +27,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -45,6 +49,8 @@ class AttributeServiceImplTest {
     @Mock
     AttributeRepository attributeRepository;
 
+    @Mock
+    SystemTenantService systemTenantService;
     /**
      * Create ok.
      */
@@ -88,16 +94,33 @@ class AttributeServiceImplTest {
     @Test
     @DisplayName("Test find all REST resource OK")
     void findAllOk() {
-        List<AttributeEntity> restResourceEntities = Instancio.ofList(AttributeEntity.class).size(5).create();
-        when(this.attributeRepository.findAll()).thenReturn(restResourceEntities);
+        try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
+            // Define the behavior of the static method
+            mockedStatic.when(CurrentUserContext::getCurrentTenant).thenReturn(UUID.randomUUID());
+            when(this.systemTenantService.isSystemTenant(any(UUID.class))).thenReturn(true);
+            List<AttributeEntity> restResourceEntities = Instancio.ofList(AttributeEntity.class).size(5).create();
+            when(this.attributeRepository.findAll()).thenReturn(restResourceEntities);
+            List<AttributeEntity> restResourceEntities1 = this.attributeService.findAll();
+            assertEquals(5, restResourceEntities1.size());
+            assertEquals(restResourceEntities, restResourceEntities1);
 
-        List<AttributeEntity> restResourceEntities1 = this.attributeService.findAll();
-        assertEquals(5, restResourceEntities1.size());
-        assertEquals(restResourceEntities, restResourceEntities1);
+            when(this.attributeRepository.findAll()).thenReturn(Collections.emptyList());
+            restResourceEntities1 = this.attributeService.findAll();
+            assertEquals(0, restResourceEntities1.size());
 
-        when(this.attributeRepository.findAll()).thenReturn(Collections.emptyList());
-        restResourceEntities1 = this.attributeService.findAll();
-        assertEquals(0, restResourceEntities1.size());
+
+            when(this.systemTenantService.isSystemTenant(any(UUID.class))).thenReturn(false);
+            restResourceEntities = Instancio.ofList(AttributeEntity.class).size(5).create();
+            when(this.attributeRepository.findAllByTenantId(any(UUID.class))).thenReturn(restResourceEntities);
+            restResourceEntities1 = this.attributeService.findAll();
+            assertEquals(5, restResourceEntities1.size());
+            assertEquals(restResourceEntities, restResourceEntities1);
+
+            when(this.attributeRepository.findAllByTenantId(any(UUID.class))).thenReturn(Collections.emptyList());
+            restResourceEntities1 = this.attributeService.findAll();
+            assertEquals(0, restResourceEntities1.size());
+
+        }
     }
 
     /**
@@ -106,15 +129,31 @@ class AttributeServiceImplTest {
     @Test
     @DisplayName("Test find findByPagination REST resource OK")
     void findByPaginationOk() {
-        List<AttributeEntity> restResourceEntities = Instancio.ofList(AttributeEntity.class).size(11).create();
-        PageImpl<AttributeEntity> entityPage =
-                new PageImpl<>(restResourceEntities);
-        when(this.attributeRepository.findAll(any(Pageable.class))).thenReturn(entityPage);
+        try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
+            // Define the behavior of the static method
+            mockedStatic.when(CurrentUserContext::getCurrentTenant).thenReturn(UUID.randomUUID());
+            when(this.systemTenantService.isSystemTenant(any(UUID.class))).thenReturn(true);
+            List<AttributeEntity> restResourceEntities = Instancio.ofList(AttributeEntity.class).size(11).create();
+            PageImpl<AttributeEntity> entityPage =
+                    new PageImpl<>(restResourceEntities);
+            when(this.attributeRepository.findAll(any(Pageable.class))).thenReturn(entityPage);
 
-        Page<AttributeEntity> restResourceEntities1 = this.attributeService.findByPagination(0,11);
+            Page<AttributeEntity> restResourceEntities1 = this.attributeService.findByPagination(0,11);
 
-        assertEquals(restResourceEntities, restResourceEntities1.getContent());
-        assertEquals(1, restResourceEntities1.getTotalPages());
+            assertEquals(restResourceEntities, restResourceEntities1.getContent());
+            assertEquals(1, restResourceEntities1.getTotalPages());
+
+            when(this.systemTenantService.isSystemTenant(any(UUID.class))).thenReturn(false);
+            restResourceEntities = Instancio.ofList(AttributeEntity.class).size(11).create();
+            entityPage =
+                    new PageImpl<>(restResourceEntities);
+            when(this.attributeRepository.findAllByTenantId(any(Pageable.class), any(UUID.class))).thenReturn(entityPage);
+
+            restResourceEntities1 = this.attributeService.findByPagination(0,11);
+
+            assertEquals(restResourceEntities, restResourceEntities1.getContent());
+            assertEquals(1, restResourceEntities1.getTotalPages());
+        }
     }
 
     /**

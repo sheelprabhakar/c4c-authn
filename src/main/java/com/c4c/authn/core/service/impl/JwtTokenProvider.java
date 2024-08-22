@@ -1,5 +1,6 @@
 package com.c4c.authn.core.service.impl;
 
+import com.c4c.authn.common.CurrentUserContext;
 import com.c4c.authn.common.exception.CustomException;
 import com.c4c.authn.core.entity.UserEntity;
 import com.c4c.authn.core.entity.UserTokenEntity;
@@ -47,7 +48,7 @@ public class JwtTokenProvider {
      * The constant VALIDITY_IN_MILLISECONDS.
      */
     @Value("${security.jwt.token.expire-length:3600000}")
-    private static final long VALIDITY_IN_MILLISECONDS = 3600000L; // 1h
+    private long validityInMilliseconds = 3600000L; // 1h
     /**
      * The User details service.
      */
@@ -107,7 +108,7 @@ public class JwtTokenProvider {
                 .filter(Objects::nonNull).toList()).build();
 
         Date now = new Date();
-        Date validity = new Date(now.getTime() + VALIDITY_IN_MILLISECONDS);
+        Date validity = new Date(now.getTime() + validityInMilliseconds);
 
         return Jwts.builder()//
                 .claims(claims)//
@@ -129,7 +130,7 @@ public class JwtTokenProvider {
 
         Calendar c = Calendar.getInstance();
         c.add(Calendar.MINUTE, FIVE);
-        Date validity = new Date(c.getTimeInMillis() + VALIDITY_IN_MILLISECONDS);
+        Date validity = new Date(c.getTimeInMillis() + validityInMilliseconds);
 
         return Jwts.builder()//
                 .claims(claims)//
@@ -151,7 +152,9 @@ public class JwtTokenProvider {
 
         if (user != null) {
             UserTokenEntity userTokenEntity = this.userTokenService.getById(user.getId());
-            if (userTokenEntity == null || !userTokenEntity.getAccessToken().equals(token)) {
+            if (userTokenEntity == null || !userTokenEntity.getAccessToken().equals(token)
+                    // Validate Tenant Id in Header with user's tenant id
+            || !user.getTenantId().equals(CurrentUserContext.getCurrentTenant())) {
                 throw new CustomException("Invalid token", HttpStatus.UNAUTHORIZED);
             }
         }

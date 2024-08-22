@@ -59,13 +59,18 @@ public class EntityAttributeEncryptor implements AttributeConverter<String, Stri
     public static final String ATTRIBUTE_ENCRYPTION_EXCEPTION =
             "Entity attribute encryption exception";
     /**
-     * The Secret.
+     * The constant secret.
      */
     private static String secret;
 
+    /**
+     * Sets secret.
+     *
+     * @param s the s
+     */
     @Autowired
     public void setSecret(@Value("${security.db.encryption.secret-key:b7ynahtDw6vqj!5a}")
-                                String s) {
+                          final String s) {
         EntityAttributeEncryptor.secret = s;
     }
 

@@ -35,7 +35,7 @@ public class AttributeResource extends CommonResourceAttributes implements Seria
      */
     @NotEmpty(message = "Rest resource name can not be empty.")
   @Size(max = 50, message = "Rest resource name should be less than 50 characters.")
-  private String attributeName;
+  private String name;
 
     /**
      * The Path.

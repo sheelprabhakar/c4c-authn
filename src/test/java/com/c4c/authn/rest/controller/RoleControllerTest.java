@@ -1,9 +1,11 @@
 package com.c4c.authn.rest.controller;
 
+import com.c4c.authn.rest.resource.PagedModelResponse;
 import com.c4c.authn.rest.resource.RoleResource;
 import com.c4c.authn.utils.TestUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -29,7 +31,7 @@ class RoleControllerTest extends AbstractIntegrationTest {
     /**
      * The Base url.
      */
-    private final String BASE_URL = API_V1 + ROLE_URL;
+    private static final String BASE_URL = API_V1 + ROLE_URL;
 
     @Test
     @DisplayName("Create Role test")
@@ -60,7 +62,7 @@ class RoleControllerTest extends AbstractIntegrationTest {
         HashMap<String, Object> roleResourcePage =
                 TestUtils.convertJsonStringToObject(string, new TypeReference<HashMap<String, Object>>() {
                 });
-        assertTrue(((List<RoleResource>) roleResourcePage.get("content")).size() > 0);
+        assertTrue(((List<RoleResource>) roleResourcePage.get("items")).size() > 0);
     }
 
     @Test
@@ -99,5 +101,36 @@ class RoleControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(this.delete(BASE_URL + "/" + resource1.getId())).andExpect(status().isNoContent());
 
         this.mockMvc.perform(this.get(BASE_URL + "/" + resource1.getId())).andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Test Role Read operation")
+    void roleReadOk() throws Exception {
+        RoleResource resource = Instancio.create(RoleResource.class);
+        String result = this.mockMvc.perform(this.post(BASE_URL, resource))
+                //.andDo(print())
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+
+        RoleResource tenantResource = TestUtils.convertJsonStringToObject(result, RoleResource.class);
+        this.mockMvc.perform(this.get(BASE_URL + "/" + tenantResource.getId()))
+                //.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(tenantResource.getName()));
+
+        result = this.mockMvc.perform(this.get(BASE_URL))
+                //.andDo(print())
+                .  andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        PagedModelResponse<RoleResource>
+                resourceList = TestUtils.convertJsonStringToObject(result, PagedModelResponse.class);
+        Assertions.assertTrue(resourceList.getItems().size() > 0);
+
+        result = this.mockMvc.perform(this.get(BASE_URL+"?pageSize=10&pageNo=0"))
+                //.andDo(print())
+                .  andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        resourceList = TestUtils.convertJsonStringToObject(result, PagedModelResponse.class);
+        Assertions.assertTrue(resourceList.getItems().size() > 0);
     }
 }

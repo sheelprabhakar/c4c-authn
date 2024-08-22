@@ -13,18 +13,33 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.util.List;
 
+/**
+ * The type Idempotency config.
+ */
 @Configuration
 public class IdempotencyConfig {
 
+    /**
+     * The Idempotency api paths.
+     */
     @Value("${c4c.authn.idempotency.paths}")
     private List<String> idempotencyApiPaths;
 
+    /**
+     * The Ttl in minutes.
+     */
     @Value("${c4c.authn.idempotency.ttlInMinutes:60}")
     private Long ttlInMinutes;
 
+    /**
+     * Idem redis template redis template.
+     *
+     * @param redisConnectionFactory the redis connection factory
+     * @return the redis template
+     */
     @Bean("idemRedisTemplate")
     RedisTemplate<String, IdempotenceFilter.IdempotencyValue> idemRedisTemplate(
-            RedisConnectionFactory redisConnectionFactory) {
+            final RedisConnectionFactory redisConnectionFactory) {
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         Jackson2JsonRedisSerializer<IdempotenceFilter.IdempotencyValue> jackson2JsonRedisSerializer =
                 new Jackson2JsonRedisSerializer<>(IdempotenceFilter.IdempotencyValue.class);
@@ -41,10 +56,16 @@ public class IdempotencyConfig {
         return template;
     }
 
+    /**
+     * Idempotence filter registration bean filter registration bean.
+     *
+     * @param idemRedisTemplate the idem redis template
+     * @return the filter registration bean
+     */
     @Bean
     public FilterRegistrationBean<IdempotenceFilter> idempotenceFilterRegistrationBean(
             @Qualifier("idemRedisTemplate")
-            RedisTemplate<String, IdempotenceFilter.IdempotencyValue> idemRedisTemplate) {
+            final RedisTemplate<String, IdempotenceFilter.IdempotencyValue> idemRedisTemplate) {
 
         FilterRegistrationBean<IdempotenceFilter> registrationBean = new FilterRegistrationBean<>();
 
