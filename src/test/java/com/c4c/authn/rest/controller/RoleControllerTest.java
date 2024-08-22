@@ -62,7 +62,7 @@ class RoleControllerTest extends AbstractIntegrationTest {
         HashMap<String, Object> roleResourcePage =
                 TestUtils.convertJsonStringToObject(string, new TypeReference<HashMap<String, Object>>() {
                 });
-        assertTrue(((List<RoleResource>) roleResourcePage.get("content")).size() > 0);
+        assertTrue(((List<RoleResource>) roleResourcePage.get("items")).size() > 0);
     }
 
     @Test
@@ -124,13 +124,13 @@ class RoleControllerTest extends AbstractIntegrationTest {
                 .andReturn().getResponse().getContentAsString();
         PagedModelResponse<RoleResource>
                 resourceList = TestUtils.convertJsonStringToObject(result, PagedModelResponse.class);
-        Assertions.assertTrue(resourceList.getContent().size() > 0);
+        Assertions.assertTrue(resourceList.getItems().size() > 0);
 
         result = this.mockMvc.perform(this.get(BASE_URL+"?pageSize=10&pageNo=0"))
                 //.andDo(print())
                 .  andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         resourceList = TestUtils.convertJsonStringToObject(result, PagedModelResponse.class);
-        Assertions.assertTrue(resourceList.getContent().size() > 0);
+        Assertions.assertTrue(resourceList.getItems().size() > 0);
     }
 }

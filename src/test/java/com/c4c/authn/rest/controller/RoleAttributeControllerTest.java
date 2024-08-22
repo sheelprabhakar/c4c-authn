@@ -117,7 +117,7 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
         HashMap<String, Object> roleResourcePage =
                 TestUtils.convertJsonStringToObject(string, new TypeReference<HashMap<String, Object>>() {
                 });
-        assertTrue(((List<RoleAttributeResource>) roleResourcePage.get("content")).size() > 0);
+        assertTrue(((List<RoleAttributeResource>) roleResourcePage.get("items")).size() > 0);
     }
 
     @Test

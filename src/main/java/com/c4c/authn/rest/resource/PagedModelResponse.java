@@ -19,7 +19,8 @@ public class PagedModelResponse<T> {
     /**
      * The Content.
      */
-    private List<T> content;
+    private List<T> items;
+    private int total;
     /**
      * The Page.
      */
@@ -39,7 +40,8 @@ public class PagedModelResponse<T> {
      */
     public PagedModelResponse(Page<T> page) {
         Assert.notNull(page, "Page must not be null");
-        this.content = page.getContent();
+        this.items = page.getContent();
+        this.total = this.items.size();
         this.page = new PagedModel.PageMetadata(page.getSize(),page.getNumber(), page.getTotalElements(),
                 page.getTotalPages());
     }
