@@ -9,7 +9,7 @@ plugins {
 }
 def instancioVersion = '4.8.1'
 
-group = 'com.c4c.housing'
+group = 'com.c4c.authz'
 version = '0.0.1-SNAPSHOT'
 
 java {
