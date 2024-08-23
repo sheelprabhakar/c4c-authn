@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+a {
+  text-decoration: none;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+
+}
+.mat-elevation-z8 {
+  max-height: 100%; /* Ensure the table takes the full height of the container */
+  overflow: auto; /* Add scroll if content overflows */
+}
+.active-link .mdc-list-item__primary-text {
+  color: #673ab7 !important;
+  font-weight: 500;
+}
