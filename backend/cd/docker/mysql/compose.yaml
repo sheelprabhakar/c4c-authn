@@ -1,0 +1,30 @@
+services:
+  mysql_master:
+    image: mysql:latest
+    container_name: mysql_master
+    restart: always
+    env_file:
+      - ./master/mysql_master.env
+    ports:
+      - 3306:3306
+    volumes:
+      - master_data:/var/lib/mysql
+      - ./master/conf/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  mysql_slave:
+    image: mysql:latest
+    restart: always
+    container_name: mysql_slave
+    depends_on:
+      - mysql_master
+    env_file:
+      - ./slave/mysql_slave.env
+    volumes:
+      - slave_data:/var/lib/mysql
+      - ./slave/conf/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 3307:3306
+volumes:
+  master_data:
+  slave_data:
