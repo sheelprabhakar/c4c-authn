@@ -5,5 +5,5 @@ import java.util.List;
 /**
  * The type Attribute record.
  */
-public record AttributeRecord(String name, String path, List<String> verbs) {
+public record PolicyRecord(String name, String path, List<String> verbs) {
 }
