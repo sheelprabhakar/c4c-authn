@@ -1,4 +1,0 @@
-CREATE DATABASE IF NOT EXISTS `authz_db`;
-ALTER SCHEMA `authz_db`  DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_bin ;
-GRANT ALL PRIVILEGES ON *.* TO 'app_user'@'%' IDENTIFIED WITH mysql_native_password BY 'Password4' WITH GRANT OPTION;
-USE `authz_db`;
