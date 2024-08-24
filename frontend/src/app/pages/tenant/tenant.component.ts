@@ -10,7 +10,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatMenuModule } from '@angular/material/menu';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TenantDataService } from 'src/app/core/tenant/tenant.data.service';
 import { environment as env } from 'src/environments/environment';
@@ -29,6 +31,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatCheckboxModule,
     MatDividerModule,
     TableHeightDirective,
+    MatIconModule,
+    MatMenuModule,
   ],
 })
 export class TenantComponent implements OnInit {
@@ -36,14 +40,15 @@ export class TenantComponent implements OnInit {
     'id',
     'name',
     'email',
-    'address',
+    /*'address',
     'cityId',
     'pin',
     'phone',
-    'mobile',
+    'mobile',*/
     'shortName',
     'updatedAt',
     'active',
+    'action',
   ];
   selection = new SelectionModel<TenantData>(true, []);
   dataSource = new MatTableDataSource<any>([]);
@@ -57,7 +62,7 @@ export class TenantComponent implements OnInit {
     private dataService: TenantDataService,
     private el: ElementRef,
     private renderer: Renderer2
-  ) {}
+  ) { }
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
     this.paginator.page.subscribe(() => this.loadPage());
@@ -71,12 +76,12 @@ export class TenantComponent implements OnInit {
     this.dataService
       .getData<TenantData>(pageIndex, pageSize)
       .subscribe((data) => {
-        const row =data.items[0];
-        for(let i=0; i < 15; ++i){
+        const row = data.items[0];
+        for (let i = 0; i < 15; ++i) {
           let obj2 = JSON.parse(JSON.stringify(row));
           data.items.push(obj2);
         }
-        data.total=16;
+        data.total = 16;
         this.dataSource.data = data.items;
         this.dataSource.sort = this.sort;
         this.totalItems = data.total;
@@ -94,5 +99,15 @@ export class TenantComponent implements OnInit {
     this.isAllSelected()
       ? this.selection.clear()
       : this.dataSource.data.forEach((row) => this.selection.select(row));
+  }
+
+  editElement(element: any) {
+    // Edit logic here
+    console.log('Edit:', element);
+  }
+
+  deleteElement(element: any) {
+    // Delete logic here
+    console.log('Delete:', element);
   }
 }

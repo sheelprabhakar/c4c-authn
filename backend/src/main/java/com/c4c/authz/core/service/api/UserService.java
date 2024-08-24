@@ -61,4 +61,20 @@ public interface UserService {
      * @return the boolean
      */
     boolean isOTPRequired(UserEntity userEntity);
+
+    /**
+     * Find by tenant id user name user entity.
+     *
+     * @param tenantId the tenant id
+     * @param userName the user name
+     * @return the user entity
+     */
+    UserEntity findByTenantIdAndEmail(UUID tenantId, String userName);
+
+    /**
+     * Delete.
+     *
+     * @param userEntity the user entity
+     */
+    void delete(UserEntity userEntity);
 }

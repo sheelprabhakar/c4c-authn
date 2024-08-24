@@ -4,8 +4,9 @@ import com.c4c.authz.rest.resource.AttributeResource;
 import com.c4c.authz.rest.resource.RoleAttributeResource;
 import com.c4c.authz.rest.resource.RoleResource;
 import com.c4c.authz.rest.resource.TenantResource;
-import com.c4c.authz.rest.resource.UserResource;
-import com.c4c.authz.rest.resource.UserRoleResource;
+import com.c4c.authz.rest.resource.user.UserDetailsResource;
+import com.c4c.authz.rest.resource.user.UserResource;
+import com.c4c.authz.rest.resource.user.UserRoleResource;
 import com.c4c.authz.rest.resource.auth.JwtRequest;
 import com.c4c.authz.rest.resource.auth.JwtResponse;
 import com.c4c.authz.rest.resource.lookup.CityResource;
@@ -320,4 +321,12 @@ public interface RestAdapterV1 {
      */
     void deleteByIdRoleAttribute(UUID roleId, UUID attributeId);
 
+    /**
+     * Find by tenant id user name user resource.
+     *
+     * @param tenantId the tenant id
+     * @param userName the user name
+     * @return the user resource
+     */
+    UserDetailsResource findByTenantIdAndUserName(UUID tenantId, String userName);
 }

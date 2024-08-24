@@ -1,6 +1,6 @@
 package com.c4c.authz.utils;
 
-import com.c4c.authz.rest.resource.UserResource;
+import com.c4c.authz.rest.resource.user.UserResource;
 import java.util.Calendar;
 import java.util.UUID;
 

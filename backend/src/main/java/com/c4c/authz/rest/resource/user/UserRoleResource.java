@@ -1,5 +1,7 @@
-package com.c4c.authz.rest.resource;
+package com.c4c.authz.rest.resource.user;
 
+import com.c4c.authz.rest.resource.CommonResourceAttributes;
+import com.c4c.authz.rest.resource.RoleResource;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

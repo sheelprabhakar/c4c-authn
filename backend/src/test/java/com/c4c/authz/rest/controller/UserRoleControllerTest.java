@@ -1,8 +1,8 @@
 package com.c4c.authz.rest.controller;
 
 import com.c4c.authz.rest.resource.RoleResource;
-import com.c4c.authz.rest.resource.UserResource;
-import com.c4c.authz.rest.resource.UserRoleResource;
+import com.c4c.authz.rest.resource.user.UserResource;
+import com.c4c.authz.rest.resource.user.UserRoleResource;
 import com.c4c.authz.utils.TestUtils;
 import com.c4c.authz.utils.UserResourceHelper;
 import com.fasterxml.jackson.core.type.TypeReference;

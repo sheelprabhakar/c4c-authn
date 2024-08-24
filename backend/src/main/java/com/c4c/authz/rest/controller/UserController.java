@@ -1,22 +1,23 @@
 package com.c4c.authz.rest.controller;
 
+import static com.c4c.authz.common.Constants.API_V1;
+import static com.c4c.authz.common.Constants.USER_URL;
+
 import com.c4c.authz.adapter.api.RestAdapterV1;
 import com.c4c.authz.common.CurrentUserContext;
-import com.c4c.authz.rest.resource.UserResource;
+import com.c4c.authz.rest.resource.user.UserDetailsResource;
+import com.c4c.authz.rest.resource.user.UserResource;
+import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.net.URI;
-
-import static com.c4c.authz.common.Constants.API_V1;
-import static com.c4c.authz.common.Constants.USER_URL;
 
 /**
  * The type User controller.
@@ -36,9 +37,9 @@ public class UserController extends BaseController {
    * @param restAdapterV1 the rest adapter v 1
    */
   @Autowired
-    public UserController(final RestAdapterV1 restAdapterV1) {
-        super(restAdapterV1);
-    }
+  public UserController(final RestAdapterV1 restAdapterV1) {
+    super(restAdapterV1);
+  }
 
   /**
    * Create response entity.
@@ -47,11 +48,11 @@ public class UserController extends BaseController {
    * @return the response entity
    */
   @PostMapping
-    public ResponseEntity<UserResource> create(final @RequestBody @Validated UserResource userResource) {
-        userResource.setTenantId(CurrentUserContext.getCurrentTenant());
-        UserResource resource = this.getRestAdapterV1().createUser(userResource);
-        return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);
-    }
+  public ResponseEntity<UserResource> create(final @RequestBody @Validated UserResource userResource) {
+    userResource.setTenantId(CurrentUserContext.getCurrentTenant());
+    UserResource resource = this.getRestAdapterV1().createUser(userResource);
+    return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);
+  }
 
   /**
    * Update response entity.
@@ -60,10 +61,17 @@ public class UserController extends BaseController {
    * @return the response entity
    */
   @PutMapping
-    public ResponseEntity<UserResource> update(final @RequestBody UserResource userResource) {
-        userResource.setTenantId(CurrentUserContext.getCurrentTenant());
-        UserResource resource = this.getRestAdapterV1().updateUser(userResource);
-        return ResponseEntity.ok(resource);
-    }
+  public ResponseEntity<UserResource> update(final @RequestBody UserResource userResource) {
+    userResource.setTenantId(CurrentUserContext.getCurrentTenant());
+    UserResource resource = this.getRestAdapterV1().updateUser(userResource);
+    return ResponseEntity.ok(resource);
+  }
+
+  @GetMapping(value = "/me")
+  public ResponseEntity<UserDetailsResource> getCurrentUserDetail() {
+    UserDetailsResource resource = this.getRestAdapterV1()
+        .findByTenantIdAndUserName(CurrentUserContext.getCurrentTenant(), CurrentUserContext.getCurrentUser());
+    return ResponseEntity.ok(resource);
+  }
 
 }

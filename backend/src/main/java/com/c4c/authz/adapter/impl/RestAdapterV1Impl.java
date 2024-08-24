@@ -2,10 +2,12 @@ package com.c4c.authz.adapter.impl;
 
 import com.c4c.authz.adapter.api.RestAdapterV1;
 import com.c4c.authz.common.exception.CustomException;
+import com.c4c.authz.core.domain.PolicyRecord;
 import com.c4c.authz.core.entity.AttributeEntity;
 import com.c4c.authz.core.entity.RoleAttributeEntity;
 import com.c4c.authz.core.entity.RoleAttributeId;
 import com.c4c.authz.core.entity.TenantEntity;
+import com.c4c.authz.core.entity.UserEntity;
 import com.c4c.authz.core.entity.UserRoleEntity;
 import com.c4c.authz.core.entity.UserRoleId;
 import com.c4c.authz.core.entity.lookup.CityEntity;
@@ -14,6 +16,7 @@ import com.c4c.authz.core.entity.lookup.StateEntity;
 import com.c4c.authz.core.service.api.AttributeService;
 import com.c4c.authz.core.service.api.AuthenticationService;
 import com.c4c.authz.core.service.api.LookupService;
+import com.c4c.authz.core.service.api.PolicyService;
 import com.c4c.authz.core.service.api.RoleAttributeService;
 import com.c4c.authz.core.service.api.RoleService;
 import com.c4c.authz.core.service.api.TenantService;
@@ -23,23 +26,25 @@ import com.c4c.authz.rest.resource.AttributeResource;
 import com.c4c.authz.rest.resource.RoleAttributeResource;
 import com.c4c.authz.rest.resource.RoleResource;
 import com.c4c.authz.rest.resource.TenantResource;
-import com.c4c.authz.rest.resource.UserResource;
-import com.c4c.authz.rest.resource.UserRoleResource;
 import com.c4c.authz.rest.resource.auth.JwtRequest;
 import com.c4c.authz.rest.resource.auth.JwtResponse;
 import com.c4c.authz.rest.resource.lookup.CityResource;
 import com.c4c.authz.rest.resource.lookup.CountryResource;
 import com.c4c.authz.rest.resource.lookup.StateResource;
+import com.c4c.authz.rest.resource.user.UserDetailsResource;
+import com.c4c.authz.rest.resource.user.UserResource;
+import com.c4c.authz.rest.resource.user.UserRoleResource;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.UUID;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 /**
  * The type Rest adapter v 1.
@@ -116,6 +121,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      */
     private final RoleAttributeConverter roleAttributeConverter;
 
+    private final PolicyService policyService;
+
     /**
      * Instantiates a new Rest adapter v 1.
      *
@@ -128,6 +135,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      * @param userRoleService       the user role service
      * @param exactNameModelMapper  the exact name model mapper
      * @param roleAttributeService  the role attribute service
+     * @param policyService         the policy service
      */
     @Autowired
     public RestAdapterV1Impl(final RoleService roleService, final UserService userService,
@@ -137,7 +145,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
                              final AttributeService attributeService,
                              final UserRoleService userRoleService,
                              final ModelMapper exactNameModelMapper,
-                             final RoleAttributeService roleAttributeService) {
+                             final RoleAttributeService roleAttributeService,
+                             final PolicyService policyService) {
         this.roleService = roleService;
         this.userService = userService;
         this.authenticationService = authenticationService;
@@ -147,8 +156,9 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
         this.attributeService = attributeService;
         this.userRoleService = userRoleService;
         this.roleAttributeService = roleAttributeService;
+        this.policyService = policyService;
 
-        this.roleConverter = RoleConverter.getInstance();
+      this.roleConverter = RoleConverter.getInstance();
         this.userConverter = UserConverter.getInstance();
         this.userRoleConverter = UserRoleConverter.getInstance();
         this.tenantConverter = TenantConverter.getInstance();
@@ -605,6 +615,17 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     @Override
     public void deleteByIdRoleAttribute(final UUID roleId, final UUID attributeId) {
         this.roleAttributeService.deleteById(new RoleAttributeId(roleId, attributeId));
+    }
+
+    @Override
+    public UserDetailsResource findByTenantIdAndUserName(final UUID tenantId, final String email) {
+        UserEntity userEntity = this.userService.findByTenantIdAndEmail(tenantId, email);
+        Set<PolicyRecord> policyRecords = new TreeSet<>();
+        UserResource userResource = this.userConverter.covertFromEntity(userEntity);
+        for (UserRoleEntity userRoleEntity : userEntity.getUserRoleEntities()) {
+            policyRecords.addAll( this.policyService.getPoliciesByRoleId(userRoleEntity.getRoleId()));
+        }
+        return new UserDetailsResource(userResource, policyRecords);
     }
 
     /**

@@ -1,5 +1,6 @@
-package com.c4c.authz.rest.resource;
+package com.c4c.authz.rest.resource.user;
 
+import com.c4c.authz.rest.resource.CommonResourceAttributes;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

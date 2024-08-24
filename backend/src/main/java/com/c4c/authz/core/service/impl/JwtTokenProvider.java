@@ -28,11 +28,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The type Jwt token provider.
  */
 @Component
+@Transactional
 @Slf4j
 public class JwtTokenProvider {
 

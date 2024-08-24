@@ -6,11 +6,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.Set;
 import java.util.UUID;
-
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -75,4 +74,5 @@ public class RoleEntity extends CommonEntityAttributes implements GrantedAuthori
    */
   @OneToMany(mappedBy = "roleEntity", fetch = FetchType.EAGER)
   private Set<UserRoleEntity> userRoleEntities;
+
 }

@@ -60,7 +60,7 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
         UUID attributeId = this.addAttribute();
         UUID roleId = this.addRole();
         RoleAttributeResource resource = RoleAttributeResource.builder().attributeId(attributeId).roleId(roleId).build();
-        this.mockMvc.perform(this.post(BASE_URL, resource))
+        this.mockMvc.perform(this.post( BASE_URL.replace("{roleId}", roleId.toString()), resource))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.attributeId").value(resource.getAttributeId().toString()))
@@ -74,7 +74,7 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
         roleId = this.addRole();
         resource = RoleAttributeResource.builder().attributeId(attributeId).roleId(roleId).canCreate(true)
                 .canDelete(true).canRead(true).canUpdate(true).build();
-        this.mockMvc.perform(this.post(BASE_URL, resource))
+        this.mockMvc.perform(this.post(BASE_URL.replace("{roleId}", roleId.toString()), resource))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.attributeId").value(resource.getAttributeId().toString()))
@@ -91,7 +91,7 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
         UUID attributeId = this.addAttribute();
         UUID roleId = this.addRole();
         RoleAttributeResource resource = RoleAttributeResource.builder().attributeId(attributeId).roleId(roleId).build();
-        MvcResult mvcResult = this.mockMvc.perform(this.post(BASE_URL, resource))
+        MvcResult mvcResult = this.mockMvc.perform(this.post(BASE_URL.replace("{roleId}", roleId.toString()), resource))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.attributeId").value(resource.getAttributeId().toString()))
@@ -100,19 +100,19 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
 
         String string = mvcResult.getResponse().getContentAsString();
         RoleAttributeResource resource1 = TestUtils.convertJsonStringToObject(string, RoleAttributeResource.class);
-        this.mockMvc.perform(this.get(BASE_URL + "/" + resource1.getRoleId() + "/" + resource1.getAttributeId()))
+        this.mockMvc.perform(this.get(BASE_URL.replace("{roleId}", roleId.toString()) + "/" + resource1.getAttributeId()))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.attributeId").value(resource.getAttributeId().toString()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.roleId").value(resource.getRoleId().toString()));
 
-        this.mockMvc.perform(this.get(BASE_URL + "/" + "non exist" + "/" + "Not Exist"))
+        this.mockMvc.perform(this.get(BASE_URL.replace("{roleId}", roleId.toString()) + "/" + "Not Exist"))
                 .andExpect(status().isBadRequest());
 
         this.mockMvc.perform(
-                        this.get(BASE_URL + "/" + UUID.randomUUID().toString() + "/" + UUID.randomUUID().toString()))
+                        this.get(BASE_URL.replace("{roleId}", roleId.toString()) + "/" + UUID.randomUUID().toString()))
                 .andExpect(status().isNotFound());
 
-        string = this.mockMvc.perform(this.get(BASE_URL)).andExpect(status().isOk()).andReturn().getResponse()
+        string = this.mockMvc.perform(this.get(BASE_URL.replace("{roleId}", roleId.toString()))).andExpect(status().isOk()).andReturn().getResponse()
                 .getContentAsString();
         HashMap<String, Object> roleResourcePage =
                 TestUtils.convertJsonStringToObject(string, new TypeReference<HashMap<String, Object>>() {
@@ -126,7 +126,7 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
         RoleAttributeResource resource = Instancio.create(RoleAttributeResource.class);
         resource.setRoleId(null);
         resource.setAttributeId(null);
-        this.mockMvc.perform(this.post(BASE_URL, resource))
+        this.mockMvc.perform(this.post(BASE_URL.replace("{roleId}", "notfound"), resource))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
@@ -137,7 +137,7 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
         UUID attributeId = this.addAttribute();
         UUID roleId = this.addRole();
         RoleAttributeResource resource = RoleAttributeResource.builder().attributeId(attributeId).roleId(roleId).build();
-        MvcResult mvcResult = this.mockMvc.perform(this.post(BASE_URL, resource))
+        MvcResult mvcResult = this.mockMvc.perform(this.post(BASE_URL.replace("{roleId}", roleId.toString()), resource))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.attributeId").value(resource.getAttributeId().toString()))
@@ -147,7 +147,7 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
         String string = mvcResult.getResponse().getContentAsString();
         RoleAttributeResource resource1 = TestUtils.convertJsonStringToObject(string, RoleAttributeResource.class);
 
-        this.mockMvc.perform(this.put(BASE_URL, resource1)).andExpect(status().isOk())
+        this.mockMvc.perform(this.put(BASE_URL.replace("{roleId}", roleId.toString()), resource1)).andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.attributeId").value(resource.getAttributeId().toString()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.roleId").value(resource.getRoleId().toString()));
 
@@ -159,7 +159,7 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
         UUID attributeId = this.addAttribute();
         UUID roleId = this.addRole();
         RoleAttributeResource resource = RoleAttributeResource.builder().attributeId(attributeId).roleId(roleId).build();
-        MvcResult mvcResult = this.mockMvc.perform(this.post(BASE_URL, resource))
+        MvcResult mvcResult = this.mockMvc.perform(this.post(BASE_URL.replace("{roleId}", roleId.toString()), resource))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.attributeId").value(resource.getAttributeId().toString()))
@@ -168,11 +168,11 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
 
         String string = mvcResult.getResponse().getContentAsString();
         RoleAttributeResource resource1 = TestUtils.convertJsonStringToObject(string, RoleAttributeResource.class);
-        this.mockMvc.perform(this.delete(BASE_URL + "/" + resource1.getRoleId()+ "/" + resource1.getAttributeId()))
+        this.mockMvc.perform(this.delete(BASE_URL.replace("{roleId}", roleId.toString()) + "/" + resource1.getAttributeId()))
                 .andExpect(status().isNoContent());
 
 
-        this.mockMvc.perform(this.get(BASE_URL + "/" + resource1.getRoleId() + "/" + resource1.getAttributeId()))
+        this.mockMvc.perform(this.get(BASE_URL.replace("{roleId}", roleId.toString()) + resource1.getAttributeId()))
                 .andExpect(status().isNotFound());
     }
 }

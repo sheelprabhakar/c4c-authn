@@ -2,7 +2,7 @@ package com.c4c.authz.rest.controller;
 
 import com.c4c.authz.adapter.api.RestAdapterV1;
 import com.c4c.authz.rest.resource.PagedModelResponse;
-import com.c4c.authz.rest.resource.UserRoleResource;
+import com.c4c.authz.rest.resource.user.UserRoleResource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

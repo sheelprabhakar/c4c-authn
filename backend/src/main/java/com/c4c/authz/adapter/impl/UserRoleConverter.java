@@ -2,7 +2,7 @@ package com.c4c.authz.adapter.impl;
 
 import com.c4c.authz.adapter.api.Converter;
 import com.c4c.authz.core.entity.UserRoleEntity;
-import com.c4c.authz.rest.resource.UserRoleResource;
+import com.c4c.authz.rest.resource.user.UserRoleResource;
 
 import java.util.Objects;
 

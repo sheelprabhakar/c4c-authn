@@ -5,14 +5,13 @@ import com.c4c.authz.core.entity.UserEntity;
 import com.c4c.authz.core.repository.UserRepository;
 import com.c4c.authz.core.service.api.UserService;
 import jakarta.transaction.Transactional;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.util.UUID;
 
 /**
  * The type User service.
@@ -161,13 +160,19 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
+    public UserEntity findByTenantIdAndEmail(final UUID tenantId, final String userName) {
+        return this.userRepository.findByTenantIdAndEmail(tenantId, userName).orElse(null);
+    }
+
     /**
      * Delete user entity.
      *
      * @param userEntity the user entity
      * @return the user entity
      */
-    public UserEntity delete(final UserEntity userEntity) {
-        return this.delete(userEntity);
+    @Override
+    public void delete(final UserEntity userEntity) {
+        this.userRepository.delete(userEntity);
     }
 }

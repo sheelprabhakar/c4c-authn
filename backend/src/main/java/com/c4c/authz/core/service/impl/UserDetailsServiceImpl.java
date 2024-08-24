@@ -15,14 +15,16 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
  * The type User details service.
  */
 @Service
+@Transactional
 @Slf4j
-public final class UserDetailsServiceImpl implements UserExDetailsService {
+public class UserDetailsServiceImpl implements UserExDetailsService {
     /**
      * The User repository.
      */

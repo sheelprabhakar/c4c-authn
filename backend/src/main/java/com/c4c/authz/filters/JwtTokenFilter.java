@@ -1,5 +1,8 @@
 package com.c4c.authz.filters;
 
+import static com.c4c.authz.common.Constants.AUTH_URL;
+import static com.c4c.authz.common.Constants.LOOKUP_URL;
+
 import com.c4c.authz.common.CurrentUserContext;
 import com.c4c.authz.common.exception.CustomException;
 import com.c4c.authz.core.service.impl.JwtTokenProvider;
@@ -7,16 +10,12 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.io.IOException;
-
-import static com.c4c.authz.common.Constants.AUTH_URL;
-import static com.c4c.authz.common.Constants.LOOKUP_URL;
 
 /**
  * The type Jwt token filter.

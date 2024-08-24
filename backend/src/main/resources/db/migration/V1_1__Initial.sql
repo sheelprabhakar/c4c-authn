@@ -56,9 +56,9 @@ CREATE TABLE `user` (
   `created_by` VARCHAR(255) NULL,
   `updated_by` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `uq_username` (`user_name` ASC),
-  UNIQUE INDEX `uq_mobile` (`mobile` ASC),
-  UNIQUE INDEX `uq_email` (`email` ASC) ,
+  UNIQUE INDEX `uq_tenant_username` (`tenant_id`, `user_name` ASC),
+  UNIQUE INDEX `uq_tenant_mobile` (`tenant_id`, `mobile` ASC),
+  UNIQUE INDEX `uq_tenant_email` (`tenant_id`, `email` ASC) ,
   CONSTRAINT `fk_tenant_user_tenant_id`
                  FOREIGN KEY (`tenant_id`)
                      REFERENCES `tenant` (`id`)

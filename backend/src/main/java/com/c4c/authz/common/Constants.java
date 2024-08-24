@@ -56,7 +56,7 @@ public final class Constants {
     /**
      * The constant ROLE_ATTRIBUTE_URL.
      */
-    public static final String ROLE_ATTRIBUTE_URL = "/api/role/attribute";
+    public static final String ROLE_ATTRIBUTE_URL = "/api/role/{roleId}/attribute";
 
     /**
      * The constant IDEMPOTENCY_CACHE.
