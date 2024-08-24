@@ -9,7 +9,7 @@ import {
 
 @Directive({
   selector: '[tableHeight]',
-  standalone: true
+  standalone: true,
 })
 export class TableHeightDirective implements AfterViewInit {
   @Input() minHeight: number;

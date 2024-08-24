@@ -6,6 +6,9 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { filter } from 'rxjs/operators';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -35,9 +38,12 @@ import { MatDividerModule } from '@angular/material/divider';
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
+    RouterModule,
+    CommonModule,
   ],
 })
-export class TenantComponent implements OnInit {
+export class TenantComponent implements OnInit, AfterViewInit {
+
   displayedColumns: string[] = [
     'id',
     'name',
@@ -56,19 +62,45 @@ export class TenantComponent implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
   totalItems = 0;
   pageSize = env.pageSize;
+  hasChildRoute = false;
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  private paginator: MatPaginator;
+  private sort: MatSort;
+
+  @ViewChild('MatSort') set setSort(content: MatSort) {
+    if (content) { // initially setter gets called with undefined
+      this.sort = content;
+      this.dataSource.sort = this.sort;
+      this.paginator.page.subscribe(() => this.loadPage());
+      this.loadPage();
+    }
+  }
+
+  @ViewChild('paginator') set setPaginator(content: MatPaginator) {
+    if (content) { // initially setter gets called with undefined
+      this.paginator = content;
+      this.dataSource.paginator = content;
+      this.paginator.page.subscribe(() => this.loadPage());
+      this.loadPage();
+    }
+  }
 
   constructor(
     private dataService: TenantDataService,
     private el: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
+  ngAfterViewInit(): void {
+    window.dispatchEvent(new Event('resize'));
+  }
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.paginator.page.subscribe(() => this.loadPage());
-    this.loadPage();
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.hasChildRoute = this.route.children.length > 0;
+    });
   }
 
   loadPage() {
@@ -85,7 +117,6 @@ export class TenantComponent implements OnInit {
         }
         data.total = 16;
         this.dataSource.data = data.items;
-        this.dataSource.sort = this.sort;
         this.totalItems = data.total;
       });
   }
@@ -111,5 +142,9 @@ export class TenantComponent implements OnInit {
   deleteElement(element: any) {
     // Delete logic here
     console.log('Delete:', element);
+  }
+
+  onCreateNew() {
+    this.router.navigate(['create'], { relativeTo: this.route }); // Navigate to the home
   }
 }
