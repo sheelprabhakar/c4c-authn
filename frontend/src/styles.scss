@@ -27,3 +27,12 @@ a {
   color: #673ab7 !important;
   font-weight: 500;
 }
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.float-right {
+  margin-left: 10px;
+}

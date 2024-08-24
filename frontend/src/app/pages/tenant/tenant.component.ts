@@ -11,6 +11,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -33,6 +34,7 @@ import { MatDividerModule } from '@angular/material/divider';
     TableHeightDirective,
     MatIconModule,
     MatMenuModule,
+    MatButtonModule,
   ],
 })
 export class TenantComponent implements OnInit {

@@ -11,9 +11,9 @@ export const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
-      { path: 'dashboard', component: DashboardComponent, canActivate: [PolicyGuard], data: { policies: ['dashboard'] } },
-      { path: 'tenant', component: TenantComponent, canActivate: [PolicyGuard], data: { policies: ['tenant management'] } }, // Add your routes here
+      { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardComponent, canActivate: [PolicyGuard], data: { policies: ['dashboard'], breadcrumb: 'Dashboard' } },
+      { path: 'tenant', component: TenantComponent, canActivate: [PolicyGuard], data: { policies: ['tenant management'], breadcrumb: 'Tenant Management' } }, // Add your routes here
     ],
     canActivate: [AuthGuard],
   },

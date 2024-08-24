@@ -30,7 +30,7 @@ export class TableHeightDirective implements AfterViewInit {
 
   private setHeight() {
     let height =
-      this.el.nativeElement.closest('.content-c4c').offsetHeight - 155;
+      this.el.nativeElement.closest('.content-c4c').offsetHeight - 235;
 
     if (this.minHeight && height < this.minHeight) {
       height = this.minHeight;

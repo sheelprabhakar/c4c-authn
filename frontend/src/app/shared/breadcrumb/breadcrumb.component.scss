@@ -1,0 +1,29 @@
+.breadcrumb {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 10px;
+  background-color: #f8f9fa;
+  border-radius: 0.25rem;
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb li + li::before {
+  content: ">";
+  padding: 0 0.5rem;
+  color: #6c757d;
+}
+
+.breadcrumb a {
+  text-decoration: none;
+  color: #673ab7;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
