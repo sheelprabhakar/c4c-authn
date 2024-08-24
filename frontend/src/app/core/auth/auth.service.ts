@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { TokenService } from './token.service';
 import { environment as env } from 'src/environments/environment';
-import { constants } from '../common/constants';
 import { LoginResponseModel } from './login-response.model';
 
 @Injectable({

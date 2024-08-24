@@ -6,7 +6,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from 'src/app/core/auth/auth.service';
+
 import { Router, RouterModule } from '@angular/router';
+import { UserDataService } from 'src/app/core/user/user.data.service';
 
 @Component({
   selector: 'app-login',
@@ -29,17 +31,24 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
+    private userDataService: UserDataService,
     private router: Router
   ) { }
 
   onLogin() {
     this.authService.login(this.username, this.password).subscribe({
       next: (v) => {
-        this.router.navigate(['dashboard']); // Navigate to the home
-        console.log(v);
+        this.userDataService.getDetail().subscribe({
+          next: (v) => {
+            this.router.navigate(['dashboard']); // Navigate to the home
+          },
+          error: (e) => console.error(e),
+          complete: () => console.info('Fetch User details complete'),
+        });
+        //console.log(v);
       },
       error: (e) => console.error(e),
-      complete: () => console.info('complete'),
+      complete: () => console.info('Login complete'),
     });
   }
 }

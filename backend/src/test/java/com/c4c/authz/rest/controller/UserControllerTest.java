@@ -69,7 +69,7 @@ class UserControllerTest extends AbstractIntegrationTest {
   @DisplayName("Test get current user details")
   void testGetCurrentUserDetail() throws Exception {
     MvcResult mvcResult = this.mockMvc.perform(this.get(BASE_URL + "/me"))
-        //.andDo(print())
+        .andDo(print())
         .andExpect(status().isOk()).andReturn();
     UserDetailsResource userDetailsResource = TestUtils
         .convertJsonStringToObject(mvcResult.getResponse()
@@ -77,6 +77,6 @@ class UserControllerTest extends AbstractIntegrationTest {
     Assert.assertNotNull(userDetailsResource);
     Assert.assertNotNull(userDetailsResource.getUserInfo());
     Assert.assertTrue(userDetailsResource.getPolicies() != null
-        && userDetailsResource.getPolicies().size() == 7);
+        && userDetailsResource.getPolicies().size() == 8);
   }
 }

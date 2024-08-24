@@ -4,15 +4,16 @@ import { LayoutComponent } from './shared/layout/layout.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from './core/auth/auth.guard';
 import { TenantComponent } from './pages/tenant/tenant.component';
+import { PolicyGuard } from './core/policy/policy.gaurd';
 
 export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
     children: [
-      { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'tenant', component: TenantComponent }, // Add your routes here
+      { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
+      { path: 'dashboard', component: DashboardComponent, canActivate: [PolicyGuard], data: { policies: ['dashboard'] } },
+      { path: 'tenant', component: TenantComponent, canActivate: [PolicyGuard], data: { policies: ['tenant management'] } }, // Add your routes here
     ],
     canActivate: [AuthGuard],
   },
