@@ -26,7 +26,7 @@ import java.util.UUID;
 /**
  * The type User entity.
  */
-@Entity(name = "user")
+@Entity(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -102,13 +102,13 @@ public class UserEntity extends CommonEntityAttributes implements Serializable {
   /**
    * The Password hash.
    */
-  @Column(name = "password_hash", length = HASH_MAX, nullable = false)
+  @Column(name = "password_hash", length = HASH_MAX, nullable = true)
   private String passwordHash;
 
   /**
    * The Otp.
    */
-  @Column(name = "otp", length = HASH_MAX, nullable = false)
+  @Column(name = "otp", length = HASH_MAX, nullable = true)
   private String otp;
 
   /**

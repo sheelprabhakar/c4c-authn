@@ -21,7 +21,7 @@ import java.util.UUID;
 /**
  * The type Attribute entity.
  */
-@Entity(name = "attribute")
+@Entity(name = "attributes")
 @Getter
 @Setter
 @NoArgsConstructor

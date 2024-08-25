@@ -23,7 +23,7 @@ import java.util.UUID;
 /**
  * The type User token entity.
  */
-@Entity(name = "user_token")
+@Entity(name = "user_tokens")
 @Getter
 @Setter
 @NoArgsConstructor

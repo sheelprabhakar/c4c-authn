@@ -26,7 +26,7 @@ import org.hibernate.type.SqlTypes;
 /**
  * The type Tenant entity.
  */
-@Entity(name = "tenant")
+@Entity(name = "tenants")
 @Getter
 @Setter
 @NoArgsConstructor

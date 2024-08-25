@@ -21,7 +21,7 @@ public interface UserRepository extends CrudRepository<UserEntity, UUID> {
    * @return the int
    */
   @Modifying
-  @Query("update user ue set ue.otp = NULL where ue.id = :id")
+  @Query("update users ue set ue.otp = NULL where ue.id = :id")
   int clearOTP(@Param("id") UUID id);
 
   /**

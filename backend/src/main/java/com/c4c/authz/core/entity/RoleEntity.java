@@ -23,7 +23,7 @@ import org.springframework.security.core.GrantedAuthority;
 /**
  * The type Role entity.
  */
-@Entity(name = "role")
+@Entity(name = "roles")
 @Getter
 @Setter
 @NoArgsConstructor

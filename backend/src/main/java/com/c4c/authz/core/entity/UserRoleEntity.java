@@ -21,7 +21,7 @@ import java.util.UUID;
 /**
  * The type User role entity.
  */
-@Entity(name = "user_role")
+@Entity(name = "user_roles")
 @Getter
 @Setter
 @NoArgsConstructor
