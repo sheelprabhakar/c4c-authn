@@ -39,6 +39,7 @@ public class UserEntity extends CommonEntityAttributes implements Serializable {
    * The constant NAME_MAX.
    */
   private static final int NAME_MAX = 50;
+
   /**
    * The constant HASH_MAX.
    */
@@ -96,19 +97,19 @@ public class UserEntity extends CommonEntityAttributes implements Serializable {
   /**
    * The Email.
    */
-  @Column(name = "email", length = NAME_MAX)
+  @Column(name = "email")
   private String email;
 
   /**
    * The Password hash.
    */
-  @Column(name = "password_hash", length = HASH_MAX, nullable = true)
+  @Column(name = "password_hash", length = HASH_MAX)
   private String passwordHash;
 
   /**
    * The Otp.
    */
-  @Column(name = "otp", length = HASH_MAX, nullable = true)
+  @Column(name = "otp", length = HASH_MAX)
   private String otp;
 
   /**

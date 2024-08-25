@@ -25,17 +25,18 @@ public interface RoleRepository extends CrudRepository<RoleEntity, UUID> {
     /**
      * Find all by tenant id list.
      *
-     * @param currentTenant the current tenant
+     * @param tenantId the tenant id
      * @return the list
      */
-    List<RoleEntity> findAllByTenantId(UUID currentTenant);
+    List<RoleEntity> findAllByTenantId(UUID tenantId);
 
     /**
      * Find all by tenant id page.
      *
-     * @param pageable      the pageable
-     * @param currentTenant the current tenant
+     * @param pageable the pageable
+     * @param tenantId the tenant id
      * @return the page
      */
-    Page<RoleEntity> findAllByTenantId(Pageable pageable, UUID currentTenant);
+    Page<RoleEntity> findAllByTenantId(Pageable pageable, UUID tenantId);
+
 }
