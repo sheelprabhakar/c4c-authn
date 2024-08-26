@@ -1,6 +1,8 @@
 package com.c4c.authz.core.entity;
 
+import com.c4c.authz.core.service.impl.EntityAttributeEncryptor;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -72,5 +74,6 @@ public class ClientEntity extends CommonEntityAttributes implements Serializable
    * The Password hash.
    */
   @Column(name = "client_secret", nullable = false)
-  private String passwordHash;
+  @Convert(converter = EntityAttributeEncryptor.class)
+  private String clientSecret;
 }

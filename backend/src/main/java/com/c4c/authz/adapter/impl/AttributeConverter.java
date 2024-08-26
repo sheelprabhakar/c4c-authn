@@ -63,7 +63,8 @@ public final class AttributeConverter extends Converter<AttributeEntity, Attribu
             return null;
         }
         return AttributeResource.builder().id(entity.getId()).tenantId(entity.getTenantId()).path(entity.getPath())
-                .name(entity.getName()).createdAt(entity.getCreatedAt())
+                .name(entity.getName())
+                .createdAt(entity.getCreatedAt())
                 .createdBy(entity.getCreatedBy())
                 .updatedAt(entity.getUpdatedAt()).updatedBy(entity.getUpdatedBy()).isDeleted(entity.isDeleted())
                 .build();

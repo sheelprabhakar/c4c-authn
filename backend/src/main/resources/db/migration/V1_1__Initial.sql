@@ -70,7 +70,7 @@ CREATE TABLE `clients` (
   `tenant_id` varchar(36) NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   `client_id` VARCHAR(50) NOT NULL,
-  `client_secret` VARCHAR(255) NOT NULL,
+  `client_secret` VARCHAR(1024) NOT NULL,
   `is_deleted` TINYINT NOT NULL DEFAULT 0,
   `created_at` DATETIME NULL,
   `updated_at` DATETIME NULL,
@@ -180,6 +180,7 @@ INSERT INTO `attributes` (`id`, `tenant_id`, `name`, `path`, `is_deleted`, `crea
 INSERT INTO `attributes` (`id`, `tenant_id`, `name`, `path`, `is_deleted`, `created_by`, `updated_by`) VALUES ('67aa293b-ae31-412b-a73c-c11902c9c51a', 'fe9f8f3c-6447-4fb1-a9ba-6856bccd3d9b', 'Attribute Management', '/v1/api/attribute/**', '0', 'SYSTEM', 'SYSTEM');
 INSERT INTO `attributes` (`id`, `tenant_id`, `name`, `path`, `is_deleted`, `created_by`, `updated_by`) VALUES ('c6872643-e248-4005-89d9-c74a821c8cfe', 'fe9f8f3c-6447-4fb1-a9ba-6856bccd3d9b', 'User Role', '/v1/api/user/role/**', '0', 'SYSTEM', 'SYSTEM');
 INSERT INTO `attributes` (`id`, `tenant_id`, `name`, `path`, `is_deleted`, `created_by`, `updated_by`) VALUES ('72b4fea9-0cb9-4aec-a120-222a99261de0', 'fe9f8f3c-6447-4fb1-a9ba-6856bccd3d9b', 'Dashboard', '/v1/api/dashboard/**', '0', 'SYSTEM', 'SYSTEM');
+INSERT INTO `attributes` (`id`, `tenant_id`, `name`, `path`, `is_deleted`, `created_by`, `updated_by`) VALUES ('91e34f74-8d70-491e-87e4-a0faed3d4ad8', 'fe9f8f3c-6447-4fb1-a9ba-6856bccd3d9b', 'Client Management', '/v1/api/client/**', '0', 'SYSTEM', 'SYSTEM');
 
 DROP TABLE IF EXISTS `role_attributes`;
 CREATE TABLE `role_attributes` (
@@ -215,6 +216,7 @@ INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_rea
 INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `is_deleted`, `created_by`, `updated_by`) VALUES ('52a05765-a8e0-4fd7-b95b-3b14b52634f5', '67aa293b-ae31-412b-a73c-c11902c9c51a', '1', '1', '1', '1', '1', 'SYSTEM', 'SYSTEM');
 INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `is_deleted`, `created_by`, `updated_by`) VALUES ('52a05765-a8e0-4fd7-b95b-3b14b52634f5', 'c6872643-e248-4005-89d9-c74a821c8cfe', '1', '1', '1', '1', '1', 'SYSTEM', 'SYSTEM');
 INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `is_deleted`, `created_by`, `updated_by`) VALUES ('52a05765-a8e0-4fd7-b95b-3b14b52634f5', '72b4fea9-0cb9-4aec-a120-222a99261de0', '1', '1', '1', '1', '1', 'SYSTEM', 'SYSTEM');
+INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `is_deleted`, `created_by`, `updated_by`) VALUES ('52a05765-a8e0-4fd7-b95b-3b14b52634f5', '91e34f74-8d70-491e-87e4-a0faed3d4ad8', '1', '1', '1', '1', '1', 'SYSTEM', 'SYSTEM');
 
 INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', 'bfa5a7d2-07df-4687-9f83-b23956492c6f', '1', '1', '1', '1', '1', 'SYSTEM', 'SYSTEM');
 INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', '8f5a8cd7-78b7-4b64-be48-7b608eaed419', '1', '1', '1', '1', '1', 'SYSTEM', 'SYSTEM');
@@ -224,3 +226,4 @@ INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_rea
 INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', '67aa293b-ae31-412b-a73c-c11902c9c51a', '1', '1', '1', '1', '1', 'SYSTEM', 'SYSTEM');
 INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', 'c6872643-e248-4005-89d9-c74a821c8cfe', '1', '1', '1', '1', '1', 'SYSTEM', 'SYSTEM');
 INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', '72b4fea9-0cb9-4aec-a120-222a99261de0', '1', '1', '1', '1', '1', 'SYSTEM', 'SYSTEM');
+INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', '91e34f74-8d70-491e-87e4-a0faed3d4ad8', '1', '1', '1', '1', '1', 'SYSTEM', 'SYSTEM');

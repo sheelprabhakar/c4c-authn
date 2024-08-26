@@ -38,6 +38,12 @@ public final class Constants {
      * The constant ATTRIBUTE_URL.
      */
     public static final String ATTRIBUTE_URL = "/api/attribute";
+
+    /**
+     * The constant CLIENT_URL.
+     */
+    public static final String CLIENT_URL = "/api/client";
+
     /**
      * The constant LOOKUP_URL.
      */

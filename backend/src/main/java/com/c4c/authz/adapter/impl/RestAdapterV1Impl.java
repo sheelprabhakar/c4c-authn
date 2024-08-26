@@ -15,6 +15,7 @@ import com.c4c.authz.core.entity.lookup.CountryEntity;
 import com.c4c.authz.core.entity.lookup.StateEntity;
 import com.c4c.authz.core.service.api.AttributeService;
 import com.c4c.authz.core.service.api.AuthenticationService;
+import com.c4c.authz.core.service.api.ClientService;
 import com.c4c.authz.core.service.api.LookupService;
 import com.c4c.authz.core.service.api.PolicyService;
 import com.c4c.authz.core.service.api.RoleAttributeService;
@@ -23,6 +24,7 @@ import com.c4c.authz.core.service.api.TenantService;
 import com.c4c.authz.core.service.api.UserRoleService;
 import com.c4c.authz.core.service.api.UserService;
 import com.c4c.authz.rest.resource.AttributeResource;
+import com.c4c.authz.rest.resource.ClientResource;
 import com.c4c.authz.rest.resource.RoleAttributeResource;
 import com.c4c.authz.rest.resource.RoleResource;
 import com.c4c.authz.rest.resource.TenantResource;
@@ -121,7 +123,18 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      */
     private final RoleAttributeConverter roleAttributeConverter;
 
+    /**
+     * The Policy service.
+     */
     private final PolicyService policyService;
+    /**
+     * The Client service.
+     */
+    private final ClientService clientService;
+    /**
+     * The Client converter.
+     */
+    private final ClientConverter clientConverter;
 
     /**
      * Instantiates a new Rest adapter v 1.
@@ -136,6 +149,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
      * @param exactNameModelMapper  the exact name model mapper
      * @param roleAttributeService  the role attribute service
      * @param policyService         the policy service
+     * @param clientService         the client service
      */
     @Autowired
     public RestAdapterV1Impl(final RoleService roleService, final UserService userService,
@@ -146,7 +160,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
                              final UserRoleService userRoleService,
                              final ModelMapper exactNameModelMapper,
                              final RoleAttributeService roleAttributeService,
-                             final PolicyService policyService) {
+                             final PolicyService policyService,
+                             final ClientService clientService) {
         this.roleService = roleService;
         this.userService = userService;
         this.authenticationService = authenticationService;
@@ -157,6 +172,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
         this.userRoleService = userRoleService;
         this.roleAttributeService = roleAttributeService;
         this.policyService = policyService;
+        this.clientService = clientService;
 
       this.roleConverter = RoleConverter.getInstance();
         this.userConverter = UserConverter.getInstance();
@@ -164,6 +180,7 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
         this.tenantConverter = TenantConverter.getInstance();
         this.attributeConverter = AttributeConverter.getInstance();
         this.roleAttributeConverter = RoleAttributeConverter.getInstance();
+        this.clientConverter = ClientConverter.getInstance();
     }
 
     /**
@@ -617,6 +634,13 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
         this.roleAttributeService.deleteById(new RoleAttributeId(roleId, attributeId));
     }
 
+    /**
+     * Find by tenant id and user name user details resource.
+     *
+     * @param tenantId the tenant id
+     * @param email    the email
+     * @return the user details resource
+     */
     @Override
     public UserDetailsResource findByTenantIdAndUserName(final UUID tenantId, final String email) {
         UserEntity userEntity = this.userService.findByTenantIdAndEmail(tenantId, email);
@@ -658,5 +682,73 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
             tenantEntity.setCity(cityEntity);
         }
         return tenantEntity;
+    }
+
+
+    /**
+     * Create client client resource.
+     *
+     * @param clientResource the client resource
+     * @return the client resource
+     */
+    @Override
+    public ClientResource createClient(final ClientResource clientResource) {
+        return this.clientConverter.covertFromEntity(
+            this.clientService.create(this.clientConverter.convertFromResource(clientResource)));
+    }
+
+    /**
+     * Update client client resource.
+     *
+     * @param clientResource the client resource
+     * @return the client resource
+     */
+    @Override
+    public ClientResource updateClient(final ClientResource clientResource) {
+        return this.clientConverter.covertFromEntity(
+            this.clientService.update(this.clientConverter.convertFromResource(clientResource)));
+    }
+
+    /**
+     * Find by id client client resource.
+     *
+     * @param clientId the client id
+     * @return the client resource
+     */
+    @Override
+    public ClientResource findByIdClient(final UUID clientId) {
+        return this.clientConverter.covertFromEntity(this.clientService.findById(clientId));
+    }
+
+    /**
+     * Find all client list.
+     *
+     * @return the list
+     */
+    @Override
+    public List<ClientResource> findAllClient() {
+        return this.clientConverter.createFromEntities(this.clientService.findAll());
+    }
+
+    /**
+     * Find by pagination client page.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the page
+     */
+    @Override
+    public Page<ClientResource> findByPaginationClient(final int pageNo, final int pageSize) {
+        return this.clientConverter.createFromEntities(this.clientService.findByPagination(pageNo, pageSize));
+    }
+
+    /**
+     * Delete by id client.
+     *
+     * @param clientId the client id
+     */
+    @Override
+    public void deleteByIdClient(final UUID clientId) {
+        this.clientService.deleteById(clientId);
     }
 }
