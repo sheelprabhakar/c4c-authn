@@ -95,7 +95,7 @@ public class AttributeController extends BaseController {
      */
     @PostMapping
     public ResponseEntity<AttributeResource> create(final @RequestBody @Validated AttributeResource attributeResource) {
-        attributeResource.setTenantId(CurrentUserContext.getCurrentTenant());
+        attributeResource.setTenantId(CurrentUserContext.getCurrentTenantId());
         AttributeResource resource = this.getRestAdapterV1().createAttribute(attributeResource);
         return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);
     }
@@ -108,7 +108,7 @@ public class AttributeController extends BaseController {
      */
     @PutMapping
     public ResponseEntity<AttributeResource> update(final @RequestBody @Validated AttributeResource attributeResource) {
-        attributeResource.setTenantId(CurrentUserContext.getCurrentTenant());
+        attributeResource.setTenantId(CurrentUserContext.getCurrentTenantId());
         AttributeResource resource = this.getRestAdapterV1().updateAttribute(attributeResource);
         return ResponseEntity.ok().body(resource);
     }

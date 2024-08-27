@@ -97,7 +97,7 @@ class ClientServiceImplTest {
     @Test
     void testFindAll() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
-            mockedStatic.when(CurrentUserContext::getCurrentTenant).thenReturn(tenantId);
+            mockedStatic.when(CurrentUserContext::getCurrentTenantId).thenReturn(tenantId);
             when(systemTenantService.isSystemTenant(any(UUID.class))).thenReturn(true);
             when(clientRepository.findAll()).thenReturn(Collections.singletonList(clientEntity));
             List<ClientEntity> clients = clientService.findAll();
@@ -109,7 +109,7 @@ class ClientServiceImplTest {
     @Test
     void testFindByPagination() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
-            mockedStatic.when(CurrentUserContext::getCurrentTenant).thenReturn(tenantId);
+            mockedStatic.when(CurrentUserContext::getCurrentTenantId).thenReturn(tenantId);
             when(systemTenantService.isSystemTenant(any(UUID.class))).thenReturn(true);
             Page<ClientEntity> page = new PageImpl<>(Collections.singletonList(clientEntity));
             when(clientRepository.findAll(any(PageRequest.class))).thenReturn(page);

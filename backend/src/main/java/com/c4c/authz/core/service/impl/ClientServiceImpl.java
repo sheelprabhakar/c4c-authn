@@ -117,10 +117,10 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     public List<ClientEntity> findAll() {
-        if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenant())) {
+        if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenantId())) {
             return (List<ClientEntity>) this.clientRepository.findAll();
         } else {
-            return this.clientRepository.findAllByTenantId(CurrentUserContext.getCurrentTenant());
+            return this.clientRepository.findAllByTenantId(CurrentUserContext.getCurrentTenantId());
         }
     }
 
@@ -134,10 +134,10 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Page<ClientEntity> findByPagination(final int pageNo, final int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());
-        if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenant())) {
+        if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenantId())) {
             return this.clientRepository.findAll(pageRequest);
         } else {
-            return this.clientRepository.findAllByTenantId(pageRequest, CurrentUserContext.getCurrentTenant());
+            return this.clientRepository.findAllByTenantId(pageRequest, CurrentUserContext.getCurrentTenantId());
         }
     }
 

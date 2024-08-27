@@ -63,4 +63,13 @@ public interface RoleService {
      * @param roleIds the role ids
      */
     void deleteAllById(List<UUID> roleIds);
+
+    /**
+     * Find by tenant id and name role entity.
+     *
+     * @param tenantId           the tenant id
+     * @param clientCredRoleName the client cred role name
+     * @return the role entity
+     */
+    RoleEntity findByTenantIdAndName(UUID tenantId, String clientCredRoleName);
 }

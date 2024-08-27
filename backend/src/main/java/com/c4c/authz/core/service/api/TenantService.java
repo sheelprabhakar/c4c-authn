@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * The interface Tenant service.
  */
-public interface TenantService extends SystemTenantService {
+public interface TenantService {
     /**
      * Create tenant entity.
      *

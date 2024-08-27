@@ -107,11 +107,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             final UserDetails userDetails = this.userDetailsService
                     .loadUserByUsername(username);
             log.info("Authenticated successfully");
-            CurrentUserContext.setCurrentTenant(userEntity.getTenantId());
+            CurrentUserContext.setCurrentTenantId(userEntity.getTenantId());
             String token = this.jwtTokenProvider.createToken(userDetails.getUsername(),
                     (Set<GrantedAuthority>) userDetails.getAuthorities());
             String refreshToken = this.jwtTokenProvider.createRefreshToken(userDetails.getUsername());
-            return this.userTokenService.update(userEntity.getId(), CurrentUserContext.getCurrentTenant(), token,
+            return this.userTokenService.update(userEntity.getId(), CurrentUserContext.getCurrentTenantId(), token,
                     refreshToken);
         } else {
             log.info("Authenticated failed");
@@ -148,12 +148,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             UserEntity userEntity = this.userService.findByEmail(username);
             UserDetails userDetails = this.userDetailsService
                     .loadUserByUsername(userEntity);
-            CurrentUserContext.setCurrentTenant(userEntity.getTenantId());
+            CurrentUserContext.setCurrentTenantId(userEntity.getTenantId());
             String token = this.jwtTokenProvider.createToken(userDetails.getUsername(),
                     (Set<GrantedAuthority>) userDetails.getAuthorities());
 
             String newRefreshToken = this.jwtTokenProvider.createRefreshToken(userDetails.getUsername());
-            return this.userTokenService.update(userEntity.getId(), CurrentUserContext.getCurrentTenant(), token,
+            return this.userTokenService.update(userEntity.getId(), CurrentUserContext.getCurrentTenantId(), token,
                     newRefreshToken);
         }
         return null;

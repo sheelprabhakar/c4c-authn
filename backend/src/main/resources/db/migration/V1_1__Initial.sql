@@ -89,13 +89,14 @@ DROP TABLE IF EXISTS `roles`;
   CREATE TABLE `roles` (
     `id` VARCHAR(36) NOT NULL,
     `tenant_id` varchar(36) NOT NULL,
-    `name` VARCHAR(50) NULL,
+    `name` VARCHAR(50) NOT NULL,
     `is_deleted` TINYINT NOT NULL DEFAULT 0,
     `created_at` DATETIME NULL,
     `updated_at` DATETIME NULL,
     `created_by` VARCHAR(255) NULL,
     `updated_by` VARCHAR(255) NULL,
      PRIMARY KEY (`id`),
+     UNIQUE INDEX `uq_tenants_role_name` (`tenant_id`, `name` ASC),
      CONSTRAINT `fk_tenant_role_tenant_id`
                      FOREIGN KEY (`tenant_id`)
                      REFERENCES `tenants` (`id`)

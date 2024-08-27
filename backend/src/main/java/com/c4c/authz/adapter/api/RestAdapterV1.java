@@ -2,6 +2,7 @@ package com.c4c.authz.adapter.api;
 
 import com.c4c.authz.rest.resource.AttributeResource;
 import com.c4c.authz.rest.resource.ClientResource;
+import com.c4c.authz.rest.resource.PolicyResource;
 import com.c4c.authz.rest.resource.RoleAttributeResource;
 import com.c4c.authz.rest.resource.RoleResource;
 import com.c4c.authz.rest.resource.TenantResource;
@@ -376,4 +377,11 @@ public interface RestAdapterV1 {
    * @param clientId the client id
    */
   void deleteByIdClient(UUID clientId);
+
+  /**
+   * Gets policies for current client.
+   *
+   * @return the policies for current client
+   */
+  List<PolicyResource> getPoliciesForCurrentClient();
 }

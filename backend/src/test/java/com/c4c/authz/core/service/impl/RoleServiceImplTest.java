@@ -99,7 +99,7 @@ class RoleServiceImplTest {
     void findAllOk() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
             // Define the behavior of the static method
-            mockedStatic.when(CurrentUserContext::getCurrentTenant).thenReturn(UUID.randomUUID());
+            mockedStatic.when(CurrentUserContext::getCurrentTenantId).thenReturn(UUID.randomUUID());
             when(this.systemTenantService.isSystemTenant(any(UUID.class))).thenReturn(true);
             List<RoleEntity> roleEntities = Instancio.ofList(RoleEntity.class).size(5).create();
             when(this.roleRepository.findAll()).thenReturn(roleEntities);
@@ -134,7 +134,7 @@ class RoleServiceImplTest {
     void findByPaginationOk() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
             // Define the behavior of the static method
-            mockedStatic.when(CurrentUserContext::getCurrentTenant).thenReturn(UUID.randomUUID());
+            mockedStatic.when(CurrentUserContext::getCurrentTenantId).thenReturn(UUID.randomUUID());
             when(this.systemTenantService.isSystemTenant(any(UUID.class))).thenReturn(true);
             List<RoleEntity> roleEntities = Instancio.ofList(RoleEntity.class).size(11).create();
             PageImpl<RoleEntity> entityPage =

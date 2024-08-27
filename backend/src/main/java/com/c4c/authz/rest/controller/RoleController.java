@@ -95,7 +95,7 @@ public class RoleController extends BaseController {
      */
     @PostMapping
     public ResponseEntity<RoleResource> create(final @RequestBody @Validated RoleResource role) {
-        role.setTenantId(CurrentUserContext.getCurrentTenant());
+        role.setTenantId(CurrentUserContext.getCurrentTenantId());
         RoleResource resource = this.getRestAdapterV1().createRole(role);
         return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);
     }
@@ -108,7 +108,7 @@ public class RoleController extends BaseController {
      */
     @PutMapping
     public ResponseEntity<RoleResource> update(final @RequestBody @Validated RoleResource role) {
-        role.setTenantId(CurrentUserContext.getCurrentTenant());
+        role.setTenantId(CurrentUserContext.getCurrentTenantId());
         RoleResource resource = this.getRestAdapterV1().updateRole(role);
         return ResponseEntity.ok().body(resource);
     }

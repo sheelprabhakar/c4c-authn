@@ -96,7 +96,7 @@ class AttributeServiceImplTest {
     void findAllOk() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
             // Define the behavior of the static method
-            mockedStatic.when(CurrentUserContext::getCurrentTenant).thenReturn(UUID.randomUUID());
+            mockedStatic.when(CurrentUserContext::getCurrentTenantId).thenReturn(UUID.randomUUID());
             when(this.systemTenantService.isSystemTenant(any(UUID.class))).thenReturn(true);
             List<AttributeEntity> restResourceEntities = Instancio.ofList(AttributeEntity.class).size(5).create();
             when(this.attributeRepository.findAll()).thenReturn(restResourceEntities);
@@ -131,7 +131,7 @@ class AttributeServiceImplTest {
     void findByPaginationOk() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
             // Define the behavior of the static method
-            mockedStatic.when(CurrentUserContext::getCurrentTenant).thenReturn(UUID.randomUUID());
+            mockedStatic.when(CurrentUserContext::getCurrentTenantId).thenReturn(UUID.randomUUID());
             when(this.systemTenantService.isSystemTenant(any(UUID.class))).thenReturn(true);
             List<AttributeEntity> restResourceEntities = Instancio.ofList(AttributeEntity.class).size(11).create();
             PageImpl<AttributeEntity> entityPage =

@@ -156,7 +156,7 @@ public class JwtTokenProvider {
             UserTokenEntity userTokenEntity = this.userTokenService.getById(user.getId());
             if (userTokenEntity == null || !userTokenEntity.getAccessToken().equals(token)
                     // Validate Tenant Id in Header with user's tenant id
-            || !user.getTenantId().equals(CurrentUserContext.getCurrentTenant())) {
+            || !user.getTenantId().equals(CurrentUserContext.getCurrentTenantId())) {
                 throw new CustomException("Invalid token", HttpStatus.UNAUTHORIZED);
             }
         }

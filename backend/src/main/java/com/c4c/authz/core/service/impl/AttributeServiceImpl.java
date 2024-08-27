@@ -88,10 +88,10 @@ public class AttributeServiceImpl implements AttributeService {
      */
     @Override
     public List<AttributeEntity> findAll() {
-        if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenant())) {
+        if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenantId())) {
             return (List<AttributeEntity>) this.attributeRepository.findAll();
         } else {
-            return this.attributeRepository.findAllByTenantId(CurrentUserContext.getCurrentTenant());
+            return this.attributeRepository.findAllByTenantId(CurrentUserContext.getCurrentTenantId());
         }
     }
 
@@ -105,10 +105,10 @@ public class AttributeServiceImpl implements AttributeService {
     @Override
     public Page<AttributeEntity> findByPagination(final int pageNo, final int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());
-        if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenant())) {
+        if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenantId())) {
             return this.attributeRepository.findAll(pageRequest);
         } else {
-            return this.attributeRepository.findAllByTenantId(pageRequest, CurrentUserContext.getCurrentTenant());
+            return this.attributeRepository.findAllByTenantId(pageRequest, CurrentUserContext.getCurrentTenantId());
         }
     }
 

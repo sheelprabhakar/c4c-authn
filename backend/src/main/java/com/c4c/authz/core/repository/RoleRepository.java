@@ -1,6 +1,7 @@
 package com.c4c.authz.core.repository;
 
 import com.c4c.authz.core.entity.RoleEntity;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
@@ -39,4 +40,12 @@ public interface RoleRepository extends CrudRepository<RoleEntity, UUID> {
      */
     Page<RoleEntity> findAllByTenantId(Pageable pageable, UUID tenantId);
 
+    /**
+     * Find by tenant id and name optional.
+     *
+     * @param tenantId           the tenant id
+     * @param clientCredRoleName the client cred role name
+     * @return the optional
+     */
+    Optional<RoleEntity> findByTenantIdAndName(UUID tenantId, String clientCredRoleName);
 }

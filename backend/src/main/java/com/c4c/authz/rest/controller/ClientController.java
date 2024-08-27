@@ -95,7 +95,7 @@ public class ClientController extends BaseController {
    */
   @PostMapping
   public ResponseEntity<ClientResource> create(final @RequestBody @Validated ClientResource client) {
-    client.setTenantId(CurrentUserContext.getCurrentTenant());
+    client.setTenantId(CurrentUserContext.getCurrentTenantId());
     ClientResource resource = this.getRestAdapterV1().createClient(client);
     return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);
   }
@@ -108,7 +108,7 @@ public class ClientController extends BaseController {
    */
   @PutMapping
   public ResponseEntity<ClientResource> update(final @RequestBody @Validated ClientResource client) {
-    client.setTenantId(CurrentUserContext.getCurrentTenant());
+    client.setTenantId(CurrentUserContext.getCurrentTenantId());
     ClientResource resource = this.getRestAdapterV1().updateClient(client);
     return ResponseEntity.ok().body(resource);
   }

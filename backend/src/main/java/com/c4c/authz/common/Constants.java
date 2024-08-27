@@ -5,6 +5,15 @@ package com.c4c.authz.common;
  */
 public final class Constants {
     /**
+     * The constant POLICY.
+     */
+    public static final String POLICY = "POLICY";
+    /**
+     * The constant POLICY_URL.
+     */
+    public static final String POLICY_URL = "/v1/api/{tenantId}/policy/**";
+    public static final String ANT_POLICY_URL = "/v1/api/**/policy/**";
+    /**
      * The constant SYSTEM_TENANT.
      */
     public static final String SYSTEM_TENANT = "SYSTEM";
@@ -43,6 +52,11 @@ public final class Constants {
      * The constant CLIENT_URL.
      */
     public static final String CLIENT_URL = "/api/client";
+
+    /**
+     * The constant CLIENT_CRED_ROLE_NAME.
+     */
+    public static final String CLIENT_CRED_ROLE_NAME = "CLIENT_USER";
 
     /**
      * The constant LOOKUP_URL.

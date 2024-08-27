@@ -1,30 +1,5 @@
 package com.c4c.authz.core.service.impl;
 
-import com.c4c.authz.common.CurrentUserContext;
-import com.c4c.authz.core.entity.TenantEntity;
-import com.c4c.authz.core.entity.UserEntity;
-import com.c4c.authz.core.repository.TenantRepository;
-import com.c4c.authz.core.service.api.UserService;
-import org.instancio.Instancio;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.test.util.ReflectionTestUtils;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -33,6 +8,38 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
+
+import com.c4c.authz.common.CurrentUserContext;
+import com.c4c.authz.core.entity.AttributeEntity;
+import com.c4c.authz.core.entity.RoleAttributeEntity;
+import com.c4c.authz.core.entity.RoleEntity;
+import com.c4c.authz.core.entity.TenantEntity;
+import com.c4c.authz.core.entity.UserEntity;
+import com.c4c.authz.core.entity.UserRoleEntity;
+import com.c4c.authz.core.repository.TenantRepository;
+import com.c4c.authz.core.service.api.AttributeService;
+import com.c4c.authz.core.service.api.RoleAttributeService;
+import com.c4c.authz.core.service.api.RoleService;
+import com.c4c.authz.core.service.api.SystemTenantService;
+import com.c4c.authz.core.service.api.UserRoleService;
+import com.c4c.authz.core.service.api.UserService;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import org.instancio.Instancio;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 /**
  * The type Tenant service impl test.
@@ -45,18 +52,32 @@ class TenantServiceImplTest {
      * The Tenant service.
      */
     @InjectMocks
-    @Spy
     TenantServiceImpl tenantService;
     /**
      * The Tenant repository.
      */
     @Mock
     TenantRepository tenantRepository;
+
+    @Mock
+    SystemTenantService systemTenantService;
     /**
      * The User service.
      */
     @Mock
     UserService userService;
+
+    @Mock
+    RoleService roleService;
+
+    @Mock
+    AttributeService attributeService;
+
+    @Mock
+    RoleAttributeService roleAttributeService;
+
+    @Mock
+    UserRoleService userRoleService;
 
     /**
      * The System tenant entity.
@@ -64,6 +85,13 @@ class TenantServiceImplTest {
     @Mock
     TenantEntity systemTenantEntity;
 
+    @BeforeEach
+    void setup() {
+        when(this.roleService.create(any(RoleEntity.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(this.attributeService.create(any(AttributeEntity.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(this.roleAttributeService.create(any(RoleAttributeEntity.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(this.userRoleService.create(any(UserRoleEntity.class))).thenAnswer(i -> i.getArguments()[0]);
+    }
     /**
      * Create tenant user exists.
      */
@@ -156,17 +184,15 @@ class TenantServiceImplTest {
     void findByIdAll() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
             // Define the behavior of the static method
-            mockedStatic.when(CurrentUserContext::getCurrentTenant).thenReturn(UUID.randomUUID());
-
-            TenantEntity tenantEntity = Instancio.create(TenantEntity.class);
-            ReflectionTestUtils.setField(this.tenantService, "systemTenantEntity", tenantEntity);
+            mockedStatic.when(CurrentUserContext::getCurrentTenantId).thenReturn(UUID.randomUUID());
+            
             List<TenantEntity> tenantEntities = Instancio.ofList(TenantEntity.class).size(5).create();
-            doReturn(true).when(this.tenantService).isSystemTenant(any(UUID.class));
+            doReturn(true).when(this.systemTenantService).isSystemTenant(any(UUID.class));
             when(this.tenantRepository.findAll()).thenReturn(tenantEntities);
             List<TenantEntity> tenantEntities1 = this.tenantService.findAll();
             assertEquals(tenantEntities, tenantEntities1);
 
-            doReturn(false).when(this.tenantService).isSystemTenant(any(UUID.class));
+            doReturn(false).when(this.systemTenantService).isSystemTenant(any(UUID.class));
             when(this.tenantRepository.findById(any(UUID.class))).thenReturn(Optional.of( Instancio.create(TenantEntity.class)));
             tenantEntities1 = this.tenantService.findAll();
             assertEquals(1, tenantEntities1.size());
@@ -181,8 +207,8 @@ class TenantServiceImplTest {
     void findByPaginationOk() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
             // Define the behavior of the static method
-            mockedStatic.when(CurrentUserContext::getCurrentTenant).thenReturn(UUID.randomUUID());
-            doReturn(true).when(this.tenantService).isSystemTenant(any(UUID.class));
+            mockedStatic.when(CurrentUserContext::getCurrentTenantId).thenReturn(UUID.randomUUID());
+            doReturn(true).when(this.systemTenantService).isSystemTenant(any(UUID.class));
             List<TenantEntity> tenantEntities = Instancio.ofList(TenantEntity.class).size(11).create();
             PageImpl<TenantEntity> entityPage =
                     new PageImpl<>(tenantEntities);
@@ -194,7 +220,7 @@ class TenantServiceImplTest {
             assertEquals(1, tenantEntities1.getTotalPages());
 
 
-            doReturn(false).when(this.tenantService).isSystemTenant(any(UUID.class));
+            doReturn(false).when(this.systemTenantService).isSystemTenant(any(UUID.class));
 
             when(this.tenantRepository.findById( any(UUID.class))).thenReturn(Optional.of( Instancio.create(TenantEntity.class)));
 

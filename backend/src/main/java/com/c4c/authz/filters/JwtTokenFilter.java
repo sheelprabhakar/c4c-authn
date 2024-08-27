@@ -90,7 +90,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 httpServletResponse.setStatus(HttpStatus.BAD_REQUEST.value());
                 return false;
             } else {
-                CurrentUserContext.setCurrentTenant(tenantID);
+                CurrentUserContext.setCurrentTenantId(tenantID);
             }
         }
         return true;
