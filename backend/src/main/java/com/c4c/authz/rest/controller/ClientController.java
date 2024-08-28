@@ -9,6 +9,7 @@ import com.c4c.authz.adapter.api.RestAdapterV1;
 import com.c4c.authz.common.CurrentUserContext;
 import com.c4c.authz.rest.resource.ClientResource;
 import com.c4c.authz.rest.resource.PagedModelResponse;
+import jakarta.validation.constraints.NotEmpty;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
@@ -90,11 +91,13 @@ public class ClientController extends BaseController {
   /**
    * Create response entity.
    *
-   * @param client the client
+   * @param name the name
    * @return the response entity
    */
   @PostMapping
-  public ResponseEntity<ClientResource> create(final @RequestBody @Validated ClientResource client) {
+  public ResponseEntity<ClientResource> create(final @RequestBody @NotEmpty String name) {
+    ClientResource client = new ClientResource();
+    client.setName(name);
     client.setTenantId(CurrentUserContext.getCurrentTenantId());
     ClientResource resource = this.getRestAdapterV1().createClient(client);
     return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);

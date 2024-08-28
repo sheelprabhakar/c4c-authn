@@ -384,4 +384,15 @@ public interface RestAdapterV1 {
    * @return the policies for current client
    */
   List<PolicyResource> getPoliciesForCurrentClient();
+
+  /**
+   * Authenticate client jwt response.
+   *
+   * @param tenantId     the tenant id
+   * @param clientId     the client id
+   * @param clientSecret the client secret
+   * @param grantType    the grant type
+   * @return the jwt response
+   */
+  JwtResponse authenticateClient(UUID tenantId, String clientId, String clientSecret, String grantType);
 }

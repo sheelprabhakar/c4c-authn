@@ -1,6 +1,7 @@
 package com.c4c.authz.core.service.impl;
 
 import com.c4c.authz.common.CurrentUserContext;
+import com.c4c.authz.common.OAuth2ClientIdGenerator;
 import com.c4c.authz.core.entity.ClientEntity;
 import com.c4c.authz.core.repository.ClientRepository;
 import com.c4c.authz.core.service.api.ClientService;
@@ -49,6 +50,8 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     public ClientEntity create(final ClientEntity clientEntity) {
+        clientEntity.setClientId(OAuth2ClientIdGenerator.generateClientId());
+        clientEntity.setClientId(OAuth2ClientIdGenerator.generateClientSecret());
         clientEntity.created(CurrentUserContext.getCurrentUser());
         return this.saveRoleEntity(clientEntity);
     }

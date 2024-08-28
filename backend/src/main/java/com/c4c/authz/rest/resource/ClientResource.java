@@ -31,16 +31,11 @@ public class ClientResource extends CommonResourceAttributes implements Serializ
   /**
    * The Client id.
    */
-  @NotEmpty(message = "Client id can not be empty.")
   @Size(max = 50, message = "Role name should be less than 50 characters.")
   private String clientId;
-  /**
-   * The Client secret.
-   */
-  @NotEmpty(message = "Client secret can not be empty.")
+
   @Size(max = 255, message = "Role name should be less than 50 characters.")
   private String clientSecret;
-
   /**
    * The Name.
    */

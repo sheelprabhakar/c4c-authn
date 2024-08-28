@@ -4,9 +4,11 @@ import com.c4c.authz.common.CurrentUserContext;
 import com.c4c.authz.core.entity.UserEntity;
 import com.c4c.authz.core.entity.UserTokenEntity;
 import com.c4c.authz.core.service.api.AuthenticationService;
+import com.c4c.authz.core.service.api.ClientService;
 import com.c4c.authz.core.service.api.UserExDetailsService;
 import com.c4c.authz.core.service.api.UserService;
 import com.c4c.authz.core.service.api.UserTokenService;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -54,6 +56,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      */
     private final PasswordEncoder passwordEncoder;
 
+    private final ClientService clientService;
     /**
      * Instantiates a new Authentication service.
      *
@@ -156,6 +159,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return this.userTokenService.update(userEntity.getId(), CurrentUserContext.getCurrentTenantId(), token,
                     newRefreshToken);
         }
+        return null;
+    }
+
+    /**
+     * @param tenantId     the tenant id
+     * @param clientId     the client id
+     * @param clientSecret the client secret
+     * @param grantType    the grant type
+     * @return
+     */
+    @Override
+    public UserTokenEntity authenticate(final UUID tenantId, final String clientId, final String clientSecret,
+                                        final String grantType) {
         return null;
     }
 

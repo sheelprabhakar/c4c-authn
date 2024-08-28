@@ -87,6 +87,7 @@ public final class Constants {
      */
     public static final String ITEM_CACHE = "itemCache";
 
+    public static final String BEARER = "Bearer";
     /**
      * Instantiates a new Constants.
      */

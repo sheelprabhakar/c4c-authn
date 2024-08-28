@@ -1,6 +1,7 @@
 package com.c4c.authz.core.service.api;
 
 import com.c4c.authz.core.entity.UserTokenEntity;
+import java.util.UUID;
 
 /**
  * The interface Authentication service.
@@ -28,4 +29,15 @@ public interface AuthenticationService {
      * @return the user token entity
      */
     UserTokenEntity refreshToken(String refreshToken);
+
+    /**
+     * Authenticate user token entity.
+     *
+     * @param tenantId     the tenant id
+     * @param clientId     the client id
+     * @param clientSecret the client secret
+     * @param grantType    the grant type
+     * @return the user token entity
+     */
+    UserTokenEntity authenticate(UUID tenantId, String clientId, String clientSecret, String grantType);
 }

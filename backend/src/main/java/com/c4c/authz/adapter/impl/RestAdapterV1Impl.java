@@ -762,9 +762,9 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
 
 
   /**
-   * Gets policies by role id.
+   * Gets policies for current client.
    *
-   * @return the policies by role id
+   * @return the policies for current client
    */
   @Override
   public List<PolicyResource> getPoliciesForCurrentClient() {
@@ -772,5 +772,21 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
         this.policyService.getPoliciesForCurrentClient(CurrentUserContext.getCurrentTenantId(),
             CurrentUserContext.getCurrentUser());
     return this.policyConverter.createFromEntities(policyRecords);
+  }
+
+  /**
+   * Authenticate client jwt response.
+   *
+   * @param tenantId     the tenant id
+   * @param clientId     the client id
+   * @param clientSecret the client secret
+   * @param grantType    the grant type
+   * @return the jwt response
+   */
+  @Override
+  public JwtResponse authenticateClient(final UUID tenantId, final String clientId, final String clientSecret,
+                                        final String grantType) {
+    return TokenConverter.authSuccessInfoToJwtResponse(
+        this.authenticationService.authenticate(tenantId, clientId, clientSecret, grantType));
   }
 }

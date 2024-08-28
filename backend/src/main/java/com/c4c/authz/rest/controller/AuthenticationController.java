@@ -4,10 +4,12 @@ import com.c4c.authz.adapter.api.RestAdapterV1;
 import com.c4c.authz.rest.resource.auth.JwtRequest;
 import com.c4c.authz.rest.resource.auth.JwtResponse;
 import jakarta.validation.Valid;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +50,16 @@ public class AuthenticationController extends BaseController {
     public ResponseEntity<JwtResponse> authenticate(
             final @Valid @RequestBody JwtRequest authenticationRequest) {
         JwtResponse jwtResponse = this.getRestAdapterV1().authenticate(authenticationRequest);
+        return ResponseEntity.ok(jwtResponse);
+    }
+
+    @PostMapping("/{tenantId}/oauth2/v2.0/token")
+    public ResponseEntity<JwtResponse> authenticateClient(
+        @PathVariable(value = "tenantId") final UUID tenantId,
+        final @RequestParam(value = "clientId", required = true) String clientId,
+        final @RequestParam(value = "clientSecret", required = true) String clientSecret,
+        final @RequestParam(value = "grantType", required = true) String grantType) {
+        JwtResponse jwtResponse = this.getRestAdapterV1().authenticateClient(tenantId, clientId, clientSecret, grantType);
         return ResponseEntity.ok(jwtResponse);
     }
 
