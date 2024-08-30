@@ -125,6 +125,28 @@ CREATE TABLE `user_roles` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
+DROP TABLE IF EXISTS `client_roles`;
+CREATE TABLE `client_roles` (
+  `client_id` VARCHAR(36) NOT NULL,
+  `role_id` VARCHAR(36) NOT NULL,
+  `is_deleted` TINYINT NOT NULL DEFAULT 0,
+  `created_at` DATETIME NULL,
+  `updated_at` DATETIME NULL,
+  `created_by` VARCHAR(255) NULL,
+  `updated_by` VARCHAR(255) NULL,
+  PRIMARY KEY (`client_id`, `role_id`),
+  INDEX `fk_client_client_role_idx` (`client_id` ASC) VISIBLE,
+  CONSTRAINT `fk_role_client_role`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `roles` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_client_client_role`
+    FOREIGN KEY (`client_id`)
+    REFERENCES `clients` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
 DROP TABLE IF EXISTS `user_tokens`;
 CREATE TABLE `user_tokens` (
   `user_id` VARCHAR(36) NOT NULL,
