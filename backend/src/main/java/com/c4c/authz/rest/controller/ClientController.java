@@ -95,7 +95,7 @@ public class ClientController extends BaseController {
    * @return the response entity
    */
   @PostMapping
-  public ResponseEntity<ClientResource> create(final @RequestBody @NotEmpty String name) {
+  public ResponseEntity<ClientResource> create(final @RequestParam @NotEmpty String name) {
     ClientResource client = new ClientResource();
     client.setName(name);
     client.setTenantId(CurrentUserContext.getCurrentTenantId());

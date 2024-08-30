@@ -57,6 +57,9 @@ public class TestUtils {
    */
   public static String convertObjectToJsonString(final Object object)
       throws JsonProcessingException {
+    if(object == null){
+      return "";
+    }
     return mapper_.writeValueAsString(object);
   }
 
