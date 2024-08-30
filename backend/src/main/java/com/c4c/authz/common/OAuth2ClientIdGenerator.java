@@ -8,15 +8,17 @@ import java.util.Base64;
  * The type O auth 2 client id generator.
  */
 public class OAuth2ClientIdGenerator {
+    private OAuth2ClientIdGenerator() {
+    }
 
-  /**
+    /**
    * The constant secureRandom.
    */
-  private static final SecureRandom secureRandom = new SecureRandom();
+  private static final SecureRandom SECURE_RANDOM = new SecureRandom();
   /**
    * The constant base64Encoder.
    */
-  private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder().withoutPadding();
+  private static final Base64.Encoder BASE_64_ENCODER = Base64.getUrlEncoder().withoutPadding();
 
   /**
    * Generate client id string.
@@ -25,8 +27,8 @@ public class OAuth2ClientIdGenerator {
    */
   public static String generateClientId() {
         byte[] randomBytes = new byte[32];
-        secureRandom.nextBytes(randomBytes);
-        return base64Encoder.encodeToString(randomBytes);
+        SECURE_RANDOM.nextBytes(randomBytes);
+        return BASE_64_ENCODER.encodeToString(randomBytes);
     }
 
   /**
@@ -36,8 +38,8 @@ public class OAuth2ClientIdGenerator {
    */
   public static String generateClientSecret() {
         byte[] randomBytes = new byte[64];
-        secureRandom.nextBytes(randomBytes);
-        return base64Encoder.encodeToString(randomBytes);
+        SECURE_RANDOM.nextBytes(randomBytes);
+        return BASE_64_ENCODER.encodeToString(randomBytes);
     }
 }
 

@@ -1,5 +1,3 @@
-
-
 package com.c4c.authz.rest.controller;
 
 import static com.c4c.authz.common.Constants.API_V1;
