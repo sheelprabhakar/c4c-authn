@@ -69,7 +69,7 @@ CREATE TABLE `clients` (
   `id` VARCHAR(36) NOT NULL,
   `tenant_id` varchar(36) NOT NULL,
   `name` VARCHAR(50) NOT NULL,
-  `client_id` VARCHAR(50) NOT NULL,
+  `client_id` VARCHAR(255) NOT NULL,
   `client_secret` VARCHAR(1024) NOT NULL,
   `is_deleted` TINYINT NOT NULL DEFAULT 0,
   `created_at` DATETIME NULL,
@@ -147,20 +147,28 @@ CREATE TABLE `client_roles` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-DROP TABLE IF EXISTS `user_tokens`;
-CREATE TABLE `user_tokens` (
-  `user_id` VARCHAR(36) NOT NULL,
+DROP TABLE IF EXISTS `oauth_tokens`;
+CREATE TABLE `oauth_tokens` (
+  `id` VARCHAR(36) NOT NULL,
+  `user_id` VARCHAR(36) NULL,
+  `client_id` VARCHAR(36) NULL,
   `tenant_id` varchar(36) NOT NULL,
   `access_token` VARCHAR(4096) NOT NULL,
-  `refresh_token` VARCHAR(4096) NOT NULL,
-  `updated_at` DATETIME NOT NULL,
-  PRIMARY KEY (`user_id`),
-  CONSTRAINT `fk_token_user_id`
+  `refresh_token` VARCHAR(4096) NULL,
+  `expiry_time` DATETIME NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_oauth_token_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `fk_tenant_user_token_tenant_id`
+  CONSTRAINT `fk_oauth_token_client_id`
+     FOREIGN KEY (`client_id`)
+     REFERENCES `clients` (`id`)
+     ON DELETE CASCADE
+     ON UPDATE CASCADE,
+  CONSTRAINT `fk_tenant_oauth_token_tenant_id`
            FOREIGN KEY (`tenant_id`)
            REFERENCES `tenants` (`id`)
            ON DELETE CASCADE

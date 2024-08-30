@@ -7,12 +7,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Set;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,10 +19,16 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Set;
+import java.util.UUID;
+
 /**
  * The type User entity.
  */
-@Entity(name = "users")
+@Table(name = "users")
+@Entity(name = "UserEntity")
 @Getter
 @Setter
 @NoArgsConstructor

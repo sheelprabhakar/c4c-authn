@@ -4,11 +4,12 @@ import com.c4c.authz.core.service.impl.EntityAttributeEncryptor;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.io.Serializable;
-import java.util.UUID;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,10 +19,15 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.io.Serializable;
+import java.util.Set;
+import java.util.UUID;
+
 /**
  * The type Client entity.
  */
-@Entity(name = "clients")
+@Table(name = "clients")
+@Entity(name = "ClientEntity")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -67,13 +73,16 @@ public class ClientEntity extends CommonEntityAttributes implements Serializable
   /**
    * The Client id.
    */
-  @Column(name = "client_id", length = NAME_MAX)
+  @Column(name = "client_id")
   private String clientId;
 
   /**
    * The Client secret.
    */
-  @Column(name = "client_secret", nullable = false)
+  @Column(name = "client_secret", nullable = false, length = 1024)
   @Convert(converter = EntityAttributeEncryptor.class)
   private String clientSecret;
+
+  @OneToMany(mappedBy = "clientEntity", fetch = FetchType.EAGER)
+  private Set<ClientRoleEntity> clientRoleEntities;
 }

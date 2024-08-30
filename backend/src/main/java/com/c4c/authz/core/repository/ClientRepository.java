@@ -57,4 +57,12 @@ public interface ClientRepository extends CrudRepository<ClientEntity, UUID> {
    * @return the list
    */
   List<ClientEntity> findAllByTenantId(UUID tenantId);
+
+  /**
+   * Find by client id optional.
+   *
+   * @param clientId the client id
+   * @return the optional
+   */
+  Optional<ClientEntity> findByClientId(String clientId);
 }

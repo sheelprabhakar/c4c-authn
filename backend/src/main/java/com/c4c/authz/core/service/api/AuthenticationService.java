@@ -1,6 +1,6 @@
 package com.c4c.authz.core.service.api;
 
-import com.c4c.authz.core.entity.UserTokenEntity;
+import com.c4c.authz.core.entity.OauthTokenEntity;
 import java.util.UUID;
 
 /**
@@ -15,7 +15,7 @@ public interface AuthenticationService {
      * @param isOtp    the is otp
      * @return the user token entity
      */
-    UserTokenEntity authenticate(String username, String password, boolean isOtp);
+    OauthTokenEntity authenticate(String username, String password, boolean isOtp);
 
     /**
      * Logout.
@@ -28,7 +28,7 @@ public interface AuthenticationService {
      * @param refreshToken the refresh token
      * @return the user token entity
      */
-    UserTokenEntity refreshToken(String refreshToken);
+    OauthTokenEntity refreshToken(String refreshToken);
 
     /**
      * Authenticate user token entity.
@@ -39,5 +39,5 @@ public interface AuthenticationService {
      * @param grantType    the grant type
      * @return the user token entity
      */
-    UserTokenEntity authenticate(UUID tenantId, String clientId, String clientSecret, String grantType);
+    OauthTokenEntity authenticate(UUID tenantId, String clientId, String clientSecret, String grantType);
 }

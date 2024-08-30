@@ -30,13 +30,13 @@ public class ClientResource extends CommonResourceAttributes implements Serializ
   /**
    * The Client id.
    */
-  @Size(max = 50, message = "Role name should be less than 50 characters.")
+  @Size(max = 255, message = "Role name should be less than 50 characters.")
   private String clientId;
 
   /**
    * The Client secret.
    */
-  @Size(max = 255, message = "Role name should be less than 50 characters.")
+  @Size(max = 1024, message = "Role name should be less than 50 characters.")
   private String clientSecret;
   /**
    * The Name.

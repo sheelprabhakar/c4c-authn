@@ -1,22 +1,31 @@
 package com.c4c.authz.rest.controller;
 
+import static com.c4c.authz.common.Constants.API_V1;
 import static com.c4c.authz.common.Constants.AUTH_URL;
+import static com.c4c.authz.common.Constants.CLIENT_CREDENTIALS;
+import static com.c4c.authz.common.Constants.CLIENT_URL;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.c4c.authz.common.JsonUtils;
+import com.c4c.authz.rest.resource.ClientResource;
 import com.c4c.authz.rest.resource.auth.JwtResponse;
 import com.c4c.authz.utils.TestUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import java.util.List;
 import java.util.Map;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -31,7 +40,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
      * The constant MOBILE.
      */
     static final String MOBILE = "9898989898";
-    /**
+   /**
      * The Base url.
      */
     private final String BASE_URL = AUTH_URL;
@@ -56,12 +65,43 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
 
         JwtResponse jwtResponse = TestUtils.convertJsonStringToObject(response, JwtResponse.class);
         assertNotNull(jwtResponse.getAccessToken());
+        assertNotNull(jwtResponse.getRefreshToken());
         Claims payload = Jwts.parser().verifyWith(this.secret).build()
                 .parseSignedClaims(jwtResponse.getAccessToken()).getPayload();
         assertEquals("admin@c4c.com", payload.getSubject());
         List<Map<String, String>> authorities = (List<Map<String, String>>) payload.get("authorities");
         assertEquals(2, authorities.size());
-        assertNotNull(jwtResponse.getRefreshToken());
+    }
+
+    @Test
+    @DisplayName("Test client credential authentication flow")
+    void test_client_authenticate_ok() throws Exception {
+
+        String BASE_URL1 = API_V1 + CLIENT_URL;
+        MvcResult result = this.mockMvc.perform(this.post(BASE_URL1 + "?name=test_client_auth", null))
+                .andExpect(status().isCreated())
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("test_client_auth")).andReturn();
+        ClientResource clientResource = JsonUtils.convertJsonStringToObject(
+                result.getResponse().getContentAsString(), ClientResource.class);
+        String requestParam = String.format(CLIENT_CRED_AUTH_PARAMS,
+                clientResource.getTenantId().toString(), clientResource.getClientId(),clientResource.getClientSecret(),
+                CLIENT_CREDENTIALS);
+
+        String response = this.mockMvc.perform(MockMvcRequestBuilders
+                        .post(BASE_URL + "/"+requestParam)
+                        .accept(MediaType.APPLICATION_JSON))
+                //.andDo(print())
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+        JwtResponse jwtResponse = TestUtils.convertJsonStringToObject(response, JwtResponse.class);
+        assertNotNull(jwtResponse.getAccessToken());
+        assertNull(jwtResponse.getRefreshToken());
+        Claims payload = Jwts.parser().verifyWith(this.secret).build()
+                .parseSignedClaims(jwtResponse.getAccessToken()).getPayload();
+        assertEquals(clientResource.getClientId(), payload.getSubject());
+        List<Map<String, String>> authorities = (List<Map<String, String>>) payload.get("authorities");
+        assertEquals(1, authorities.size());
     }
 
     /**
@@ -122,7 +162,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
                         .header("Authorization", token)
                         .accept(MediaType.APPLICATION_JSON))
                 //.andDo(print())
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isOk());
     }
 
 

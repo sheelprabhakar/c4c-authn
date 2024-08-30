@@ -29,6 +29,8 @@ import org.springframework.util.StringUtils;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public abstract class AbstractIntegrationTest extends TestcontainersConfiguration {
+    static final String CLIENT_CRED_AUTH_PARAMS = "/%s/oauth2/v2.0/token?clientId=%s&clientSecret=%s&grantType=%s";
+
     /**
      * The constant TENANT_ID.
      */

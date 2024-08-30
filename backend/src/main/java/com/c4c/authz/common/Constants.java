@@ -5,6 +5,10 @@ package com.c4c.authz.common;
  */
 public final class Constants {
   /**
+   * The constant CLIENT_CREDENTIALS.
+   */
+  public static final String CLIENT_CREDENTIALS ="client_credentials";
+  /**
    * The constant POLICY.
    */
   public static final String POLICY = "POLICY";

@@ -6,8 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.io.Serializable;
-import java.util.UUID;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,10 +16,14 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.io.Serializable;
+import java.util.UUID;
+
 /**
  * The type Attribute entity.
  */
-@Entity(name = "attributes")
+@Table(name = "attributes")
+@Entity(name = "AttributeEntity")
 @Getter
 @Setter
 @NoArgsConstructor

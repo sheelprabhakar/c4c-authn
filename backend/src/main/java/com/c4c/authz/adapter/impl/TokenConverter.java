@@ -1,6 +1,6 @@
 package com.c4c.authz.adapter.impl;
 
-import com.c4c.authz.core.entity.UserTokenEntity;
+import com.c4c.authz.core.entity.OauthTokenEntity;
 import com.c4c.authz.rest.resource.auth.JwtResponse;
 
 import static com.c4c.authz.common.Constants.BEARER;
@@ -22,7 +22,7 @@ public final class TokenConverter {
      * @param tokenEntity the token entity
      * @return the jwt response
      */
-    public static JwtResponse authSuccessInfoToJwtResponse(final UserTokenEntity tokenEntity) {
+    public static JwtResponse authSuccessInfoToJwtResponse(final OauthTokenEntity tokenEntity) {
         return new JwtResponse(tokenEntity.getAccessToken(), tokenEntity.getRefreshToken(), tokenEntity.getTenantId(),
                 BEARER);
     }

@@ -88,4 +88,12 @@ public interface ClientService {
      * @param ids the ids
      */
     void deleteAllById(List<UUID> ids);
+
+    /**
+     * Find by client id client entity.
+     *
+     * @param clientId the client id
+     * @return the client entity
+     */
+    ClientEntity findByClientId(String clientId);
 }
