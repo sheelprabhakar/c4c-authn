@@ -1,9 +1,15 @@
 package com.c4c.authz.rest.controller;
 
+import static com.c4c.authz.common.Constants.API_V1;
+import static com.c4c.authz.common.Constants.TENANT_URL;
+
 import com.c4c.authz.adapter.api.RestAdapterV1;
 import com.c4c.authz.rest.resource.PagedModelResponse;
 import com.c4c.authz.rest.resource.TenantResource;
 import jakarta.validation.Valid;
+import java.net.URI;
+import java.util.List;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,13 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.net.URI;
-import java.util.List;
-import java.util.UUID;
-
-import static com.c4c.authz.common.Constants.API_V1;
-import static com.c4c.authz.common.Constants.TENANT_URL;
 
 /**
  * The type Tenant controller.

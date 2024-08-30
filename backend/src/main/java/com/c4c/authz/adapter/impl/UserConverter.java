@@ -3,7 +3,6 @@ package com.c4c.authz.adapter.impl;
 import com.c4c.authz.adapter.api.Converter;
 import com.c4c.authz.core.entity.UserEntity;
 import com.c4c.authz.rest.resource.user.UserResource;
-
 import java.util.Objects;
 
 /**

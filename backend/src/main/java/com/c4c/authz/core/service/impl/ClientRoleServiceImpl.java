@@ -6,14 +6,14 @@ import com.c4c.authz.core.entity.ClientRoleId;
 import com.c4c.authz.core.repository.ClientRoleRepository;
 import com.c4c.authz.core.service.api.ClientRoleService;
 import jakarta.transaction.Transactional;
+import java.util.List;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * The type Client role service.
@@ -62,14 +62,14 @@ public class ClientRoleServiceImpl implements ClientRoleService {
     }
 
     /**
-     * Find by id client role entity.
+     * Find by client id list.
      *
-     * @param clientRoleId the client role id
-     * @return the client role entity
+     * @param clientId the client id
+     * @return the list
      */
     @Override
-    public ClientRoleEntity findById(final ClientRoleId clientRoleId) {
-        return this.clientRoleRepository.findById(clientRoleId).orElse(null);
+    public List<ClientRoleEntity> findByClientId(final UUID clientId) {
+        return this.clientRoleRepository.findByClientId(clientId);
     }
 
     /**

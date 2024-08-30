@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 class UserControllerTest extends AbstractIntegrationTest {
   //ToDo add test case
   /**
-   * The Base url.
+   * The constant BASE_URL.
    */
   private static final String BASE_URL = API_V1 + USER_URL;
 
@@ -65,6 +65,11 @@ class UserControllerTest extends AbstractIntegrationTest {
         .andExpect(MockMvcResultMatchers.jsonPath("$.mobile").value("1234567890"));
   }
 
+  /**
+   * Test get current user detail.
+   *
+   * @throws Exception the exception
+   */
   @Test
   @DisplayName("Test get current user details")
   void testGetCurrentUserDetail() throws Exception {
@@ -77,6 +82,6 @@ class UserControllerTest extends AbstractIntegrationTest {
     Assert.assertNotNull(userDetailsResource);
     Assert.assertNotNull(userDetailsResource.getUserInfo());
     Assert.assertTrue(userDetailsResource.getPolicies() != null
-        && userDetailsResource.getPolicies().size() == 8);
+        && userDetailsResource.getPolicies().size() == 10);
   }
 }

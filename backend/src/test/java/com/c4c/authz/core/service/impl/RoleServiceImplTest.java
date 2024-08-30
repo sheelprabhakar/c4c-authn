@@ -1,9 +1,21 @@
 package com.c4c.authz.core.service.impl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.c4c.authz.common.CurrentUserContext;
 import com.c4c.authz.core.entity.RoleEntity;
 import com.c4c.authz.core.repository.RoleRepository;
 import com.c4c.authz.core.service.api.SystemTenantService;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,45 +31,32 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 /**
  * The type Role service impl test.
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class RoleServiceImplTest {
-    /**
-     * The System tenant service.
-     */
-    @Mock
+  /**
+   * The System tenant service.
+   */
+  @Mock
     SystemTenantService systemTenantService;
-    /**
-     * The Role service.
-     */
-    @InjectMocks
+  /**
+   * The Role service.
+   */
+  @InjectMocks
     RoleServiceImpl roleService;
-    /**
-     * The Role repository.
-     */
-    @Mock
+  /**
+   * The Role repository.
+   */
+  @Mock
     RoleRepository roleRepository;
 
-    /**
-     * Create ok.
-     */
-    @Test
+  /**
+   * Create ok.
+   */
+  @Test
     @DisplayName("Test Create new role OK")
     void createOk() {
         when(this.roleRepository.save(any(RoleEntity.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -66,10 +65,10 @@ class RoleServiceImplTest {
         assertEquals(roleEntity, roleEntity1);
     }
 
-    /**
-     * Update ok.
-     */
-    @Test
+  /**
+   * Update ok.
+   */
+  @Test
     @DisplayName("Test update role OK")
     void updateOK() {
         when(this.roleRepository.save(any(RoleEntity.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -78,10 +77,10 @@ class RoleServiceImplTest {
         assertEquals(roleEntity, roleEntity1);
     }
 
-    /**
-     * Find by id ok.
-     */
-    @Test
+  /**
+   * Find by id ok.
+   */
+  @Test
     @DisplayName("Test find by id role OK")
     void findByIdOk() {
         RoleEntity roleEntity = Instancio.create(RoleEntity.class);
@@ -91,10 +90,10 @@ class RoleServiceImplTest {
         assertEquals(roleEntity, roleEntity1);
     }
 
-    /**
-     * Find all ok.
-     */
-    @Test
+  /**
+   * Find all ok.
+   */
+  @Test
     @DisplayName("Test find all role OK")
     void findAllOk() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
@@ -126,10 +125,10 @@ class RoleServiceImplTest {
         }
     }
 
-    /**
-     * Find by pagination ok.
-     */
-    @Test
+  /**
+   * Find by pagination ok.
+   */
+  @Test
     @DisplayName("Test find findByPagination role OK")
     void findByPaginationOk() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
@@ -160,10 +159,10 @@ class RoleServiceImplTest {
         }
     }
 
-    /**
-     * Delete by id ok.
-     */
-    @Test
+  /**
+   * Delete by id ok.
+   */
+  @Test
     @DisplayName("Test deleteBy id OK")
     void deleteByIdOK() {
         doNothing().when(this.roleRepository).deleteById(any(UUID.class));
@@ -172,10 +171,10 @@ class RoleServiceImplTest {
         verify(this.roleRepository, times(1)).deleteById(randomUUID);
     }
 
-    /**
-     * Delete all by id ok.
-     */
-    @Test
+  /**
+   * Delete all by id ok.
+   */
+  @Test
     @DisplayName("Test deleteAllById OK")
     void deleteAllByIdOK() {
         doNothing().when(this.roleRepository).deleteAllById(ArgumentMatchers.<UUID>anyList());

@@ -48,54 +48,73 @@ import org.springframework.data.domain.Pageable;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class TenantServiceImplTest {
 
-    /**
-     * The Tenant service.
-     */
-    @InjectMocks
+  /**
+   * The Tenant service.
+   */
+  @InjectMocks
     TenantServiceImpl tenantService;
-    /**
-     * The Tenant repository.
-     */
-    @Mock
+  /**
+   * The Tenant repository.
+   */
+  @Mock
     TenantRepository tenantRepository;
 
-    @Mock
+  /**
+   * The System tenant service.
+   */
+  @Mock
     SystemTenantService systemTenantService;
-    /**
-     * The User service.
-     */
-    @Mock
+  /**
+   * The User service.
+   */
+  @Mock
     UserService userService;
 
-    @Mock
+  /**
+   * The Role service.
+   */
+  @Mock
     RoleService roleService;
 
-    @Mock
+  /**
+   * The Attribute service.
+   */
+  @Mock
     AttributeService attributeService;
 
-    @Mock
+  /**
+   * The Role attribute service.
+   */
+  @Mock
     RoleAttributeService roleAttributeService;
 
-    @Mock
+  /**
+   * The User role service.
+   */
+  @Mock
     UserRoleService userRoleService;
 
-    /**
-     * The System tenant entity.
-     */
-    @Mock
+  /**
+   * The System tenant entity.
+   */
+  @Mock
     TenantEntity systemTenantEntity;
 
-    @BeforeEach
+  /**
+   * Sets .
+   */
+  @BeforeEach
     void setup() {
         when(this.roleService.create(any(RoleEntity.class))).thenAnswer(i -> i.getArguments()[0]);
         when(this.attributeService.create(any(AttributeEntity.class))).thenAnswer(i -> i.getArguments()[0]);
         when(this.roleAttributeService.create(any(RoleAttributeEntity.class))).thenAnswer(i -> i.getArguments()[0]);
         when(this.userRoleService.create(any(UserRoleEntity.class))).thenAnswer(i -> i.getArguments()[0]);
     }
-    /**
-     * Create tenant user exists.
-     */
-    @Test
+
+  /**
+   * Create tenant user exists.
+   */
+  @Test
     @DisplayName("Test Create New tenant with existing user")
     void createTenantUserExists() {
         TenantEntity tenantEntity = Instancio.create(TenantEntity.class);
@@ -109,10 +128,10 @@ class TenantServiceImplTest {
         assertEquals(true, tenantEntity1.isActive());
     }
 
-    /**
-     * Create tenant user not exists.
-     */
-    @Test
+  /**
+   * Create tenant user not exists.
+   */
+  @Test
     @DisplayName("Test Create New tenant without existing user")
     void createTenantUserNotExists() {
         TenantEntity tenantEntity = Instancio.create(TenantEntity.class);
@@ -126,10 +145,10 @@ class TenantServiceImplTest {
         assertEquals(true, tenantEntity1.isActive());
     }
 
-    /**
-     * Update user exists.
-     */
-    @Test
+  /**
+   * Update user exists.
+   */
+  @Test
     @DisplayName("Test update tenant with existing user")
     void updateUserExists() {
         TenantEntity tenantEntity = Instancio.create(TenantEntity.class);
@@ -143,10 +162,10 @@ class TenantServiceImplTest {
         assertEquals(true, tenantEntity1.isActive());
     }
 
-    /**
-     * Update tenant user not exists.
-     */
-    @Test
+  /**
+   * Update tenant user not exists.
+   */
+  @Test
     @DisplayName("Test Create New tenant without existing user")
     void updateTenantUserNotExists() {
         TenantEntity tenantEntity = Instancio.create(TenantEntity.class);
@@ -160,10 +179,10 @@ class TenantServiceImplTest {
         assertEquals(true, tenantEntity1.isActive());
     }
 
-    /**
-     * Find by id.
-     */
-    @Test
+  /**
+   * Find by id.
+   */
+  @Test
     @DisplayName("Test Tenant read by ID")
     void findById() {
         TenantEntity tenantEntity = Instancio.create(TenantEntity.class);
@@ -176,10 +195,10 @@ class TenantServiceImplTest {
         assertNull(tenantEntity);
     }
 
-    /**
-     * Find by id all.
-     */
-    @Test
+  /**
+   * Find by id all.
+   */
+  @Test
     @DisplayName("Test read all tenants")
     void findByIdAll() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
@@ -199,10 +218,10 @@ class TenantServiceImplTest {
         }
     }
 
-    /**
-     * Find by pagination ok.
-     */
-    @Test
+  /**
+   * Find by pagination ok.
+   */
+  @Test
     @DisplayName("Test find findByPagination role OK")
     void findByPaginationOk() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {

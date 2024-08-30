@@ -39,7 +39,7 @@ CREATE TABLE `users` (
   `first_name` VARCHAR(50) NOT NULL,
   `middle_name` VARCHAR(50) NULL DEFAULT NULL,
   `last_name` VARCHAR(50) NOT NULL,
-  `user_name` VARCHAR(50) NOT NULL,
+  `user_name` VARCHAR(255) NOT NULL,
   `mobile` VARCHAR(15) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
   `password_hash` VARCHAR(64) NULL DEFAULT NULL,
@@ -171,8 +171,10 @@ INSERT INTO `tenants` (`id`, `short_name`, `name`, `email`, `phone`, `mobile`, `
 INSERT INTO `roles` (`id`, `tenant_id`, `name`, `is_deleted`, `created_by`, `updated_by`) VALUES ('52a05765-a8e0-4fd7-b95b-3b14b52634f5', 'fe9f8f3c-6447-4fb1-a9ba-6856bccd3d9b', 'SUPER_ADMIN', '0', 'SYSTEM', 'SYSTEM');
 INSERT INTO `roles` (`id`, `tenant_id`, `name`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', 'fe9f8f3c-6447-4fb1-a9ba-6856bccd3d9b', 'ADMIN', '0', 'SYSTEM', 'SYSTEM');
 INSERT INTO `roles` (`id`,`tenant_id`, `name`, `is_deleted`, `created_by`, `updated_by`) VALUES ('e78fd037-8b92-47a0-a7f1-d2e16cf31738', 'fe9f8f3c-6447-4fb1-a9ba-6856bccd3d9b', 'USER', '0', 'SYSTEM', 'SYSTEM');
+INSERT INTO `roles` (`id`,`tenant_id`, `name`, `is_deleted`, `created_by`, `updated_by`) VALUES ('2bf6c5a3-4be5-49f2-874c-a7e719ab2399', 'fe9f8f3c-6447-4fb1-a9ba-6856bccd3d9b', 'CLIENT_USER', '0', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `users` (`id`,`tenant_id`, `first_name`, `middle_name`, `last_name`, `user_name`, `mobile`, `email`, `password_hash`, `is_locked`, `is_deleted`, `created_by`, `updated_by`) VALUES ('bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', 'fe9f8f3c-6447-4fb1-a9ba-6856bccd3d9b', 'admin', 'a', 'User', 'admin', '9899098990', 'sheel.prabhakar@gmail.com', '$2a$12$NL54bmIzc2qe9BgHFMCVleKQ/mUYvq7Bv7jIUODO3.jCshcUs0l0q', '0', '0', 'SYSTEM', 'SYSTEM');
+
+INSERT INTO `users` (`id`,`tenant_id`, `first_name`, `middle_name`, `last_name`, `user_name`, `mobile`, `email`, `password_hash`, `is_locked`, `is_deleted`, `created_by`, `updated_by`) VALUES ('bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', 'fe9f8f3c-6447-4fb1-a9ba-6856bccd3d9b', 'admin', 'a', 'User', 'admin@c4c.com', '9899098990', 'admin@c4c.com', '$2a$12$NL54bmIzc2qe9BgHFMCVleKQ/mUYvq7Bv7jIUODO3.jCshcUs0l0q', '0', '0', 'SYSTEM', 'SYSTEM');
 
 INSERT INTO `user_roles` (`role_id`, `user_id`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', 'bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', '0', 'SYSTEM', 'SYSTEM');
 INSERT INTO `user_roles` (`role_id`, `user_id`, `is_deleted`, `created_by`, `updated_by`) VALUES ('52a05765-a8e0-4fd7-b95b-3b14b52634f5', 'bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', '0', 'SYSTEM', 'SYSTEM');
@@ -253,3 +255,6 @@ INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_rea
 INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', '72b4fea9-0cb9-4aec-a120-222a99261de0', '1', '1', '1', '1', '1', 'SYSTEM', 'SYSTEM');
 INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', '91e34f74-8d70-491e-87e4-a0faed3d4ad8', '1', '1', '1', '1', '1', 'SYSTEM', 'SYSTEM');
 INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', '642efdd3-ac33-4cf9-a187-f43c71a27714', '1', '1', '1', '1', '1', 'SYSTEM', 'SYSTEM');
+
+
+INSERT INTO `role_attributes` (`role_id`, `attribute_id`, `can_create`, `can_read`, `can_update`, `can_delete`, `is_deleted`, `created_by`, `updated_by`) VALUES ('2bf6c5a3-4be5-49f2-874c-a7e719ab2399', '642efdd3-ac33-4cf9-a187-f43c71a27714', '1', '1', '1', '1', '1', 'SYSTEM', 'SYSTEM');

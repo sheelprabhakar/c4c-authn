@@ -1,10 +1,9 @@
 package com.c4c.authz.core.service.api;
 
 import com.c4c.authz.core.entity.RoleEntity;
-import org.springframework.data.domain.Page;
-
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
 
 /**
  * The interface Role service.

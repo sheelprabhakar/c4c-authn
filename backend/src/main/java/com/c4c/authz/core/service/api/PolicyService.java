@@ -24,4 +24,13 @@ public interface PolicyService {
    * @return the policies for current client
    */
   List<PolicyRecord> getPoliciesForCurrentClient(UUID tenantId, String clientId);
+
+  /**
+   * Gets policies for current user.
+   *
+   * @param currentTenantId the current tenant id
+   * @param currentUser     the current user
+   * @return the policies for current user
+   */
+  List<PolicyRecord> getPoliciesForCurrentUser(UUID currentTenantId, String currentUser);
 }

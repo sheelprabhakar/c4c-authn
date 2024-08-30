@@ -646,12 +646,12 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
    * Find by tenant id and user name user details resource.
    *
    * @param tenantId the tenant id
-   * @param email    the email
+   * @param userName the user name
    * @return the user details resource
    */
   @Override
-  public UserDetailsResource findByTenantIdAndUserName(final UUID tenantId, final String email) {
-    UserEntity userEntity = this.userService.findByTenantIdAndEmail(tenantId, email);
+  public UserDetailsResource findByTenantIdAndUserName(final UUID tenantId, final String userName) {
+    UserEntity userEntity = this.userService.findByTenantIdAndUserName(tenantId, userName);
     Set<PolicyRecord> policyRecords = new TreeSet<>();
     UserResource userResource = this.userConverter.covertFromEntity(userEntity);
     for (UserRoleEntity userRoleEntity : userEntity.getUserRoleEntities()) {
@@ -774,6 +774,20 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     return this.policyConverter.createFromEntities(policyRecords);
   }
 
+
+  /**
+   * Gets policies for current user.
+   *
+   * @return the policies for current user
+   */
+  @Override
+  public List<PolicyResource> getPoliciesForCurrentUser() {
+    List<PolicyRecord> policyRecords =
+        this.policyService.getPoliciesForCurrentUser(CurrentUserContext.getCurrentTenantId(),
+            CurrentUserContext.getCurrentUser());
+    return this.policyConverter.createFromEntities(policyRecords);
+  }
+
   /**
    * Authenticate client jwt response.
    *
@@ -789,4 +803,5 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     return TokenConverter.authSuccessInfoToJwtResponse(
         this.authenticationService.authenticate(tenantId, clientId, clientSecret, grantType));
   }
+
 }

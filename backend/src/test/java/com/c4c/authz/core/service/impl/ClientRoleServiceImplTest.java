@@ -12,7 +12,7 @@ import com.c4c.authz.core.entity.ClientRoleId;
 import com.c4c.authz.core.repository.ClientRoleRepository;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,6 +27,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+/**
+ * The type Client role service impl test.
+ */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class ClientRoleServiceImplTest {
@@ -67,19 +70,6 @@ class ClientRoleServiceImplTest {
     }
 
     /**
-     * Find by id ok.
-     */
-    @Test
-    @DisplayName("Test find by id client role OK")
-    void findByIdOk() {
-        ClientRoleEntity roleEntity = Instancio.create(ClientRoleEntity.class);
-        when(this.clientRoleRepository.findById(any(ClientRoleId.class))).thenReturn(Optional.of(roleEntity));
-
-        ClientRoleEntity roleEntity1 = this.clientRoleService.findById(new ClientRoleId());
-        assertEquals(roleEntity, roleEntity1);
-    }
-
-    /**
      * Find all ok.
      */
     @Test
@@ -94,6 +84,25 @@ class ClientRoleServiceImplTest {
 
         when(this.clientRoleRepository.findAll()).thenReturn(Collections.emptyList());
         roleEntities1 = this.clientRoleService.findAll();
+        assertEquals(0, roleEntities1.size());
+    }
+
+    /**
+     * Find by client id ok.
+     */
+    @Test
+    @DisplayName("Test find by client id OK")
+    void findByClientIdOk() {
+        List<ClientRoleEntity> roleEntities = Instancio.ofList(ClientRoleEntity.class).size(5).create();
+        UUID clientId = UUID.randomUUID();
+        when(this.clientRoleRepository.findByClientId(clientId)).thenReturn(roleEntities);
+
+        List<ClientRoleEntity> roleEntities1 = this.clientRoleService.findByClientId(clientId);
+        assertEquals(5, roleEntities1.size());
+        assertEquals(roleEntities, roleEntities1);
+
+        when(this.clientRoleRepository.findByClientId(clientId)).thenReturn(Collections.emptyList());
+        roleEntities1 = this.clientRoleService.findByClientId(clientId);
         assertEquals(0, roleEntities1.size());
     }
 

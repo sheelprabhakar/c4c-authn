@@ -56,11 +56,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   private final PasswordEncoder passwordEncoder;
 
   /**
-   * The Client service.
-   */
-  private final ClientService clientService;
-
-  /**
    * Instantiates a new Authentication service.
    *
    * @param jwtTokenProvider   the jwt token provider
@@ -95,7 +90,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   public UserTokenEntity authenticate(final String username,
                                       final String password, final boolean isOtp) {
 
-    UserEntity userEntity = this.userService.findByEmail(username);
+    UserEntity userEntity = this.userService.findByUserName(username);
     if (userEntity == null) {
       log.info(USER_NOT_FOUND);
       throw new BadCredentialsException(USER_NOT_FOUND);
@@ -135,7 +130,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   public void logout() {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     UserDetails userDetails = (UserDetails) auth.getPrincipal();
-    UserEntity userEntity = this.userService.findByEmail(userDetails.getUsername());
+    UserEntity userEntity = this.userService.findByUserName(userDetails.getUsername());
     if (userEntity == null) {
       log.info(USER_NOT_FOUND);
       throw new BadCredentialsException(USER_NOT_FOUND);
@@ -153,7 +148,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   public UserTokenEntity refreshToken(final String refreshToken) {
     if (this.jwtTokenProvider.validateToken(refreshToken)) {
       String username = this.jwtTokenProvider.getUsername(refreshToken);
-      UserEntity userEntity = this.userService.findByEmail(username);
+      UserEntity userEntity = this.userService.findByUserName(username);
       UserDetails userDetails = this.userDetailsService
           .loadUserByUsername(userEntity);
       CurrentUserContext.setCurrentTenantId(userEntity.getTenantId());

@@ -1,6 +1,7 @@
 package com.c4c.authz.config;
 
 import com.c4c.authz.filters.IdempotenceFilter;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -11,33 +12,31 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import java.util.List;
-
 /**
  * The type Idempotency config.
  */
 @Configuration
 public class IdempotencyConfig {
 
-    /**
-     * The Idempotency api paths.
-     */
-    @Value("${c4c.authz.idempotency.paths}")
+  /**
+   * The Idempotency api paths.
+   */
+  @Value("${c4c.authz.idempotency.paths}")
     private List<String> idempotencyApiPaths;
 
-    /**
-     * The Ttl in minutes.
-     */
-    @Value("${c4c.authz.idempotency.ttlInMinutes:60}")
+  /**
+   * The Ttl in minutes.
+   */
+  @Value("${c4c.authz.idempotency.ttlInMinutes:60}")
     private Long ttlInMinutes;
 
-    /**
-     * Idem redis template redis template.
-     *
-     * @param redisConnectionFactory the redis connection factory
-     * @return the redis template
-     */
-    @Bean("idemRedisTemplate")
+  /**
+   * Idem redis template redis template.
+   *
+   * @param redisConnectionFactory the redis connection factory
+   * @return the redis template
+   */
+  @Bean("idemRedisTemplate")
     RedisTemplate<String, IdempotenceFilter.IdempotencyValue> idemRedisTemplate(
             final RedisConnectionFactory redisConnectionFactory) {
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
@@ -56,13 +55,13 @@ public class IdempotencyConfig {
         return template;
     }
 
-    /**
-     * Idempotence filter registration bean filter registration bean.
-     *
-     * @param idemRedisTemplate the idem redis template
-     * @return the filter registration bean
-     */
-    @Bean
+  /**
+   * Idempotence filter registration bean filter registration bean.
+   *
+   * @param idemRedisTemplate the idem redis template
+   * @return the filter registration bean
+   */
+  @Bean
     public FilterRegistrationBean<IdempotenceFilter> idempotenceFilterRegistrationBean(
             @Qualifier("idemRedisTemplate")
             final RedisTemplate<String, IdempotenceFilter.IdempotencyValue> idemRedisTemplate) {

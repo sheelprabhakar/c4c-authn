@@ -11,15 +11,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.Instant;
 
 /**
  * The type City entity.
@@ -32,103 +31,103 @@ import java.time.Instant;
 @Entity
 @Table(name = "cities")
 public class CityEntity implements Serializable {
-    /**
-     * The Id.
-     */
-    @Id
+  /**
+   * The Id.
+   */
+  @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private int id;
 
-    /**
-     * The Name.
-     */
-    @Size(max = 255)
+  /**
+   * The Name.
+   */
+  @Size(max = 255)
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
 
-    /**
-     * The State code.
-     */
-    @Size(max = 255)
+  /**
+   * The State code.
+   */
+  @Size(max = 255)
     @NotNull
     @Column(name = "state_code", nullable = false)
     private String stateCode;
 
-    /**
-     * The State.
-     */
-    @NotNull
+  /**
+   * The State.
+   */
+  @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "state_id", nullable = false)
     private StateEntity state;
 
-    /**
-     * The Country.
-     */
-    @NotNull
+  /**
+   * The Country.
+   */
+  @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "country_id", nullable = false)
     private CountryEntity country;
 
-    /**
-     * The Country code.
-     */
-    @Size(max = 2)
+  /**
+   * The Country code.
+   */
+  @Size(max = 2)
     @NotNull
     @Column(name = "country_code", nullable = false, length = 2)
     private String countryCode;
 
-    /**
-     * The Latitude.
-     */
-    @NotNull
+  /**
+   * The Latitude.
+   */
+  @NotNull
     @Column(name = "latitude", nullable = false, precision = 10, scale = 8)
     private BigDecimal latitude;
 
-    /**
-     * The Longitude.
-     */
-    @NotNull
+  /**
+   * The Longitude.
+   */
+  @NotNull
     @Column(name = "longitude", nullable = false, precision = 11, scale = 8)
     private BigDecimal longitude;
 
-    /**
-     * The Created at.
-     */
-    @NotNull
+  /**
+   * The Created at.
+   */
+  @NotNull
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    /**
-     * The Updated at.
-     */
-    @NotNull
+  /**
+   * The Updated at.
+   */
+  @NotNull
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
-    /**
-     * The Flag.
-     */
-    @NotNull
+  /**
+   * The Flag.
+   */
+  @NotNull
     @Column(name = "flag", nullable = false)
     private boolean flag;
 
-    /**
-     * The Wiki data id.
-     */
-    @Size(max = 255)
+  /**
+   * The Wiki data id.
+   */
+  @Size(max = 255)
     @Column(name = "wiki_data_id")
     private String wikiDataId;
 
-    /**
-     * Equals boolean.
-     *
-     * @param o the o
-     * @return the boolean
-     */
-    @Override
+  /**
+   * Equals boolean.
+   *
+   * @param o the o
+   * @return the boolean
+   */
+  @Override
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -141,12 +140,12 @@ public class CityEntity implements Serializable {
         return id == that.id;
     }
 
-    /**
-     * Hash code int.
-     *
-     * @return the int
-     */
-    @Override
+  /**
+   * Hash code int.
+   *
+   * @return the int
+   */
+  @Override
     public int hashCode() {
         return id;
     }

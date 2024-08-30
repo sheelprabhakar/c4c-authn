@@ -1,10 +1,8 @@
-// src/main/java/com/c4c/authz/adapter/impl/ClientConverter.java
 package com.c4c.authz.adapter.impl;
 
 import com.c4c.authz.adapter.api.Converter;
 import com.c4c.authz.core.entity.ClientEntity;
 import com.c4c.authz.rest.resource.ClientResource;
-
 import java.util.Objects;
 
 /**

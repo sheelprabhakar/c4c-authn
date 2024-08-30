@@ -1,9 +1,21 @@
 package com.c4c.authz.core.service.impl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.c4c.authz.common.CurrentUserContext;
 import com.c4c.authz.core.entity.AttributeEntity;
 import com.c4c.authz.core.repository.AttributeRepository;
 import com.c4c.authz.core.service.api.SystemTenantService;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,42 +31,33 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 /**
  * The type Attribute service impl test.
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class AttributeServiceImplTest {
-    /**
-     * The Attribute service.
-     */
-    @InjectMocks
+  /**
+   * The Attribute service.
+   */
+  @InjectMocks
     AttributeServiceImpl attributeService;
-    /**
-     * The Attribute repository.
-     */
-    @Mock
+  /**
+   * The Attribute repository.
+   */
+  @Mock
     AttributeRepository attributeRepository;
 
-    @Mock
+  /**
+   * The System tenant service.
+   */
+  @Mock
     SystemTenantService systemTenantService;
-    /**
-     * Create ok.
-     */
-    @Test
+
+  /**
+   * Create ok.
+   */
+  @Test
     @DisplayName("Test Create new REST resource OK")
     void createOk() {
         when(this.attributeRepository.save(any(AttributeEntity.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -63,10 +66,10 @@ class AttributeServiceImplTest {
         assertEquals(attributeEntity, attributeEntity1);
     }
 
-    /**
-     * Update ok.
-     */
-    @Test
+  /**
+   * Update ok.
+   */
+  @Test
     @DisplayName("Test update REST resource OK")
     void updateOK() {
         when(this.attributeRepository.save(any(AttributeEntity.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -75,10 +78,10 @@ class AttributeServiceImplTest {
         assertEquals(attributeEntity, attributeEntity1);
     }
 
-    /**
-     * Find by id ok.
-     */
-    @Test
+  /**
+   * Find by id ok.
+   */
+  @Test
     @DisplayName("Test find by id REST resource OK")
     void findByIdOk() {
         AttributeEntity attributeEntity = Instancio.create(AttributeEntity.class);
@@ -88,10 +91,10 @@ class AttributeServiceImplTest {
         assertEquals(attributeEntity, attributeEntity1);
     }
 
-    /**
-     * Find all ok.
-     */
-    @Test
+  /**
+   * Find all ok.
+   */
+  @Test
     @DisplayName("Test find all REST resource OK")
     void findAllOk() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
@@ -123,10 +126,10 @@ class AttributeServiceImplTest {
         }
     }
 
-    /**
-     * Find by pagination ok.
-     */
-    @Test
+  /**
+   * Find by pagination ok.
+   */
+  @Test
     @DisplayName("Test find findByPagination REST resource OK")
     void findByPaginationOk() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
@@ -156,10 +159,10 @@ class AttributeServiceImplTest {
         }
     }
 
-    /**
-     * Delete by id ok.
-     */
-    @Test
+  /**
+   * Delete by id ok.
+   */
+  @Test
     @DisplayName("Test deleteBy id OK")
     void deleteByIdOK() {
         doNothing().when(this.attributeRepository).deleteById(any(UUID.class));
@@ -168,10 +171,10 @@ class AttributeServiceImplTest {
         verify(this.attributeRepository, times(1)).deleteById(randomUUID);
     }
 
-    /**
-     * Delete all by id ok.
-     */
-    @Test
+  /**
+   * Delete all by id ok.
+   */
+  @Test
     @DisplayName("Test deleteAllById OK")
     void deleteAllByIdOK() {
         doNothing().when(this.attributeRepository).deleteAllById(ArgumentMatchers.<UUID>anyList());

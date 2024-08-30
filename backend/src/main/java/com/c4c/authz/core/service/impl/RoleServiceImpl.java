@@ -127,6 +127,13 @@ public class RoleServiceImpl implements RoleService {
     this.roleRepository.deleteAllById(roleIds);
   }
 
+  /**
+   * Find by tenant id and name role entity.
+   *
+   * @param tenantId           the tenant id
+   * @param clientCredRoleName the client cred role name
+   * @return the role entity
+   */
   @Override
   public RoleEntity findByTenantIdAndName(final UUID tenantId, final String clientCredRoleName) {
     return this.roleRepository.findByTenantIdAndName(tenantId, clientCredRoleName).orElse(null);

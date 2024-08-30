@@ -1,9 +1,9 @@
 package com.c4c.authz.core.service.impl;
 
 
+import static com.c4c.authz.common.Constants.ANT_POLICY_URL;
 import static com.c4c.authz.common.Constants.CLIENT_CRED_ROLE_NAME;
 import static com.c4c.authz.common.Constants.POLICY;
-import static com.c4c.authz.common.Constants.ANT_POLICY_URL;
 import static com.c4c.authz.common.Constants.SYSTEM_TENANT;
 
 import com.c4c.authz.common.CurrentUserContext;
@@ -218,20 +218,27 @@ public class TenantServiceImpl implements TenantService {
       userEntity = getNewUserEntity(entity);
       userEntity.setTenantId(entity.getId());
       userEntity = this.userService.save(userEntity);
+
+
+      RoleEntity roleEntity = createDefaultClientRole(entity);
+
+      //Assign Default Tenant Role to User
+      //ToDo implement default role provisioning
+      UserRoleEntity userRoleEntity = UserRoleEntity.builder().userId(userEntity.getId()).roleId(roleEntity.getId())
+          .userEntity(userEntity).roleEntity(roleEntity).build();
+      userRoleEntity.created(SYSTEM_TENANT);
+      userRoleEntity.updated(SYSTEM_TENANT);
+      userRoleEntity = this.userRoleService.create(userRoleEntity);
     }
-
-    RoleEntity roleEntity = createDefaultClientRole(entity);
-
-    //Assign Default Tenant Role to User
-    //ToDo implement default role provisioning
-    UserRoleEntity userRoleEntity = UserRoleEntity.builder().userId(userEntity.getId()).roleId(roleEntity.getId())
-        .userEntity(userEntity).roleEntity(roleEntity).build();
-    userRoleEntity.created(SYSTEM_TENANT);
-    userRoleEntity.updated(SYSTEM_TENANT);
-    userRoleEntity = this.userRoleService.create(userRoleEntity);
     return entity;
   }
 
+  /**
+   * Create default client role role entity.
+   *
+   * @param entity the entity
+   * @return the role entity
+   */
   private RoleEntity createDefaultClientRole(final TenantEntity entity) {
     //Create Default Role For clientid
     RoleEntity roleEntity = RoleEntity.builder().name(CLIENT_CRED_ROLE_NAME).tenantId(entity.getId()).build();

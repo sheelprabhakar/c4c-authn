@@ -1,10 +1,17 @@
 package com.c4c.authz.core.service.impl;
 
+import static com.c4c.authz.common.Constants.CLIENT_CRED_ROLE_NAME;
+import static com.c4c.authz.common.Constants.SYSTEM_TENANT;
+
 import com.c4c.authz.common.CurrentUserContext;
 import com.c4c.authz.common.OAuth2ClientIdGenerator;
 import com.c4c.authz.core.entity.ClientEntity;
+import com.c4c.authz.core.entity.ClientRoleEntity;
+import com.c4c.authz.core.entity.RoleEntity;
 import com.c4c.authz.core.repository.ClientRepository;
+import com.c4c.authz.core.service.api.ClientRoleService;
 import com.c4c.authz.core.service.api.ClientService;
+import com.c4c.authz.core.service.api.RoleService;
 import com.c4c.authz.core.service.api.SystemTenantService;
 import java.util.List;
 import java.util.UUID;
@@ -31,16 +38,30 @@ public class ClientServiceImpl implements ClientService {
    */
   private final ClientRepository clientRepository;
 
+  /**
+   * The Role service.
+   */
+  private final RoleService roleService;
+
+  /**
+   * The Client role service.
+   */
+  private final ClientRoleService clientRoleService;
 
   /**
    * Instantiates a new Client service.
    *
    * @param systemTenantService the system tenant service
    * @param clientRepository    the client repository
+   * @param roleService         the role service
+   * @param clientRoleService   the client role service
    */
-  public ClientServiceImpl(final SystemTenantService systemTenantService, final ClientRepository clientRepository) {
+  public ClientServiceImpl(final SystemTenantService systemTenantService, final ClientRepository clientRepository,
+                           final RoleService roleService, final ClientRoleService clientRoleService) {
     this.systemTenantService = systemTenantService;
     this.clientRepository = clientRepository;
+    this.roleService = roleService;
+    this.clientRoleService = clientRoleService;
   }
 
   /**
@@ -50,12 +71,14 @@ public class ClientServiceImpl implements ClientService {
    * @return the client entity
    */
   @Override
-  public ClientEntity create(ClientEntity clientEntity) {
+  public ClientEntity create(final ClientEntity clientEntity) {
     clientEntity.setClientId(OAuth2ClientIdGenerator.generateClientId());
     String clientSecret = OAuth2ClientIdGenerator.generateClientSecret();
     clientEntity.setClientSecret(clientSecret);
     clientEntity.created(CurrentUserContext.getCurrentUser());
-    return this.saveClientEntity(clientEntity);
+    this.saveClientEntity(clientEntity);
+    this.createDefaultClientRole(clientEntity);
+    return clientEntity;
   }
 
   /**
@@ -176,5 +199,23 @@ public class ClientServiceImpl implements ClientService {
    */
   private ClientEntity saveClientEntity(final ClientEntity clientEntity) {
     return this.clientRepository.save(clientEntity);
+  }
+
+  /**
+   * Create default client role.
+   *
+   * @param clientEntity the client entity
+   */
+  private void createDefaultClientRole(final ClientEntity clientEntity) {
+    RoleEntity roleEntity = this.roleService.findByTenantIdAndName(clientEntity.getTenantId(), CLIENT_CRED_ROLE_NAME);
+    ClientRoleEntity clientRoleEntity = new ClientRoleEntity();
+    clientRoleEntity.setClientEntity(clientEntity);
+    clientRoleEntity.setRoleEntity(roleEntity);
+    clientRoleEntity.setRoleId(roleEntity.getId());
+    clientRoleEntity.setClientId(clientEntity.getId());
+    clientRoleEntity.setDeleted(false);
+    clientRoleEntity.created(SYSTEM_TENANT);
+
+    this.clientRoleService.create(clientRoleEntity);
   }
 }

@@ -12,18 +12,30 @@ import com.c4c.authz.rest.resource.AttributeResource;
 import com.c4c.authz.rest.resource.ClientResource;
 import com.c4c.authz.rest.resource.RoleResource;
 import com.c4c.authz.rest.resource.TenantResource;
+import java.util.List;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
+/**
+ * The type Converter test.
+ */
 class ConverterTest {
+  /**
+   * The type Attribute converter test.
+   */
   @Nested
   class AttributeConverterTest {
+    /**
+     * The Attribute converter.
+     */
     private final AttributeConverter attributeConverter = new AttributeConverter();
+
+    /**
+     * Convert from resource.
+     */
     @Test
     @DisplayName("Test convert from resource to entity")
     void convertFromResource() {
@@ -33,6 +45,9 @@ class ConverterTest {
       Assertions.assertEquals(attributeResource, attributeResource1);
     }
 
+    /**
+     * Covert from entity.
+     */
     @Test
     @DisplayName("Test convert from entity to resource")
     void covertFromEntity() {
@@ -42,6 +57,9 @@ class ConverterTest {
       Assertions.assertEquals(attributeEntity, attributeEntity1);
     }
 
+    /**
+     * Create from resources.
+     */
     @Test
     @DisplayName("Test convert from resource list to entity list")
     void createFromResources() {
@@ -54,6 +72,9 @@ class ConverterTest {
           attributeResources1.containsAll(attributeResources));
     }
 
+    /**
+     * Create from entities.
+     */
     @Test
     @DisplayName("Test convert from entity list to resource list")
     void createFromEntities() {
@@ -67,9 +88,19 @@ class ConverterTest {
     }
   }
 
+  /**
+   * The type Tenant converter test.
+   */
   @Nested
   class TenantConverterTest {
+    /**
+     * The Tenant converter.
+     */
     private final TenantConverter tenantConverter = new TenantConverter();
+
+    /**
+     * Convert from resource.
+     */
     @Test
     @DisplayName("Test convert from resource to entity")
     void convertFromResource() {
@@ -80,6 +111,9 @@ class ConverterTest {
       Assertions.assertEquals(resource, resource1);
     }
 
+    /**
+     * Covert from entity.
+     */
     @Test
     @DisplayName("Test convert from entity to resource")
     void covertFromEntity() {
@@ -91,6 +125,9 @@ class ConverterTest {
       Assertions.assertEquals(entity, entity1);
     }
 
+    /**
+     * Create from resources.
+     */
     @Test
     @DisplayName("Test convert from resource list to entity list")
     void createFromResources() {
@@ -101,6 +138,9 @@ class ConverterTest {
         Assertions.assertEquals(resources.size(), resources1.size());
     }
 
+    /**
+     * Create from entities.
+     */
     @Test
     @DisplayName("Test convert from entity list to resource list")
     void createFromEntities() {
@@ -114,9 +154,19 @@ class ConverterTest {
   }
 
 
+  /**
+   * The type Role converter test.
+   */
   @Nested
   class RoleConverterTest {
+    /**
+     * The Role converter.
+     */
     private final RoleConverter roleConverter = new RoleConverter();
+
+    /**
+     * Convert from resource.
+     */
     @Test
     @DisplayName("Test convert from resource to entity")
     void convertFromResource() {
@@ -126,6 +176,9 @@ class ConverterTest {
       Assertions.assertEquals(resource, resource1);
     }
 
+    /**
+     * Covert from entity.
+     */
     @Test
     @DisplayName("Test convert from entity to resource")
     void covertFromEntity() {
@@ -136,6 +189,9 @@ class ConverterTest {
       Assertions.assertEquals(entity, entity1);
     }
 
+    /**
+     * Create from resources.
+     */
     @Test
     @DisplayName("Test convert from resource list to entity list")
     void createFromResources() {
@@ -148,6 +204,9 @@ class ConverterTest {
               resources1.containsAll(resources));
     }
 
+    /**
+     * Create from entities.
+     */
     @Test
     @DisplayName("Test convert from entity list to resource list")
     void createFromEntities() {
@@ -159,10 +218,19 @@ class ConverterTest {
     }
   }
 
+  /**
+   * The type Client converter test.
+   */
   @Nested
   class ClientConverterTest {
+    /**
+     * The Client converter.
+     */
     private final ClientConverter clientConverter = ClientConverter.getInstance();
 
+    /**
+     * Convert from resource.
+     */
     @Test
     @DisplayName("Test convert from resource to entity")
     void convertFromResource() {
@@ -172,6 +240,9 @@ class ConverterTest {
       Assertions.assertEquals(resource, resource1);
     }
 
+    /**
+     * Covert from entity.
+     */
     @Test
     @DisplayName("Test convert from entity to resource")
     void covertFromEntity() {
@@ -181,6 +252,9 @@ class ConverterTest {
       Assertions.assertEquals(entity, entity1);
     }
 
+    /**
+     * Create from resources.
+     */
     @Test
     @DisplayName("Test convert from resource list to entity list")
     void createFromResources() {
@@ -193,6 +267,9 @@ class ConverterTest {
           resources1.containsAll(resources));
     }
 
+    /**
+     * Create from entities.
+     */
     @Test
     @DisplayName("Test convert from entity list to resource list")
     void createFromEntities() {

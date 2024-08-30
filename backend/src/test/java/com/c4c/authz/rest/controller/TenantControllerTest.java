@@ -1,9 +1,20 @@
 package com.c4c.authz.rest.controller;
 
+import static com.c4c.authz.common.Constants.API_V1;
+import static com.c4c.authz.common.Constants.TENANT_URL;
+import static org.instancio.Select.field;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.c4c.authz.rest.resource.PagedModelResponse;
 import com.c4c.authz.rest.resource.TenantResource;
 import com.c4c.authz.utils.TenantResourceHelper;
 import com.c4c.authz.utils.TestUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Assertions;
@@ -15,18 +26,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Stream;
-
-import static com.c4c.authz.common.Constants.API_V1;
-import static com.c4c.authz.common.Constants.TENANT_URL;
-import static org.instancio.Select.field;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 /**
  * The type Tenant controller test.
@@ -35,12 +34,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class TenantControllerTest extends AbstractIntegrationTest {
     /**
-     * The Base url.
+     * The constant BASE_URL.
      */
     private static final String BASE_URL = API_V1 + TENANT_URL;
 
     /**
-     * Test create tenant ok.
+     * Test create tenant tenant ok.
      *
      * @throws Exception the exception
      */
@@ -55,7 +54,7 @@ class TenantControllerTest extends AbstractIntegrationTest {
     }
 
     /**
-     * Test create tenant duplicate.
+     * Test create tenant tenant duplicate.
      *
      * @throws Exception the exception
      */
@@ -79,8 +78,9 @@ class TenantControllerTest extends AbstractIntegrationTest {
     }
 
     /**
-     * Test create tenant validation.
+     * Test create tenant tenant validation.
      *
+     * @param resource the resource
      * @throws Exception the exception
      */
     @ParameterizedTest
@@ -92,6 +92,11 @@ class TenantControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().isBadRequest());
     }
 
+    /**
+     * Gets test tenant resource.
+     *
+     * @return the test tenant resource
+     */
     static Stream<TenantResource> getTestTenantResource() {
         List<TenantResource> resourceList = new ArrayList<>();
         TenantResource tenantResource = new TenantResource();
@@ -144,7 +149,7 @@ class TenantControllerTest extends AbstractIntegrationTest {
     }
 
     /**
-     * Test tenant update ok.
+     * Tenant update ok.
      *
      * @throws Exception the exception
      */
@@ -174,7 +179,7 @@ class TenantControllerTest extends AbstractIntegrationTest {
     }
 
     /**
-     * Test tenant read ok.
+     * Tenant read ok.
      *
      * @throws Exception the exception
      */
@@ -211,6 +216,11 @@ class TenantControllerTest extends AbstractIntegrationTest {
 
     }
 
+    /**
+     * Tenant get no found.
+     *
+     * @throws Exception the exception
+     */
     @Test
     @DisplayName("Test Tenant read operation for non existing tenant UUID")
     void tenantGetNoFound() throws Exception {
@@ -219,6 +229,11 @@ class TenantControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
+    /**
+     * Tenant delete by id ok.
+     *
+     * @throws Exception the exception
+     */
     @Test
     @DisplayName("Test Tenant delete operation")
     void tenantDeleteByIdOk() throws Exception {
@@ -238,6 +253,11 @@ class TenantControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
+    /**
+     * Tenant delete by id no found.
+     *
+     * @throws Exception the exception
+     */
     @Test
     @DisplayName("Test Tenant delete operation for non existing tenant UUID")
     void tenantDeleteByIdNoFound() throws Exception {
@@ -246,6 +266,11 @@ class TenantControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().isNotFound());
     }
 
+    /**
+     * Role read ok.
+     *
+     * @throws Exception the exception
+     */
     @Test
     @DisplayName("Test Tenant Read operation")
     void roleReadOk() throws Exception {

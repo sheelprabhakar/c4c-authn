@@ -1,9 +1,17 @@
 package com.c4c.authz.rest.controller;
 
+import static com.c4c.authz.common.Constants.API_V1;
+import static com.c4c.authz.common.Constants.ATTRIBUTE_URL;
+import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.c4c.authz.rest.resource.AttributeResource;
 import com.c4c.authz.rest.resource.PagedModelResponse;
 import com.c4c.authz.utils.TestUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
+import java.util.HashMap;
+import java.util.List;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,32 +21,23 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.HashMap;
-import java.util.List;
-
-import static com.c4c.authz.common.Constants.API_V1;
-import static com.c4c.authz.common.Constants.ATTRIBUTE_URL;
-import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 /**
  * The type Attribute controller test.
  */
 @DirtiesContext
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class AttributeControllerTest extends AbstractIntegrationTest {
-    /**
-     * The Base url.
-     */
-    private static final String BASE_URL = API_V1 + ATTRIBUTE_URL;
+  /**
+   * The constant BASE_URL.
+   */
+  private static final String BASE_URL = API_V1 + ATTRIBUTE_URL;
 
-    /**
-     * Test create new resource ok.
-     *
-     * @throws Exception the exception
-     */
-    @Test
+  /**
+   * Test create new resource ok.
+   *
+   * @throws Exception the exception
+   */
+  @Test
     @DisplayName("Create Rest resource test")
     void testCreateNewResourceOK() throws Exception {
         AttributeResource resource = Instancio.create(AttributeResource.class);
@@ -48,12 +47,12 @@ class AttributeControllerTest extends AbstractIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(resource.getName()));
     }
 
-    /**
-     * Test get by id ok.
-     *
-     * @throws Exception the exception
-     */
-    @Test
+  /**
+   * Test get by id ok.
+   *
+   * @throws Exception the exception
+   */
+  @Test
     @DisplayName("Get By ID test")
     void testGetByIdOK() throws Exception {
         AttributeResource resource = Instancio.create(AttributeResource.class);
@@ -75,12 +74,12 @@ class AttributeControllerTest extends AbstractIntegrationTest {
         assertTrue(((List<AttributeResource>) restResourcePage.get("items")).size() > 0);
     }
 
-    /**
-     * Test create new resource 400.
-     *
-     * @throws Exception the exception
-     */
-    @Test
+  /**
+   * Test create new resource 400.
+   *
+   * @throws Exception the exception
+   */
+  @Test
     @DisplayName("Create Rest resource test Bad request")
     void testCreateNewResource400() throws Exception {
         AttributeResource resource = Instancio.create(AttributeResource.class);
@@ -91,12 +90,12 @@ class AttributeControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().isBadRequest());
     }
 
-    /**
-     * Test update attribute resource ok.
-     *
-     * @throws Exception the exception
-     */
-    @Test
+  /**
+   * Test update attribute resource ok.
+   *
+   * @throws Exception the exception
+   */
+  @Test
     @DisplayName("Update Test resource")
     void testUpdateAttributeResourceOk() throws Exception {
         AttributeResource resource = Instancio.create(AttributeResource.class);
@@ -110,12 +109,12 @@ class AttributeControllerTest extends AbstractIntegrationTest {
 
     }
 
-    /**
-     * Test delete attribute resource by id ok.
-     *
-     * @throws Exception the exception
-     */
-    @Test
+  /**
+   * Test delete attribute resource by id ok.
+   *
+   * @throws Exception the exception
+   */
+  @Test
     @DisplayName("Delete Test resource")
     void testDeleteAttributeResourceByIdOk() throws Exception {
         AttributeResource resource = Instancio.create(AttributeResource.class);
@@ -129,12 +128,12 @@ class AttributeControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(this.get(BASE_URL + "/" + resource1.getId())).andExpect(status().isNotFound());
     }
 
-    /**
-     * Test tenant read ok.
-     *
-     * @throws Exception the exception
-     */
-    @Test
+  /**
+   * Attribute read ok.
+   *
+   * @throws Exception the exception
+   */
+  @Test
     @DisplayName("Test Attribute Read operation")
     void attributeReadOk() throws Exception {
         AttributeResource resource = Instancio.create(AttributeResource.class);

@@ -71,7 +71,7 @@ public class ClientEntity extends CommonEntityAttributes implements Serializable
   private String clientId;
 
   /**
-   * The Password hash.
+   * The Client secret.
    */
   @Column(name = "client_secret", nullable = false)
   @Convert(converter = EntityAttributeEncryptor.class)

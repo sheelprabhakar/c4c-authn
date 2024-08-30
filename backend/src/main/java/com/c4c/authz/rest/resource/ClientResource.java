@@ -1,4 +1,3 @@
-// src/main/java/com/c4c/authz/rest/resource/ClientResource.java
 package com.c4c.authz.rest.resource;
 
 import jakarta.validation.constraints.NotEmpty;
@@ -34,6 +33,9 @@ public class ClientResource extends CommonResourceAttributes implements Serializ
   @Size(max = 50, message = "Role name should be less than 50 characters.")
   private String clientId;
 
+  /**
+   * The Client secret.
+   */
   @Size(max = 255, message = "Role name should be less than 50 characters.")
   private String clientSecret;
   /**

@@ -1,8 +1,19 @@
 package com.c4c.authz.core.service.impl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.c4c.authz.core.entity.RoleAttributeEntity;
 import com.c4c.authz.core.entity.RoleAttributeId;
 import com.c4c.authz.core.repository.RoleAttributeRepository;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,39 +28,27 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 /**
  * The type Role attribute service impl test.
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class RoleAttributeServiceImplTest {
-    /**
-     * The Role attribute service.
-     */
-    @InjectMocks
+  /**
+   * The Role attribute service.
+   */
+  @InjectMocks
     RoleAttributeServiceImpl roleAttributeService;
-    /**
-     * The Role attribute repository.
-     */
-    @Mock
+  /**
+   * The Role attribute repository.
+   */
+  @Mock
     RoleAttributeRepository roleAttributeRepository;
 
-    /**
-     * Create ok.
-     */
-    @Test
+  /**
+   * Create ok.
+   */
+  @Test
     @DisplayName("Test Create new role attribute OK")
     void createOk() {
         when(this.roleAttributeRepository.save(any(RoleAttributeEntity.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -58,10 +57,10 @@ class RoleAttributeServiceImplTest {
         assertEquals(roleAttributeEntity, roleAttributeEntity1);
     }
 
-    /**
-     * Update ok.
-     */
-    @Test
+  /**
+   * Update ok.
+   */
+  @Test
     @DisplayName("Test update role attribute OK")
     void updateOK() {
         when(this.roleAttributeRepository.save(any(RoleAttributeEntity.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -70,10 +69,10 @@ class RoleAttributeServiceImplTest {
         assertEquals(roleAttributeEntity, roleAttributeEntity1);
     }
 
-    /**
-     * Find by id ok.
-     */
-    @Test
+  /**
+   * Find by id ok.
+   */
+  @Test
     @DisplayName("Test find by id role attribute OK")
     void findByIdOk() {
         RoleAttributeEntity roleAttributeEntity = Instancio.create(RoleAttributeEntity.class);
@@ -84,10 +83,10 @@ class RoleAttributeServiceImplTest {
         assertEquals(roleAttributeEntity, roleAttributeEntity1);
     }
 
-    /**
-     * Find all ok.
-     */
-    @Test
+  /**
+   * Find all ok.
+   */
+  @Test
     @DisplayName("Test find all role attribute OK")
     void findAllOk() {
         List<RoleAttributeEntity> roleAttributeEntities = Instancio.ofList(RoleAttributeEntity.class).size(5).create();
@@ -102,7 +101,10 @@ class RoleAttributeServiceImplTest {
         assertEquals(0, roleAttributeEntities1.size());
     }
 
-    @Test
+  /**
+   * Find all by role id ok.
+   */
+  @Test
     @DisplayName("Test find all role attribute by role id OK")
     void findAllByRoleIdOk() {
         List<RoleAttributeEntity> roleAttributeEntities = Instancio.ofList(RoleAttributeEntity.class).size(5).create();
@@ -117,10 +119,10 @@ class RoleAttributeServiceImplTest {
         assertEquals(0, roleAttributeEntities1.size());
     }
 
-    /**
-     * Find by pagination ok.
-     */
-    @Test
+  /**
+   * Find by pagination ok.
+   */
+  @Test
     @DisplayName("Test find findByPagination role attribute OK")
     void findByPaginationOk() {
         List<RoleAttributeEntity> roleAttributeEntities = Instancio.ofList(RoleAttributeEntity.class).size(11).create();
@@ -134,10 +136,10 @@ class RoleAttributeServiceImplTest {
         assertEquals(1, roleAttributeEntities1.getTotalPages());
     }
 
-    /**
-     * Delete by id ok.
-     */
-    @Test
+  /**
+   * Delete by id ok.
+   */
+  @Test
     @DisplayName("Test deleteBy id OK")
     void deleteByIdOK() {
         doNothing().when(this.roleAttributeRepository).deleteById(any(RoleAttributeId.class));
@@ -146,10 +148,10 @@ class RoleAttributeServiceImplTest {
         verify(this.roleAttributeRepository, times(1)).deleteById(roleAttributeId);
     }
 
-    /**
-     * Delete all by id ok.
-     */
-    @Test
+  /**
+   * Delete all by id ok.
+   */
+  @Test
     @DisplayName("Test deleteAllById OK")
     void deleteAllByIdOK() {
         doNothing().when(this.roleAttributeRepository).deleteAllById(ArgumentMatchers.<RoleAttributeId>anyList());

@@ -67,6 +67,11 @@ public class UserController extends BaseController {
     return ResponseEntity.ok(resource);
   }
 
+  /**
+   * Gets current user detail.
+   *
+   * @return the current user detail
+   */
   @GetMapping(value = "/me")
   public ResponseEntity<UserDetailsResource> getCurrentUserDetail() {
     UserDetailsResource resource = this.getRestAdapterV1()

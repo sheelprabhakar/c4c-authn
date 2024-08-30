@@ -22,25 +22,46 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+/**
+ * The type Rest adapter v 1 impl test.
+ */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class RestAdapterV1ImplTest {
 
+  /**
+   * The User role service.
+   */
   @Mock
   private UserRoleService userRoleService;
 
+  /**
+   * The Lookup service.
+   */
   @Mock
   private LookupService lookupService;
 
+  /**
+   * The Rest adapter v 1.
+   */
   @InjectMocks
   private RestAdapterV1Impl restAdapterV1Impl;
+  /**
+   * The Tenant service.
+   */
   @Mock
   private TenantService tenantService;
 
+  /**
+   * The Tenant converter.
+   */
   @Mock
   private TenantConverter tenantConverter;
 
 
+  /**
+   * Test create tenant.
+   */
   @Test
   void testCreateTenant() {
     // Arrange

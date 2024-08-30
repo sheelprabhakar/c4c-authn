@@ -52,6 +52,11 @@ class ClientControllerTest extends AbstractIntegrationTest {
     assertTrue(clientResource.getClientSecret().length() >= 64);
   }
 
+  /**
+   * Test create new client duplicate name.
+   *
+   * @throws Exception the exception
+   */
   @Test
   @DisplayName("Create Client test with duplicate Name")
   void testCreateNewClientDuplicateName() throws Exception {

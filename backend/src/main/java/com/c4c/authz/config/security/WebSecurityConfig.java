@@ -1,7 +1,9 @@
 package com.c4c.authz.config.security;
 
+import static com.c4c.authz.common.Constants.AUTH_URL;
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import com.c4c.authz.core.service.api.PolicyService;
-import com.c4c.authz.core.service.api.RoleAttributeService;
 import com.c4c.authz.core.service.impl.AnyRequestAuthenticatedAuthorizationManager;
 import com.c4c.authz.core.service.impl.JwtTokenProvider;
 import com.c4c.authz.filters.JwtTokenFilter;
@@ -18,9 +20,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import static com.c4c.authz.common.Constants.AUTH_URL;
-import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * The type Web security config.

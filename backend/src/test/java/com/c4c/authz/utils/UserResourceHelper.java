@@ -13,7 +13,7 @@ public class UserResourceHelper {
    */
   public static final String MOBILE = "989898989";
   /**
-   * The Counter.
+   * The constant counter.
    */
   static int counter = 0;
 

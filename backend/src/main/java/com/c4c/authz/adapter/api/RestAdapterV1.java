@@ -395,4 +395,11 @@ public interface RestAdapterV1 {
    * @return the jwt response
    */
   JwtResponse authenticateClient(UUID tenantId, String clientId, String clientSecret, String grantType);
+
+  /**
+   * Gets policies for current user.
+   *
+   * @return the policies for current user
+   */
+  List<PolicyResource> getPoliciesForCurrentUser();
 }

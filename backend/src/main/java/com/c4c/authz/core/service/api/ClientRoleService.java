@@ -2,9 +2,9 @@ package com.c4c.authz.core.service.api;
 
 import com.c4c.authz.core.entity.ClientRoleEntity;
 import com.c4c.authz.core.entity.ClientRoleId;
-import org.springframework.data.domain.Page;
-
 import java.util.List;
+import java.util.UUID;
+import org.springframework.data.domain.Page;
 
 /**
  * The interface Client role service.
@@ -27,12 +27,12 @@ public interface ClientRoleService {
     ClientRoleEntity update(ClientRoleEntity clientRoleEntity);
 
     /**
-     * Find by id client role entity.
+     * Find by client id list.
      *
-     * @param clientRoleId the client role id
-     * @return the client role entity
+     * @param clientId the client id
+     * @return the list
      */
-    ClientRoleEntity findById(ClientRoleId clientRoleId);
+    List<ClientRoleEntity> findByClientId(UUID clientId);
 
     /**
      * Find all list.
