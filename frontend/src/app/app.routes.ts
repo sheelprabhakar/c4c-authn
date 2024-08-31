@@ -6,6 +6,8 @@ import { AuthGuard } from './core/auth/auth.guard';
 import { TenantComponent } from './pages/tenant/tenant.component';
 import { PolicyGuard } from './core/policy/policy.gaurd';
 import { TenantDetailsComponent } from './pages/tenant/tenant-details/tenant-details.component';
+import { ClientComponent } from './pages/client/client.component';
+import { ClientDetailsComponent } from './pages/client/client-details/client-details.component';
 
 export const routes: Routes = [
   {
@@ -21,6 +23,15 @@ export const routes: Routes = [
             data: { policies: ['post:tenant management'], breadcrumb: 'Create'}},
           {path: 'edit', component: TenantDetailsComponent, canActivate: [PolicyGuard],
             data: { policies: ['put:tenant management', 'patch:tenant management'], breadcrumb: 'Edit'}}
+        ]
+      },
+      {
+        path: 'client', component: ClientComponent, canActivate: [PolicyGuard], data: { policies: ['client management'], breadcrumb: 'Client Management' },
+        children:[
+          {path: 'create', component: ClientDetailsComponent, canActivate: [PolicyGuard],
+            data: { policies: ['post:client management'], breadcrumb: 'Create'}},
+          {path: 'edit', component: ClientDetailsComponent, canActivate: [PolicyGuard],
+            data: { policies: ['put:client management', 'patch:client management'], breadcrumb: 'Edit'}}
         ]
       }, // Add your routes here
     ],

@@ -183,6 +183,8 @@ INSERT INTO `roles` (`id`,`tenant_id`, `name`, `is_deleted`, `created_by`, `upda
 
 
 INSERT INTO `users` (`id`,`tenant_id`, `first_name`, `middle_name`, `last_name`, `user_name`, `mobile`, `email`, `password_hash`, `is_locked`, `is_deleted`, `created_by`, `updated_by`) VALUES ('bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', 'fe9f8f3c-6447-4fb1-a9ba-6856bccd3d9b', 'admin', 'a', 'User', 'admin@c4c.com', '9899098990', 'admin@c4c.com', '$2a$12$NL54bmIzc2qe9BgHFMCVleKQ/mUYvq7Bv7jIUODO3.jCshcUs0l0q', '0', '0', 'SYSTEM', 'SYSTEM');
+INSERT INTO `clients` (`id`, `tenant_id`, `name`, `client_id`, `client_secret`, `is_deleted`, `created_at`, `updated_at`, `created_by`, `updated_by`)
+VALUES ('a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'fe9f8f3c-6447-4fb1-a9ba-6856bccd3d9b', 'Client A', 'bsmdRGn_n6smbClUCwXjzQOkw7iqyalAicsmzoIX5MU', 'XQTseITIpfBhtR9l54ztHY/huzfLW9pVakc7jq1KhydYi785y0wioCjmpiHH6sVDcMQTMMlIqe3HWkKII/VAjzdQwB+t0AxoBH/Uwo1lVEtt5BXltIbn5n+XKSSihDfcIraDhnzbWeAWQ+8urOuKBUt5mEPCGNiJ1DSvJpETZN3ogA==', 0, NOW(), NOW(), 'SYSTEM', 'SYSTEM');
 
 INSERT INTO `user_roles` (`role_id`, `user_id`, `is_deleted`, `created_by`, `updated_by`) VALUES ('02ec9264-bdf8-4c56-971c-d4ab699e24e6', 'bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', '0', 'SYSTEM', 'SYSTEM');
 INSERT INTO `user_roles` (`role_id`, `user_id`, `is_deleted`, `created_by`, `updated_by`) VALUES ('52a05765-a8e0-4fd7-b95b-3b14b52634f5', 'bc5a1ff0-cab9-44f6-98f6-fe988e1c0afc', '0', 'SYSTEM', 'SYSTEM');

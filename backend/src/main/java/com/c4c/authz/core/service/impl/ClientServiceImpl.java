@@ -133,12 +133,12 @@ public class ClientServiceImpl implements ClientService {
     /**
      * Find by id client entity.
      *
-     * @param roleId the role id
+     * @param clientId the client id
      * @return the client entity
      */
     @Override
-    public ClientEntity findById(final UUID roleId) {
-        return this.clientRepository.findById(roleId).orElse(null);
+    public ClientEntity findById(final UUID clientId) {
+        return this.clientRepository.findById(clientId).orElse(null);
     }
 
     /**

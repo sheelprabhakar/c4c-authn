@@ -10,6 +10,8 @@ import {
 import { Injectable, NgModule } from '@angular/core';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
+import { ClientComponent } from './pages/client/client.component';
+import { ClientDetailsComponent } from './pages/client/client-details/client-details.component';
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
@@ -36,6 +38,9 @@ export class TranslocoHttpLoader implements TranslocoLoader {
     { provide: TRANSLOCO_LOADER, useClass: TranslocoHttpLoader },
   ],
   declarations: [
+
+  
+    ClientDetailsComponent
   ],
 })
 export class TranslocoRootModule {}
