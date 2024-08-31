@@ -14,23 +14,23 @@ import lombok.Setter;
 @Setter
 public class JwtRequest implements Serializable {
 
-    /**
-     * The constant serialVersionUID.
-     */
-    private static final long serialVersionUID = 5926468583005150707L;
+  /**
+   * The constant serialVersionUID.
+   */
+  private static final long serialVersionUID = 5926468583005150707L;
 
-    /**
-     * The Username.
-     */
-    @NotBlank
+  /**
+   * The Username.
+   */
+  @NotBlank
   private String username;
-    /**
-     * The Password.
-     */
-    @NotBlank
+  /**
+   * The Password.
+   */
+  @NotBlank
   private String password;
-    /**
-     * The Is otp.
-     */
-    private boolean isOtp;
+  /**
+   * The Is otp.
+   */
+  private boolean isOtp;
 }

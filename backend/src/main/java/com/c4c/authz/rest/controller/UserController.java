@@ -49,7 +49,7 @@ public class UserController extends BaseController {
    */
   @PostMapping
   public ResponseEntity<UserResource> create(final @RequestBody @Validated UserResource userResource) {
-    userResource.setTenantId(CurrentUserContext.getCurrentTenant());
+    userResource.setTenantId(CurrentUserContext.getCurrentTenantId());
     UserResource resource = this.getRestAdapterV1().createUser(userResource);
     return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);
   }
@@ -62,15 +62,20 @@ public class UserController extends BaseController {
    */
   @PutMapping
   public ResponseEntity<UserResource> update(final @RequestBody UserResource userResource) {
-    userResource.setTenantId(CurrentUserContext.getCurrentTenant());
+    userResource.setTenantId(CurrentUserContext.getCurrentTenantId());
     UserResource resource = this.getRestAdapterV1().updateUser(userResource);
     return ResponseEntity.ok(resource);
   }
 
+  /**
+   * Gets current user detail.
+   *
+   * @return the current user detail
+   */
   @GetMapping(value = "/me")
   public ResponseEntity<UserDetailsResource> getCurrentUserDetail() {
     UserDetailsResource resource = this.getRestAdapterV1()
-        .findByTenantIdAndUserName(CurrentUserContext.getCurrentTenant(), CurrentUserContext.getCurrentUser());
+        .findByTenantIdAndUserName(CurrentUserContext.getCurrentTenantId(), CurrentUserContext.getCurrentUser());
     return ResponseEntity.ok(resource);
   }
 

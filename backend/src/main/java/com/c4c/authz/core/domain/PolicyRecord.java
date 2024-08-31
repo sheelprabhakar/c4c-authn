@@ -1,11 +1,19 @@
 package com.c4c.authz.core.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * The type Attribute record.
+ * The type Policy record.
  */
-public record PolicyRecord(String name, String path, List<String> verbs) implements Comparable<PolicyRecord> {
+public record PolicyRecord(String name, String path, List<String> verbs) implements Comparable<PolicyRecord>,
+        Serializable {
+  /**
+   * Equals boolean.
+   *
+   * @param o the o
+   * @return the boolean
+   */
   @Override
   public boolean equals(final Object o) {
     if (this == o) {
@@ -19,6 +27,11 @@ public record PolicyRecord(String name, String path, List<String> verbs) impleme
     return name.equals(that.name) && path.equals(that.path);
   }
 
+  /**
+   * Hash code int.
+   *
+   * @return the int
+   */
   @Override
   public int hashCode() {
     int result = name.hashCode();
@@ -26,6 +39,12 @@ public record PolicyRecord(String name, String path, List<String> verbs) impleme
     return result;
   }
 
+  /**
+   * Compare to int.
+   *
+   * @param o the o
+   * @return the int
+   */
   @Override
   public int compareTo(final PolicyRecord o) {
     return this.name.compareTo(o.name);

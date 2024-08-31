@@ -7,9 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import java.io.Serializable;
-import java.util.Set;
-import java.util.UUID;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,10 +18,15 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serializable;
+import java.util.Set;
+import java.util.UUID;
+
 /**
  * The type Role entity.
  */
-@Entity(name = "role")
+@Table(name = "roles")
+@Entity(name = "RoleEntity")
 @Getter
 @Setter
 @NoArgsConstructor

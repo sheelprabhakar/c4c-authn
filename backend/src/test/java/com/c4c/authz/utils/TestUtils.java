@@ -3,7 +3,6 @@ package com.c4c.authz.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Random;
@@ -31,6 +30,15 @@ public class TestUtils {
     return mapper_.readValue(jsonStr, classType);
   }
 
+  /**
+   * Convert json string to object t.
+   *
+   * @param <T>       the type parameter
+   * @param jsonStr   the json str
+   * @param classType the class type
+   * @return the t
+   * @throws IOException the io exception
+   */
   public static <T> T convertJsonStringToObject(final String jsonStr,
                                                 final TypeReference<T> classType) throws IOException {
     return mapper_.readValue(jsonStr, classType);
@@ -57,6 +65,9 @@ public class TestUtils {
    */
   public static String convertObjectToJsonString(final Object object)
       throws JsonProcessingException {
+    if(object == null){
+      return "";
+    }
     return mapper_.writeValueAsString(object);
   }
 
@@ -70,6 +81,12 @@ public class TestUtils {
   }
 
 
+  /**
+   * Generate rand string string.
+   *
+   * @param length the length
+   * @return the string
+   */
   public static String generateRandString(int length){
     byte[] array = new byte[length]; // length is bounded by 7
     new Random().nextBytes(array);

@@ -1,15 +1,14 @@
 package com.c4c.authz.core.service.api;
 
 import com.c4c.authz.core.entity.TenantEntity;
-import org.springframework.data.domain.Page;
-
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
 
 /**
  * The interface Tenant service.
  */
-public interface TenantService extends SystemTenantService {
+public interface TenantService {
     /**
      * Create tenant entity.
      *

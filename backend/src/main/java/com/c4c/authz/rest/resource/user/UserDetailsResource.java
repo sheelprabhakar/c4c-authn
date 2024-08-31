@@ -15,6 +15,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class UserDetailsResource {
+  /**
+   * The User info.
+   */
   private UserResource userInfo;
+  /**
+   * The Policies.
+   */
   private Set<PolicyRecord> policies;
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -26,7 +27,8 @@ import java.util.UUID;
 /**
  * The type User entity.
  */
-@Entity(name = "user")
+@Table(name = "users")
+@Entity(name = "UserEntity")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -39,6 +41,7 @@ public class UserEntity extends CommonEntityAttributes implements Serializable {
    * The constant NAME_MAX.
    */
   private static final int NAME_MAX = 50;
+
   /**
    * The constant HASH_MAX.
    */
@@ -90,25 +93,25 @@ public class UserEntity extends CommonEntityAttributes implements Serializable {
   /**
    * The User name.
    */
-  @Column(name = "user_name", length = NAME_MAX)
+  @Column(name = "user_name")
   private String userName;
 
   /**
    * The Email.
    */
-  @Column(name = "email", length = NAME_MAX)
+  @Column(name = "email")
   private String email;
 
   /**
    * The Password hash.
    */
-  @Column(name = "password_hash", length = HASH_MAX, nullable = false)
+  @Column(name = "password_hash", length = HASH_MAX)
   private String passwordHash;
 
   /**
    * The Otp.
    */
-  @Column(name = "otp", length = HASH_MAX, nullable = false)
+  @Column(name = "otp", length = HASH_MAX)
   private String otp;
 
   /**

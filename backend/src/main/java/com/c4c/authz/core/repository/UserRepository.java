@@ -21,7 +21,7 @@ public interface UserRepository extends CrudRepository<UserEntity, UUID> {
    * @return the int
    */
   @Modifying
-  @Query("update user ue set ue.otp = NULL where ue.id = :id")
+  @Query("update UserEntity ue set ue.otp = NULL where ue.id = :id")
   int clearOTP(@Param("id") UUID id);
 
   /**
@@ -49,11 +49,11 @@ public interface UserRepository extends CrudRepository<UserEntity, UUID> {
   UserEntity findByUserName(String userName);
 
   /**
-   * Find by tenant id user name user entity.
+   * Find by tenant id and user name optional.
    *
    * @param tenantId the tenant id
-   * @param email    the email
-   * @return the user entity
+   * @param userName the user name
+   * @return the optional
    */
-  Optional<UserEntity> findByTenantIdAndEmail(UUID tenantId, String email);
+  Optional<UserEntity> findByTenantIdAndUserName(UUID tenantId, String userName);
 }

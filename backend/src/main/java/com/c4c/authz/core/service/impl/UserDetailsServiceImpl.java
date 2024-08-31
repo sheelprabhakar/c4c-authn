@@ -6,15 +6,14 @@ import com.c4c.authz.core.entity.UserRoleEntity;
 import com.c4c.authz.core.repository.RoleRepository;
 import com.c4c.authz.core.repository.UserRepository;
 import com.c4c.authz.core.service.api.UserExDetailsService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -55,7 +54,7 @@ public class UserDetailsServiceImpl implements UserExDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final UserEntity user = this.userRepository.findByEmail(username);
+        final UserEntity user = this.userRepository.findByUserName(username);
 
         if (user == null) {
             log.info("User Not found");
@@ -81,7 +80,7 @@ public class UserDetailsServiceImpl implements UserExDetailsService {
             }
         }
         return org.springframework.security.core.userdetails.User//
-                .withUsername(userEntity.getEmail())//
+                .withUsername(userEntity.getUserName())//
                 .password("no need")
                 .authorities(roleEntities)//
                 .accountExpired(false)//

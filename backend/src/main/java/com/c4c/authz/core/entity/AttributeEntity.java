@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,7 +22,8 @@ import java.util.UUID;
 /**
  * The type Attribute entity.
  */
-@Entity(name = "attribute")
+@Table(name = "attributes")
+@Entity(name = "AttributeEntity")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,41 +32,41 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 public class AttributeEntity extends CommonEntityAttributes implements Serializable {
 
-    /**
-     * The constant L50.
-     */
-    private static final int L50 = 50;
-    /**
-     * The constant L4096.
-     */
-    private static final int L4096 = 4096;
+  /**
+   * The constant L50.
+   */
+  private static final int L50 = 50;
+  /**
+   * The constant L4096.
+   */
+  private static final int L4096 = 4096;
 
-    /**
-     * The Id.
-     */
-    @Id
+  /**
+   * The Id.
+   */
+  @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID id;
 
-    /**
-     * The Tenant id.
-     */
-    @Column(name = "tenant_id", nullable = false)
+  /**
+   * The Tenant id.
+   */
+  @Column(name = "tenant_id", nullable = false)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID tenantId;
 
-    /**
-     * The Name.
-     */
-    @Column(name = "name", length = L50, nullable = false)
+  /**
+   * The Name.
+   */
+  @Column(name = "name", length = L50, nullable = false)
     private String name;
 
-    /**
-     * The Path.
-     */
-    @Column(name = "path", length = L4096, nullable = false)
+  /**
+   * The Path.
+   */
+  @Column(name = "path", length = L4096, nullable = false)
     private String path;
 
 }

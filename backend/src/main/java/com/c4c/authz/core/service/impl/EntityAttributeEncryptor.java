@@ -69,8 +69,7 @@ public class EntityAttributeEncryptor implements AttributeConverter<String, Stri
      * @param s the s
      */
     @Autowired
-    public void setSecret(@Value("${security.db.encryption.secret-key:b7ynahtDw6vqj!5a}")
-                          final String s) {
+    public void setSecret(@Value("${security.db.encryption.secret-key:b7ynahtDw6vqj!5a}") final String s) {
         EntityAttributeEncryptor.secret = s;
     }
 
@@ -82,6 +81,9 @@ public class EntityAttributeEncryptor implements AttributeConverter<String, Stri
      */
     @Override
     public String convertToDatabaseColumn(final String attribute) {
+        if (attribute == null) {
+            return null;
+        }
         try {
             return encrypt(attribute.getBytes(StandardCharsets.UTF_8), secret);
         } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
@@ -101,6 +103,9 @@ public class EntityAttributeEncryptor implements AttributeConverter<String, Stri
      */
     @Override
     public String convertToEntityAttribute(final String dbData) {
+        if (dbData == null) {
+            return null;
+        }
         try {
             return decrypt(dbData, secret);
         } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {

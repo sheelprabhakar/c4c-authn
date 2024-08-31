@@ -35,7 +35,7 @@ public class AnyRequestAuthenticatedAuthorizationManager implements
    *
    * @param policyService the policy service
    */
-  public AnyRequestAuthenticatedAuthorizationManager(PolicyService policyService) {
+  public AnyRequestAuthenticatedAuthorizationManager(final PolicyService policyService) {
     this.policyService = policyService;
   }
 

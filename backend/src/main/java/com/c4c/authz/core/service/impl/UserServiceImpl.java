@@ -98,6 +98,17 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * Find by user name user entity.
+     *
+     * @param userName the user name
+     * @return the user entity
+     */
+    @Override
+    public UserEntity findByUserName(final String userName) {
+        return this.userRepository.findByUserName(userName);
+    }
+
+    /**
      * Update user entity.
      *
      * @param userEntity the user entity
@@ -160,16 +171,22 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    /**
+     * Find by tenant id and user name user entity.
+     *
+     * @param tenantId the tenant id
+     * @param userName the user name
+     * @return the user entity
+     */
     @Override
-    public UserEntity findByTenantIdAndEmail(final UUID tenantId, final String userName) {
-        return this.userRepository.findByTenantIdAndEmail(tenantId, userName).orElse(null);
+    public UserEntity findByTenantIdAndUserName(final UUID tenantId, final String userName) {
+        return this.userRepository.findByTenantIdAndUserName(tenantId, userName).orElse(null);
     }
 
     /**
-     * Delete user entity.
+     * Delete.
      *
      * @param userEntity the user entity
-     * @return the user entity
      */
     @Override
     public void delete(final UserEntity userEntity) {

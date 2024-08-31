@@ -32,6 +32,14 @@ public interface UserService {
     UserEntity findByEmail(String email);
 
     /**
+     * Find by user name user entity.
+     *
+     * @param userName the user name
+     * @return the user entity
+     */
+    UserEntity findByUserName(String userName);
+
+    /**
      * Update user entity.
      *
      * @param userEntity the user entity
@@ -63,13 +71,13 @@ public interface UserService {
     boolean isOTPRequired(UserEntity userEntity);
 
     /**
-     * Find by tenant id user name user entity.
+     * Find by tenant id and user name user entity.
      *
      * @param tenantId the tenant id
      * @param userName the user name
      * @return the user entity
      */
-    UserEntity findByTenantIdAndEmail(UUID tenantId, String userName);
+    UserEntity findByTenantIdAndUserName(UUID tenantId, String userName);
 
     /**
      * Delete.

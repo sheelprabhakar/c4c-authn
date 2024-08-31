@@ -1,22 +1,5 @@
 package com.c4c.authz.rest.controller;
 
-import com.c4c.authz.rest.resource.AttributeResource;
-import com.c4c.authz.rest.resource.RoleAttributeResource;
-import com.c4c.authz.rest.resource.RoleResource;
-import com.c4c.authz.utils.TestUtils;
-import com.fasterxml.jackson.core.type.TypeReference;
-import org.instancio.Instancio;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
-
 import static com.c4c.authz.common.Constants.API_V1;
 import static com.c4c.authz.common.Constants.ATTRIBUTE_URL;
 import static com.c4c.authz.common.Constants.ROLE_ATTRIBUTE_URL;
@@ -25,18 +8,40 @@ import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.c4c.authz.rest.resource.AttributeResource;
+import com.c4c.authz.rest.resource.RoleAttributeResource;
+import com.c4c.authz.rest.resource.RoleResource;
+import com.c4c.authz.utils.TestUtils;
+import com.fasterxml.jackson.core.type.TypeReference;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+import org.instancio.Instancio;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
 /**
- * The type User controller test.
+ * The type Role attribute controller test.
  */
 @DirtiesContext
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class RoleAttributeControllerTest extends AbstractIntegrationTest {
-    /**
-     * The Base url.
-     */
-    private final String BASE_URL = API_V1 + ROLE_ATTRIBUTE_URL;
+  /**
+   * The Base url.
+   */
+  private final String BASE_URL = API_V1 + ROLE_ATTRIBUTE_URL;
 
-    private UUID addAttribute() throws Exception {
+  /**
+   * Add attribute uuid.
+   *
+   * @return the uuid
+   * @throws Exception the exception
+   */
+  private UUID addAttribute() throws Exception {
         AttributeResource attributeResource = Instancio.create(AttributeResource.class);
         String content = this.mockMvc.perform(this.post(API_V1 + ATTRIBUTE_URL, attributeResource))
                 //.andDo(print())
@@ -45,7 +50,13 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
         return attributeResource.getId();
     }
 
-    private UUID addRole() throws Exception {
+  /**
+   * Add role uuid.
+   *
+   * @return the uuid
+   * @throws Exception the exception
+   */
+  private UUID addRole() throws Exception {
         RoleResource resource = Instancio.create(RoleResource.class);
         String content = this.mockMvc.perform(this.post(API_V1 + ROLE_URL, resource))
                 //.andDo(print())
@@ -54,7 +65,12 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
         return roleResource.getId();
     }
 
-    @Test
+  /**
+   * Test create new user role ok.
+   *
+   * @throws Exception the exception
+   */
+  @Test
     @DisplayName("Create role attribute test")
     void testCreateNewUserRoleOK() throws Exception {
         UUID attributeId = this.addAttribute();
@@ -85,7 +101,12 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.canUpdate").value(resource.isCanCreate()));
     }
 
-    @Test
+  /**
+   * Test get by id ok.
+   *
+   * @throws Exception the exception
+   */
+  @Test
     @DisplayName("Get By ID test")
     void testGetByIdOK() throws Exception {
         UUID attributeId = this.addAttribute();
@@ -120,7 +141,12 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
         assertTrue(((List<RoleAttributeResource>) roleResourcePage.get("items")).size() > 0);
     }
 
-    @Test
+  /**
+   * Test create new resource 400.
+   *
+   * @throws Exception the exception
+   */
+  @Test
     @DisplayName("Create User Role test Bad request")
     void testCreateNewResource400() throws Exception {
         RoleAttributeResource resource = Instancio.create(RoleAttributeResource.class);
@@ -131,7 +157,12 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
+  /**
+   * Test update user role ok.
+   *
+   * @throws Exception the exception
+   */
+  @Test
     @DisplayName("Test update user role")
     void testUpdateUserRoleOk() throws Exception {
         UUID attributeId = this.addAttribute();
@@ -153,7 +184,12 @@ class RoleAttributeControllerTest extends AbstractIntegrationTest {
 
     }
 
-    @Test
+  /**
+   * Test delete user role by id ok.
+   *
+   * @throws Exception the exception
+   */
+  @Test
     @DisplayName("Delete role attribute test")
     void testDeleteUserRoleByIdOk() throws Exception {
         UUID attributeId = this.addAttribute();

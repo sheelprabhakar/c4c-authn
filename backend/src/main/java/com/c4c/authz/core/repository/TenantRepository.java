@@ -9,11 +9,11 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * The interface Tenant repository.
  */
 public interface TenantRepository extends JpaRepository<TenantEntity, UUID>, JpaSpecificationExecutor<TenantEntity> {
-    /**
-     * Find by short name tenant entity.
-     *
-     * @param shortName the short name
-     * @return the tenant entity
-     */
-    TenantEntity findByShortName(String shortName);
+  /**
+   * Find by short name tenant entity.
+   *
+   * @param shortName the short name
+   * @return the tenant entity
+   */
+  TenantEntity findByShortName(String shortName);
 }

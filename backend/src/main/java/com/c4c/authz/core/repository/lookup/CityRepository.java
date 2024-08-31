@@ -8,11 +8,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * The interface City repository.
  */
 public interface CityRepository extends JpaRepository<CityEntity, Integer> {
-    /**
-     * Find by state id list.
-     *
-     * @param stateId the state id
-     * @return the list
-     */
-    List<CityEntity> findByStateId(int stateId);
+  /**
+   * Find by state id list.
+   *
+   * @param stateId the state id
+   * @return the list
+   */
+  List<CityEntity> findByStateId(int stateId);
 }

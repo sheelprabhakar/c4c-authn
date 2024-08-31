@@ -13,27 +13,27 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-    /**
-     * The constant STRENGTH.
-     */
-    private static final int STRENGTH = 12;
+  /**
+   * The constant STRENGTH.
+   */
+  private static final int STRENGTH = 12;
 
-    /**
-     * Password encoder password encoder.
-     *
-     * @return the password encoder
-     */
-    @Bean
+  /**
+   * Password encoder password encoder.
+   *
+   * @return the password encoder
+   */
+  @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(STRENGTH);
     }
 
-    /**
-     * Exact name model mapper model mapper.
-     *
-     * @return the model mapper
-     */
-    @Bean
+  /**
+   * Exact name model mapper model mapper.
+   *
+   * @return the model mapper
+   */
+  @Bean
     public ModelMapper exactNameModelMapper() {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);

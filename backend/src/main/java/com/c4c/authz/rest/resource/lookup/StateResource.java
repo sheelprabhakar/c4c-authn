@@ -20,57 +20,57 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class StateResource implements Serializable {
-    /**
-     * The Id.
-     */
-    private int id;
-    /**
-     * The Name.
-     */
-    @NotNull
+  /**
+   * The Id.
+   */
+  private int id;
+  /**
+   * The Name.
+   */
+  @NotNull
   @Size(max = 255)
   private String name;
-    /**
-     * The Country code.
-     */
-    @NotNull
+  /**
+   * The Country code.
+   */
+  @NotNull
   @Size(max = 2)
   private String countryCode;
-    /**
-     * The Fips code.
-     */
-    @Size(max = 255)
+  /**
+   * The Fips code.
+   */
+  @Size(max = 255)
   private String fipsCode;
-    /**
-     * The Iso 2.
-     */
-    @Size(max = 255)
+  /**
+   * The Iso 2.
+   */
+  @Size(max = 255)
   private String iso2;
-    /**
-     * The Latitude.
-     */
-    private BigDecimal latitude;
-    /**
-     * The Longitude.
-     */
-    private BigDecimal longitude;
-    /**
-     * The Created at.
-     */
-    private Instant createdAt;
-    /**
-     * The Updated at.
-     */
-    @NotNull
+  /**
+   * The Latitude.
+   */
+  private BigDecimal latitude;
+  /**
+   * The Longitude.
+   */
+  private BigDecimal longitude;
+  /**
+   * The Created at.
+   */
+  private Instant createdAt;
+  /**
+   * The Updated at.
+   */
+  @NotNull
   private Instant updatedAt;
-    /**
-     * The Flag.
-     */
-    @NotNull
+  /**
+   * The Flag.
+   */
+  @NotNull
   private boolean flag;
-    /**
-     * The Wiki data id.
-     */
-    @Size(max = 255)
+  /**
+   * The Wiki data id.
+   */
+  @Size(max = 255)
   private String wikiDataId;
 }

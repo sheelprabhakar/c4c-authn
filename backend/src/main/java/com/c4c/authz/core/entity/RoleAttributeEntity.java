@@ -7,6 +7,7 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,8 @@ import java.util.UUID;
 /**
  * The type Role attribute entity.
  */
-@Entity(name = "role_attribute")
+@Table(name = "role_attributes")
+@Entity(name = "RoleAttributeEntity")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,78 +33,78 @@ import java.util.UUID;
 public class RoleAttributeEntity extends CommonEntityAttributes implements Serializable {
 
 
-    /**
-     * The constant PRIME_31.
-     */
-    public static final int PRIME_31 = 31;
-    /**
-     * The Role id.
-     */
-    @Id
+  /**
+   * The constant PRIME_31.
+   */
+  public static final int PRIME_31 = 31;
+  /**
+   * The Role id.
+   */
+  @Id
     @Column(name = "role_id", nullable = false)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID roleId;
 
-    /**
-     * The Attribute id.
-     */
-    @Id
+  /**
+   * The Attribute id.
+   */
+  @Id
     @Column(name = "attribute_id", nullable = false)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID attributeId;
 
 
-    /**
-     * The Attribute entity.
-     */
-    @ManyToOne
+  /**
+   * The Attribute entity.
+   */
+  @ManyToOne
     @MapsId("attributeId")
     @JoinColumn(name = "attribute_id")
     private AttributeEntity attributeEntity;
 
-    /**
-     * The Role entity.
-     */
-    @ManyToOne
+  /**
+   * The Role entity.
+   */
+  @ManyToOne
     @MapsId("roleId")
     @JoinColumn(name = "role_id")
     private RoleEntity roleEntity;
 
-    /**
-     * The Can create.
-     */
-    @Column(name = "can_create", nullable = false)
+  /**
+   * The Can create.
+   */
+  @Column(name = "can_create", nullable = false)
     @JdbcTypeCode(SqlTypes.TINYINT)
     private boolean canCreate;
 
-    /**
-     * The Can read.
-     */
-    @Column(name = "can_read", nullable = false)
+  /**
+   * The Can read.
+   */
+  @Column(name = "can_read", nullable = false)
     @JdbcTypeCode(SqlTypes.TINYINT)
     private boolean canRead;
 
-    /**
-     * The Can update.
-     */
-    @Column(name = "can_update", nullable = false)
+  /**
+   * The Can update.
+   */
+  @Column(name = "can_update", nullable = false)
     @JdbcTypeCode(SqlTypes.TINYINT)
     private boolean canUpdate;
 
-    /**
-     * The Can delete.
-     */
-    @Column(name = "can_delete", nullable = false)
+  /**
+   * The Can delete.
+   */
+  @Column(name = "can_delete", nullable = false)
     @JdbcTypeCode(SqlTypes.TINYINT)
     private boolean canDelete;
 
-    /**
-     * Equals boolean.
-     *
-     * @param o the o
-     * @return the boolean
-     */
-    @Override
+  /**
+   * Equals boolean.
+   *
+   * @param o the o
+   * @return the boolean
+   */
+  @Override
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -118,12 +120,12 @@ public class RoleAttributeEntity extends CommonEntityAttributes implements Seria
         return roleId.equals(that.roleId) && attributeId.equals(that.attributeId);
     }
 
-    /**
-     * Hash code int.
-     *
-     * @return the int
-     */
-    @Override
+  /**
+   * Hash code int.
+   *
+   * @return the int
+   */
+  @Override
     public int hashCode() {
         int result = super.hashCode();
         result = PRIME_31 * result + roleId.hashCode();

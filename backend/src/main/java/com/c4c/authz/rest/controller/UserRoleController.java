@@ -1,8 +1,16 @@
 package com.c4c.authz.rest.controller;
 
+import static com.c4c.authz.common.Constants.API_V1;
+import static com.c4c.authz.common.Constants.USER_ROLE_URL;
+import static com.c4c.authz.rest.controller.UserRoleController.BASE_URL;
+
 import com.c4c.authz.adapter.api.RestAdapterV1;
 import com.c4c.authz.rest.resource.PagedModelResponse;
 import com.c4c.authz.rest.resource.user.UserRoleResource;
+import java.net.URI;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,15 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-
-import static com.c4c.authz.common.Constants.API_V1;
-import static com.c4c.authz.common.Constants.USER_ROLE_URL;
-import static com.c4c.authz.rest.controller.UserRoleController.BASE_URL;
-
 /**
  * The type User role controller.
  */
@@ -36,29 +35,29 @@ import static com.c4c.authz.rest.controller.UserRoleController.BASE_URL;
 @RestController()
 @RequestMapping(value = BASE_URL)
 public class UserRoleController extends BaseController {
-    /**
-     * The constant BASE_URL.
-     */
-    static final String BASE_URL = API_V1 + USER_ROLE_URL;
+  /**
+   * The constant BASE_URL.
+   */
+  static final String BASE_URL = API_V1 + USER_ROLE_URL;
 
-    /**
-     * Instantiates a new User role controller.
-     *
-     * @param restAdapterV1 the rest adapter v 1
-     */
-    @Autowired
+  /**
+   * Instantiates a new User role controller.
+   *
+   * @param restAdapterV1 the rest adapter v 1
+   */
+  @Autowired
     protected UserRoleController(final RestAdapterV1 restAdapterV1) {
         super(restAdapterV1);
     }
 
-    /**
-     * Find by id response entity.
-     *
-     * @param userId the user id
-     * @param roleId the role id
-     * @return the response entity
-     */
-    @GetMapping(value = "/{userId}/{roleId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  /**
+   * Find by id response entity.
+   *
+   * @param userId the user id
+   * @param roleId the role id
+   * @return the response entity
+   */
+  @GetMapping(value = "/{userId}/{roleId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserRoleResource> findById(@PathVariable(value = "userId") final UUID userId,
                                                      @PathVariable(value = "roleId") final UUID roleId) {
         UserRoleResource resource = this.getRestAdapterV1().findByIdUserRole(userId, roleId);
@@ -69,14 +68,14 @@ public class UserRoleController extends BaseController {
         }
     }
 
-    /**
-     * Find by pagination response entity.
-     *
-     * @param pageNo   the page no
-     * @param pageSize the page size
-     * @return the response entity
-     */
-    @GetMapping
+  /**
+   * Find by pagination response entity.
+   *
+   * @param pageNo   the page no
+   * @param pageSize the page size
+   * @return the response entity
+   */
+  @GetMapping
     public ResponseEntity<PagedModelResponse<UserRoleResource>> findByPagination(
             @RequestParam(value = "pageNo", required = false, defaultValue = "-1") final int pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize) {
@@ -89,13 +88,13 @@ public class UserRoleController extends BaseController {
         }
     }
 
-    /**
-     * Create response entity.
-     *
-     * @param userRoleResource the user role resource
-     * @return the response entity
-     */
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  /**
+   * Create response entity.
+   *
+   * @param userRoleResource the user role resource
+   * @return the response entity
+   */
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserRoleResource> create(final @RequestBody @Validated UserRoleResource userRoleResource) {
         UserRoleResource resource = this.getRestAdapterV1().createUserRole(userRoleResource);
         return ResponseEntity.created(
@@ -103,26 +102,26 @@ public class UserRoleController extends BaseController {
                 .body(resource);
     }
 
-    /**
-     * Update response entity.
-     *
-     * @param userRoleResource the user role resource
-     * @return the response entity
-     */
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  /**
+   * Update response entity.
+   *
+   * @param userRoleResource the user role resource
+   * @return the response entity
+   */
+  @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserRoleResource> update(final @RequestBody @Validated UserRoleResource userRoleResource) {
         UserRoleResource resource = this.getRestAdapterV1().updateUserRole(userRoleResource);
         return ResponseEntity.ok().body(resource);
     }
 
-    /**
-     * Delete by id response entity.
-     *
-     * @param userId the user id
-     * @param roleId the role id
-     * @return the response entity
-     */
-    @DeleteMapping(value = "/{userId}/{roleId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  /**
+   * Delete by id response entity.
+   *
+   * @param userId the user id
+   * @param roleId the role id
+   * @return the response entity
+   */
+  @DeleteMapping(value = "/{userId}/{roleId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteById(@PathVariable(value = "userId") final UUID userId,
                                            @PathVariable(value = "roleId") final UUID roleId) {
         this.getRestAdapterV1().deleteByIdUserRole(userId, roleId);

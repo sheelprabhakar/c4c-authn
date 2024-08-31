@@ -7,6 +7,7 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,8 @@ import java.util.UUID;
 /**
  * The type User role entity.
  */
-@Entity(name = "user_role")
+@Table(name = "user_roles")
+@Entity(name = "UserRoleEntity")
 @Getter
 @Setter
 @NoArgsConstructor

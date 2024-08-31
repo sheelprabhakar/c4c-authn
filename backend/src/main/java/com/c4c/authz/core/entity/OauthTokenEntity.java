@@ -4,7 +4,10 @@ import com.c4c.authz.core.service.impl.EntityAttributeEncryptor;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -21,29 +24,45 @@ import java.util.Calendar;
 import java.util.UUID;
 
 /**
- * The type User token entity.
+ * The type Oauth token entity.
  */
-@Entity(name = "user_token")
+@Table(name = "oauth_tokens")
+@Entity(name = "OauthTokenEntity")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode
-public class UserTokenEntity implements Serializable {
+public class OauthTokenEntity implements Serializable {
 
     /**
      * The constant TOKEN_MAX_LENGTH.
      */
     private static final int TOKEN_MAX_LENGTH = 4096;
+
+    /**
+     * The Id.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", nullable = false)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID id;
+
     /**
      * The User id.
      */
-    @Id
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id", nullable = true)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID userId;
 
+    /**
+     * The Client id.
+     */
+    @Column(name = "client_id", nullable = true)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID clientId;
     /**
      * The Tenant id.
      */
@@ -65,9 +84,16 @@ public class UserTokenEntity implements Serializable {
     private String refreshToken;
 
     /**
-     * The Updated at.
+     * The Created at.
      */
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "created_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Calendar updatedAt;
+    private Calendar createdAt;
+
+    /**
+     * The Expiry time.
+     */
+    @Column(name = "expiry_time", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar expiryTime;
 }

@@ -1,10 +1,9 @@
 package com.c4c.authz.core.service.api;
 
 import com.c4c.authz.core.entity.RoleEntity;
-import org.springframework.data.domain.Page;
-
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
 
 /**
  * The interface Role service.
@@ -63,4 +62,13 @@ public interface RoleService {
      * @param roleIds the role ids
      */
     void deleteAllById(List<UUID> roleIds);
+
+    /**
+     * Find by tenant id and name role entity.
+     *
+     * @param tenantId           the tenant id
+     * @param clientCredRoleName the client cred role name
+     * @return the role entity
+     */
+    RoleEntity findByTenantIdAndName(UUID tenantId, String clientCredRoleName);
 }

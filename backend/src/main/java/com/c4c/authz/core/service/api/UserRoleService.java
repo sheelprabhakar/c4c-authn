@@ -2,9 +2,9 @@ package com.c4c.authz.core.service.api;
 
 import com.c4c.authz.core.entity.UserRoleEntity;
 import com.c4c.authz.core.entity.UserRoleId;
-import org.springframework.data.domain.Page;
-
 import java.util.List;
+import java.util.UUID;
+import org.springframework.data.domain.Page;
 
 /**
  * The interface User role service.
@@ -33,6 +33,14 @@ public interface UserRoleService {
      * @return the user role entity
      */
     UserRoleEntity findById(UserRoleId userRoleId);
+
+    /**
+     * Find by user id list.
+     *
+     * @param userId the user id
+     * @return the list
+     */
+    List<UserRoleEntity> findByUserId(UUID userId);
 
     /**
      * Find all list.

@@ -5,14 +5,14 @@ import com.c4c.authz.core.entity.UserRoleEntity;
 import com.c4c.authz.core.entity.UserRoleId;
 import com.c4c.authz.core.repository.UserRoleRepository;
 import com.c4c.authz.core.service.api.UserRoleService;
+import java.util.List;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * The type User role service.
@@ -68,6 +68,17 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public UserRoleEntity findById(final UserRoleId userRoleId) {
         return this.userRoleRepository.findById(userRoleId).orElse(null);
+    }
+
+    /**
+     * Find by user id list.
+     *
+     * @param userId the user id
+     * @return the list
+     */
+    @Override
+    public List<UserRoleEntity> findByUserId(final UUID userId) {
+        return this.userRoleRepository.findByUserId(userId);
     }
 
     /**

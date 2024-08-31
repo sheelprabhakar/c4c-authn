@@ -1,13 +1,17 @@
 package com.c4c.authz.core.service.impl;
 
 import com.c4c.authz.common.CurrentUserContext;
+import com.c4c.authz.core.entity.ClientEntity;
+import com.c4c.authz.core.entity.OauthTokenEntity;
 import com.c4c.authz.core.entity.UserEntity;
-import com.c4c.authz.core.entity.UserTokenEntity;
 import com.c4c.authz.core.service.api.AuthenticationService;
+import com.c4c.authz.core.service.api.ClientExDetailsService;
+import com.c4c.authz.core.service.api.ClientService;
+import com.c4c.authz.core.service.api.OauthTokenService;
 import com.c4c.authz.core.service.api.UserExDetailsService;
 import com.c4c.authz.core.service.api.UserService;
-import com.c4c.authz.core.service.api.UserTokenService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -18,7 +22,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * The type Authentication service.
@@ -27,6 +33,7 @@ import java.util.Set;
 @Slf4j
 @Transactional
 public class AuthenticationServiceImpl implements AuthenticationService {
+
     /**
      * The constant USER_NOT_FOUND.
      */
@@ -41,53 +48,69 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserExDetailsService userDetailsService;
 
     /**
+     * The Client details service.
+     */
+    private final ClientExDetailsService clientDetailsService;
+    /**
      * The User service.
      */
     private final UserService userService;
 
     /**
-     * The User token service.
+     * The Oauth token service.
      */
-    private final UserTokenService userTokenService;
+    private final OauthTokenService oauthTokenService;
     /**
      * The Password encoder.
      */
     private final PasswordEncoder passwordEncoder;
 
+
+    /**
+     * The Client service.
+     */
+    private final ClientService clientService;
+
     /**
      * Instantiates a new Authentication service.
      *
-     * @param jwtTokenProvider   the jwt token provider
-     * @param userDetailsService the user details service
-     * @param userService        the user service
-     * @param userTokenService   the user token service
-     * @param passwordEncoder    the password encoder
+     * @param jwtTokenProvider     the jwt token provider
+     * @param userDetailsService   the user details service
+     * @param clientDetailsService the client details service
+     * @param userService          the user service
+     * @param oauthTokenService    the oauth token service
+     * @param passwordEncoder      the password encoder
+     * @param clientService        the client service
      */
     @Autowired
     public AuthenticationServiceImpl(final JwtTokenProvider jwtTokenProvider,
                                      final UserExDetailsService userDetailsService,
-                                     final UserService userService, final UserTokenService userTokenService,
-                                     final PasswordEncoder passwordEncoder) {
+                                     ClientExDetailsService clientDetailsService,
+                                     final UserService userService, final OauthTokenService oauthTokenService,
+                                     final PasswordEncoder passwordEncoder,
+                                     final ClientService clientService) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.userDetailsService = userDetailsService;
+        this.clientDetailsService = clientDetailsService;
         this.userService = userService;
-        this.userTokenService = userTokenService;
+        this.oauthTokenService = oauthTokenService;
         this.passwordEncoder = passwordEncoder;
+        this.clientService = clientService;
     }
 
     /**
-     * Authenticate user token entity.
+     * Authenticate oauth token entity.
      *
      * @param username the username
      * @param password the password
      * @param isOtp    the is otp
-     * @return the user token entity
+     * @return the oauth token entity
      */
     @Override
-    public UserTokenEntity authenticate(final String username,
-                                        final String password, final boolean isOtp) {
+    public OauthTokenEntity authenticate(final String username,
+                                         final String password, final boolean isOtp) {
 
-        UserEntity userEntity = this.userService.findByEmail(username);
+        UserEntity userEntity = this.userService.findByUserName(username);
         if (userEntity == null) {
             log.info(USER_NOT_FOUND);
             throw new BadCredentialsException(USER_NOT_FOUND);
@@ -107,17 +130,29 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             final UserDetails userDetails = this.userDetailsService
                     .loadUserByUsername(username);
             log.info("Authenticated successfully");
-            CurrentUserContext.setCurrentTenant(userEntity.getTenantId());
+            CurrentUserContext.setCurrentTenantId(userEntity.getTenantId());
             String token = this.jwtTokenProvider.createToken(userDetails.getUsername(),
-                    (Set<GrantedAuthority>) userDetails.getAuthorities());
+                    (Set<GrantedAuthority>) userDetails.getAuthorities(), false);
             String refreshToken = this.jwtTokenProvider.createRefreshToken(userDetails.getUsername());
-            return this.userTokenService.update(userEntity.getId(), CurrentUserContext.getCurrentTenant(), token,
-                    refreshToken);
+            return this.oauthTokenService.addUserToken(userEntity.getId(), CurrentUserContext.getCurrentTenantId(),
+                    token,
+                    refreshToken, this.getExpiry());
         } else {
             log.info("Authenticated failed");
             throw new BadCredentialsException("INVALID_CREDENTIALS");
         }
 
+    }
+
+    /**
+     * Gets expiry.
+     *
+     * @return the expiry
+     */
+    private Calendar getExpiry() {
+        Calendar expiry = Calendar.getInstance();
+        expiry.add(Calendar.MILLISECOND, this.jwtTokenProvider.getValidityInMilliseconds());
+        return expiry;
     }
 
     /**
@@ -127,36 +162,65 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public void logout() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
-        UserEntity userEntity = this.userService.findByEmail(userDetails.getUsername());
+        UserEntity userEntity = this.userService.findByUserName(userDetails.getUsername());
         if (userEntity == null) {
             log.info(USER_NOT_FOUND);
             throw new BadCredentialsException(USER_NOT_FOUND);
         }
-        this.userTokenService.deleteById(userEntity.getId());
+        //ToDo
+        //this.oauthTokenService.deleteAllById(userEntity.getId());
     }
 
     /**
-     * Refresh token user token entity.
+     * Refresh token oauth token entity.
      *
      * @param refreshToken the refresh token
-     * @return the user token entity
+     * @return the oauth token entity
      */
     @Override
-    public UserTokenEntity refreshToken(final String refreshToken) {
+    public OauthTokenEntity refreshToken(final String refreshToken) {
         if (this.jwtTokenProvider.validateToken(refreshToken)) {
-            String username = this.jwtTokenProvider.getUsername(refreshToken);
-            UserEntity userEntity = this.userService.findByEmail(username);
+            Pair<String, Boolean> userInfo = this.jwtTokenProvider.getUsername(refreshToken);
+            UserEntity userEntity = this.userService.findByUserName(userInfo.getLeft());
             UserDetails userDetails = this.userDetailsService
                     .loadUserByUsername(userEntity);
-            CurrentUserContext.setCurrentTenant(userEntity.getTenantId());
+            CurrentUserContext.setCurrentTenantId(userEntity.getTenantId());
             String token = this.jwtTokenProvider.createToken(userDetails.getUsername(),
-                    (Set<GrantedAuthority>) userDetails.getAuthorities());
-
+                    (Set<GrantedAuthority>) userDetails.getAuthorities(), false);
             String newRefreshToken = this.jwtTokenProvider.createRefreshToken(userDetails.getUsername());
-            return this.userTokenService.update(userEntity.getId(), CurrentUserContext.getCurrentTenant(), token,
-                    newRefreshToken);
+            return this.oauthTokenService.addUserToken(userEntity.getId(), CurrentUserContext.getCurrentTenantId(),
+                    token,
+                    newRefreshToken, this.getExpiry());
         }
         return null;
+    }
+
+    /**
+     * Authenticate oauth token entity.
+     *
+     * @param tenantId     the tenant id
+     * @param clientId     the client id
+     * @param clientSecret the client secret
+     * @param grantType    the grant type
+     * @return the oauth token entity
+     */
+    @Override
+    public OauthTokenEntity authenticate(final UUID tenantId, final String clientId, final String clientSecret,
+                                         final String grantType) {
+        ClientEntity clientEntity = this.clientService.findByClientId(clientId);
+        if (clientEntity != null && clientSecret.equals(clientEntity.getClientSecret())) {
+            UserDetails userDetails = this.clientDetailsService
+                    .loadClientByClient(clientEntity);
+            CurrentUserContext.setCurrentTenantId(clientEntity.getTenantId());
+            String token = this.jwtTokenProvider.createToken(clientEntity.getClientId(),
+                    (Set<GrantedAuthority>) userDetails.getAuthorities(), true);
+            return this.oauthTokenService.addClientToken(clientEntity.getId(), CurrentUserContext.getCurrentTenantId(),
+                    token,
+                    this.getExpiry());
+        } else {
+            log.info("Authenticated failed");
+            throw new BadCredentialsException("INVALID_CREDENTIALS");
+        }
     }
 
 }

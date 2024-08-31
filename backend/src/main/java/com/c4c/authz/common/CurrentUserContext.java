@@ -7,11 +7,11 @@ import java.util.UUID;
  */
 public final class CurrentUserContext {
   /**
-   * The constant currentTenant.
+   * The constant CURRENT_TENANT.
    */
   private static final ThreadLocal<UUID> CURRENT_TENANT = new InheritableThreadLocal<>();
   /**
-   * The constant currentUser.
+   * The constant CURRENT_USER.
    */
   private static final ThreadLocal<String> CURRENT_USER = new InheritableThreadLocal<>();
 
@@ -23,32 +23,32 @@ public final class CurrentUserContext {
   }
 
   /**
-   * Gets current tenant.
+   * Gets current tenant id.
    *
-   * @return the current tenant
+   * @return the current tenant id
    */
-  public static UUID getCurrentTenant() {
+  public static UUID getCurrentTenantId() {
     return CURRENT_TENANT.get();
   }
 
 
   /**
-   * Sets current tenant.
+   * Sets current tenant id.
    *
    * @param tenantId the tenant id
    */
-  public static void setCurrentTenant(final UUID tenantId) {
+  public static void setCurrentTenantId(final UUID tenantId) {
     CURRENT_TENANT.set(tenantId);
   }
 
 
   /**
-   * Sets current tenant.
+   * Sets current tenant id.
    *
    * @param tenantId the tenant id
    */
-  public static void setCurrentTenant(final String tenantId) {
-    setCurrentTenant(UUID.fromString(tenantId));
+  public static void setCurrentTenantId(final String tenantId) {
+    setCurrentTenantId(UUID.fromString(tenantId));
   }
 
   /**
