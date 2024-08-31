@@ -5,6 +5,14 @@ package com.c4c.authz.common;
  */
 public final class Constants {
   /**
+   * The constant AUTHORITIES.
+   */
+  public static final String AUTHORITIES = "authorities";
+  /**
+   * The constant IS_CLIENT_CRED.
+   */
+  public static final String IS_CLIENT_CRED = "isClientCred";
+  /**
    * The constant CLIENT_CREDENTIALS.
    */
   public static final String CLIENT_CREDENTIALS ="client_credentials";
@@ -98,6 +106,7 @@ public final class Constants {
    * The constant BEARER.
    */
   public static final String BEARER = "Bearer";
+  public static final String INVALID_TOKEN = "Invalid token";
 
   /**
    * Instantiates a new Constants.

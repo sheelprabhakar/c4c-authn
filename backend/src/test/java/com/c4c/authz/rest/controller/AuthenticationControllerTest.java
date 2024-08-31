@@ -4,6 +4,7 @@ import static com.c4c.authz.common.Constants.API_V1;
 import static com.c4c.authz.common.Constants.AUTH_URL;
 import static com.c4c.authz.common.Constants.CLIENT_CREDENTIALS;
 import static com.c4c.authz.common.Constants.CLIENT_URL;
+import static com.c4c.authz.common.Constants.IS_CLIENT_CRED;
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -43,7 +44,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
    /**
      * The Base url.
      */
-    private final String BASE_URL = AUTH_URL;
+    private final String baseUrl = AUTH_URL;
 
     /**
      * Test authenticate ok.
@@ -51,11 +52,12 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
      * @throws Exception the exception
      */
     @Test
+    @DisplayName("Test authenticate with valid credentials")
     void test_authenticate_ok() throws Exception {
         assertTrue(this.getAdminToken().startsWith("Bearer"));
 
         String response = this.mockMvc.perform(MockMvcRequestBuilders
-                        .post(BASE_URL + "/authenticate")
+                        .post(baseUrl + "/authenticate")
                         .content("{\"username\":\"admin@c4c.com\"," +
                                 " \"password\":\"admin123\", \"isOtp\":false}")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -69,6 +71,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
         Claims payload = Jwts.parser().verifyWith(this.secret).build()
                 .parseSignedClaims(jwtResponse.getAccessToken()).getPayload();
         assertEquals("admin@c4c.com", payload.getSubject());
+        assertEquals("false", payload.get(IS_CLIENT_CRED).toString());
         List<Map<String, String>> authorities = (List<Map<String, String>>) payload.get("authorities");
         assertEquals(2, authorities.size());
     }
@@ -77,8 +80,8 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
     @DisplayName("Test client credential authentication flow")
     void test_client_authenticate_ok() throws Exception {
 
-        String BASE_URL1 = API_V1 + CLIENT_URL;
-        MvcResult result = this.mockMvc.perform(this.post(BASE_URL1 + "?name=test_client_auth", null))
+        String baseUrl1 = API_V1 + CLIENT_URL;
+        MvcResult result = this.mockMvc.perform(this.post(baseUrl1 + "?name=test_client_auth", null))
                 .andExpect(status().isCreated())
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("test_client_auth")).andReturn();
@@ -89,7 +92,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
                 CLIENT_CREDENTIALS);
 
         String response = this.mockMvc.perform(MockMvcRequestBuilders
-                        .post(BASE_URL + "/"+requestParam)
+                        .post(baseUrl + "/"+requestParam)
                         .accept(MediaType.APPLICATION_JSON))
                 //.andDo(print())
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
@@ -100,6 +103,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
         Claims payload = Jwts.parser().verifyWith(this.secret).build()
                 .parseSignedClaims(jwtResponse.getAccessToken()).getPayload();
         assertEquals(clientResource.getClientId(), payload.getSubject());
+        assertEquals("true", payload.get(IS_CLIENT_CRED).toString());
         List<Map<String, String>> authorities = (List<Map<String, String>>) payload.get("authorities");
         assertEquals(1, authorities.size());
     }
@@ -110,9 +114,10 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
      * @throws Exception the exception
      */
     @Test
+    @DisplayName("Test authenticate with wrong credentials")
     void test_authenticate_wrong_credentials() throws Exception {
         String msg = this.mockMvc.perform(MockMvcRequestBuilders
-                        .post(BASE_URL + "/authenticate")
+                        .post(baseUrl + "/authenticate")
                         .content("{\"username\":\"admin@c4c.com\"," +
                                 " \"password\":\"admin1234\", \"isOtp\":false}")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -122,7 +127,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
         assertEquals("Invalid credentials", msg);
 
         msg = this.mockMvc.perform(MockMvcRequestBuilders
-                        .post(BASE_URL + "/authenticate")
+                        .post(baseUrl + "/authenticate")
                         .content("{\"username\":\"sheel.prabhakar123@gmail.com\"," +
                                 " \"password\":\"admin123\", \"isOtp\":false}")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -132,7 +137,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
         assertEquals("Invalid credentials", msg);
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .post(BASE_URL + "/authenticate")
+                        .post(baseUrl + "/authenticate")
                         .content("{ \"password\":\"admin123\", \"isOtp\":false}")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -148,17 +153,18 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
      * @throws Exception the exception
      */
     @Test
+    @DisplayName("Test logout functionality")
     void test_logout_ok() throws Exception {
         String token = getAdminToken();
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .get(BASE_URL + "/logout")
+                        .get(baseUrl + "/logout")
                         .header("Authorization", token)
                         .accept(MediaType.APPLICATION_JSON))
                 //.andDo(print())
                 .andExpect(status().isOk());
 
         this.mockMvc.perform(MockMvcRequestBuilders
-                        .get(BASE_URL + "/logout")
+                        .get(baseUrl + "/logout")
                         .header("Authorization", token)
                         .accept(MediaType.APPLICATION_JSON))
                 //.andDo(print())
@@ -172,11 +178,12 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
      * @throws Exception the exception
      */
     @Test
+    @DisplayName("Test refresh token functionality")
     void test_refresh_token_ok() throws Exception {
         assertTrue(this.getAdminToken().startsWith("Bearer"));
 
         String response = this.mockMvc.perform(MockMvcRequestBuilders
-                        .post(BASE_URL + "/authenticate")
+                        .post(baseUrl + "/authenticate")
                         .content("{\"username\":\"admin@c4c.com\"," +
                                 " \"password\":\"admin123\", \"isOtp\":false}")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -195,7 +202,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
 
 
         response = this.mockMvc.perform(MockMvcRequestBuilders
-                        .post(BASE_URL + "/refreshToken")
+                        .post(baseUrl + "/refreshToken")
                         .param("refreshToken", jwtResponse.getRefreshToken())
                         .accept(MediaType.APPLICATION_JSON))
                 //.andDo(print())
