@@ -15,11 +15,34 @@ public final class CurrentUserContext {
    */
   private static final ThreadLocal<String> CURRENT_USER = new InheritableThreadLocal<>();
 
+  /**
+   * The constant TOKEN_ID.
+   */
+  private static final ThreadLocal<UUID> TOKEN_ID = new InheritableThreadLocal<>();
+
 
   /**
    * Instantiates a new Current user context.
    */
   private CurrentUserContext() {
+  }
+
+  /**
+   * Get current toke id uuid.
+   *
+   * @return the uuid
+   */
+  public static UUID getCurrentTokeId(){
+    return TOKEN_ID.get();
+  }
+
+  /**
+   * Set current toke id.
+   *
+   * @param uuid the uuid
+   */
+  public static void setCurrentTokeId(UUID uuid){
+    TOKEN_ID.set(uuid);
   }
 
   /**

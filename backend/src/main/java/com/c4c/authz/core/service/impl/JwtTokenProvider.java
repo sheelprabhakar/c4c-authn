@@ -223,6 +223,7 @@ public class JwtTokenProvider {
             List<OauthTokenEntity> oauthTokenEntities = oauthTokenService;
             for (OauthTokenEntity entity : oauthTokenEntities) {
                 if (entity.getAccessToken().equals(token)) {
+                    CurrentUserContext.setCurrentTokeId(entity.getId());
                     isFound = true;
                     break;
                 }

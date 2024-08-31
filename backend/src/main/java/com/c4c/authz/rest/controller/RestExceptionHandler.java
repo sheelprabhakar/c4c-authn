@@ -35,7 +35,7 @@ public final class RestExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<Object> handleBadCredentialException(
       final BadCredentialsException ex, final WebRequest request) {
 
-    return new ResponseEntity<>("Invalid credentials", HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
   }
 
 

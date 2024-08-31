@@ -58,4 +58,11 @@ public interface OauthTokenService {
      * @param ids the ids
      */
     void deleteAllById(List<UUID> ids);
+
+    /**
+     * Delete by id.
+     *
+     * @param id the id
+     */
+    void deleteById(UUID id);
 }
