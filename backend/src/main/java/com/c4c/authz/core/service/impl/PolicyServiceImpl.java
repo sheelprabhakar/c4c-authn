@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.c4c.authz.common.Constants.ITEM_CACHE;
+
 /**
  * The type Policy service.
  */
@@ -76,7 +78,7 @@ public class PolicyServiceImpl implements PolicyService {
      * @param roleId the role id
      * @return the policies by role id
      */
-    @Cacheable(cacheNames = "attributes", key = "#p0")
+    @Cacheable(cacheNames = ITEM_CACHE, key = "#p0")
     @Override
     public List<PolicyRecord> getPoliciesByRoleId(final UUID roleId) {
         List<RoleAttributeEntity> allByRoleId = this.roleAttributeService.findAllByRoleId(roleId);
@@ -98,6 +100,7 @@ public class PolicyServiceImpl implements PolicyService {
      * @return the policies for current client
      */
     @Override
+    @Cacheable(cacheNames = ITEM_CACHE, key = "#p0")
     public List<PolicyRecord> getPoliciesForCurrentClient(final UUID tenantId, final String clientId) {
         List<PolicyRecord> policyRecords = new ArrayList<>();
         ClientEntity clientEntity = this.clientService.findByTenantIdAndClientId(tenantId, clientId);
@@ -120,6 +123,7 @@ public class PolicyServiceImpl implements PolicyService {
      * @return the policies for current user
      */
     @Override
+    @Cacheable(cacheNames = ITEM_CACHE, key = "#p0")
     public List<PolicyRecord> getPoliciesForCurrentUser(final UUID tenantId, final String currentUser) {
         List<PolicyRecord> policyRecords = new ArrayList<>();
         UserEntity userEntity = this.userService.findByUserName(currentUser);

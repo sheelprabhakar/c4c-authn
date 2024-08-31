@@ -1,11 +1,13 @@
 package com.c4c.authz.core.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * The type Policy record.
  */
-public record PolicyRecord(String name, String path, List<String> verbs) implements Comparable<PolicyRecord> {
+public record PolicyRecord(String name, String path, List<String> verbs) implements Comparable<PolicyRecord>,
+        Serializable {
   /**
    * Equals boolean.
    *
