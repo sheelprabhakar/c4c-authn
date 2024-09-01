@@ -101,6 +101,7 @@ export class TenantComponent implements OnInit, AfterViewInit {
     ).subscribe(() => {
       this.hasChildRoute = this.route.children.length > 0;
     });
+    this.hasChildRoute = this.route.children.length > 0;
   }
 
   loadPage() {

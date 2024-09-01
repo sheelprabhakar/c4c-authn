@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild, } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
@@ -28,31 +21,15 @@ import { MatDividerModule } from '@angular/material/divider';
   templateUrl: './client.component.html',
   styleUrl: './client.component.scss',
   standalone: true,
-  imports: [
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatCheckboxModule,
-    MatDividerModule,
-    TableHeightDirective,
-    MatIconModule,
-    MatMenuModule,
-    MatButtonModule,
-    RouterModule,
-    CommonModule,
+  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatCheckboxModule,
+    MatDividerModule, TableHeightDirective, MatIconModule, MatMenuModule,
+    MatButtonModule, RouterModule, CommonModule,
   ],
 })
 export class ClientComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = [
-    'id',
-    'name',
-    'clientId',
-    'clientSecret',
-    'updatedAt',
-    'createdAt',
-    'action',
-  ];
+  displayedColumns: string[] = ['id', 'name', 'clientId', 'clientSecret', 'updatedAt',
+    'createdAt', 'action',];
   selection = new SelectionModel<ClientData>(true, []);
   dataSource = new MatTableDataSource<any>([]);
   totalItems = 0;
@@ -81,11 +58,9 @@ export class ClientComponent implements OnInit, AfterViewInit {
   }
 
   constructor(
-    private dataService: ClientDataService,
-    private el: ElementRef,
+    private dataService: ClientDataService, private el: ElementRef,
     private renderer: Renderer2,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router, private route: ActivatedRoute
   ) { }
   ngAfterViewInit(): void {
     window.dispatchEvent(new Event('resize'));
@@ -96,6 +71,7 @@ export class ClientComponent implements OnInit, AfterViewInit {
     ).subscribe(() => {
       this.hasChildRoute = this.route.children.length > 0;
     });
+    this.hasChildRoute = this.route.children.length > 0;
   }
 
   loadPage() {
