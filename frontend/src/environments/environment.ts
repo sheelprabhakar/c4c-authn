@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   API_ROOT: 'http://localhost:8088/',
-  pageSize:15,
+  pageSize: 15,
+  dateFormat: 'dd-MMM-yyyy : HH:mm',
 };
 
 /*

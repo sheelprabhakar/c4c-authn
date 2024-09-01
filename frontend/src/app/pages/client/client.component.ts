@@ -27,7 +27,7 @@ import { MatDividerModule } from '@angular/material/divider';
   ],
 })
 export class ClientComponent implements OnInit, AfterViewInit {
-
+  dateFormat: string = env.dateFormat;
   displayedColumns: string[] = ['id', 'name', 'clientId', 'clientSecret', 'updatedAt',
     'createdAt', 'action',];
   selection = new SelectionModel<ClientData>(true, []);
@@ -35,6 +35,8 @@ export class ClientComponent implements OnInit, AfterViewInit {
   totalItems = 0;
   pageSize = env.pageSize;
   hasChildRoute = false;
+
+  showClientSecret: { [key: number]: boolean } = {};
 
   private paginator: MatPaginator;
   private sort: MatSort;
@@ -84,6 +86,7 @@ export class ClientComponent implements OnInit, AfterViewInit {
         const row = data.items[0];
         for (let i = 0; i < 15; ++i) {
           let obj2 = JSON.parse(JSON.stringify(row));
+          obj2.id = i + 1;
           data.items.push(obj2);
         }
         data.total = 16;
@@ -117,5 +120,9 @@ export class ClientComponent implements OnInit, AfterViewInit {
 
   onCreateNew() {
     this.router.navigate(['create'], { relativeTo: this.route }); // Navigate to the home
+  }
+
+  toggleClientSecretVisibility(clientId: number): void {
+    this.showClientSecret[clientId] = !this.showClientSecret[clientId];
   }
 }
