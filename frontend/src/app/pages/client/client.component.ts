@@ -28,7 +28,7 @@ import { MatDividerModule } from '@angular/material/divider';
 })
 export class ClientComponent implements OnInit, AfterViewInit {
   dateFormat: string = env.dateFormat;
-  displayedColumns: string[] = ['id', 'name', 'clientId', 'clientSecret', 'updatedAt',
+  displayedColumns: string[] = ['id', 'name', 'clientId', 'clientSecret',
     'createdAt', 'action',];
   selection = new SelectionModel<ClientData>(true, []);
   dataSource = new MatTableDataSource<any>([]);
@@ -83,13 +83,13 @@ export class ClientComponent implements OnInit, AfterViewInit {
     this.dataService
       .getClients(pageIndex, pageSize)
       .subscribe((data) => {
-        const row = data.items[0];
+        /*const row = data.items[0];
         for (let i = 0; i < 15; ++i) {
           let obj2 = JSON.parse(JSON.stringify(row));
           obj2.id = i + 1;
           data.items.push(obj2);
-        }
-        data.total = 16;
+        }*/
+        data.total = data.total;
         this.dataSource.data = data.items;
         this.totalItems = data.total;
       });

@@ -23,7 +23,7 @@ export class ClientDataService {
   }
 
   createClient(client: ClientData): Observable<ClientData> {
-    return this.http.post<ClientData>(this.apiUrl, client);
+    return this.http.post<ClientData>(`${this.apiUrl}?name=${client.name}`,{});
   }
 
   updateClient(id: string, client: ClientData): Observable<ClientData> {

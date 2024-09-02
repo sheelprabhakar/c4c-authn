@@ -1,18 +1,19 @@
 <h2>Client Details</h2>
 <div class="form-details">
-  <form (ngSubmit)="onSave()">
+  <form [formGroup]="clientForm" (ngSubmit)="onSave()">
     <div class="form-row">
       <mat-form-field appearance="outline" class="w50">
         <mat-label>Client Name</mat-label>
-        <input matInput [(ngModel)]="client.name" name="name" />
+        <input matInput formControlName="name" maxlength="50" required/>
         <mat-icon matSuffix>person</mat-icon>
         <mat-hint>Enter the name of the client</mat-hint>
+        <mat-error *ngIf="clientForm.controls['name']?.invalid">Client Name is required</mat-error>
       </mat-form-field>
     </div>
     <div class="form-row">
       <mat-form-field appearance="outline" class="w50">
         <mat-label>Client ID</mat-label>
-        <input matInput [value]="client.clientId" readonly />
+        <input matInput [value]="client.clientId" formControlName="clientId" readonly />
         <mat-icon matSuffix>fingerprint</mat-icon>
         <mat-hint>This is a unique identifier for the client</mat-hint>
       </mat-form-field>
@@ -20,11 +21,12 @@
     <div class="form-row">
       <mat-form-field appearance="outline" class="w75">
         <mat-label>Client Secret</mat-label>
-        <input matInput [value]="client.clientSecret" readonly />
+        <input matInput [value]="client.clientSecret" formControlName="clientSecret" readonly />
         <mat-icon matSuffix>lock</mat-icon>
         <mat-hint>Keep this secret safe</mat-hint>
       </mat-form-field>
     </div>
+    <mat-error *ngIf="errorMessage"> {{ errorMessage }}</mat-error>
     <div class="form-row">
       <button mat-raised-button color="primary" type="submit">Save</button>
     </div>
