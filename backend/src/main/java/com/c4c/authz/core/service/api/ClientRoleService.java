@@ -63,4 +63,11 @@ public interface ClientRoleService {
      * @param clientRoleIds the client role ids
      */
     void deleteAllById(List<ClientRoleId> clientRoleIds);
+
+    /**
+     * Delete by client id.
+     *
+     * @param clientId the client id
+     */
+    void deleteByClientId(UUID clientId);
 }
