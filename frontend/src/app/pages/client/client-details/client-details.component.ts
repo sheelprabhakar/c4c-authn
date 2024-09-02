@@ -11,7 +11,11 @@ import { FormMode } from 'src/app/core/common/form.mode';
 import { ClientData } from 'src/app/core/client/client.data.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientDataService } from 'src/app/core/client/client.data.service';
-
+import { C4cListComponent } from '../../../shared/c4c-list/c4c-list.component';
+export interface Item {
+  id: number;
+  name: string;
+}
 @Component({
   selector: 'app-client-details',
   templateUrl: './client-details.component.html',
@@ -25,9 +29,11 @@ import { ClientDataService } from 'src/app/core/client/client.data.service';
     MatInputModule, MatIconModule,
     MatButtonModule,
     MatGridListModule, ReactiveFormsModule,
+    C4cListComponent,
   ]
 })
 export class ClientDetailsComponent {
+
   client: ClientData = {
     name: '',
     clientId: '',
@@ -52,6 +58,25 @@ export class ClientDetailsComponent {
     });
   }
 
+  items: Item[] = [
+    { id: 1, name: 'Item 1' },
+    { id: 2, name: 'Item 2' },
+    { id: 3, name: 'Item 3' },
+    { id: 4, name: 'Item 4' },
+    { id: 5, name: 'Item 5' },
+    { id: 6, name: 'Item 2' },
+    { id: 7, name: 'Item 3' },
+    { id: 8, name: 'Item 4' },
+    { id: 9, name: 'Item 5' }
+  ];
+
+  selectedItems: Item[] = [];
+
+  onSelectionChange(selected: Item[]): void {
+    this.selectedItems = selected;
+    console.log('Selected Items:', this.selectedItems);
+  }
+
   ngOnInit(): void {
     this.captureRoutes();
   }
@@ -74,8 +99,8 @@ export class ClientDetailsComponent {
   fetchClientData(clientId: string): void {
     // Fetch the client data based on the clientId
     this.dataService.getClientById(clientId).subscribe(client => {
-       this.client = client;
-      });
+      this.client = client;
+    });
   }
   onSave(): void {
     if (this.clientForm.valid) {
@@ -89,6 +114,9 @@ export class ClientDetailsComponent {
     }
   }
 
+  onCancel() {
+    this.router.navigate(['client']);
+  }
   private saveNew() {
     this.dataService.createClient(this.clientForm.value as ClientData).subscribe({
       next: (value) => {

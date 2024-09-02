@@ -1,6 +1,7 @@
 .form-details {
   display: flex;
   flex-direction: column;
+  width: 100%;
   .form-row {
     margin-bottom: 16px;
   }
@@ -17,6 +18,24 @@
   .w25 {
     width: 25%;
   }
+
+}
+
+mat-grid-list {
+  width: 100%;
+}
+mat-grid-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+.button-row {
+  width: 100%;
+  text-align: center;
+}
+.button-space {
+  margin-right: 10px; /* Adjust the value as needed */
 }
 
 

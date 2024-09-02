@@ -113,9 +113,10 @@ export class ClientComponent implements OnInit, AfterViewInit {
     console.log('Edit:', id);
   }
 
-  deleteElement(element: any) {
+  deleteElement(id: string) {
+    this.dataService.deleteClient(id).subscribe(() => { this.loadPage(); });
     // Delete logic here
-    console.log('Delete:', element);
+    console.log('Delete:', id);
   }
 
   onCreateNew() {
