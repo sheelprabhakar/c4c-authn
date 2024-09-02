@@ -105,10 +105,13 @@ public class ClientController extends BaseController {
    * Update response entity.
    *
    * @param client the client
+   * @param id     the id
    * @return the response entity
    */
-  @PutMapping
-  public ResponseEntity<ClientResource> update(final @RequestBody @Validated ClientResource client) {
+  @PutMapping("/{id}")
+  public ResponseEntity<ClientResource> update(final @RequestBody @Validated ClientResource client,
+                                               @PathVariable("id") final UUID id) {
+    client.setId(id);
     client.setTenantId(CurrentUserContext.getCurrentTenantId());
     ClientResource resource = this.getRestAdapterV1().updateClient(client);
     return ResponseEntity.ok().body(resource);

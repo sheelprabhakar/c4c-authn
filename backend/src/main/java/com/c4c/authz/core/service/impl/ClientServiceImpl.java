@@ -76,7 +76,6 @@ public class ClientServiceImpl implements ClientService {
         clientEntity.setClientId(OAuth2ClientIdGenerator.generateClientId());
         String clientSecret = OAuth2ClientIdGenerator.generateClientSecret();
         clientEntity.setClientSecret(clientSecret);
-        clientEntity.created(CurrentUserContext.getCurrentUser());
         this.saveClientEntity(clientEntity);
         this.createDefaultClientRole(clientEntity);
         return clientEntity;
@@ -210,6 +209,7 @@ public class ClientServiceImpl implements ClientService {
      * @return the client entity
      */
     private ClientEntity saveClientEntity(final ClientEntity clientEntity) {
+        clientEntity.created(CurrentUserContext.getCurrentUser());
         return this.clientRepository.save(clientEntity);
     }
 

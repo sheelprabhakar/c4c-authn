@@ -26,8 +26,8 @@ export class ClientDataService {
     return this.http.post<ClientData>(`${this.apiUrl}?name=${client.name}`,{});
   }
 
-  updateClient(id: string, client: ClientData): Observable<ClientData> {
-    return this.http.put<ClientData>(`${this.apiUrl}/${id}`, client);
+  updateClient(client: ClientData): Observable<ClientData> {
+    return this.http.put<ClientData>(`${this.apiUrl}/${client.id}`, client);
   }
 
   deleteClient(id: string): Observable<void> {

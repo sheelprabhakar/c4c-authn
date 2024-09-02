@@ -24,7 +24,7 @@ import { ClientDataService } from 'src/app/core/client/client.data.service';
     MatFormFieldModule,
     MatInputModule, MatIconModule,
     MatButtonModule,
-    MatGridListModule,ReactiveFormsModule,
+    MatGridListModule, ReactiveFormsModule,
   ]
 })
 export class ClientDetailsComponent {
@@ -73,23 +73,47 @@ export class ClientDetailsComponent {
 
   fetchClientData(clientId: string): void {
     // Fetch the client data based on the clientId
-    this.dataService.getClientById(clientId).subscribe(client => this.client = client);
+    this.dataService.getClientById(clientId).subscribe(client => {
+       this.client = client;
+      });
   }
   onSave(): void {
     if (this.clientForm.valid) {
-      // Handle the save action
-      this.dataService.createClient(this.clientForm.value as ClientData).subscribe({
-        next: (value) => {
-          this.errorMessage = null;
-          this.router.navigate(['client']);
-        },
-        error: (e) => {
-          this.errorMessage = 'Error saving client details';
-          console.error(e) },
-          complete: () => console.info('Create client sucessful!'),
-      });
-      alert('Client details saved');
+      if (this.mode === FormMode.CREATE) {
+        // Handle the save action
+        this.saveNew();
+      } else {
+        this.updateExisting();
+      }
+      console.log('Client details saved:', this.client);
     }
-    console.log('Client details saved:', this.client);
+  }
+
+  private saveNew() {
+    this.dataService.createClient(this.clientForm.value as ClientData).subscribe({
+      next: (value) => {
+        this.errorMessage = null;
+        this.router.navigate(['client']);
+      },
+      error: (e) => {
+        this.errorMessage = 'Error saving new client details';
+        console.error(e);
+      },
+      complete: () => console.info('Create client sucessful!'),
+    });
+  }
+  private updateExisting() {
+    this.client.name = this.clientForm.value.name;
+    this.dataService.updateClient(this.client).subscribe({
+      next: (value) => {
+        this.errorMessage = null;
+        this.router.navigate(['client']);
+      },
+      error: (e) => {
+        this.errorMessage = 'Error saving new client details';
+        console.error(e);
+      },
+      complete: () => console.info('Create client sucessful!'),
+    });
   }
 }
