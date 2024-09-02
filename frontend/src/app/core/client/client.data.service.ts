@@ -13,9 +13,9 @@ export class ClientDataService {
 
   constructor(private http: HttpClient) {}
 
-  getClients<T>(page: number, size: number): Observable<PagedResponse<T>> {
+  getClients(page: number, size: number): Observable<PagedResponse<ClientData[]>> {
     //return this.http.get(`${this.apiUrl}?page=${page}&size=${size}`);
-    return this.http.get<PagedResponse<T>>(`${this.apiUrl}`);
+    return this.http.get<PagedResponse<ClientData[]>>(`${this.apiUrl}`);
   }
 
   getClientById(id: string): Observable<ClientData> {

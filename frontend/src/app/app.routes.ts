@@ -21,7 +21,7 @@ export const routes: Routes = [
         children:[
           {path: 'create', component: TenantDetailsComponent, canActivate: [PolicyGuard],
             data: { policies: ['post:tenant management'], breadcrumb: 'Create'}},
-          {path: 'edit', component: TenantDetailsComponent, canActivate: [PolicyGuard],
+          {path: 'edit/:id', component: TenantDetailsComponent, canActivate: [PolicyGuard],
             data: { policies: ['put:tenant management', 'patch:tenant management'], breadcrumb: 'Edit'}}
         ]
       },
@@ -30,7 +30,7 @@ export const routes: Routes = [
         children:[
           {path: 'create', component: ClientDetailsComponent, canActivate: [PolicyGuard],
             data: { policies: ['post:client management'], breadcrumb: 'Create'}},
-          {path: 'edit', component: ClientDetailsComponent, canActivate: [PolicyGuard],
+          {path: 'edit/:id', component: ClientDetailsComponent, canActivate: [PolicyGuard],
             data: { policies: ['put:client management', 'patch:client management'], breadcrumb: 'Edit'}}
         ]
       }, // Add your routes here

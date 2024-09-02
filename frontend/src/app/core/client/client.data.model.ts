@@ -1,12 +1,12 @@
 export interface ClientData {
-  createdAt: string;
-  updatedAt: string | null;
-  createdBy: string;
-  updatedBy: string | null;
-  id: string;
+  createdAt?: string | null;
+  updatedAt?: string | null;
+  createdBy?: string | null;
+  updatedBy?: string | null;
+  id?: string | null;
   tenantId: string;
   clientId: string;
   clientSecret: string;
   name: string;
-  deleted: boolean;
+  deleted?: boolean | false;
 }

@@ -81,7 +81,7 @@ export class ClientComponent implements OnInit, AfterViewInit {
     const pageSize = this.paginator.pageSize;
 
     this.dataService
-      .getClients<ClientData>(pageIndex, pageSize)
+      .getClients(pageIndex, pageSize)
       .subscribe((data) => {
         const row = data.items[0];
         for (let i = 0; i < 15; ++i) {
@@ -108,9 +108,9 @@ export class ClientComponent implements OnInit, AfterViewInit {
       : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
 
-  editElement(element: any) {
-    // Edit logic here
-    console.log('Edit:', element);
+  editElement(id: string) {
+    this.router.navigate(['edit', id], { relativeTo: this.route });
+    console.log('Edit:', id);
   }
 
   deleteElement(element: any) {

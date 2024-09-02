@@ -7,6 +7,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { FormMode } from 'src/app/core/common/form.mode';
+import { ClientData } from 'src/app/core/client/client.data.model';
+import { ActivatedRoute } from '@angular/router';
+import { ClientDataService } from 'src/app/core/client/client.data.service';
 
 @Component({
   selector: 'app-client-details',
@@ -24,23 +28,37 @@ import { FormsModule } from '@angular/forms';
   ]
 })
 export class ClientDetailsComponent {
-  client = {
+  client: ClientData = {
     name: '',
-    clientid: '',
-    clientsecret: ''
+    clientId: '',
+    clientSecret: '',
+    tenantId: '',
+    // Initialize other properties as needed
   };
 
-  constructor() {}
+  mode: FormMode;
+  clientId: string;
+  constructor(private route: ActivatedRoute, private dataService: ClientDataService,) { }
 
   ngOnInit(): void {
-    // Initialize the client model with data
-    this.client = {
-      name: 'Example Client',
-      clientid: '123456',
-      clientsecret: 'abcdef'
-    };
+    this.route.url.subscribe(url => {
+      if (url.length > 0) {
+        this.mode = url[0].path as FormMode;;
+        console.log('First URL segment:', this.mode);
+      }
+    });
+    this.route.paramMap.subscribe(params => {
+      this.clientId = params.get('id');
+      if (this.clientId) {
+        this.fetchClientData(this.clientId);
+      }
+    });
   }
 
+  fetchClientData(clientId: string): void {
+    // Fetch the client data based on the clientId
+    this.dataService.getClientById(clientId).subscribe(client => this.client = client);
+  }
   onSave(): void {
     // Handle save logic here
     console.log('Client details saved:', this.client);

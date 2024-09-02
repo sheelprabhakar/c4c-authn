@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/core/auth/auth.service';
 
 import { Router, RouterModule } from '@angular/router';
 import { UserDataService } from 'src/app/core/user/user.data.service';
+import { PolicyService } from 'src/app/core/policy/policy.service';
 
 @Component({
   selector: 'app-login',
@@ -34,6 +35,7 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
+    private policyService: PolicyService,
     private userDataService: UserDataService,
     private router: Router
   ) { }
@@ -44,6 +46,7 @@ export class LoginComponent {
       next: (v) => {
         this.userDataService.getDetail().subscribe({
           next: (v) => {
+            this.policyService.init();
             this.router.navigate(['dashboard']); // Navigate to the home
           },
           error: (e) => { console.error(e) },
