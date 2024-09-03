@@ -16,6 +16,7 @@ import { C4cListComponent } from './shared/c4c-list/c4c-list.component';
 import { RoleComponent } from './pages/role/role.component';
 import { RoleDetailsComponent } from './pages/role/role-details/role-details.component';
 import { RestAclComponent } from './pages/rest-acl/rest-acl.component';
+import { RestAclDetailsComponent } from './pages/rest-acl/rest-acl-details/rest-acl-details.component';
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
