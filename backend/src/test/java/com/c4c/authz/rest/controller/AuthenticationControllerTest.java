@@ -123,7 +123,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 //.andDo(print())
-                .andExpect(status().isBadRequest()).andReturn().getResponse().getContentAsString();
+                .andExpect(status().isUnauthorized()).andReturn().getResponse().getContentAsString();
         assertEquals("Invalid credentials", msg);
 
         msg = this.mockMvc.perform(MockMvcRequestBuilders
@@ -133,7 +133,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 //.andDo(print())
-                .andExpect(status().isBadRequest()).andReturn().getResponse().getContentAsString();
+                .andExpect(status().isUnauthorized()).andReturn().getResponse().getContentAsString();
         assertEquals("Invalid credentials", msg);
 
         this.mockMvc.perform(MockMvcRequestBuilders
@@ -142,7 +142,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 //.andDo(print())
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isUnauthorized())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.detail").value("Invalid request content."));
 
     }

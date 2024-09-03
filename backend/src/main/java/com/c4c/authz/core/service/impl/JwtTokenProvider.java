@@ -71,7 +71,7 @@ public class JwtTokenProvider {
     private final UserDetailsServiceImpl userDetailsService;
 
     /**
-     * The Client ex details service.
+     * The Client details service.
      */
     private final ClientExDetailsService clientDetailsService;
     /**
@@ -101,7 +101,7 @@ public class JwtTokenProvider {
      * Instantiates a new Jwt token provider.
      *
      * @param userDetailsService   the user details service
-     * @param clientDetailsService the client ex details service
+     * @param clientDetailsService the client details service
      * @param oauthTokenService    the oauth token service
      * @param userService          the user service
      * @param clientService        the client service

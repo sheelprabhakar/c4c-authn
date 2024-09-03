@@ -21,43 +21,43 @@ import org.springframework.util.AntPathMatcher;
 @Slf4j
 public class AnyRequestAuthenticatedAuthorizationManager implements
     AuthorizationManager<RequestAuthorizationContext> {
-  /**
-   * The Policy service.
-   */
-  private final PolicyService policyService;
-  /**
-   * The Path matcher.
-   */
-  private final AntPathMatcher pathMatcher = new AntPathMatcher();
+    /**
+     * The Policy service.
+     */
+    private final PolicyService policyService;
+    /**
+     * The Path matcher.
+     */
+    private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
-  /**
-   * Instantiates a new Any request authenticated authorization manager.
-   *
-   * @param policyService the policy service
-   */
-  public AnyRequestAuthenticatedAuthorizationManager(final PolicyService policyService) {
+    /**
+     * Instantiates a new Any request authenticated authorization manager.
+     *
+     * @param policyService the policy service
+     */
+    public AnyRequestAuthenticatedAuthorizationManager(final PolicyService policyService) {
     this.policyService = policyService;
   }
 
-  /**
-   * Verify.
-   *
-   * @param authentication the authentication
-   * @param object         the object
-   */
-  @Override
+    /**
+     * Verify.
+     *
+     * @param authentication the authentication
+     * @param object         the object
+     */
+    @Override
   public void verify(final Supplier<Authentication> authentication, final RequestAuthorizationContext object) {
     AuthorizationManager.super.verify(authentication, object);
   }
 
-  /**
-   * Check authorization decision.
-   *
-   * @param authentication              the authentication
-   * @param requestAuthorizationContext the request authorization context
-   * @return the authorization decision
-   */
-  @Override
+    /**
+     * Check authorization decision.
+     *
+     * @param authentication              the authentication
+     * @param requestAuthorizationContext the request authorization context
+     * @return the authorization decision
+     */
+    @Override
   public AuthorizationDecision check(final Supplier<Authentication> authentication,
                                      final RequestAuthorizationContext requestAuthorizationContext) {
     boolean granted = false;

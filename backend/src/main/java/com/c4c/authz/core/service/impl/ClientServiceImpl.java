@@ -160,13 +160,13 @@ public class ClientServiceImpl implements ClientService {
     /**
      * Find by pagination page.
      *
-     * @param pageNo   the page no
-     * @param pageSize the page size
+     * @param pageIndex the page index
+     * @param pageSize  the page size
      * @return the page
      */
     @Override
-    public Page<ClientEntity> findByPagination(final int pageNo, final int pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());
+    public Page<ClientEntity> findByPagination(final int pageIndex, final int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageIndex, pageSize, Sort.by("name").ascending());
         if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenantId())) {
             return this.clientRepository.findAll(pageRequest);
         } else {

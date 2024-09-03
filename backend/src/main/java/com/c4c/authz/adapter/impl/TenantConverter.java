@@ -10,39 +10,39 @@ import java.util.Objects;
  */
 public final class TenantConverter extends Converter<TenantEntity, TenantResource> {
 
-  /**
-   * The type Tenant converter loader.
-   */
-  private static final class TenantConverterLoader {
     /**
-     * The constant INSTANCE.
+     * The type Tenant converter loader.
      */
-    private static final TenantConverter INSTANCE = new TenantConverter();
+    private static final class TenantConverterLoader {
+        /**
+         * The constant INSTANCE.
+         */
+        private static final TenantConverter INSTANCE = new TenantConverter();
     }
 
-  /**
-   * Instantiates a new Tenant converter.
-   */
-  public TenantConverter() {
+    /**
+     * Instantiates a new Tenant converter.
+     */
+    public TenantConverter() {
         super(TenantConverter::convertToEntity, TenantConverter::convertToResource);
     }
 
-  /**
-   * Gets instance.
-   *
-   * @return the instance
-   */
-  public static TenantConverter getInstance() {
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
+    public static TenantConverter getInstance() {
         return TenantConverterLoader.INSTANCE;
     }
 
-  /**
-   * Convert to entity tenant entity.
-   *
-   * @param res the res
-   * @return the tenant entity
-   */
-  private static TenantEntity convertToEntity(final TenantResource res) {
+    /**
+     * Convert to entity tenant entity.
+     *
+     * @param res the res
+     * @return the tenant entity
+     */
+    private static TenantEntity convertToEntity(final TenantResource res) {
         if (Objects.isNull(res)) {
             return null;
         }
@@ -54,13 +54,13 @@ public final class TenantConverter extends Converter<TenantEntity, TenantResourc
                 .updatedBy(res.getUpdatedBy()).isDeleted(res.isDeleted()).build();
     }
 
-  /**
-   * Convert to resource tenant resource.
-   *
-   * @param entity the entity
-   * @return the tenant resource
-   */
-  private static TenantResource convertToResource(final TenantEntity entity) {
+    /**
+     * Convert to resource tenant resource.
+     *
+     * @param entity the entity
+     * @return the tenant resource
+     */
+    private static TenantResource convertToResource(final TenantEntity entity) {
         if (Objects.isNull(entity)) {
             return null;
         }

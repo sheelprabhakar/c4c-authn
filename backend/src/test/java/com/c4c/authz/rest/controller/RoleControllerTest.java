@@ -141,11 +141,11 @@ class RoleControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
 
-        RoleResource tenantResource = TestUtils.convertJsonStringToObject(result, RoleResource.class);
-        this.mockMvc.perform(this.get(BASE_URL + "/" + tenantResource.getId()))
+        RoleResource roleResource = TestUtils.convertJsonStringToObject(result, RoleResource.class);
+        this.mockMvc.perform(this.get(BASE_URL + "/" + roleResource.getId()))
                 //.andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(tenantResource.getName()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(roleResource.getName()));
 
         result = this.mockMvc.perform(this.get(BASE_URL))
                 //.andDo(print())
@@ -155,7 +155,7 @@ class RoleControllerTest extends AbstractIntegrationTest {
                 resourceList = TestUtils.convertJsonStringToObject(result, PagedModelResponse.class);
         Assertions.assertTrue(resourceList.getItems().size() > 0);
 
-        result = this.mockMvc.perform(this.get(BASE_URL+"?pageSize=10&pageNo=0"))
+        result = this.mockMvc.perform(this.get(BASE_URL+"?pageSize=10&pageIndex=0"))
                 //.andDo(print())
                 .  andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();

@@ -69,16 +69,16 @@ public class ClientController extends BaseController {
   /**
    * Find by pagination response entity.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the response entity
    */
   @GetMapping
   public ResponseEntity<PagedModelResponse<ClientResource>> findByPagination(
-      @RequestParam(value = "pageNo", required = false, defaultValue = "-1") final int pageNo,
+      @RequestParam(value = "pageIndex", required = false, defaultValue = "-1") final int pageIndex,
       @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize) {
     if (pageSize > 0) {
-      Page<ClientResource> resources = this.getRestAdapterV1().findByPaginationClient(pageNo, pageSize);
+      Page<ClientResource> resources = this.getRestAdapterV1().findByPaginationClient(pageIndex, pageSize);
       return ResponseEntity.ok().body(new PagedModelResponse<>(resources));
     } else {
       List<ClientResource> resources = this.getRestAdapterV1().findAllClient();

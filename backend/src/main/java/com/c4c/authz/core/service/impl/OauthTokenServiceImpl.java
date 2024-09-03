@@ -102,7 +102,7 @@ public class OauthTokenServiceImpl implements OauthTokenService {
     }
 
     /**
-     * Delete by id.
+     * Delete all by id.
      *
      * @param ids the ids
      */
@@ -112,6 +112,8 @@ public class OauthTokenServiceImpl implements OauthTokenService {
     }
 
     /**
+     * Delete by id.
+     *
      * @param id the id
      */
     @Override

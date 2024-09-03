@@ -8,12 +8,12 @@ import java.util.UUID;
  */
 public interface AuthenticationService {
     /**
-     * Authenticate user token entity.
+     * Authenticate oauth token entity.
      *
      * @param username the username
      * @param password the password
      * @param isOtp    the is otp
-     * @return the user token entity
+     * @return the oauth token entity
      */
     OauthTokenEntity authenticate(String username, String password, boolean isOtp);
 
@@ -23,21 +23,21 @@ public interface AuthenticationService {
     void logout();
 
     /**
-     * Refresh token user token entity.
+     * Refresh token oauth token entity.
      *
      * @param refreshToken the refresh token
-     * @return the user token entity
+     * @return the oauth token entity
      */
     OauthTokenEntity refreshToken(String refreshToken);
 
     /**
-     * Authenticate user token entity.
+     * Authenticate oauth token entity.
      *
      * @param tenantId     the tenant id
      * @param clientId     the client id
      * @param clientSecret the client secret
      * @param grantType    the grant type
-     * @return the user token entity
+     * @return the oauth token entity
      */
     OauthTokenEntity authenticate(UUID tenantId, String clientId, String clientSecret, String grantType);
 }

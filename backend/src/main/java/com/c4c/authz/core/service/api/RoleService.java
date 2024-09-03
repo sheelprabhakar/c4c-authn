@@ -47,7 +47,7 @@ public interface RoleService {
      * @param pageSize the page size
      * @return the page
      */
-    Page<RoleEntity> findByPagination(int pageNo, int pageSize);
+    Page<RoleEntity> findByPagination(int pageIndex, int pageSize);
 
     /**
      * Delete by id.

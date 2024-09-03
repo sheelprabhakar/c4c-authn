@@ -48,7 +48,7 @@ public interface ClientRoleService {
      * @param pageSize the page size
      * @return the page
      */
-    Page<ClientRoleEntity> findByPagination(int pageNo, int pageSize);
+    Page<ClientRoleEntity> findByPagination(int pageIndex, int pageSize);
 
     /**
      * Delete by id.

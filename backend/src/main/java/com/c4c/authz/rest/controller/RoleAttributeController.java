@@ -72,19 +72,19 @@ public class RoleAttributeController extends BaseController {
     /**
      * Find by pagination response entity.
      *
-     * @param roleId   the role id
-     * @param pageNo   the page no
-     * @param pageSize the page size
+     * @param roleId    the role id
+     * @param pageIndex the page index
+     * @param pageSize  the page size
      * @return the response entity
      */
     @GetMapping
     public ResponseEntity<PagedModelResponse<RoleAttributeResource>> findByPagination(
             @PathVariable(value = "roleId") final UUID roleId,
-            @RequestParam(value = "pageNo", required = false, defaultValue = "-1") final int pageNo,
+            @RequestParam(value = "pageIndex", required = false, defaultValue = "-1") final int pageIndex,
             @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize) {
         if (pageSize > 0) {
             Page<RoleAttributeResource> resources =
-                    this.getRestAdapterV1().findByPaginationRoleAttribute(pageNo, pageSize);
+                    this.getRestAdapterV1().findByPaginationRoleAttribute(pageIndex, pageSize);
             return ResponseEntity.ok().body(new PagedModelResponse<>(resources));
         } else {
             List<RoleAttributeResource> resources = this.getRestAdapterV1().findAllRoleAttribute();

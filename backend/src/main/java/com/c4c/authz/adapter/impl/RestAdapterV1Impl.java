@@ -334,14 +334,14 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   /**
    * Find by pagination tenant page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
   @Override
-  public Page<TenantResource> findByPaginationTenant(final int pageNo, final int pageSize) {
+  public Page<TenantResource> findByPaginationTenant(final int pageIndex, final int pageSize) {
     return this.tenantConverter.createFromEntities(
-        this.tenantService.findByPagination(pageNo, pageSize));
+        this.tenantService.findByPagination(pageIndex, pageSize));
   }
 
   /**
@@ -396,14 +396,14 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   /**
    * Find by pagination attribute page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
   @Override
-  public Page<AttributeResource> findByPaginationAttribute(final int pageNo, final int pageSize) {
+  public Page<AttributeResource> findByPaginationAttribute(final int pageIndex, final int pageSize) {
     return this.attributeConverter.createFromEntities(
-        this.attributeService.findByPagination(pageNo, pageSize));
+        this.attributeService.findByPagination(pageIndex, pageSize));
   }
 
   /**
@@ -443,13 +443,13 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   /**
    * Find by pagination role page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
   @Override
-  public Page<RoleResource> findByPaginationRole(final int pageNo, final int pageSize) {
-    return this.roleConverter.createFromEntities(this.roleService.findByPagination(pageNo, pageSize));
+  public Page<RoleResource> findByPaginationRole(final int pageIndex, final int pageSize) {
+    return this.roleConverter.createFromEntities(this.roleService.findByPagination(pageIndex, pageSize));
   }
 
   /**
@@ -511,13 +511,13 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   /**
    * Find by pagination user role page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
   @Override
-  public Page<UserRoleResource> findByPaginationUserRole(final int pageNo, final int pageSize) {
-    return this.userRoleConverter.createFromEntities(this.userRoleService.findByPagination(pageNo, pageSize));
+  public Page<UserRoleResource> findByPaginationUserRole(final int pageIndex, final int pageSize) {
+    return this.userRoleConverter.createFromEntities(this.userRoleService.findByPagination(pageIndex, pageSize));
   }
 
   /**
@@ -583,14 +583,14 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   /**
    * Find by pagination role attribute page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
   @Override
-  public Page<RoleAttributeResource> findByPaginationRoleAttribute(final int pageNo, final int pageSize) {
+  public Page<RoleAttributeResource> findByPaginationRoleAttribute(final int pageIndex, final int pageSize) {
     return this.roleAttributeConverter.createFromEntities(
-        this.roleAttributeService.findByPagination(pageNo, pageSize));
+        this.roleAttributeService.findByPagination(pageIndex, pageSize));
   }
 
   /**
@@ -741,13 +741,13 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   /**
    * Find by pagination client page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
   @Override
-  public Page<ClientResource> findByPaginationClient(final int pageNo, final int pageSize) {
-    return this.clientConverter.createFromEntities(this.clientService.findByPagination(pageNo, pageSize));
+  public Page<ClientResource> findByPaginationClient(final int pageIndex, final int pageSize) {
+    return this.clientConverter.createFromEntities(this.clientService.findByPagination(pageIndex, pageSize));
   }
 
   /**

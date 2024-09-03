@@ -11,39 +11,39 @@ import java.util.Objects;
  */
 public final class RoleAttributeConverter extends Converter<RoleAttributeEntity, RoleAttributeResource> {
 
-  /**
-   * The type Role attribute converter loader.
-   */
-  private static final class RoleAttributeConverterLoader {
     /**
-     * The constant INSTANCE.
+     * The type Role attribute converter loader.
      */
-    private static final RoleAttributeConverter INSTANCE = new RoleAttributeConverter();
+    private static final class RoleAttributeConverterLoader {
+        /**
+         * The constant INSTANCE.
+         */
+        private static final RoleAttributeConverter INSTANCE = new RoleAttributeConverter();
     }
 
-  /**
-   * Instantiates a new Role attribute converter.
-   */
-  public RoleAttributeConverter() {
+    /**
+     * Instantiates a new Role attribute converter.
+     */
+    public RoleAttributeConverter() {
         super(RoleAttributeConverter::convertToEntity, RoleAttributeConverter::convertToResource);
     }
 
-  /**
-   * Gets instance.
-   *
-   * @return the instance
-   */
-  public static RoleAttributeConverter getInstance() {
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
+    public static RoleAttributeConverter getInstance() {
         return RoleAttributeConverterLoader.INSTANCE;
     }
 
-  /**
-   * Convert to entity role attribute entity.
-   *
-   * @param res the res
-   * @return the role attribute entity
-   */
-  private static RoleAttributeEntity convertToEntity(final RoleAttributeResource res) {
+    /**
+     * Convert to entity role attribute entity.
+     *
+     * @param res the res
+     * @return the role attribute entity
+     */
+    private static RoleAttributeEntity convertToEntity(final RoleAttributeResource res) {
         if (Objects.isNull(res)) {
             return null;
         }
@@ -54,13 +54,13 @@ public final class RoleAttributeConverter extends Converter<RoleAttributeEntity,
                 .updatedAt(res.getUpdatedAt()).updatedBy(res.getUpdatedBy()).isDeleted(res.isDeleted()).build();
     }
 
-  /**
-   * Convert to resource role attribute resource.
-   *
-   * @param entity the entity
-   * @return the role attribute resource
-   */
-  private static RoleAttributeResource convertToResource(final RoleAttributeEntity entity) {
+    /**
+     * Convert to resource role attribute resource.
+     *
+     * @param entity the entity
+     * @return the role attribute resource
+     */
+    private static RoleAttributeResource convertToResource(final RoleAttributeEntity entity) {
         if (Objects.isNull(entity)) {
             return null;
         }

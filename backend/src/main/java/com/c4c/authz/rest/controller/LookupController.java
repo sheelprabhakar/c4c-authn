@@ -23,52 +23,52 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 @RequestMapping(LookupController.BASE_URL)
 public class LookupController extends BaseController {
-  /**
-   * The constant BASE_URL.
-   */
-  static final String BASE_URL = API_V1 + LOOKUP_URL;
+    /**
+     * The constant BASE_URL.
+     */
+    static final String BASE_URL = API_V1 + LOOKUP_URL;
 
-  /**
-   * Instantiates a new Lookup controller.
-   *
-   * @param restAdapterV1 the rest adapter v 1
-   */
-  @Autowired
+    /**
+     * Instantiates a new Lookup controller.
+     *
+     * @param restAdapterV1 the rest adapter v 1
+     */
+    @Autowired
   public LookupController(final RestAdapterV1 restAdapterV1) {
     super(restAdapterV1);
   }
 
-  /**
-   * Countries response entity.
-   *
-   * @return the response entity
-   */
-  @GetMapping("/country")
+    /**
+     * Countries response entity.
+     *
+     * @return the response entity
+     */
+    @GetMapping("/country")
   public ResponseEntity<List<CountryResource>> countries() {
     List<CountryResource> countryResources = this.getRestAdapterV1().countries();
     return ResponseEntity.ok(countryResources);
   }
 
-  /**
-   * States response entity.
-   *
-   * @param countryId the country id
-   * @return the response entity
-   */
-  @GetMapping("/country/{countryId}/state")
+    /**
+     * States response entity.
+     *
+     * @param countryId the country id
+     * @return the response entity
+     */
+    @GetMapping("/country/{countryId}/state")
   public ResponseEntity<List<StateResource>> states(
       final @PathVariable("countryId") int countryId) {
     List<StateResource> stateResources = this.getRestAdapterV1().states(countryId);
     return ResponseEntity.ok(stateResources);
   }
 
-  /**
-   * Cities response entity.
-   *
-   * @param stateId the state id
-   * @return the response entity
-   */
-  @GetMapping("/state/{stateId}/city")
+    /**
+     * Cities response entity.
+     *
+     * @param stateId the state id
+     * @return the response entity
+     */
+    @GetMapping("/state/{stateId}/city")
   public ResponseEntity<List<CityResource>> cities(
       final @PathVariable("stateId") int stateId) {
     List<CityResource> cityResources = this.getRestAdapterV1().cities(stateId);

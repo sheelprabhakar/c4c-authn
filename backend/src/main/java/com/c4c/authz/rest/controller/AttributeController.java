@@ -35,28 +35,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 @RequestMapping(BASE_URL)
 public class AttributeController extends BaseController {
-  /**
-   * The constant BASE_URL.
-   */
-  static final String BASE_URL = API_V1 + ATTRIBUTE_URL;
+    /**
+     * The constant BASE_URL.
+     */
+    static final String BASE_URL = API_V1 + ATTRIBUTE_URL;
 
-  /**
-   * Instantiates a new Attribute controller.
-   *
-   * @param restAdapterV1 the rest adapter v 1
-   */
-  @Autowired
+    /**
+     * Instantiates a new Attribute controller.
+     *
+     * @param restAdapterV1 the rest adapter v 1
+     */
+    @Autowired
     protected AttributeController(final RestAdapterV1 restAdapterV1) {
         super(restAdapterV1);
     }
 
-  /**
-   * Find by id response entity.
-   *
-   * @param attributeId the attribute id
-   * @return the response entity
-   */
-  @GetMapping("/{attributeId}")
+    /**
+     * Find by id response entity.
+     *
+     * @param attributeId the attribute id
+     * @return the response entity
+     */
+    @GetMapping("/{attributeId}")
     public ResponseEntity<AttributeResource> findById(@PathVariable("attributeId") final UUID attributeId) {
         AttributeResource resource = this.getRestAdapterV1().findByIdAttribute(attributeId);
         if (!Objects.isNull(resource)) {
@@ -66,19 +66,19 @@ public class AttributeController extends BaseController {
         }
     }
 
-  /**
-   * Find by pagination response entity.
-   *
-   * @param pageNo   the page no
-   * @param pageSize the page size
-   * @return the response entity
-   */
-  @GetMapping
+    /**
+     * Find by pagination response entity.
+     *
+     * @param pageIndex the page index
+     * @param pageSize  the page size
+     * @return the response entity
+     */
+    @GetMapping
     public ResponseEntity<PagedModelResponse<AttributeResource>> findByPagination(
-            @RequestParam(value = "pageNo", required = false, defaultValue = "-1") final int pageNo,
+            @RequestParam(value = "pageIndex", required = false, defaultValue = "-1") final int pageIndex,
             @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize) {
         if (pageSize > 0) {
-            Page<AttributeResource> resources = this.getRestAdapterV1().findByPaginationAttribute(pageNo, pageSize);
+            Page<AttributeResource> resources = this.getRestAdapterV1().findByPaginationAttribute(pageIndex, pageSize);
             return ResponseEntity.ok().body(new PagedModelResponse<>(resources));
         } else {
             List<AttributeResource> resources = this.getRestAdapterV1().findAllAttribute();
@@ -86,39 +86,39 @@ public class AttributeController extends BaseController {
         }
     }
 
-  /**
-   * Create response entity.
-   *
-   * @param attributeResource the attribute resource
-   * @return the response entity
-   */
-  @PostMapping
+    /**
+     * Create response entity.
+     *
+     * @param attributeResource the attribute resource
+     * @return the response entity
+     */
+    @PostMapping
     public ResponseEntity<AttributeResource> create(final @RequestBody @Validated AttributeResource attributeResource) {
         attributeResource.setTenantId(CurrentUserContext.getCurrentTenantId());
         AttributeResource resource = this.getRestAdapterV1().createAttribute(attributeResource);
         return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);
     }
 
-  /**
-   * Update response entity.
-   *
-   * @param attributeResource the attribute resource
-   * @return the response entity
-   */
-  @PutMapping
+    /**
+     * Update response entity.
+     *
+     * @param attributeResource the attribute resource
+     * @return the response entity
+     */
+    @PutMapping
     public ResponseEntity<AttributeResource> update(final @RequestBody @Validated AttributeResource attributeResource) {
         attributeResource.setTenantId(CurrentUserContext.getCurrentTenantId());
         AttributeResource resource = this.getRestAdapterV1().updateAttribute(attributeResource);
         return ResponseEntity.ok().body(resource);
     }
 
-  /**
-   * Delete by id response entity.
-   *
-   * @param attributeId the attribute id
-   * @return the response entity
-   */
-  @DeleteMapping("/{attributeId}")
+    /**
+     * Delete by id response entity.
+     *
+     * @param attributeId the attribute id
+     * @return the response entity
+     */
+    @DeleteMapping("/{attributeId}")
     public ResponseEntity<Void> deleteById(@PathVariable("attributeId") final UUID attributeId) {
         this.getRestAdapterV1().deleteByIdAttribute(attributeId);
         return ResponseEntity.noContent().build();

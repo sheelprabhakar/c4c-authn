@@ -87,13 +87,13 @@ public class ClientRoleServiceImpl implements ClientRoleService {
     /**
      * Find by pagination page.
      *
-     * @param pageNo   the page no
-     * @param pageSize the page size
+     * @param pageIndex the page index
+     * @param pageSize  the page size
      * @return the page
      */
     @Override
-    public Page<ClientRoleEntity> findByPagination(final int pageNo, final int pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, Sort.by("clientId").ascending());
+    public Page<ClientRoleEntity> findByPagination(final int pageIndex, final int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageIndex, pageSize, Sort.by("clientId").ascending());
         return this.clientRoleRepository.findAll(pageRequest);
     }
 

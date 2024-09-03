@@ -10,39 +10,39 @@ import java.util.Objects;
  */
 public final class AttributeConverter extends Converter<AttributeEntity, AttributeResource> {
 
-  /**
-   * The type Attribute resource converter loader.
-   */
-  private static final class AttributeResourceConverterLoader {
     /**
-     * The constant INSTANCE.
+     * The type Attribute resource converter loader.
      */
-    private static final AttributeConverter INSTANCE = new AttributeConverter();
+    private static final class AttributeResourceConverterLoader {
+        /**
+         * The constant INSTANCE.
+         */
+        private static final AttributeConverter INSTANCE = new AttributeConverter();
     }
 
-  /**
-   * Instantiates a new Attribute converter.
-   */
-  public AttributeConverter() {
+    /**
+     * Instantiates a new Attribute converter.
+     */
+    public AttributeConverter() {
         super(AttributeConverter::convertToEntity, AttributeConverter::convertToResource);
     }
 
-  /**
-   * Gets instance.
-   *
-   * @return the instance
-   */
-  public static AttributeConverter getInstance() {
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
+    public static AttributeConverter getInstance() {
         return AttributeResourceConverterLoader.INSTANCE;
     }
 
-  /**
-   * Convert to entity attribute entity.
-   *
-   * @param res the res
-   * @return the attribute entity
-   */
-  private static AttributeEntity convertToEntity(final AttributeResource res) {
+    /**
+     * Convert to entity attribute entity.
+     *
+     * @param res the res
+     * @return the attribute entity
+     */
+    private static AttributeEntity convertToEntity(final AttributeResource res) {
         if (Objects.isNull(res)) {
             return null;
         }
@@ -51,13 +51,13 @@ public final class AttributeConverter extends Converter<AttributeEntity, Attribu
                 .updatedAt(res.getUpdatedAt()).updatedBy(res.getUpdatedBy()).isDeleted(res.isDeleted()).build();
     }
 
-  /**
-   * Convert to resource attribute resource.
-   *
-   * @param entity the entity
-   * @return the attribute resource
-   */
-  private static AttributeResource convertToResource(final AttributeEntity entity) {
+    /**
+     * Convert to resource attribute resource.
+     *
+     * @param entity the entity
+     * @return the attribute resource
+     */
+    private static AttributeResource convertToResource(final AttributeEntity entity) {
         if (Objects.isNull(entity)) {
             return null;
         }

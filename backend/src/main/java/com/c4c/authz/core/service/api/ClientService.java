@@ -32,7 +32,7 @@ public interface ClientService {
      * @param pageSize the page size
      * @return the page
      */
-    Page<ClientEntity> findByPagination(int pageNo, int pageSize);
+    Page<ClientEntity> findByPagination(int pageIndex, int pageSize);
 
     /**
      * Find all list.

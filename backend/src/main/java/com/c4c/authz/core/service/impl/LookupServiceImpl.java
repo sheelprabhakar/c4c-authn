@@ -19,71 +19,71 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Transactional
 public class LookupServiceImpl implements LookupService {
-  /**
-   * The Country repository.
-   */
-  private final CountryRepository countryRepository;
-  /**
-   * The State repository.
-   */
-  private final StateRepository stateRepository;
+    /**
+     * The Country repository.
+     */
+    private final CountryRepository countryRepository;
+    /**
+     * The State repository.
+     */
+    private final StateRepository stateRepository;
 
-  /**
-   * The City repository.
-   */
-  private final CityRepository cityRepository;
+    /**
+     * The City repository.
+     */
+    private final CityRepository cityRepository;
 
-  /**
-   * Instantiates a new Lookup service.
-   *
-   * @param countryRepository the country repository
-   * @param stateRepository   the state repository
-   * @param cityRepository    the city repository
-   */
-  public LookupServiceImpl(final CountryRepository countryRepository, final StateRepository stateRepository,
+    /**
+     * Instantiates a new Lookup service.
+     *
+     * @param countryRepository the country repository
+     * @param stateRepository   the state repository
+     * @param cityRepository    the city repository
+     */
+    public LookupServiceImpl(final CountryRepository countryRepository, final StateRepository stateRepository,
                            final CityRepository cityRepository) {
     this.countryRepository = countryRepository;
     this.stateRepository = stateRepository;
     this.cityRepository = cityRepository;
   }
 
-  /**
-   * Countries list.
-   *
-   * @return the list
-   */
-  @Override
+    /**
+     * Countries list.
+     *
+     * @return the list
+     */
+    @Override
   public List<CountryEntity> countries() {
     return this.countryRepository.findAll();
   }
 
-  /**
-   * States list.
-   *
-   * @param countryId the country id
-   * @return the list
-   */
-  public List<StateEntity> states(final int countryId) {
+    /**
+     * States list.
+     *
+     * @param countryId the country id
+     * @return the list
+     */
+    public List<StateEntity> states(final int countryId) {
     return this.stateRepository.findByCountryId(countryId);
   }
 
-  /**
-   * Cities list.
-   *
-   * @param stateId the state id
-   * @return the list
-   */
-  public List<CityEntity> cities(final int stateId) {
+    /**
+     * Cities list.
+     *
+     * @param stateId the state id
+     * @return the list
+     */
+    public List<CityEntity> cities(final int stateId) {
     return this.cityRepository.findByStateId(stateId);
   }
 
-  /**
-   * Gets city by id.
-   *
-   * @param cityId the city id
-   * @return the city by id
-   */
-  @Override
+    /**
+     * Gets city by id.
+     *
+     * @param cityId the city id
+     * @return the city by id
+     */
+    @Override
   public CityEntity getCityById(final int cityId) {
     return this.cityRepository.findById(cityId).orElse(null);
   }

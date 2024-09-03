@@ -47,7 +47,7 @@ public interface TenantService {
      * @param pageSize the page size
      * @return the page
      */
-    Page<TenantEntity> findByPagination(int pageNo, int pageSize);
+    Page<TenantEntity> findByPagination(int pageIndex, int pageSize);
 
     /**
      * Delete by id.

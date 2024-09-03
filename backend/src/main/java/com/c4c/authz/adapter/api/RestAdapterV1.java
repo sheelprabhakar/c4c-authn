@@ -114,7 +114,7 @@ public interface RestAdapterV1 {
    * @param pageSize the page size
    * @return the page
    */
-  Page<TenantResource> findByPaginationTenant(int pageNo, int pageSize);
+  Page<TenantResource> findByPaginationTenant(int pageIndex, int pageSize);
 
   /**
    * Find all tenant list.
@@ -160,7 +160,7 @@ public interface RestAdapterV1 {
    * @param pageSize the page size
    * @return the page
    */
-  Page<AttributeResource> findByPaginationAttribute(int pageNo, int pageSize);
+  Page<AttributeResource> findByPaginationAttribute(int pageIndex, int pageSize);
 
   /**
    * Update attribute attribute resource.
@@ -192,7 +192,7 @@ public interface RestAdapterV1 {
    * @param pageSize the page size
    * @return the page
    */
-  Page<RoleResource> findByPaginationRole(int pageNo, int pageSize);
+  Page<RoleResource> findByPaginationRole(int pageIndex, int pageSize);
 
   /**
    * Find all role list.
@@ -240,7 +240,7 @@ public interface RestAdapterV1 {
    * @param pageSize the page size
    * @return the page
    */
-  Page<UserRoleResource> findByPaginationUserRole(int pageNo, int pageSize);
+  Page<UserRoleResource> findByPaginationUserRole(int pageIndex, int pageSize);
 
   /**
    * Find all user role list.
@@ -289,7 +289,7 @@ public interface RestAdapterV1 {
    * @param pageSize the page size
    * @return the page
    */
-  Page<RoleAttributeResource> findByPaginationRoleAttribute(int pageNo, int pageSize);
+  Page<RoleAttributeResource> findByPaginationRoleAttribute(int pageIndex, int pageSize);
 
   /**
    * Find all role attribute list.
@@ -369,7 +369,7 @@ public interface RestAdapterV1 {
    * @param pageSize the page size
    * @return the page
    */
-  Page<ClientResource> findByPaginationClient(int pageNo, int pageSize);
+  Page<ClientResource> findByPaginationClient(int pageIndex, int pageSize);
 
   /**
    * Delete by id client.

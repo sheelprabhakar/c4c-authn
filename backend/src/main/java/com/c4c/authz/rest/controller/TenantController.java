@@ -33,54 +33,54 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 @RequestMapping(TenantController.BASE_URL)
 public class TenantController extends BaseController {
-  /**
-   * The constant BASE_URL.
-   */
-  static final String BASE_URL = API_V1 + TENANT_URL;
+    /**
+     * The constant BASE_URL.
+     */
+    static final String BASE_URL = API_V1 + TENANT_URL;
 
-  /**
-   * Instantiates a new Tenant controller.
-   *
-   * @param restAdapterV1 the rest adapter v 1
-   */
-  @Autowired
+    /**
+     * Instantiates a new Tenant controller.
+     *
+     * @param restAdapterV1 the rest adapter v 1
+     */
+    @Autowired
   public TenantController(final RestAdapterV1 restAdapterV1) {
     super(restAdapterV1);
   }
 
-  /**
-   * Create response entity.
-   *
-   * @param tenantResource the tenant resource
-   * @return the response entity
-   */
-  @PostMapping
+    /**
+     * Create response entity.
+     *
+     * @param tenantResource the tenant resource
+     * @return the response entity
+     */
+    @PostMapping
   public ResponseEntity<TenantResource> create(@Valid @RequestBody final TenantResource tenantResource) {
     TenantResource resource = this.getRestAdapterV1().createTenant(tenantResource);
     return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId()))
         .body(resource);
   }
 
-  /**
-   * Update response entity.
-   *
-   * @param tenantResource the tenant resource
-   * @return the response entity
-   */
-  @PutMapping
+    /**
+     * Update response entity.
+     *
+     * @param tenantResource the tenant resource
+     * @return the response entity
+     */
+    @PutMapping
   public ResponseEntity<TenantResource> update(@Valid @RequestBody final TenantResource tenantResource) {
     TenantResource resource = this.getRestAdapterV1().updateTenant(tenantResource);
     return ResponseEntity.ok()
         .body(resource);
   }
 
-  /**
-   * Find by id response entity.
-   *
-   * @param tenantId the tenant id
-   * @return the response entity
-   */
-  @GetMapping("/{tenantId}")
+    /**
+     * Find by id response entity.
+     *
+     * @param tenantId the tenant id
+     * @return the response entity
+     */
+    @GetMapping("/{tenantId}")
   public ResponseEntity<TenantResource> findById(@PathVariable("tenantId") final UUID tenantId) {
     if (this.isSuperAdmin() || tenantId.equals(this.getTenantId())) {
       TenantResource resource = this.getRestAdapterV1().findByIdTenant(tenantId);
@@ -91,20 +91,20 @@ public class TenantController extends BaseController {
     }
   }
 
-  /**
-   * Find by pagination response entity.
-   *
-   * @param pageNo   the page no
-   * @param pageSize the page size
-   * @return the response entity
-   */
-  @GetMapping
+    /**
+     * Find by pagination response entity.
+     *
+     * @param pageIndex the page index
+     * @param pageSize  the page size
+     * @return the response entity
+     */
+    @GetMapping
   public ResponseEntity<PagedModelResponse<TenantResource>> findByPagination(
-          @RequestParam(value = "pageNo", required = false, defaultValue = "-1") final int pageNo,
+          @RequestParam(value = "pageIndex", required = false, defaultValue = "-1") final int pageIndex,
           @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize) {
     if (pageSize > 0) {
       Page<TenantResource> resources =
-              this.getRestAdapterV1().findByPaginationTenant(pageNo, pageSize);
+              this.getRestAdapterV1().findByPaginationTenant(pageIndex, pageSize);
       return ResponseEntity.ok().body(new PagedModelResponse<>(resources));
     } else {
       List<TenantResource> resources = this.getRestAdapterV1().findAllTenant();
@@ -112,13 +112,13 @@ public class TenantController extends BaseController {
     }
   }
 
-  /**
-   * Delete by id response entity.
-   *
-   * @param tenantId the tenant id
-   * @return the response entity
-   */
-  @DeleteMapping("/{tenantId}")
+    /**
+     * Delete by id response entity.
+     *
+     * @param tenantId the tenant id
+     * @return the response entity
+     */
+    @DeleteMapping("/{tenantId}")
   public ResponseEntity<Void> deleteById(@PathVariable("tenantId") final UUID tenantId) {
     if (this.isSuperAdmin()) {
       this.getRestAdapterV1().deleteByIdTenant(tenantId);
