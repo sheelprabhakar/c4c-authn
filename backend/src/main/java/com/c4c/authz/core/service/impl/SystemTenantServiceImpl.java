@@ -19,40 +19,40 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Transactional(readOnly = true)
 public class SystemTenantServiceImpl implements SystemTenantService {
-  /**
-   * The System tenant entity.
-   */
-  private TenantEntity systemTenantEntity;
-  /**
-   * The Tenant repository.
-   */
-  private final TenantRepository tenantRepository;
+    /**
+     * The System tenant entity.
+     */
+    private TenantEntity systemTenantEntity;
+    /**
+     * The Tenant repository.
+     */
+    private final TenantRepository tenantRepository;
 
-  /**
-   * Instantiates a new System tenant service.
-   *
-   * @param tenantRepository the tenant repository
-   */
-  public SystemTenantServiceImpl(final TenantRepository tenantRepository) {
+    /**
+     * Instantiates a new System tenant service.
+     *
+     * @param tenantRepository the tenant repository
+     */
+    public SystemTenantServiceImpl(final TenantRepository tenantRepository) {
     this.tenantRepository = tenantRepository;
   }
 
 
-  /**
-   * Init.
-   */
-  @PostConstruct
+    /**
+     * Init.
+     */
+    @PostConstruct
   void init() {
     this.systemTenantEntity = this.tenantRepository.findByShortName(SYSTEM_TENANT);
   }
 
-  /**
-   * Is system tenant boolean.
-   *
-   * @param tenantId the tenant id
-   * @return the boolean
-   */
-  @Override
+    /**
+     * Is system tenant boolean.
+     *
+     * @param tenantId the tenant id
+     * @return the boolean
+     */
+    @Override
   @Cacheable(value = "tenants", key = "#p0")
   public boolean isSystemTenant(final UUID tenantId) {
     return tenantId.equals(this.systemTenantEntity.getId());

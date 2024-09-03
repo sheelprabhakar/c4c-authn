@@ -16,7 +16,7 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
     private tokenService: TokenService
-  ) {}
+  ) { }
 
   intercept(
     req: HttpRequest<any>,
@@ -34,7 +34,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
+        if (error.status === 401 && !req.url.includes('authenticate')) {
           const token = this.tokenService.getToken();
           if (token) {
             return this.authService.refreshToken(token.refreshToken).pipe(
@@ -46,11 +46,18 @@ export class TokenInterceptor implements HttpInterceptor {
                   },
                 });
                 return next.handle(req);
+              }),
+              catchError((refreshError) => {
+                // Handle refresh token failure (e.g., logout user)
+                this.authService.logout();
+                return throwError(() => new Error('Token refresh failed'));
               })
             );
           }
+        }else{
+          return throwError(() => error);
         }
-        return throwError(() => new Error('Token refresh failed')); // throwError(error);
+        //return throwError(() => new Error('Token refresh failed')); // throwError(error);
       })
     );
   }

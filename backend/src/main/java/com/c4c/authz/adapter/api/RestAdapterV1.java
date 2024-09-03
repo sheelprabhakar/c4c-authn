@@ -1,9 +1,9 @@
 package com.c4c.authz.adapter.api;
 
-import com.c4c.authz.rest.resource.AttributeResource;
+import com.c4c.authz.rest.resource.RestAclResource;
 import com.c4c.authz.rest.resource.ClientResource;
 import com.c4c.authz.rest.resource.PolicyResource;
-import com.c4c.authz.rest.resource.RoleAttributeResource;
+import com.c4c.authz.rest.resource.RoleRestAclResource;
 import com.c4c.authz.rest.resource.RoleResource;
 import com.c4c.authz.rest.resource.TenantResource;
 import com.c4c.authz.rest.resource.auth.JwtRequest;
@@ -110,11 +110,11 @@ public interface RestAdapterV1 {
   /**
    * Find by pagination tenant page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
-  Page<TenantResource> findByPaginationTenant(int pageNo, int pageSize);
+  Page<TenantResource> findByPaginationTenant(int pageIndex, int pageSize);
 
   /**
    * Find all tenant list.
@@ -131,51 +131,51 @@ public interface RestAdapterV1 {
   void deleteByIdTenant(UUID tenantId);
 
   /**
-   * Create attribute attribute resource.
+   * Create rest acl rest acl resource.
    *
-   * @param attributeResource the attribute resource
-   * @return the attribute resource
+   * @param restAclResource the rest acl resource
+   * @return the rest acl resource
    */
-  AttributeResource createAttribute(AttributeResource attributeResource);
+  RestAclResource createRestAcl(RestAclResource restAclResource);
 
   /**
-   * Find by id attribute attribute resource.
+   * Find by id rest acl resource.
    *
-   * @param attributeId the attribute id
-   * @return the attribute resource
+   * @param restAclId the rest acl id
+   * @return the rest acl resource
    */
-  AttributeResource findByIdAttribute(UUID attributeId);
+  RestAclResource findByIdRestAcl(UUID restAclId);
 
   /**
-   * Find all attribute list.
+   * Find all rest acl list.
    *
    * @return the list
    */
-  List<AttributeResource> findAllAttribute();
+  List<RestAclResource> findAllRestAcl();
 
   /**
-   * Find by pagination attribute page.
+   * Find by pagination rest acl page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
-  Page<AttributeResource> findByPaginationAttribute(int pageNo, int pageSize);
+  Page<RestAclResource> findByPaginationRestAcl(int pageIndex, int pageSize);
 
   /**
-   * Update attribute attribute resource.
+   * Update rest acl rest acl resource.
    *
-   * @param attributeResource the attribute resource
-   * @return the attribute resource
+   * @param restAclResource the rest acl resource
+   * @return the rest acl resource
    */
-  AttributeResource updateAttribute(AttributeResource attributeResource);
+  RestAclResource updateRestAcl(RestAclResource restAclResource);
 
   /**
-   * Delete by id attribute.
+   * Delete by id rest acl.
    *
-   * @param attributeId the attribute id
+   * @param restAclId the rest acl id
    */
-  void deleteByIdAttribute(UUID attributeId);
+  void deleteByIdRestAcl(UUID restAclId);
 
   /**
    * Find by id role role resource.
@@ -188,11 +188,11 @@ public interface RestAdapterV1 {
   /**
    * Find by pagination role page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
-  Page<RoleResource> findByPaginationRole(int pageNo, int pageSize);
+  Page<RoleResource> findByPaginationRole(int pageIndex, int pageSize);
 
   /**
    * Find all role list.
@@ -236,11 +236,11 @@ public interface RestAdapterV1 {
   /**
    * Find by pagination user role page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
-  Page<UserRoleResource> findByPaginationUserRole(int pageNo, int pageSize);
+  Page<UserRoleResource> findByPaginationUserRole(int pageIndex, int pageSize);
 
   /**
    * Find all user role list.
@@ -274,53 +274,53 @@ public interface RestAdapterV1 {
   void deleteByIdUserRole(UUID userId, UUID roleId);
 
   /**
-   * Find by id role attribute role attribute resource.
+   * Find by id role rest acl role rest acl resource.
    *
-   * @param roleId      the role id
-   * @param attributeId the attribute id
-   * @return the role attribute resource
+   * @param roleId    the role id
+   * @param restAclId the rest acl id
+   * @return the role rest acl resource
    */
-  RoleAttributeResource findByIdRoleAttribute(UUID roleId, UUID attributeId);
+  RoleRestAclResource findByIdRoleRestAcl(UUID roleId, UUID restAclId);
 
   /**
-   * Find by pagination role attribute page.
+   * Find by pagination role rest acl page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
-  Page<RoleAttributeResource> findByPaginationRoleAttribute(int pageNo, int pageSize);
+  Page<RoleRestAclResource> findByPaginationRoleRestAcl(int pageIndex, int pageSize);
 
   /**
-   * Find all role attribute list.
+   * Find all role rest acl list.
    *
    * @return the list
    */
-  List<RoleAttributeResource> findAllRoleAttribute();
+  List<RoleRestAclResource> findAllRoleRestAcl();
 
   /**
-   * Create role attribute role attribute resource.
+   * Create role rest acl role rest acl resource.
    *
-   * @param roleAttributeResource the role attribute resource
-   * @return the role attribute resource
+   * @param roleRestAclResource the role rest acl resource
+   * @return the role rest acl resource
    */
-  RoleAttributeResource createRoleAttribute(RoleAttributeResource roleAttributeResource);
+  RoleRestAclResource createRoleRestAcl(RoleRestAclResource roleRestAclResource);
 
   /**
-   * Update role attribute role attribute resource.
+   * Update role rest acl role rest acl resource.
    *
-   * @param roleAttributeResource the role attribute resource
-   * @return the role attribute resource
+   * @param roleRestAclResource the role rest acl resource
+   * @return the role rest acl resource
    */
-  RoleAttributeResource updateRoleAttribute(RoleAttributeResource roleAttributeResource);
+  RoleRestAclResource updateRoleRestAcl(RoleRestAclResource roleRestAclResource);
 
   /**
-   * Delete by id role attribute.
+   * Delete by id role rest acl.
    *
-   * @param roleId      the role id
-   * @param attributeId the attribute id
+   * @param roleId    the role id
+   * @param restAclId the rest acl id
    */
-  void deleteByIdRoleAttribute(UUID roleId, UUID attributeId);
+  void deleteByIdRoleRestAcl(UUID roleId, UUID restAclId);
 
   /**
    * Find by tenant id and user name user details resource.
@@ -365,11 +365,11 @@ public interface RestAdapterV1 {
   /**
    * Find by pagination client page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
-  Page<ClientResource> findByPaginationClient(int pageNo, int pageSize);
+  Page<ClientResource> findByPaginationClient(int pageIndex, int pageSize);
 
   /**
    * Delete by id client.

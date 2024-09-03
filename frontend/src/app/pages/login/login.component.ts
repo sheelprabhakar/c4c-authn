@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,6 +10,7 @@ import { AuthService } from 'src/app/core/auth/auth.service';
 
 import { Router, RouterModule } from '@angular/router';
 import { UserDataService } from 'src/app/core/user/user.data.service';
+import { PolicyService } from 'src/app/core/policy/policy.service';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +18,7 @@ import { UserDataService } from 'src/app/core/user/user.data.service';
   styleUrl: './login.component.scss',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -28,26 +31,34 @@ import { UserDataService } from 'src/app/core/user/user.data.service';
 export class LoginComponent {
   username: string = '';
   password: string = '';
+  errorMessage: string;
 
   constructor(
     private authService: AuthService,
+    private policyService: PolicyService,
     private userDataService: UserDataService,
     private router: Router
   ) { }
 
   onLogin() {
+    this.errorMessage = null;
     this.authService.login(this.username, this.password).subscribe({
       next: (v) => {
         this.userDataService.getDetail().subscribe({
           next: (v) => {
+            this.policyService.init();
             this.router.navigate(['dashboard']); // Navigate to the home
           },
-          error: (e) => console.error(e),
+          error: (e) => { console.error(e) },
           complete: () => console.info('Fetch User details complete'),
         });
         //console.log(v);
       },
-      error: (e) => console.error(e),
+      error: (e) => {
+        if (e.status === 401) {
+          this.errorMessage = 'Invalid username or password';
+        }
+      },
       complete: () => console.info('Login complete'),
     });
   }

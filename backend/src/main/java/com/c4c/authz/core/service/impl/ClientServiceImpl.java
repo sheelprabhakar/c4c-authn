@@ -28,7 +28,7 @@ import static com.c4c.authz.common.Constants.SYSTEM_TENANT;
  */
 @Service
 @Slf4j
-@Transactional
+@Transactional(readOnly = true)
 public class ClientServiceImpl implements ClientService {
     /**
      * The System tenant service.
@@ -72,11 +72,11 @@ public class ClientServiceImpl implements ClientService {
      * @return the client entity
      */
     @Override
+    @Transactional(readOnly = false)
     public ClientEntity create(final ClientEntity clientEntity) {
         clientEntity.setClientId(OAuth2ClientIdGenerator.generateClientId());
         String clientSecret = OAuth2ClientIdGenerator.generateClientSecret();
         clientEntity.setClientSecret(clientSecret);
-        clientEntity.created(CurrentUserContext.getCurrentUser());
         this.saveClientEntity(clientEntity);
         this.createDefaultClientRole(clientEntity);
         return clientEntity;
@@ -89,6 +89,7 @@ public class ClientServiceImpl implements ClientService {
      * @return the client entity
      */
     @Override
+    @Transactional(readOnly = false)
     public ClientEntity update(final ClientEntity clientEntity) {
         ClientEntity existingClientEntity = this.findById(clientEntity.getId());
         existingClientEntity.setName(clientEntity.getName());
@@ -126,6 +127,7 @@ public class ClientServiceImpl implements ClientService {
      * @param clientEntity the client entity
      */
     @Override
+    @Transactional(readOnly = false)
     public void delete(final ClientEntity clientEntity) {
         this.clientRepository.delete(clientEntity);
     }
@@ -133,12 +135,12 @@ public class ClientServiceImpl implements ClientService {
     /**
      * Find by id client entity.
      *
-     * @param roleId the role id
+     * @param id the id
      * @return the client entity
      */
     @Override
-    public ClientEntity findById(final UUID roleId) {
-        return this.clientRepository.findById(roleId).orElse(null);
+    public ClientEntity findById(final UUID id) {
+        return this.clientRepository.findById(id).orElse(null);
     }
 
     /**
@@ -158,13 +160,13 @@ public class ClientServiceImpl implements ClientService {
     /**
      * Find by pagination page.
      *
-     * @param pageNo   the page no
-     * @param pageSize the page size
+     * @param pageIndex the page index
+     * @param pageSize  the page size
      * @return the page
      */
     @Override
-    public Page<ClientEntity> findByPagination(final int pageNo, final int pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());
+    public Page<ClientEntity> findByPagination(final int pageIndex, final int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageIndex, pageSize, Sort.by("name").ascending());
         if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenantId())) {
             return this.clientRepository.findAll(pageRequest);
         } else {
@@ -178,6 +180,7 @@ public class ClientServiceImpl implements ClientService {
      * @param id the id
      */
     @Override
+    @Transactional(readOnly = false)
     public void deleteById(final UUID id) {
         this.clientRepository.deleteById(id);
     }
@@ -188,6 +191,7 @@ public class ClientServiceImpl implements ClientService {
      * @param ids the ids
      */
     @Override
+    @Transactional(readOnly = false)
     public void deleteAllById(final List<UUID> ids) {
         this.clientRepository.deleteAllById(ids);
     }
@@ -199,7 +203,7 @@ public class ClientServiceImpl implements ClientService {
      * @return the client entity
      */
     @Override
-    public ClientEntity findByClientId(String clientId) {
+    public ClientEntity findByClientId(final String clientId) {
         return this.clientRepository.findByClientId(clientId).orElse(null);
     }
 
@@ -210,6 +214,7 @@ public class ClientServiceImpl implements ClientService {
      * @return the client entity
      */
     private ClientEntity saveClientEntity(final ClientEntity clientEntity) {
+        clientEntity.created(CurrentUserContext.getCurrentUser());
         return this.clientRepository.save(clientEntity);
     }
 

@@ -41,7 +41,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
      * The constant MOBILE.
      */
     static final String MOBILE = "9898989898";
-   /**
+    /**
      * The Base url.
      */
     private final String baseUrl = AUTH_URL;
@@ -76,6 +76,11 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
         assertEquals(2, authorities.size());
     }
 
+    /**
+     * Test client authenticate ok.
+     *
+     * @throws Exception the exception
+     */
     @Test
     @DisplayName("Test client credential authentication flow")
     void test_client_authenticate_ok() throws Exception {
@@ -123,7 +128,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 //.andDo(print())
-                .andExpect(status().isBadRequest()).andReturn().getResponse().getContentAsString();
+                .andExpect(status().isUnauthorized()).andReturn().getResponse().getContentAsString();
         assertEquals("Invalid credentials", msg);
 
         msg = this.mockMvc.perform(MockMvcRequestBuilders
@@ -133,7 +138,7 @@ class AuthenticationControllerTest extends AbstractIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 //.andDo(print())
-                .andExpect(status().isBadRequest()).andReturn().getResponse().getContentAsString();
+                .andExpect(status().isUnauthorized()).andReturn().getResponse().getContentAsString();
         assertEquals("Invalid credentials", msg);
 
         this.mockMvc.perform(MockMvcRequestBuilders

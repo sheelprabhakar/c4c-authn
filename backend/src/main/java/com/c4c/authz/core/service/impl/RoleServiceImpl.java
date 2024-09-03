@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Slf4j
-@Transactional
+@Transactional(readOnly = true)
 public class RoleServiceImpl implements RoleService {
   /**
    * The System tenant service.
@@ -48,6 +48,7 @@ public class RoleServiceImpl implements RoleService {
    * @return the role entity
    */
   @Override
+  @Transactional(readOnly = false)
   public RoleEntity create(final RoleEntity roleEntity) {
     roleEntity.created(CurrentUserContext.getCurrentUser());
     return this.saveRoleEntity(roleEntity);
@@ -60,6 +61,7 @@ public class RoleServiceImpl implements RoleService {
    * @return the role entity
    */
   @Override
+  @Transactional(readOnly = false)
   public RoleEntity update(final RoleEntity roleEntity) {
     roleEntity.updated(CurrentUserContext.getCurrentUser());
     return this.saveRoleEntity(roleEntity);
@@ -93,13 +95,13 @@ public class RoleServiceImpl implements RoleService {
   /**
    * Find by pagination page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
   @Override
-  public Page<RoleEntity> findByPagination(final int pageNo, final int pageSize) {
-    PageRequest pageRequest = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());
+  public Page<RoleEntity> findByPagination(final int pageIndex, final int pageSize) {
+    PageRequest pageRequest = PageRequest.of(pageIndex, pageSize, Sort.by("name").ascending());
     if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenantId())) {
       return this.roleRepository.findAll(pageRequest);
     } else {
@@ -113,6 +115,7 @@ public class RoleServiceImpl implements RoleService {
    * @param roleId the role id
    */
   @Override
+  @Transactional(readOnly = false)
   public void deleteById(final UUID roleId) {
     this.roleRepository.deleteById(roleId);
   }
@@ -123,6 +126,7 @@ public class RoleServiceImpl implements RoleService {
    * @param roleIds the role ids
    */
   @Override
+  @Transactional(readOnly = false)
   public void deleteAllById(final List<UUID> roleIds) {
     this.roleRepository.deleteAllById(roleIds);
   }

@@ -29,40 +29,40 @@ import org.mockito.quality.Strictness;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class RestAdapterV1ImplTest {
 
-  /**
-   * The User role service.
-   */
-  @Mock
+    /**
+     * The User role service.
+     */
+    @Mock
   private UserRoleService userRoleService;
 
-  /**
-   * The Lookup service.
-   */
-  @Mock
+    /**
+     * The Lookup service.
+     */
+    @Mock
   private LookupService lookupService;
 
-  /**
-   * The Rest adapter v 1.
-   */
-  @InjectMocks
+    /**
+     * The Rest adapter v 1.
+     */
+    @InjectMocks
   private RestAdapterV1Impl restAdapterV1Impl;
-  /**
-   * The Tenant service.
-   */
-  @Mock
+    /**
+     * The Tenant service.
+     */
+    @Mock
   private TenantService tenantService;
 
-  /**
-   * The Tenant converter.
-   */
-  @Mock
+    /**
+     * The Tenant converter.
+     */
+    @Mock
   private TenantConverter tenantConverter;
 
 
-  /**
-   * Test create tenant.
-   */
-  @Test
+    /**
+     * Test create tenant.
+     */
+    @Test
   void testCreateTenant() {
     // Arrange
     TenantResource tenantResource = Instancio.create(TenantResource.class);

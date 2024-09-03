@@ -1,0 +1,40 @@
+<h2>Role Details</h2>
+<form [formGroup]="roleForm" (ngSubmit)="onSave()">
+<mat-grid-list cols="2" rowHeight="65px" gutterSize="10px">
+  <mat-grid-tile rowspan="4">
+    <div class="form-details">
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="w75">
+            <mat-label>Role Name</mat-label>
+            <input matInput [value]="role.name" formControlName="name" maxlength="50" required />
+            <mat-icon matSuffix>supervisor_account</mat-icon>
+            <mat-hint>Enter the name of the role</mat-hint>
+            <mat-error *ngIf="roleForm.controls['name']?.invalid">Role Name is required</mat-error>
+          </mat-form-field>
+        </div>
+
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile rowspan="4">
+    <!-- Additional content can go here -->
+    <div class="form-details">
+      <div class="form-row">
+        <label>ACL(s)</label>
+        <app-c4c-list [items]="items" (selectionChange)="onSelectionChange($event)"></app-c4c-list>
+      </div>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="2" rowspan="1">
+    <mat-error *ngIf="errorMessage"> {{ errorMessage }}</mat-error>
+    <div class="button-row">
+      <button mat-raised-button type="button" class="button-space" (click)="onCancel()">
+        Cancel
+      </button>
+      <button mat-raised-button color="primary" type="submit" class="button-space">
+        Save
+      </button>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
+</form>

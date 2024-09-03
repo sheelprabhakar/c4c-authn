@@ -102,13 +102,23 @@ public class OauthTokenServiceImpl implements OauthTokenService {
     }
 
     /**
-     * Delete by id.
+     * Delete all by id.
      *
      * @param ids the ids
      */
     @Override
     public void deleteAllById(final List<UUID> ids) {
         this.oauthTokenRepository.deleteAllById(ids);
+    }
+
+    /**
+     * Delete by id.
+     *
+     * @param id the id
+     */
+    @Override
+    public void deleteById(final UUID id) {
+        this.oauthTokenRepository.deleteById(id);
     }
 
 }

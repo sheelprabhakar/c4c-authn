@@ -10,39 +10,39 @@ import java.util.Objects;
  */
 public final class RoleConverter extends Converter<RoleEntity, RoleResource> {
 
-  /**
-   * The type Role converter loader.
-   */
-  private static final class RoleConverterLoader {
     /**
-     * The constant INSTANCE.
+     * The type Role converter loader.
      */
-    private static final RoleConverter INSTANCE = new RoleConverter();
+    private static final class RoleConverterLoader {
+        /**
+         * The constant INSTANCE.
+         */
+        private static final RoleConverter INSTANCE = new RoleConverter();
     }
 
-  /**
-   * Instantiates a new Role converter.
-   */
-  public RoleConverter() {
+    /**
+     * Instantiates a new Role converter.
+     */
+    public RoleConverter() {
         super(RoleConverter::convertToEntity, RoleConverter::convertToResource);
     }
 
-  /**
-   * Gets instance.
-   *
-   * @return the instance
-   */
-  public static RoleConverter getInstance() {
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
+    public static RoleConverter getInstance() {
         return RoleConverterLoader.INSTANCE;
     }
 
-  /**
-   * Convert to entity role entity.
-   *
-   * @param res the res
-   * @return the role entity
-   */
-  private static RoleEntity convertToEntity(final RoleResource res) {
+    /**
+     * Convert to entity role entity.
+     *
+     * @param res the res
+     * @return the role entity
+     */
+    private static RoleEntity convertToEntity(final RoleResource res) {
         if (Objects.isNull(res)) {
             return null;
         }
@@ -51,13 +51,13 @@ public final class RoleConverter extends Converter<RoleEntity, RoleResource> {
                 .updatedAt(res.getUpdatedAt()).updatedBy(res.getUpdatedBy()).isDeleted(res.isDeleted()).build();
     }
 
-  /**
-   * Convert to resource role resource.
-   *
-   * @param entity the entity
-   * @return the role resource
-   */
-  private static RoleResource convertToResource(final RoleEntity entity) {
+    /**
+     * Convert to resource role resource.
+     *
+     * @param entity the entity
+     * @return the role resource
+     */
+    private static RoleResource convertToResource(final RoleEntity entity) {
         if (Objects.isNull(entity)) {
             return null;
         }

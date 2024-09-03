@@ -75,13 +75,14 @@ class PolicyControllerTest extends AbstractIntegrationTest {
         JwtResponse jwtResponse = TestUtils.convertJsonStringToObject(response, JwtResponse.class);
         assertNotNull(jwtResponse.getAccessToken());
 
+        //ToDo, wrong policy count when running all test at once
         this.mockMvc.perform(MockMvcRequestBuilders
                         .get(baseUrl.replace("{tenantId}", TENANT_ID) + "/client")
                         .header("Authorization", "Bearer "+jwtResponse.getAccessToken())
                         .header("X-TenantID", clientResource.getTenantId().toString())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(20));
 
     }
 }

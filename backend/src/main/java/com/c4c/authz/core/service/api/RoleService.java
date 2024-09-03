@@ -43,11 +43,11 @@ public interface RoleService {
     /**
      * Find by pagination page.
      *
-     * @param pageNo   the page no
-     * @param pageSize the page size
+     * @param pageIndex the page index
+     * @param pageSize  the page size
      * @return the page
      */
-    Page<RoleEntity> findByPagination(int pageNo, int pageSize);
+    Page<RoleEntity> findByPagination(int pageIndex, int pageSize);
 
     /**
      * Delete by id.

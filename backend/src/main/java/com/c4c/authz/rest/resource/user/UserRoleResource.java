@@ -23,24 +23,24 @@ import lombok.experimental.SuperBuilder;
 @Builder
 public class UserRoleResource extends CommonResourceAttributes implements Serializable {
 
-  /**
-   * The Role id.
-   */
-  @NotNull(message = "Role Id can not be null.")
+    /**
+     * The Role id.
+     */
+    @NotNull(message = "Role Id can not be null.")
     private UUID roleId;
 
-  /**
-   * The User id.
-   */
-  @NotNull(message = "User Id can not be null.")
+    /**
+     * The User id.
+     */
+    @NotNull(message = "User Id can not be null.")
     private UUID userId;
 
-  /**
-   * The User resource.
-   */
-  private UserResource userResource;
-  /**
-   * The Role resource.
-   */
-  private RoleResource roleResource;
+    /**
+     * The User resource.
+     */
+    private UserResource userResource;
+    /**
+     * The Role resource.
+     */
+    private RoleResource roleResource;
 }

@@ -44,11 +44,11 @@ public interface ClientRoleService {
     /**
      * Find by pagination page.
      *
-     * @param pageNo   the page no
-     * @param pageSize the page size
+     * @param pageIndex the page index
+     * @param pageSize  the page size
      * @return the page
      */
-    Page<ClientRoleEntity> findByPagination(int pageNo, int pageSize);
+    Page<ClientRoleEntity> findByPagination(int pageIndex, int pageSize);
 
     /**
      * Delete by id.
@@ -63,4 +63,11 @@ public interface ClientRoleService {
      * @param clientRoleIds the client role ids
      */
     void deleteAllById(List<ClientRoleId> clientRoleIds);
+
+    /**
+     * Delete by client id.
+     *
+     * @param clientId the client id
+     */
+    void deleteByClientId(UUID clientId);
 }

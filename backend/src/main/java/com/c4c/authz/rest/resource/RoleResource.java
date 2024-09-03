@@ -20,19 +20,19 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 public class RoleResource extends CommonResourceAttributes implements Serializable {
 
-  /**
-   * The Id.
-   */
-  private UUID id;
+    /**
+     * The Id.
+     */
+    private UUID id;
 
-  /**
-   * The Tenant id.
-   */
-  private UUID tenantId;
-  /**
-   * The Name.
-   */
-  @NotEmpty(message = "Role name can not be empty.")
+    /**
+     * The Tenant id.
+     */
+    private UUID tenantId;
+    /**
+     * The Name.
+     */
+    @NotEmpty(message = "Role name can not be empty.")
   @Size(max = 50, message = "Role name should be less than 50 characters.")
   private String name;
 }

@@ -1,6 +1,7 @@
 package com.c4c.authz.core.entity;
 
 import com.c4c.authz.core.service.impl.EntityAttributeEncryptor;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -36,53 +37,56 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 public class ClientEntity extends CommonEntityAttributes implements Serializable {
 
-  /**
-   * The constant NAME_MAX.
-   */
-  private static final int NAME_MAX = 50;
-  /**
-   * The constant HASH_MAX.
-   */
-  private static final int HASH_MAX = 255;
-  /**
-   * The constant MOBILE_MAX.
-   */
-  private static final int MOBILE_MAX = 15;
-  /**
-   * The Id.
-   */
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  @Column(name = "id", nullable = false)
-  @JdbcTypeCode(SqlTypes.VARCHAR)
-  private UUID id;
+    /**
+     * The constant NAME_MAX.
+     */
+    private static final int NAME_MAX = 50;
+    /**
+     * The constant HASH_MAX.
+     */
+    private static final int HASH_MAX = 255;
+    /**
+     * The constant MOBILE_MAX.
+     */
+    private static final int MOBILE_MAX = 15;
+    /**
+     * The Id.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", nullable = false)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID id;
 
-  /**
-   * The Tenant id.
-   */
-  @Column(name = "tenant_id", nullable = false)
-  @JdbcTypeCode(SqlTypes.VARCHAR)
-  private UUID tenantId;
+    /**
+     * The Tenant id.
+     */
+    @Column(name = "tenant_id", nullable = false)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private UUID tenantId;
 
-  /**
-   * The Name.
-   */
-  @Column(name = "name", length = NAME_MAX, nullable = false)
-  private String name;
+    /**
+     * The Name.
+     */
+    @Column(name = "name", length = NAME_MAX, nullable = false)
+    private String name;
 
-  /**
-   * The Client id.
-   */
-  @Column(name = "client_id")
-  private String clientId;
+    /**
+     * The Client id.
+     */
+    @Column(name = "client_id")
+    private String clientId;
 
-  /**
-   * The Client secret.
-   */
-  @Column(name = "client_secret", nullable = false, length = 1024)
-  @Convert(converter = EntityAttributeEncryptor.class)
-  private String clientSecret;
+    /**
+     * The Client secret.
+     */
+    @Column(name = "client_secret", nullable = false, length = 1024)
+    @Convert(converter = EntityAttributeEncryptor.class)
+    private String clientSecret;
 
-  @OneToMany(mappedBy = "clientEntity", fetch = FetchType.EAGER)
-  private Set<ClientRoleEntity> clientRoleEntities;
+    /**
+     * The Client role entities.
+     */
+    @OneToMany(mappedBy = "clientEntity", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ClientRoleEntity> clientRoleEntities;
 }

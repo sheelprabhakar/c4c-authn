@@ -14,19 +14,19 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ClientRoleRepository extends JpaRepository<ClientRoleEntity, ClientRoleId> {
-  /**
-   * Find all page.
-   *
-   * @param pageable the pageable
-   * @return the page
-   */
-  Page<ClientRoleEntity> findAll(Pageable pageable);
+    /**
+     * Find all page.
+     *
+     * @param pageable the pageable
+     * @return the page
+     */
+    Page<ClientRoleEntity> findAll(Pageable pageable);
 
-  /**
-   * Find by client id list.
-   *
-   * @param clientId the client id
-   * @return the list
-   */
-  List<ClientRoleEntity> findByClientId(UUID clientId);
+    /**
+     * Find by client id list.
+     *
+     * @param clientId the client id
+     * @return the list
+     */
+    List<ClientRoleEntity> findByClientId(UUID clientId);
 }

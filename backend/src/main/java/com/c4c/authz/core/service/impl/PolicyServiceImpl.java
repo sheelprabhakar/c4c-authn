@@ -3,13 +3,13 @@ package com.c4c.authz.core.service.impl;
 import com.c4c.authz.core.domain.PolicyRecord;
 import com.c4c.authz.core.entity.ClientEntity;
 import com.c4c.authz.core.entity.ClientRoleEntity;
-import com.c4c.authz.core.entity.RoleAttributeEntity;
+import com.c4c.authz.core.entity.RoleRestAclEntity;
 import com.c4c.authz.core.entity.UserEntity;
 import com.c4c.authz.core.entity.UserRoleEntity;
 import com.c4c.authz.core.service.api.ClientRoleService;
 import com.c4c.authz.core.service.api.ClientService;
 import com.c4c.authz.core.service.api.PolicyService;
-import com.c4c.authz.core.service.api.RoleAttributeService;
+import com.c4c.authz.core.service.api.RoleRestAclService;
 import com.c4c.authz.core.service.api.UserRoleService;
 import com.c4c.authz.core.service.api.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +30,9 @@ import static com.c4c.authz.common.Constants.ITEM_CACHE;
 @Slf4j
 public class PolicyServiceImpl implements PolicyService {
     /**
-     * The Role attribute service.
+     * The Role rest acl service.
      */
-    private final RoleAttributeService roleAttributeService;
+    private final RoleRestAclService roleRestAclService;
 
     /**
      * The Client service.
@@ -56,16 +56,16 @@ public class PolicyServiceImpl implements PolicyService {
     /**
      * Instantiates a new Policy service.
      *
-     * @param roleAttributeService the role attribute service
-     * @param clientService        the client service
-     * @param userService          the user service
-     * @param clientRoleService    the client role service
-     * @param userRoleService      the user role service
+     * @param roleRestAclService the role rest acl service
+     * @param clientService      the client service
+     * @param userService        the user service
+     * @param clientRoleService  the client role service
+     * @param userRoleService    the user role service
      */
-    public PolicyServiceImpl(final RoleAttributeService roleAttributeService, final ClientService clientService,
+    public PolicyServiceImpl(final RoleRestAclService roleRestAclService, final ClientService clientService,
                              final UserService userService,
                              final ClientRoleService clientRoleService, final UserRoleService userRoleService) {
-        this.roleAttributeService = roleAttributeService;
+        this.roleRestAclService = roleRestAclService;
         this.clientService = clientService;
         this.userService = userService;
         this.clientRoleService = clientRoleService;
@@ -81,11 +81,11 @@ public class PolicyServiceImpl implements PolicyService {
     @Cacheable(cacheNames = ITEM_CACHE, key = "#p0")
     @Override
     public List<PolicyRecord> getPoliciesByRoleId(final UUID roleId) {
-        List<RoleAttributeEntity> allByRoleId = this.roleAttributeService.findAllByRoleId(roleId);
+        List<RoleRestAclEntity> allByRoleId = this.roleRestAclService.findAllByRoleId(roleId);
         List<PolicyRecord> policyRecords = new ArrayList<>();
         allByRoleId.forEach(entity -> {
-            PolicyRecord policyRecord = new PolicyRecord(entity.getAttributeEntity().getName(),
-                    entity.getAttributeEntity().getPath(), getVerbs(entity));
+            PolicyRecord policyRecord = new PolicyRecord(entity.getRestAclEntity().getName(),
+                    entity.getRestAclEntity().getPath(), getVerbs(entity));
             policyRecords.add(policyRecord);
         });
 
@@ -144,7 +144,7 @@ public class PolicyServiceImpl implements PolicyService {
      * @param entity the entity
      * @return the verbs
      */
-    private static List<String> getVerbs(final RoleAttributeEntity entity) {
+    private static List<String> getVerbs(final RoleRestAclEntity entity) {
         List<String> verbs = new ArrayList<>();
         if (entity.isCanCreate()) {
             verbs.add(HttpMethod.POST.name());

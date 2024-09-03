@@ -31,18 +31,18 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @DirtiesContext
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class UserRoleControllerTest extends AbstractIntegrationTest {
-  /**
-   * The Base url.
-   */
-  private final String BASE_URL = API_V1 + USER_ROLE_URL;
+    /**
+     * The Base url.
+     */
+    private final String BASE_URL = API_V1 + USER_ROLE_URL;
 
-  /**
-   * Add user uuid.
-   *
-   * @return the uuid
-   * @throws Exception the exception
-   */
-  private UUID addUser() throws Exception {
+    /**
+     * Add user uuid.
+     *
+     * @return the uuid
+     * @throws Exception the exception
+     */
+    private UUID addUser() throws Exception {
         UserResource userResource = UserResourceHelper.getNew(null);
         String content = this.mockMvc.perform(this.post(API_V1 + USER_URL, userResource))
                 //.andDo(print())
@@ -51,13 +51,13 @@ class UserRoleControllerTest extends AbstractIntegrationTest {
         return userResource.getId();
     }
 
-  /**
-   * Add role uuid.
-   *
-   * @return the uuid
-   * @throws Exception the exception
-   */
-  private UUID addRole() throws Exception {
+    /**
+     * Add role uuid.
+     *
+     * @return the uuid
+     * @throws Exception the exception
+     */
+    private UUID addRole() throws Exception {
         RoleResource resource = Instancio.create(RoleResource.class);
         String content = this.mockMvc.perform(this.post(API_V1 + ROLE_URL, resource))
                 //.andDo(print())
@@ -66,12 +66,12 @@ class UserRoleControllerTest extends AbstractIntegrationTest {
         return roleResource.getId();
     }
 
-  /**
-   * Test create new user role ok.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test create new user role ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Create User  Role test")
     void testCreateNewUserRoleOK() throws Exception {
         UUID userId = this.addUser();
@@ -84,12 +84,12 @@ class UserRoleControllerTest extends AbstractIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.roleId").value(resource.getRoleId().toString()));
     }
 
-  /**
-   * Test get by id ok.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test get by id ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Get By ID test")
     void testGetByIdOK() throws Exception {
         UUID userId = this.addUser();
@@ -124,12 +124,12 @@ class UserRoleControllerTest extends AbstractIntegrationTest {
         assertTrue(((List<UserRoleResource>) roleResourcePage.get("items")).size() > 0);
     }
 
-  /**
-   * Test create new resource 400.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test create new resource 400.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Create User Role test Bad request")
     void testCreateNewResource400() throws Exception {
         UserRoleResource resource = Instancio.create(UserRoleResource.class);
@@ -140,12 +140,12 @@ class UserRoleControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().isBadRequest());
     }
 
-  /**
-   * Test update user role ok.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test update user role ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Test update user role")
     void testUpdateUserRoleOk() throws Exception {
         UUID userId = this.addUser();
@@ -167,12 +167,12 @@ class UserRoleControllerTest extends AbstractIntegrationTest {
 
     }
 
-  /**
-   * Test delete user role by id ok.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test delete user role by id ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Delete user role test")
     void testDeleteUserRoleByIdOk() throws Exception {
         UUID userId = this.addUser();

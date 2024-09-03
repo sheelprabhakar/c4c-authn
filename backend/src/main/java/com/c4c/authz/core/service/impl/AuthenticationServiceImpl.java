@@ -167,8 +167,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             log.info(USER_NOT_FOUND);
             throw new BadCredentialsException(USER_NOT_FOUND);
         }
-        //ToDo
-        //this.oauthTokenService.deleteAllById(userEntity.getId());
+        this.oauthTokenService.deleteById(CurrentUserContext.getCurrentTokeId());
     }
 
     /**

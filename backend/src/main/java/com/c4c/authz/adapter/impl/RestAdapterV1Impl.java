@@ -4,9 +4,9 @@ import com.c4c.authz.adapter.api.RestAdapterV1;
 import com.c4c.authz.common.CurrentUserContext;
 import com.c4c.authz.common.exception.CustomException;
 import com.c4c.authz.core.domain.PolicyRecord;
-import com.c4c.authz.core.entity.AttributeEntity;
-import com.c4c.authz.core.entity.RoleAttributeEntity;
-import com.c4c.authz.core.entity.RoleAttributeId;
+import com.c4c.authz.core.entity.RestAclEntity;
+import com.c4c.authz.core.entity.RoleRestAclEntity;
+import com.c4c.authz.core.entity.RoleRestAclId;
 import com.c4c.authz.core.entity.TenantEntity;
 import com.c4c.authz.core.entity.UserEntity;
 import com.c4c.authz.core.entity.UserRoleEntity;
@@ -14,20 +14,20 @@ import com.c4c.authz.core.entity.UserRoleId;
 import com.c4c.authz.core.entity.lookup.CityEntity;
 import com.c4c.authz.core.entity.lookup.CountryEntity;
 import com.c4c.authz.core.entity.lookup.StateEntity;
-import com.c4c.authz.core.service.api.AttributeService;
+import com.c4c.authz.core.service.api.RestAclService;
 import com.c4c.authz.core.service.api.AuthenticationService;
 import com.c4c.authz.core.service.api.ClientService;
 import com.c4c.authz.core.service.api.LookupService;
 import com.c4c.authz.core.service.api.PolicyService;
-import com.c4c.authz.core.service.api.RoleAttributeService;
+import com.c4c.authz.core.service.api.RoleRestAclService;
 import com.c4c.authz.core.service.api.RoleService;
 import com.c4c.authz.core.service.api.TenantService;
 import com.c4c.authz.core.service.api.UserRoleService;
 import com.c4c.authz.core.service.api.UserService;
-import com.c4c.authz.rest.resource.AttributeResource;
+import com.c4c.authz.rest.resource.RestAclResource;
 import com.c4c.authz.rest.resource.ClientResource;
 import com.c4c.authz.rest.resource.PolicyResource;
-import com.c4c.authz.rest.resource.RoleAttributeResource;
+import com.c4c.authz.rest.resource.RoleRestAclResource;
 import com.c4c.authz.rest.resource.RoleResource;
 import com.c4c.authz.rest.resource.TenantResource;
 import com.c4c.authz.rest.resource.auth.JwtRequest;
@@ -69,9 +69,9 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   private final AuthenticationService authenticationService;
 
   /**
-   * The Attribute converter.
+   * The Rest acl converter.
    */
-  private final AttributeConverter attributeConverter;
+  private final RestAclConverter restAclConverter;
 
   /**
    * The User converter.
@@ -93,9 +93,9 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   private final TenantService tenantService;
 
   /**
-   * The Attribute service.
+   * The Rest acl service.
    */
-  private final AttributeService attributeService;
+  private final RestAclService restAclService;
 
   /**
    * The Role converter.
@@ -117,13 +117,13 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
    */
   private final TenantConverter tenantConverter;
   /**
-   * The Role attribute service.
+   * The Role rest acl service.
    */
-  private final RoleAttributeService roleAttributeService;
+  private final RoleRestAclService roleRestAclService;
   /**
-   * The Role attribute converter.
+   * The Role rest acl converter.
    */
-  private final RoleAttributeConverter roleAttributeConverter;
+  private final RoleRestAclConverter roleRestAclConverter;
 
   /**
    * The Policy service.
@@ -151,10 +151,10 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
    * @param authenticationService the authentication service
    * @param lookupService         the lookup service
    * @param tenantService         the tenant service
-   * @param attributeService      the attribute service
+   * @param restAclService        the rest acl service
    * @param userRoleService       the user role service
    * @param exactNameModelMapper  the exact name model mapper
-   * @param roleAttributeService  the role attribute service
+   * @param roleRestAclService    the role rest acl service
    * @param policyService         the policy service
    * @param clientService         the client service
    */
@@ -163,10 +163,10 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
                            final AuthenticationService authenticationService,
                            final LookupService lookupService,
                            final TenantService tenantService,
-                           final AttributeService attributeService,
+                           final RestAclService restAclService,
                            final UserRoleService userRoleService,
                            final ModelMapper exactNameModelMapper,
-                           final RoleAttributeService roleAttributeService,
+                           final RoleRestAclService roleRestAclService,
                            final PolicyService policyService,
                            final ClientService clientService) {
     this.roleService = roleService;
@@ -175,9 +175,9 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     this.exactNameModelMapper = exactNameModelMapper;
     this.lookupService = lookupService;
     this.tenantService = tenantService;
-    this.attributeService = attributeService;
+    this.restAclService = restAclService;
     this.userRoleService = userRoleService;
-    this.roleAttributeService = roleAttributeService;
+    this.roleRestAclService = roleRestAclService;
     this.policyService = policyService;
     this.clientService = clientService;
 
@@ -185,8 +185,8 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
     this.userConverter = UserConverter.getInstance();
     this.userRoleConverter = UserRoleConverter.getInstance();
     this.tenantConverter = TenantConverter.getInstance();
-    this.attributeConverter = AttributeConverter.getInstance();
-    this.roleAttributeConverter = RoleAttributeConverter.getInstance();
+    this.restAclConverter = RestAclConverter.getInstance();
+    this.roleRestAclConverter = RoleRestAclConverter.getInstance();
     this.clientConverter = ClientConverter.getInstance();
     this.policyConverter = PolicyConverter.getInstance();
   }
@@ -334,14 +334,14 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   /**
    * Find by pagination tenant page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
   @Override
-  public Page<TenantResource> findByPaginationTenant(final int pageNo, final int pageSize) {
+  public Page<TenantResource> findByPaginationTenant(final int pageIndex, final int pageSize) {
     return this.tenantConverter.createFromEntities(
-        this.tenantService.findByPagination(pageNo, pageSize));
+        this.tenantService.findByPagination(pageIndex, pageSize));
   }
 
   /**
@@ -360,73 +360,73 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   }
 
   /**
-   * Create attribute attribute resource.
+   * Create rest acl rest acl resource.
    *
-   * @param attributeResource the attribute resource
-   * @return the attribute resource
+   * @param restAclResource the rest acl resource
+   * @return the rest acl resource
    */
   @Override
-  public AttributeResource createAttribute(final AttributeResource attributeResource) {
-    AttributeEntity attributeEntity = this.attributeConverter.convertFromResource(attributeResource);
-    attributeEntity = this.attributeService.create(attributeEntity);
-    return this.attributeConverter.covertFromEntity(attributeEntity);
+  public RestAclResource createRestAcl(final RestAclResource restAclResource) {
+    RestAclEntity restAclEntity = this.restAclConverter.convertFromResource(restAclResource);
+    restAclEntity = this.restAclService.create(restAclEntity);
+    return this.restAclConverter.covertFromEntity(restAclEntity);
   }
 
   /**
-   * Find by id attribute attribute resource.
+   * Find by id rest acl rest acl resource.
    *
-   * @param attributeId the attribute id
-   * @return the attribute resource
+   * @param restAclId the rest acl id
+   * @return the rest acl resource
    */
   @Override
-  public AttributeResource findByIdAttribute(final UUID attributeId) {
-    return this.attributeConverter.covertFromEntity(this.attributeService.findById(attributeId));
+  public RestAclResource findByIdRestAcl(final UUID restAclId) {
+    return this.restAclConverter.covertFromEntity(this.restAclService.findById(restAclId));
   }
 
   /**
-   * Find all attribute list.
+   * Find all rest acl list.
    *
    * @return the list
    */
   @Override
-  public List<AttributeResource> findAllAttribute() {
-    return this.attributeConverter.createFromEntities(this.attributeService.findAll());
+  public List<RestAclResource> findAllRestAcl() {
+    return this.restAclConverter.createFromEntities(this.restAclService.findAll());
   }
 
   /**
-   * Find by pagination attribute page.
+   * Find by pagination rest acl page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
   @Override
-  public Page<AttributeResource> findByPaginationAttribute(final int pageNo, final int pageSize) {
-    return this.attributeConverter.createFromEntities(
-        this.attributeService.findByPagination(pageNo, pageSize));
+  public Page<RestAclResource> findByPaginationRestAcl(final int pageIndex, final int pageSize) {
+    return this.restAclConverter.createFromEntities(
+        this.restAclService.findByPagination(pageIndex, pageSize));
   }
 
   /**
-   * Update attribute attribute resource.
+   * Update rest acl rest acl resource.
    *
-   * @param attributeResource the attribute resource
-   * @return the attribute resource
+   * @param restAclResource the rest acl resource
+   * @return the rest acl resource
    */
   @Override
-  public AttributeResource updateAttribute(final AttributeResource attributeResource) {
-    AttributeEntity attributeEntity = this.attributeConverter.convertFromResource(attributeResource);
-    attributeEntity = this.attributeService.update(attributeEntity);
-    return this.attributeConverter.covertFromEntity(attributeEntity);
+  public RestAclResource updateRestAcl(final RestAclResource restAclResource) {
+    RestAclEntity restAclEntity = this.restAclConverter.convertFromResource(restAclResource);
+    restAclEntity = this.restAclService.update(restAclEntity);
+    return this.restAclConverter.covertFromEntity(restAclEntity);
   }
 
   /**
-   * Delete by id attribute.
+   * Delete by id rest acl.
    *
-   * @param attributeId the attribute id
+   * @param restAclId the rest acl id
    */
   @Override
-  public void deleteByIdAttribute(final UUID attributeId) {
-    this.attributeService.deleteById(attributeId);
+  public void deleteByIdRestAcl(final UUID restAclId) {
+    this.restAclService.deleteById(restAclId);
   }
 
   /**
@@ -443,13 +443,13 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   /**
    * Find by pagination role page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
   @Override
-  public Page<RoleResource> findByPaginationRole(final int pageNo, final int pageSize) {
-    return this.roleConverter.createFromEntities(this.roleService.findByPagination(pageNo, pageSize));
+  public Page<RoleResource> findByPaginationRole(final int pageIndex, final int pageSize) {
+    return this.roleConverter.createFromEntities(this.roleService.findByPagination(pageIndex, pageSize));
   }
 
   /**
@@ -511,13 +511,13 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   /**
    * Find by pagination user role page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
   @Override
-  public Page<UserRoleResource> findByPaginationUserRole(final int pageNo, final int pageSize) {
-    return this.userRoleConverter.createFromEntities(this.userRoleService.findByPagination(pageNo, pageSize));
+  public Page<UserRoleResource> findByPaginationUserRole(final int pageIndex, final int pageSize) {
+    return this.userRoleConverter.createFromEntities(this.userRoleService.findByPagination(pageIndex, pageSize));
   }
 
   /**
@@ -568,78 +568,78 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   }
 
   /**
-   * Find by id role attribute role attribute resource.
+   * Find by id role rest acl role rest acl resource.
    *
-   * @param roleId      the role id
-   * @param attributeId the attribute id
-   * @return the role attribute resource
+   * @param roleId    the role id
+   * @param restAclId the rest acl id
+   * @return the role rest acl resource
    */
   @Override
-  public RoleAttributeResource findByIdRoleAttribute(final UUID roleId, final UUID attributeId) {
-    return this.roleAttributeConverter.covertFromEntity(
-        this.roleAttributeService.findById(new RoleAttributeId(roleId, attributeId)));
+  public RoleRestAclResource findByIdRoleRestAcl(final UUID roleId, final UUID restAclId) {
+    return this.roleRestAclConverter.covertFromEntity(
+        this.roleRestAclService.findById(new RoleRestAclId(roleId, restAclId)));
   }
 
   /**
-   * Find by pagination role attribute page.
+   * Find by pagination role rest acl page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
   @Override
-  public Page<RoleAttributeResource> findByPaginationRoleAttribute(final int pageNo, final int pageSize) {
-    return this.roleAttributeConverter.createFromEntities(
-        this.roleAttributeService.findByPagination(pageNo, pageSize));
+  public Page<RoleRestAclResource> findByPaginationRoleRestAcl(final int pageIndex, final int pageSize) {
+    return this.roleRestAclConverter.createFromEntities(
+        this.roleRestAclService.findByPagination(pageIndex, pageSize));
   }
 
   /**
-   * Find all role attribute list.
+   * Find all role rest acl list.
    *
    * @return the list
    */
   @Override
-  public List<RoleAttributeResource> findAllRoleAttribute() {
-    return this.roleAttributeConverter.createFromEntities(this.roleAttributeService.findAll());
+  public List<RoleRestAclResource> findAllRoleRestAcl() {
+    return this.roleRestAclConverter.createFromEntities(this.roleRestAclService.findAll());
   }
 
   /**
-   * Create role attribute role attribute resource.
+   * Create role rest acl role rest acl resource.
    *
-   * @param roleAttributeResource the role attribute resource
-   * @return the role attribute resource
+   * @param roleRestAclResource the role rest acl resource
+   * @return the role rest acl resource
    */
   @Override
-  public RoleAttributeResource createRoleAttribute(final RoleAttributeResource roleAttributeResource) {
-    RoleAttributeEntity roleAttributeEntity =
-        this.roleAttributeConverter.convertFromResource(roleAttributeResource);
-    roleAttributeEntity.setRoleEntity(this.roleService.findById(roleAttributeEntity.getRoleId()));
-    roleAttributeEntity.setAttributeEntity(this.attributeService.findById(roleAttributeEntity.getAttributeId()));
-    return this.roleAttributeConverter.covertFromEntity(this.roleAttributeService.create(roleAttributeEntity));
+  public RoleRestAclResource createRoleRestAcl(final RoleRestAclResource roleRestAclResource) {
+    RoleRestAclEntity roleRestAclEntity =
+        this.roleRestAclConverter.convertFromResource(roleRestAclResource);
+    roleRestAclEntity.setRoleEntity(this.roleService.findById(roleRestAclEntity.getRoleId()));
+    roleRestAclEntity.setRestAclEntity(this.restAclService.findById(roleRestAclEntity.getRestAclId()));
+    return this.roleRestAclConverter.covertFromEntity(this.roleRestAclService.create(roleRestAclEntity));
   }
 
   /**
-   * Update role attribute role attribute resource.
+   * Update role rest acl role rest acl resource.
    *
-   * @param roleAttributeResource the role attribute resource
-   * @return the role attribute resource
+   * @param roleRestAclResource the role rest acl resource
+   * @return the role rest acl resource
    */
   @Override
-  public RoleAttributeResource updateRoleAttribute(final RoleAttributeResource roleAttributeResource) {
-    return this.roleAttributeConverter.covertFromEntity(
-        this.roleAttributeService.update(
-            this.roleAttributeConverter.convertFromResource(roleAttributeResource)));
+  public RoleRestAclResource updateRoleRestAcl(final RoleRestAclResource roleRestAclResource) {
+    return this.roleRestAclConverter.covertFromEntity(
+        this.roleRestAclService.update(
+            this.roleRestAclConverter.convertFromResource(roleRestAclResource)));
   }
 
   /**
-   * Delete by id role attribute.
+   * Delete by id role rest acl.
    *
-   * @param roleId      the role id
-   * @param attributeId the attribute id
+   * @param roleId    the role id
+   * @param restAclId the rest acl id
    */
   @Override
-  public void deleteByIdRoleAttribute(final UUID roleId, final UUID attributeId) {
-    this.roleAttributeService.deleteById(new RoleAttributeId(roleId, attributeId));
+  public void deleteByIdRoleRestAcl(final UUID roleId, final UUID restAclId) {
+    this.roleRestAclService.deleteById(new RoleRestAclId(roleId, restAclId));
   }
 
   /**
@@ -741,13 +741,13 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   /**
    * Find by pagination client page.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the page
    */
   @Override
-  public Page<ClientResource> findByPaginationClient(final int pageNo, final int pageSize) {
-    return this.clientConverter.createFromEntities(this.clientService.findByPagination(pageNo, pageSize));
+  public Page<ClientResource> findByPaginationClient(final int pageIndex, final int pageSize) {
+    return this.clientConverter.createFromEntities(this.clientService.findByPagination(pageIndex, pageSize));
   }
 
   /**

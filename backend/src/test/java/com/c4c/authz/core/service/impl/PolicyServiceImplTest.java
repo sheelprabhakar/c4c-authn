@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.c4c.authz.core.domain.PolicyRecord;
-import com.c4c.authz.core.entity.AttributeEntity;
-import com.c4c.authz.core.entity.RoleAttributeEntity;
-import com.c4c.authz.core.service.api.RoleAttributeService;
+import com.c4c.authz.core.entity.RestAclEntity;
+import com.c4c.authz.core.entity.RoleRestAclEntity;
+import com.c4c.authz.core.service.api.RoleRestAclService;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -26,10 +26,10 @@ import org.mockito.MockitoAnnotations;
 class PolicyServiceImplTest {
 
   /**
-   * The Role attribute service.
+   * The Role rest acl service.
    */
   @Mock
-  private RoleAttributeService roleAttributeService;
+  private RoleRestAclService roleRestAclService;
 
   /**
    * The Policy service.
@@ -52,15 +52,15 @@ class PolicyServiceImplTest {
   @DisplayName("Test getPoliciesByRoleId OK")
   void getPoliciesByRoleId() {
     UUID roleId = UUID.randomUUID();
-    RoleAttributeEntity roleAttributeEntity = new RoleAttributeEntity();
-    AttributeEntity attributeEntity = new AttributeEntity();
-    attributeEntity.setName("Test Attribute");
-    attributeEntity.setPath("/test/path");
-    roleAttributeEntity.setAttributeEntity(attributeEntity);
-    roleAttributeEntity.setCanCreate(true);
-    roleAttributeEntity.setCanRead(true);
+    RoleRestAclEntity roleRestAclEntity = new RoleRestAclEntity();
+    RestAclEntity restAclEntity = new RestAclEntity();
+    restAclEntity.setName("Test Attribute");
+    restAclEntity.setPath("/test/path");
+    roleRestAclEntity.setRestAclEntity(restAclEntity);
+    roleRestAclEntity.setCanCreate(true);
+    roleRestAclEntity.setCanRead(true);
 
-    when(roleAttributeService.findAllByRoleId(roleId)).thenReturn(Arrays.asList(roleAttributeEntity));
+    when(roleRestAclService.findAllByRoleId(roleId)).thenReturn(Arrays.asList(roleRestAclEntity));
 
     List<PolicyRecord> policies = policyService.getPoliciesByRoleId(roleId);
 
@@ -72,7 +72,7 @@ class PolicyServiceImplTest {
     assertTrue(policyRecord.verbs().contains("POST"));
     assertTrue(policyRecord.verbs().contains("GET"));
 
-    when(roleAttributeService.findAllByRoleId(roleId)).thenReturn(Collections.EMPTY_LIST);
+    when(roleRestAclService.findAllByRoleId(roleId)).thenReturn(Collections.EMPTY_LIST);
 
     policies = policyService.getPoliciesByRoleId(roleId);
 

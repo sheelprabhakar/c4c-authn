@@ -94,17 +94,17 @@ public class TenantController extends BaseController {
   /**
    * Find by pagination response entity.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the response entity
    */
   @GetMapping
   public ResponseEntity<PagedModelResponse<TenantResource>> findByPagination(
-          @RequestParam(value = "pageNo", required = false, defaultValue = "-1") final int pageNo,
+          @RequestParam(value = "pageIndex", required = false, defaultValue = "-1") final int pageIndex,
           @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize) {
     if (pageSize > 0) {
       Page<TenantResource> resources =
-              this.getRestAdapterV1().findByPaginationTenant(pageNo, pageSize);
+              this.getRestAdapterV1().findByPaginationTenant(pageIndex, pageSize);
       return ResponseEntity.ok().body(new PagedModelResponse<>(resources));
     } else {
       List<TenantResource> resources = this.getRestAdapterV1().findAllTenant();

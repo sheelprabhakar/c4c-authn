@@ -52,11 +52,11 @@ public interface UserRoleService {
     /**
      * Find by pagination page.
      *
-     * @param pageNo   the page no
-     * @param pageSize the page size
+     * @param pageIndex the page index
+     * @param pageSize  the page size
      * @return the page
      */
-    Page<UserRoleEntity> findByPagination(int pageNo, int pageSize);
+    Page<UserRoleEntity> findByPagination(int pageIndex, int pageSize);
 
     /**
      * Delete by id.

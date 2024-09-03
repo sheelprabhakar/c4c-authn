@@ -69,16 +69,16 @@ public class ClientController extends BaseController {
   /**
    * Find by pagination response entity.
    *
-   * @param pageNo   the page no
-   * @param pageSize the page size
+   * @param pageIndex the page index
+   * @param pageSize  the page size
    * @return the response entity
    */
   @GetMapping
   public ResponseEntity<PagedModelResponse<ClientResource>> findByPagination(
-      @RequestParam(value = "pageNo", required = false, defaultValue = "-1") final int pageNo,
+      @RequestParam(value = "pageIndex", required = false, defaultValue = "-1") final int pageIndex,
       @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize) {
     if (pageSize > 0) {
-      Page<ClientResource> resources = this.getRestAdapterV1().findByPaginationClient(pageNo, pageSize);
+      Page<ClientResource> resources = this.getRestAdapterV1().findByPaginationClient(pageIndex, pageSize);
       return ResponseEntity.ok().body(new PagedModelResponse<>(resources));
     } else {
       List<ClientResource> resources = this.getRestAdapterV1().findAllClient();
@@ -105,10 +105,13 @@ public class ClientController extends BaseController {
    * Update response entity.
    *
    * @param client the client
+   * @param id     the id
    * @return the response entity
    */
-  @PutMapping
-  public ResponseEntity<ClientResource> update(final @RequestBody @Validated ClientResource client) {
+  @PutMapping("/{id}")
+  public ResponseEntity<ClientResource> update(final @RequestBody @Validated ClientResource client,
+                                               @PathVariable("id") final UUID id) {
+    client.setId(id);
     client.setTenantId(CurrentUserContext.getCurrentTenantId());
     ClientResource resource = this.getRestAdapterV1().updateClient(client);
     return ResponseEntity.ok().body(resource);

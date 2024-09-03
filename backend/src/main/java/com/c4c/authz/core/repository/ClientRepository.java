@@ -15,54 +15,54 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClientRepository extends CrudRepository<ClientEntity, UUID> {
 
-  /**
-   * Find by tenant id and client id optional.
-   *
-   * @param tenantId the tenant id
-   * @param clientId the client id
-   * @return the optional
-   */
-  Optional<ClientEntity> findByTenantIdAndClientId(UUID tenantId, String clientId);
+    /**
+     * Find by tenant id and client id optional.
+     *
+     * @param tenantId the tenant id
+     * @param clientId the client id
+     * @return the optional
+     */
+    Optional<ClientEntity> findByTenantIdAndClientId(UUID tenantId, String clientId);
 
-  /**
-   * Find by tenant id and name optional.
-   *
-   * @param tenantId the tenant id
-   * @param name     the name
-   * @return the optional
-   */
-  Optional<ClientEntity> findByTenantIdAndName(UUID tenantId, String name);
+    /**
+     * Find by tenant id and name optional.
+     *
+     * @param tenantId the tenant id
+     * @param name     the name
+     * @return the optional
+     */
+    Optional<ClientEntity> findByTenantIdAndName(UUID tenantId, String name);
 
-  /**
-   * Find all by tenant id page.
-   *
-   * @param pageable the pageable
-   * @param tenantId the tenant id
-   * @return the page
-   */
-  Page<ClientEntity> findAllByTenantId(Pageable pageable, UUID tenantId);
+    /**
+     * Find all by tenant id page.
+     *
+     * @param pageable the pageable
+     * @param tenantId the tenant id
+     * @return the page
+     */
+    Page<ClientEntity> findAllByTenantId(Pageable pageable, UUID tenantId);
 
-  /**
-   * Find all page.
-   *
-   * @param pageable the pageable
-   * @return the page
-   */
-  Page<ClientEntity> findAll(Pageable pageable);
+    /**
+     * Find all page.
+     *
+     * @param pageable the pageable
+     * @return the page
+     */
+    Page<ClientEntity> findAll(Pageable pageable);
 
-  /**
-   * Find all by tenant id list.
-   *
-   * @param tenantId the tenant id
-   * @return the list
-   */
-  List<ClientEntity> findAllByTenantId(UUID tenantId);
+    /**
+     * Find all by tenant id list.
+     *
+     * @param tenantId the tenant id
+     * @return the list
+     */
+    List<ClientEntity> findAllByTenantId(UUID tenantId);
 
-  /**
-   * Find by client id optional.
-   *
-   * @param clientId the client id
-   * @return the optional
-   */
-  Optional<ClientEntity> findByClientId(String clientId);
+    /**
+     * Find by client id optional.
+     *
+     * @param clientId the client id
+     * @return the optional
+     */
+    Optional<ClientEntity> findByClientId(String clientId);
 }

@@ -19,29 +19,29 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
 public class ClientResource extends CommonResourceAttributes implements Serializable {
-  /**
-   * The Id.
-   */
-  private UUID id;
-  /**
-   * The Tenant id.
-   */
-  private UUID tenantId;
-  /**
-   * The Client id.
-   */
-  @Size(max = 255, message = "Role name should be less than 50 characters.")
+    /**
+     * The Id.
+     */
+    private UUID id;
+    /**
+     * The Tenant id.
+     */
+    private UUID tenantId;
+    /**
+     * The Client id.
+     */
+    @Size(max = 255, message = "Role name should be less than 50 characters.")
   private String clientId;
 
-  /**
-   * The Client secret.
-   */
-  @Size(max = 1024, message = "Role name should be less than 50 characters.")
+    /**
+     * The Client secret.
+     */
+    @Size(max = 1024, message = "Role name should be less than 50 characters.")
   private String clientSecret;
-  /**
-   * The Name.
-   */
-  @NotEmpty(message = "Role name can not be empty.")
+    /**
+     * The Name.
+     */
+    @NotEmpty(message = "Role name can not be empty.")
   @Size(max = 50, message = "Role name should be less than 50 characters.")
   private String name;
 }
