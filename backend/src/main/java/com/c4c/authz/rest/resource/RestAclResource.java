@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
- * The type Attribute resource.
+ * The type Rest acl resource.
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
-public class AttributeResource extends CommonResourceAttributes implements Serializable {
+public class RestAclResource extends CommonResourceAttributes implements Serializable {
 
   /**
    * The Id.

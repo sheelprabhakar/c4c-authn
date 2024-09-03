@@ -12,25 +12,25 @@ import org.testcontainers.junit.jupiter.Testcontainers;
  */
 @Testcontainers
 public class TestcontainersConfiguration {
-  /**
-   * The constant database.
-   */
-  @Container
+    /**
+     * The constant database.
+     */
+    @Container
     private static final MySQLContainer database = new MySQLContainer("mysql:latest");
 
-  /**
-   * The constant redis.
-   */
-  @Container
+    /**
+     * The constant redis.
+     */
+    @Container
     private static final RedisStackContainer redis
             = new RedisStackContainer("redis:latest").withExposedPorts(6379);
 
-  /**
-   * Database properties.
-   *
-   * @param registry the registry
-   */
-  @DynamicPropertySource
+    /**
+     * Database properties.
+     *
+     * @param registry the registry
+     */
+    @DynamicPropertySource
     static void databaseProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", database::getJdbcUrl);
         registry.add("spring.datasource-replica.url", database::getJdbcUrl);

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
- * The type Role attribute resource.
+ * The type Role rest acl resource.
  */
 @Data
 @NoArgsConstructor
@@ -19,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
 @Builder
-public class RoleAttributeResource extends CommonResourceAttributes implements Serializable {
+public class RoleRestAclResource extends CommonResourceAttributes implements Serializable {
 
   /**
    * The Role id.
@@ -28,10 +28,10 @@ public class RoleAttributeResource extends CommonResourceAttributes implements S
     private UUID roleId;
 
   /**
-   * The Attribute id.
+   * The Rest acl id.
    */
   @NotNull(message = "Attribute Id can not be null.")
-    private UUID attributeId;
+    private UUID restAclId;
 
   /**
    * The Can create.
@@ -53,9 +53,9 @@ public class RoleAttributeResource extends CommonResourceAttributes implements S
    */
   private boolean canDelete;
   /**
-   * The Attribute resource.
+   * The Rest acl resource.
    */
-  private AttributeResource attributeResource;
+  private RestAclResource restAclResource;
   /**
    * The Role resource.
    */

@@ -1,17 +1,9 @@
 package com.c4c.authz.rest.controller;
 
-import static com.c4c.authz.common.Constants.API_V1;
-import static com.c4c.authz.common.Constants.ATTRIBUTE_URL;
-import static com.c4c.authz.rest.controller.AttributeController.BASE_URL;
-
 import com.c4c.authz.adapter.api.RestAdapterV1;
 import com.c4c.authz.common.CurrentUserContext;
-import com.c4c.authz.rest.resource.AttributeResource;
 import com.c4c.authz.rest.resource.PagedModelResponse;
-import java.net.URI;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import com.c4c.authz.rest.resource.RestAclResource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,37 +20,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
+import static com.c4c.authz.common.Constants.API_V1;
+import static com.c4c.authz.common.Constants.REST_ACL_URL;
+import static com.c4c.authz.rest.controller.RestAclController.BASE_URL;
+
 /**
- * The type Attribute controller.
+ * The type Rest acl controller.
  */
 @Slf4j
 @RestController()
 @RequestMapping(BASE_URL)
-public class AttributeController extends BaseController {
+public class RestAclController extends BaseController {
     /**
      * The constant BASE_URL.
      */
-    static final String BASE_URL = API_V1 + ATTRIBUTE_URL;
+    static final String BASE_URL = API_V1 + REST_ACL_URL;
 
     /**
-     * Instantiates a new Attribute controller.
+     * Instantiates a new Rest acl controller.
      *
      * @param restAdapterV1 the rest adapter v 1
      */
     @Autowired
-    protected AttributeController(final RestAdapterV1 restAdapterV1) {
+    protected RestAclController(final RestAdapterV1 restAdapterV1) {
         super(restAdapterV1);
     }
 
     /**
      * Find by id response entity.
      *
-     * @param attributeId the attribute id
+     * @param restAclId the rest acl id
      * @return the response entity
      */
-    @GetMapping("/{attributeId}")
-    public ResponseEntity<AttributeResource> findById(@PathVariable("attributeId") final UUID attributeId) {
-        AttributeResource resource = this.getRestAdapterV1().findByIdAttribute(attributeId);
+    @GetMapping("/{restAclId}")
+    public ResponseEntity<RestAclResource> findById(@PathVariable("restAclId") final UUID restAclId) {
+        RestAclResource resource = this.getRestAdapterV1().findByIdRestAcl(restAclId);
         if (!Objects.isNull(resource)) {
             return ResponseEntity.ok().body(resource);
         } else {
@@ -74,14 +75,14 @@ public class AttributeController extends BaseController {
      * @return the response entity
      */
     @GetMapping
-    public ResponseEntity<PagedModelResponse<AttributeResource>> findByPagination(
+    public ResponseEntity<PagedModelResponse<RestAclResource>> findByPagination(
             @RequestParam(value = "pageIndex", required = false, defaultValue = "-1") final int pageIndex,
             @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize) {
         if (pageSize > 0) {
-            Page<AttributeResource> resources = this.getRestAdapterV1().findByPaginationAttribute(pageIndex, pageSize);
+            Page<RestAclResource> resources = this.getRestAdapterV1().findByPaginationRestAcl(pageIndex, pageSize);
             return ResponseEntity.ok().body(new PagedModelResponse<>(resources));
         } else {
-            List<AttributeResource> resources = this.getRestAdapterV1().findAllAttribute();
+            List<RestAclResource> resources = this.getRestAdapterV1().findAllRestAcl();
             return ResponseEntity.ok().body(new PagedModelResponse<>(new PageImpl<>(resources)));
         }
     }
@@ -89,38 +90,38 @@ public class AttributeController extends BaseController {
     /**
      * Create response entity.
      *
-     * @param attributeResource the attribute resource
+     * @param restAclResource the rest acl resource
      * @return the response entity
      */
     @PostMapping
-    public ResponseEntity<AttributeResource> create(final @RequestBody @Validated AttributeResource attributeResource) {
-        attributeResource.setTenantId(CurrentUserContext.getCurrentTenantId());
-        AttributeResource resource = this.getRestAdapterV1().createAttribute(attributeResource);
+    public ResponseEntity<RestAclResource> create(final @RequestBody @Validated RestAclResource restAclResource) {
+        restAclResource.setTenantId(CurrentUserContext.getCurrentTenantId());
+        RestAclResource resource = this.getRestAdapterV1().createRestAcl(restAclResource);
         return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);
     }
 
     /**
      * Update response entity.
      *
-     * @param attributeResource the attribute resource
+     * @param restAclResource the rest acl resource
      * @return the response entity
      */
     @PutMapping
-    public ResponseEntity<AttributeResource> update(final @RequestBody @Validated AttributeResource attributeResource) {
-        attributeResource.setTenantId(CurrentUserContext.getCurrentTenantId());
-        AttributeResource resource = this.getRestAdapterV1().updateAttribute(attributeResource);
+    public ResponseEntity<RestAclResource> update(final @RequestBody @Validated RestAclResource restAclResource) {
+        restAclResource.setTenantId(CurrentUserContext.getCurrentTenantId());
+        RestAclResource resource = this.getRestAdapterV1().updateRestAcl(restAclResource);
         return ResponseEntity.ok().body(resource);
     }
 
     /**
      * Delete by id response entity.
      *
-     * @param attributeId the attribute id
+     * @param restAclId the rest acl id
      * @return the response entity
      */
-    @DeleteMapping("/{attributeId}")
-    public ResponseEntity<Void> deleteById(@PathVariable("attributeId") final UUID attributeId) {
-        this.getRestAdapterV1().deleteByIdAttribute(attributeId);
+    @DeleteMapping("/{restAclId}")
+    public ResponseEntity<Void> deleteById(@PathVariable("restAclId") final UUID restAclId) {
+        this.getRestAdapterV1().deleteByIdRestAcl(restAclId);
         return ResponseEntity.noContent().build();
     }
 }

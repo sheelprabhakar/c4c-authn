@@ -27,17 +27,17 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @DirtiesContext
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class RoleControllerTest extends AbstractIntegrationTest {
-  /**
-   * The constant BASE_URL.
-   */
-  private static final String BASE_URL = API_V1 + ROLE_URL;
+    /**
+     * The constant BASE_URL.
+     */
+    private static final String BASE_URL = API_V1 + ROLE_URL;
 
-  /**
-   * Test create new role ok.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test create new role ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Create Role test")
     void testCreateNewRoleOK() throws Exception {
         RoleResource resource = Instancio.create(RoleResource.class);
@@ -47,12 +47,12 @@ class RoleControllerTest extends AbstractIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(resource.getName()));
     }
 
-  /**
-   * Test get by id ok.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test get by id ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Get By ID test")
     void testGetByIdOK() throws Exception {
         RoleResource resource = Instancio.create(RoleResource.class);
@@ -74,12 +74,12 @@ class RoleControllerTest extends AbstractIntegrationTest {
         assertTrue(((List<RoleResource>) roleResourcePage.get("items")).size() > 0);
     }
 
-  /**
-   * Test create new resource 400.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test create new resource 400.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Create new role test Bad request")
     void testCreateNewResource400() throws Exception {
         RoleResource resource = Instancio.create(RoleResource.class);
@@ -89,12 +89,12 @@ class RoleControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().isBadRequest());
     }
 
-  /**
-   * Test update role ok.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test update role ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Test update role")
     void testUpdateRoleOk() throws Exception {
         RoleResource resource = Instancio.create(RoleResource.class);
@@ -108,12 +108,12 @@ class RoleControllerTest extends AbstractIntegrationTest {
 
     }
 
-  /**
-   * Test delete role by id ok.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test delete role by id ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Delete role test")
     void testDeleteRoleByIdOk() throws Exception {
         RoleResource resource = Instancio.create(RoleResource.class);
@@ -127,12 +127,12 @@ class RoleControllerTest extends AbstractIntegrationTest {
         this.mockMvc.perform(this.get(BASE_URL + "/" + resource1.getId())).andExpect(status().isNotFound());
     }
 
-  /**
-   * Role read ok.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Role read ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Test Role Read operation")
     void roleReadOk() throws Exception {
         RoleResource resource = Instancio.create(RoleResource.class);

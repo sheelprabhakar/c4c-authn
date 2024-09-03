@@ -1,12 +1,12 @@
 package com.c4c.authz.rest.controller;
 
 import static com.c4c.authz.common.Constants.API_V1;
-import static com.c4c.authz.common.Constants.ATTRIBUTE_URL;
+import static com.c4c.authz.common.Constants.REST_ACL_URL;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.c4c.authz.rest.resource.AttributeResource;
+import com.c4c.authz.rest.resource.RestAclResource;
 import com.c4c.authz.rest.resource.PagedModelResponse;
 import com.c4c.authz.utils.TestUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -22,45 +22,45 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 /**
- * The type Attribute controller test.
+ * The type Rest acl controller test.
  */
 @DirtiesContext
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class AttributeControllerTest extends AbstractIntegrationTest {
-  /**
-   * The constant BASE_URL.
-   */
-  private static final String BASE_URL = API_V1 + ATTRIBUTE_URL;
+class RestAclControllerTest extends AbstractIntegrationTest {
+    /**
+     * The constant BASE_URL.
+     */
+    private static final String BASE_URL = API_V1 + REST_ACL_URL;
 
-  /**
-   * Test create new resource ok.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test create new resource ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Create Rest resource test")
     void testCreateNewResourceOK() throws Exception {
-        AttributeResource resource = Instancio.create(AttributeResource.class);
+        RestAclResource resource = Instancio.create(RestAclResource.class);
         this.mockMvc.perform(this.post(BASE_URL, resource))
                 //.andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(resource.getName()));
     }
 
-  /**
-   * Test get by id ok.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test get by id ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Get By ID test")
     void testGetByIdOK() throws Exception {
-        AttributeResource resource = Instancio.create(AttributeResource.class);
+        RestAclResource resource = Instancio.create(RestAclResource.class);
         MvcResult mvcResult = this.mockMvc.perform(this.post(BASE_URL, resource))
                 //.andDo(print())
                 .andExpect(status().isCreated()).andReturn();
         String string = mvcResult.getResponse().getContentAsString();
-        AttributeResource resource1 = TestUtils.convertJsonStringToObject(string, AttributeResource.class);
+        RestAclResource resource1 = TestUtils.convertJsonStringToObject(string, RestAclResource.class);
         this.mockMvc.perform(this.get(BASE_URL + "/" + resource1.getId())).andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(resource.getName()));
 
@@ -71,18 +71,18 @@ class AttributeControllerTest extends AbstractIntegrationTest {
         HashMap<String, Object> restResourcePage =
                 TestUtils.convertJsonStringToObject(string, new TypeReference<HashMap<String, Object>>() {
                 });
-        assertTrue(((List<AttributeResource>) restResourcePage.get("items")).size() > 0);
+        assertTrue(((List<RestAclResource>) restResourcePage.get("items")).size() > 0);
     }
 
-  /**
-   * Test create new resource 400.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test create new rest acl 400.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Create Rest resource test Bad request")
-    void testCreateNewResource400() throws Exception {
-        AttributeResource resource = Instancio.create(AttributeResource.class);
+    void testCreateNewRestAcl400() throws Exception {
+        RestAclResource resource = Instancio.create(RestAclResource.class);
         resource.setName("");
         resource.setPath(null);
         this.mockMvc.perform(this.post(BASE_URL, resource))
@@ -90,69 +90,69 @@ class AttributeControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().isBadRequest());
     }
 
-  /**
-   * Test update attribute resource ok.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test update rest acl resource ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Update Test resource")
-    void testUpdateAttributeResourceOk() throws Exception {
-        AttributeResource resource = Instancio.create(AttributeResource.class);
+    void testUpdateRestAclResourceOk() throws Exception {
+        RestAclResource resource = Instancio.create(RestAclResource.class);
         MvcResult mvcResult = this.mockMvc.perform(this.post(BASE_URL, resource))
                 //.andDo(print())
                 .andExpect(status().isCreated()).andReturn();
         String string = mvcResult.getResponse().getContentAsString();
-        AttributeResource resource1 = TestUtils.convertJsonStringToObject(string, AttributeResource.class);
+        RestAclResource resource1 = TestUtils.convertJsonStringToObject(string, RestAclResource.class);
         this.mockMvc.perform(this.put(BASE_URL, resource1)).andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(resource1.getId().toString()));
 
     }
 
-  /**
-   * Test delete attribute resource by id ok.
-   *
-   * @throws Exception the exception
-   */
-  @Test
+    /**
+     * Test delete rest acl resource by id ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
     @DisplayName("Delete Test resource")
-    void testDeleteAttributeResourceByIdOk() throws Exception {
-        AttributeResource resource = Instancio.create(AttributeResource.class);
+    void testDeleteRestAclResourceByIdOk() throws Exception {
+        RestAclResource resource = Instancio.create(RestAclResource.class);
         MvcResult mvcResult = this.mockMvc.perform(this.post(BASE_URL, resource))
                 //.andDo(print())
                 .andExpect(status().isCreated()).andReturn();
         String string = mvcResult.getResponse().getContentAsString();
-        AttributeResource resource1 = TestUtils.convertJsonStringToObject(string, AttributeResource.class);
+        RestAclResource resource1 = TestUtils.convertJsonStringToObject(string, RestAclResource.class);
         this.mockMvc.perform(this.delete(BASE_URL + "/" + resource1.getId())).andExpect(status().isNoContent());
 
         this.mockMvc.perform(this.get(BASE_URL + "/" + resource1.getId())).andExpect(status().isNotFound());
     }
 
-  /**
-   * Attribute read ok.
-   *
-   * @throws Exception the exception
-   */
-  @Test
-    @DisplayName("Test Attribute Read operation")
-    void attributeReadOk() throws Exception {
-        AttributeResource resource = Instancio.create(AttributeResource.class);
+    /**
+     * Rest acl read ok.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    @DisplayName("Test rest acl Read operation")
+    void restAclReadOk() throws Exception {
+        RestAclResource resource = Instancio.create(RestAclResource.class);
         String result = this.mockMvc.perform(this.post(BASE_URL, resource))
                 //.andDo(print())
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
 
-        AttributeResource tenantResource = TestUtils.convertJsonStringToObject(result, AttributeResource.class);
-        this.mockMvc.perform(this.get(BASE_URL + "/" + tenantResource.getId()))
+        RestAclResource aclResource = TestUtils.convertJsonStringToObject(result, RestAclResource.class);
+        this.mockMvc.perform(this.get(BASE_URL + "/" + aclResource.getId()))
                 //.andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(tenantResource.getName()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(aclResource.getName()));
 
         result = this.mockMvc.perform(this.get(BASE_URL))
                 //.andDo(print())
                 .  andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
-        PagedModelResponse<AttributeResource>
+        PagedModelResponse<RestAclResource>
                 resourceList = TestUtils.convertJsonStringToObject(result, PagedModelResponse.class);
         Assertions.assertTrue(resourceList.getItems().size() > 0);
 

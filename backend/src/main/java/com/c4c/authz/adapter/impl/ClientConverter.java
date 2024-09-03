@@ -10,39 +10,39 @@ import java.util.Objects;
  */
 public final class ClientConverter extends Converter<ClientEntity, ClientResource> {
 
+  /**
+   * The type Client converter loader.
+   */
+  private static final class ClientConverterLoader {
     /**
-     * The type Client converter loader.
+     * The constant INSTANCE.
      */
-    private static final class ClientConverterLoader {
-        /**
-         * The constant INSTANCE.
-         */
-        private static final ClientConverter INSTANCE = new ClientConverter();
+    private static final ClientConverter INSTANCE = new ClientConverter();
   }
 
-    /**
-     * Instantiates a new Client converter.
-     */
-    private ClientConverter() {
+  /**
+   * Instantiates a new Client converter.
+   */
+  private ClientConverter() {
     super(ClientConverter::convertToEntity, ClientConverter::convertToResource);
   }
 
-    /**
-     * Gets instance.
-     *
-     * @return the instance
-     */
-    public static ClientConverter getInstance() {
+  /**
+   * Gets instance.
+   *
+   * @return the instance
+   */
+  public static ClientConverter getInstance() {
     return ClientConverterLoader.INSTANCE;
   }
 
-    /**
-     * Convert to entity client entity.
-     *
-     * @param resource the resource
-     * @return the client entity
-     */
-    private static ClientEntity convertToEntity(final ClientResource resource) {
+  /**
+   * Convert to entity client entity.
+   *
+   * @param resource the resource
+   * @return the client entity
+   */
+  private static ClientEntity convertToEntity(final ClientResource resource) {
     if (Objects.isNull(resource)) {
       return null;
     }
@@ -56,13 +56,13 @@ public final class ClientConverter extends Converter<ClientEntity, ClientResourc
         .updatedAt(resource.getUpdatedAt()).updatedBy(resource.getUpdatedBy()).isDeleted(resource.isDeleted()).build();
   }
 
-    /**
-     * Convert to resource client resource.
-     *
-     * @param entity the entity
-     * @return the client resource
-     */
-    private static ClientResource convertToResource(final ClientEntity entity) {
+  /**
+   * Convert to resource client resource.
+   *
+   * @param entity the entity
+   * @return the client resource
+   */
+  private static ClientResource convertToResource(final ClientEntity entity) {
     if (Objects.isNull(entity)) {
       return null;
     }

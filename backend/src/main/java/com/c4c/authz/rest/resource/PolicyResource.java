@@ -14,16 +14,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PolicyResource {
-  /**
-   * The Name.
-   */
-  private String name;
-  /**
-   * The Path.
-   */
-  private String path;
-  /**
-   * The Verbs.
-   */
-  private List<String> verbs;
+    /**
+     * The Name.
+     */
+    private String name;
+    /**
+     * The Path.
+     */
+    private String path;
+    /**
+     * The Verbs.
+     */
+    private List<String> verbs;
 }

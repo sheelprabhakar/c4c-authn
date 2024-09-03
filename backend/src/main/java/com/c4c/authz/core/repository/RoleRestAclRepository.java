@@ -1,7 +1,7 @@
 package com.c4c.authz.core.repository;
 
-import com.c4c.authz.core.entity.RoleAttributeEntity;
-import com.c4c.authz.core.entity.RoleAttributeId;
+import com.c4c.authz.core.entity.RoleRestAclEntity;
+import com.c4c.authz.core.entity.RoleRestAclId;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
@@ -10,17 +10,17 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * The interface Role attribute repository.
+ * The interface Role rest acl repository.
  */
 @Repository
-public interface RoleAttributeRepository extends CrudRepository<RoleAttributeEntity, RoleAttributeId> {
+public interface RoleRestAclRepository extends CrudRepository<RoleRestAclEntity, RoleRestAclId> {
   /**
    * Find all page.
    *
    * @param pageable the pageable
    * @return the page
    */
-  Page<RoleAttributeEntity> findAll(Pageable pageable);
+  Page<RoleRestAclEntity> findAll(Pageable pageable);
 
   /**
    * Find all by role id list.
@@ -28,6 +28,6 @@ public interface RoleAttributeRepository extends CrudRepository<RoleAttributeEnt
    * @param roleId the role id
    * @return the list
    */
-  List<RoleAttributeEntity> findAllByRoleId(UUID roleId);
+  List<RoleRestAclEntity> findAllByRoleId(UUID roleId);
 
 }

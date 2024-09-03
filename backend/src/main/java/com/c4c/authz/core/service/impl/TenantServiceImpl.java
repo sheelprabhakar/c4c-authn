@@ -8,15 +8,15 @@ import static com.c4c.authz.common.Constants.SYSTEM_TENANT;
 
 import com.c4c.authz.common.CurrentUserContext;
 import com.c4c.authz.common.SpringUtil;
-import com.c4c.authz.core.entity.AttributeEntity;
-import com.c4c.authz.core.entity.RoleAttributeEntity;
+import com.c4c.authz.core.entity.RestAclEntity;
+import com.c4c.authz.core.entity.RoleRestAclEntity;
 import com.c4c.authz.core.entity.RoleEntity;
 import com.c4c.authz.core.entity.TenantEntity;
 import com.c4c.authz.core.entity.UserEntity;
 import com.c4c.authz.core.entity.UserRoleEntity;
 import com.c4c.authz.core.repository.TenantRepository;
-import com.c4c.authz.core.service.api.AttributeService;
-import com.c4c.authz.core.service.api.RoleAttributeService;
+import com.c4c.authz.core.service.api.RestAclService;
+import com.c4c.authz.core.service.api.RoleRestAclService;
 import com.c4c.authz.core.service.api.RoleService;
 import com.c4c.authz.core.service.api.SystemTenantService;
 import com.c4c.authz.core.service.api.TenantService;
@@ -55,14 +55,14 @@ public class TenantServiceImpl implements TenantService {
     private final RoleService roleService;
 
     /**
-     * The Attribute service.
+     * The Rest acl service.
      */
-    private final AttributeService attributeService;
+    private final RestAclService restAclService;
 
     /**
-     * The Role attribute service.
+     * The Role rest acl service.
      */
-    private final RoleAttributeService roleAttributeService;
+    private final RoleRestAclService roleRestAclService;
     /**
      * The System tenant service.
      */
@@ -76,23 +76,23 @@ public class TenantServiceImpl implements TenantService {
     /**
      * Instantiates a new Tenant service.
      *
-     * @param tenantRepository     the tenant repository
-     * @param userService          the user service
-     * @param roleService          the role service
-     * @param attributeService     the attribute service
-     * @param roleAttributeService the role attribute service
-     * @param systemTenantService  the system tenant service
-     * @param userRoleService      the user role service
+     * @param tenantRepository    the tenant repository
+     * @param userService         the user service
+     * @param roleService         the role service
+     * @param restAclService      the rest acl service
+     * @param roleRestAclService  the role rest acl service
+     * @param systemTenantService the system tenant service
+     * @param userRoleService     the user role service
      */
     public TenantServiceImpl(final TenantRepository tenantRepository, final UserService userService,
-                           final RoleService roleService, final AttributeService attributeService,
-                           final RoleAttributeService roleAttributeService,
+                           final RoleService roleService, final RestAclService restAclService,
+                           final RoleRestAclService roleRestAclService,
                            final SystemTenantService systemTenantService, final UserRoleService userRoleService) {
     this.tenantRepository = tenantRepository;
     this.userService = userService;
     this.roleService = roleService;
-    this.attributeService = attributeService;
-    this.roleAttributeService = roleAttributeService;
+    this.restAclService = restAclService;
+    this.roleRestAclService = roleRestAclService;
     this.systemTenantService = systemTenantService;
     this.userRoleService = userRoleService;
   }
@@ -247,18 +247,18 @@ public class TenantServiceImpl implements TenantService {
     roleEntity = this.roleService.create(roleEntity);
 
     //Create Attribute/Rest Path
-    AttributeEntity attribute =
-        AttributeEntity.builder().tenantId(entity.getId()).name(POLICY).path(ANT_POLICY_URL).build();
+    RestAclEntity attribute =
+        RestAclEntity.builder().tenantId(entity.getId()).name(POLICY).path(ANT_POLICY_URL).build();
     attribute.created(SYSTEM_TENANT);
     attribute.updated(SYSTEM_TENANT);
-    attribute = this.attributeService.create(attribute);
+    attribute = this.restAclService.create(attribute);
 
     //Create Role Attribute
-    RoleAttributeEntity roleAttributeEntity = RoleAttributeEntity.builder().roleId(roleEntity.getId())
-        .attributeId(attribute.getId()).canRead(true).attributeEntity(attribute).roleEntity(roleEntity).build();
-    roleAttributeEntity.created(SYSTEM_TENANT);
-    roleAttributeEntity.updated(SYSTEM_TENANT);
-    roleAttributeEntity = this.roleAttributeService.create(roleAttributeEntity);
+    RoleRestAclEntity roleRestAclEntity = RoleRestAclEntity.builder().roleId(roleEntity.getId())
+        .restAclId(attribute.getId()).canRead(true).restAclEntity(attribute).roleEntity(roleEntity).build();
+    roleRestAclEntity.created(SYSTEM_TENANT);
+    roleRestAclEntity.updated(SYSTEM_TENANT);
+    roleRestAclEntity = this.roleRestAclService.create(roleRestAclEntity);
     return roleEntity;
   }
 }

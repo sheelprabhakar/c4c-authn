@@ -21,69 +21,69 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Transactional(readOnly = true)
 public class RoleServiceImpl implements RoleService {
-    /**
-     * The System tenant service.
-     */
-    private final SystemTenantService systemTenantService;
-    /**
-     * The Role repository.
-     */
-    private final RoleRepository roleRepository;
+  /**
+   * The System tenant service.
+   */
+  private final SystemTenantService systemTenantService;
+  /**
+   * The Role repository.
+   */
+  private final RoleRepository roleRepository;
 
-    /**
-     * Instantiates a new Role service.
-     *
-     * @param systemTenantService the system tenant service
-     * @param roleRepository      the role repository
-     */
-    public RoleServiceImpl(final SystemTenantService systemTenantService, final RoleRepository roleRepository) {
+  /**
+   * Instantiates a new Role service.
+   *
+   * @param systemTenantService the system tenant service
+   * @param roleRepository      the role repository
+   */
+  public RoleServiceImpl(final SystemTenantService systemTenantService, final RoleRepository roleRepository) {
     this.systemTenantService = systemTenantService;
     this.roleRepository = roleRepository;
   }
 
-    /**
-     * Create role entity.
-     *
-     * @param roleEntity the role entity
-     * @return the role entity
-     */
-    @Override
+  /**
+   * Create role entity.
+   *
+   * @param roleEntity the role entity
+   * @return the role entity
+   */
+  @Override
   @Transactional(readOnly = false)
   public RoleEntity create(final RoleEntity roleEntity) {
     roleEntity.created(CurrentUserContext.getCurrentUser());
     return this.saveRoleEntity(roleEntity);
   }
 
-    /**
-     * Update role entity.
-     *
-     * @param roleEntity the role entity
-     * @return the role entity
-     */
-    @Override
+  /**
+   * Update role entity.
+   *
+   * @param roleEntity the role entity
+   * @return the role entity
+   */
+  @Override
   @Transactional(readOnly = false)
   public RoleEntity update(final RoleEntity roleEntity) {
     roleEntity.updated(CurrentUserContext.getCurrentUser());
     return this.saveRoleEntity(roleEntity);
   }
 
-    /**
-     * Find by id role entity.
-     *
-     * @param roleId the role id
-     * @return the role entity
-     */
-    @Override
+  /**
+   * Find by id role entity.
+   *
+   * @param roleId the role id
+   * @return the role entity
+   */
+  @Override
   public RoleEntity findById(final UUID roleId) {
     return this.roleRepository.findById(roleId).orElse(null);
   }
 
-    /**
-     * Find all list.
-     *
-     * @return the list
-     */
-    @Override
+  /**
+   * Find all list.
+   *
+   * @return the list
+   */
+  @Override
   public List<RoleEntity> findAll() {
     if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenantId())) {
       return (List<RoleEntity>) this.roleRepository.findAll();
@@ -92,14 +92,14 @@ public class RoleServiceImpl implements RoleService {
     }
   }
 
-    /**
-     * Find by pagination page.
-     *
-     * @param pageIndex the page index
-     * @param pageSize  the page size
-     * @return the page
-     */
-    @Override
+  /**
+   * Find by pagination page.
+   *
+   * @param pageIndex the page index
+   * @param pageSize  the page size
+   * @return the page
+   */
+  @Override
   public Page<RoleEntity> findByPagination(final int pageIndex, final int pageSize) {
     PageRequest pageRequest = PageRequest.of(pageIndex, pageSize, Sort.by("name").ascending());
     if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenantId())) {
@@ -109,47 +109,47 @@ public class RoleServiceImpl implements RoleService {
     }
   }
 
-    /**
-     * Delete by id.
-     *
-     * @param roleId the role id
-     */
-    @Override
+  /**
+   * Delete by id.
+   *
+   * @param roleId the role id
+   */
+  @Override
   @Transactional(readOnly = false)
   public void deleteById(final UUID roleId) {
     this.roleRepository.deleteById(roleId);
   }
 
-    /**
-     * Delete all by id.
-     *
-     * @param roleIds the role ids
-     */
-    @Override
+  /**
+   * Delete all by id.
+   *
+   * @param roleIds the role ids
+   */
+  @Override
   @Transactional(readOnly = false)
   public void deleteAllById(final List<UUID> roleIds) {
     this.roleRepository.deleteAllById(roleIds);
   }
 
-    /**
-     * Find by tenant id and name role entity.
-     *
-     * @param tenantId           the tenant id
-     * @param clientCredRoleName the client cred role name
-     * @return the role entity
-     */
-    @Override
+  /**
+   * Find by tenant id and name role entity.
+   *
+   * @param tenantId           the tenant id
+   * @param clientCredRoleName the client cred role name
+   * @return the role entity
+   */
+  @Override
   public RoleEntity findByTenantIdAndName(final UUID tenantId, final String clientCredRoleName) {
     return this.roleRepository.findByTenantIdAndName(tenantId, clientCredRoleName).orElse(null);
   }
 
-    /**
-     * Save role entity role entity.
-     *
-     * @param roleEntity the role entity
-     * @return the role entity
-     */
-    private RoleEntity saveRoleEntity(final RoleEntity roleEntity) {
+  /**
+   * Save role entity role entity.
+   *
+   * @param roleEntity the role entity
+   * @return the role entity
+   */
+  private RoleEntity saveRoleEntity(final RoleEntity roleEntity) {
     return this.roleRepository.save(roleEntity);
   }
 }

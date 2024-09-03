@@ -20,17 +20,17 @@ import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * The type Attribute entity.
+ * The type Rest acl entity.
  */
-@Table(name = "attributes")
-@Entity(name = "AttributeEntity")
+@Table(name = "rest_acls")
+@Entity(name = "RestAclEntity")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(callSuper = true)
-public class AttributeEntity extends CommonEntityAttributes implements Serializable {
+public class RestAclEntity extends CommonEntityAttributes implements Serializable {
 
   /**
    * The constant L50.

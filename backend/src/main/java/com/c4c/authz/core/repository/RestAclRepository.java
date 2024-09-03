@@ -1,6 +1,6 @@
 package com.c4c.authz.core.repository;
 
-import com.c4c.authz.core.entity.AttributeEntity;
+import com.c4c.authz.core.entity.RestAclEntity;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
@@ -9,17 +9,17 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * The interface Attribute repository.
+ * The interface Rest acl repository.
  */
 @Repository
-public interface AttributeRepository extends CrudRepository<AttributeEntity, UUID> {
+public interface RestAclRepository extends CrudRepository<RestAclEntity, UUID> {
   /**
    * Find all page.
    *
    * @param pageable the pageable
    * @return the page
    */
-  Page<AttributeEntity> findAll(Pageable pageable);
+  Page<RestAclEntity> findAll(Pageable pageable);
 
   /**
    * Find all by tenant id list.
@@ -27,7 +27,7 @@ public interface AttributeRepository extends CrudRepository<AttributeEntity, UUI
    * @param tenantId the tenant id
    * @return the list
    */
-  List<AttributeEntity> findAllByTenantId(UUID tenantId);
+  List<RestAclEntity> findAllByTenantId(UUID tenantId);
 
   /**
    * Find all by tenant id page.
@@ -36,5 +36,5 @@ public interface AttributeRepository extends CrudRepository<AttributeEntity, UUI
    * @param tenantId the tenant id
    * @return the page
    */
-  Page<AttributeEntity> findAllByTenantId(Pageable pageable, UUID tenantId);
+  Page<RestAclEntity> findAllByTenantId(Pageable pageable, UUID tenantId);
 }

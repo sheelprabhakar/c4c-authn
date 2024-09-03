@@ -18,24 +18,24 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode
 public class CommonResourceAttributes {
-  /**
-   * The Is deleted.
-   */
-  private boolean isDeleted;
-  /**
-   * The Created at.
-   */
-  private Calendar createdAt;
-  /**
-   * The Updated at.
-   */
-  private Calendar updatedAt;
-  /**
-   * The Created by.
-   */
-  private String createdBy;
-  /**
-   * The Updated by.
-   */
-  private String updatedBy;
+    /**
+     * The Is deleted.
+     */
+    private boolean isDeleted;
+    /**
+     * The Created at.
+     */
+    private Calendar createdAt;
+    /**
+     * The Updated at.
+     */
+    private Calendar updatedAt;
+    /**
+     * The Created by.
+     */
+    private String createdBy;
+    /**
+     * The Updated by.
+     */
+    private String updatedBy;
 }

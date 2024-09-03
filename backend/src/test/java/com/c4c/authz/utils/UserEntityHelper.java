@@ -8,24 +8,24 @@ import java.util.UUID;
  * The type User entity helper.
  */
 public class UserEntityHelper {
-  /**
-   * The constant MOBILE.
-   */
-  public static final String MOBILE = "9898989898";
+    /**
+     * The constant MOBILE.
+     */
+    public static final String MOBILE = "9898989898";
 
-  /**
-   * Instantiates a new User entity helper.
-   */
-  private UserEntityHelper() {
+    /**
+     * Instantiates a new User entity helper.
+     */
+    private UserEntityHelper() {
   }
 
-  /**
-   * Gets new.
-   *
-   * @param id the id
-   * @return the new
-   */
-  public static UserEntity getNew(final UUID id) {
+    /**
+     * Gets new.
+     *
+     * @param id the id
+     * @return the new
+     */
+    public static UserEntity getNew(final UUID id) {
     UserEntity entity = new UserEntity();
     entity.setId(id);
     entity.setTenantId(UUID.randomUUID());

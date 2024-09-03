@@ -37,26 +37,26 @@ import org.springframework.data.domain.Pageable;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class RoleServiceImplTest {
-  /**
-   * The System tenant service.
-   */
-  @Mock
+    /**
+     * The System tenant service.
+     */
+    @Mock
     SystemTenantService systemTenantService;
-  /**
-   * The Role service.
-   */
-  @InjectMocks
+    /**
+     * The Role service.
+     */
+    @InjectMocks
     RoleServiceImpl roleService;
-  /**
-   * The Role repository.
-   */
-  @Mock
+    /**
+     * The Role repository.
+     */
+    @Mock
     RoleRepository roleRepository;
 
-  /**
-   * Create ok.
-   */
-  @Test
+    /**
+     * Create ok.
+     */
+    @Test
     @DisplayName("Test Create new role OK")
     void createOk() {
         when(this.roleRepository.save(any(RoleEntity.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -65,10 +65,10 @@ class RoleServiceImplTest {
         assertEquals(roleEntity, roleEntity1);
     }
 
-  /**
-   * Update ok.
-   */
-  @Test
+    /**
+     * Update ok.
+     */
+    @Test
     @DisplayName("Test update role OK")
     void updateOK() {
         when(this.roleRepository.save(any(RoleEntity.class))).thenAnswer(i -> i.getArguments()[0]);
@@ -77,10 +77,10 @@ class RoleServiceImplTest {
         assertEquals(roleEntity, roleEntity1);
     }
 
-  /**
-   * Find by id ok.
-   */
-  @Test
+    /**
+     * Find by id ok.
+     */
+    @Test
     @DisplayName("Test find by id role OK")
     void findByIdOk() {
         RoleEntity roleEntity = Instancio.create(RoleEntity.class);
@@ -90,10 +90,10 @@ class RoleServiceImplTest {
         assertEquals(roleEntity, roleEntity1);
     }
 
-  /**
-   * Find all ok.
-   */
-  @Test
+    /**
+     * Find all ok.
+     */
+    @Test
     @DisplayName("Test find all role OK")
     void findAllOk() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
@@ -125,10 +125,10 @@ class RoleServiceImplTest {
         }
     }
 
-  /**
-   * Find by pagination ok.
-   */
-  @Test
+    /**
+     * Find by pagination ok.
+     */
+    @Test
     @DisplayName("Test find findByPagination role OK")
     void findByPaginationOk() {
         try (MockedStatic<CurrentUserContext> mockedStatic = mockStatic(CurrentUserContext.class)) {
@@ -159,10 +159,10 @@ class RoleServiceImplTest {
         }
     }
 
-  /**
-   * Delete by id ok.
-   */
-  @Test
+    /**
+     * Delete by id ok.
+     */
+    @Test
     @DisplayName("Test deleteBy id OK")
     void deleteByIdOK() {
         doNothing().when(this.roleRepository).deleteById(any(UUID.class));
@@ -171,10 +171,10 @@ class RoleServiceImplTest {
         verify(this.roleRepository, times(1)).deleteById(randomUUID);
     }
 
-  /**
-   * Delete all by id ok.
-   */
-  @Test
+    /**
+     * Delete all by id ok.
+     */
+    @Test
     @DisplayName("Test deleteAllById OK")
     void deleteAllByIdOK() {
         doNothing().when(this.roleRepository).deleteAllById(ArgumentMatchers.<UUID>anyList());

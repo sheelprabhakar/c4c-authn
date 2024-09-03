@@ -28,8 +28,8 @@ public interface ClientService {
     /**
      * Find by pagination page.
      *
-     * @param pageNo   the page no
-     * @param pageSize the page size
+     * @param pageIndex the page index
+     * @param pageSize  the page size
      * @return the page
      */
     Page<ClientEntity> findByPagination(int pageIndex, int pageSize);

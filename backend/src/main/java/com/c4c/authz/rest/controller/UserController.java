@@ -26,53 +26,53 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 @RequestMapping(UserController.BASE_URL)
 public class UserController extends BaseController {
-    /**
-     * The constant BASE_URL.
-     */
-    static final String BASE_URL = API_V1 + USER_URL;
+  /**
+   * The constant BASE_URL.
+   */
+  static final String BASE_URL = API_V1 + USER_URL;
 
-    /**
-     * Instantiates a new User controller.
-     *
-     * @param restAdapterV1 the rest adapter v 1
-     */
-    @Autowired
+  /**
+   * Instantiates a new User controller.
+   *
+   * @param restAdapterV1 the rest adapter v 1
+   */
+  @Autowired
   public UserController(final RestAdapterV1 restAdapterV1) {
     super(restAdapterV1);
   }
 
-    /**
-     * Create response entity.
-     *
-     * @param userResource the user resource
-     * @return the response entity
-     */
-    @PostMapping
+  /**
+   * Create response entity.
+   *
+   * @param userResource the user resource
+   * @return the response entity
+   */
+  @PostMapping
   public ResponseEntity<UserResource> create(final @RequestBody @Validated UserResource userResource) {
     userResource.setTenantId(CurrentUserContext.getCurrentTenantId());
     UserResource resource = this.getRestAdapterV1().createUser(userResource);
     return ResponseEntity.created(URI.create(BASE_URL + "/" + resource.getId())).body(resource);
   }
 
-    /**
-     * Update response entity.
-     *
-     * @param userResource the user resource
-     * @return the response entity
-     */
-    @PutMapping
+  /**
+   * Update response entity.
+   *
+   * @param userResource the user resource
+   * @return the response entity
+   */
+  @PutMapping
   public ResponseEntity<UserResource> update(final @RequestBody UserResource userResource) {
     userResource.setTenantId(CurrentUserContext.getCurrentTenantId());
     UserResource resource = this.getRestAdapterV1().updateUser(userResource);
     return ResponseEntity.ok(resource);
   }
 
-    /**
-     * Gets current user detail.
-     *
-     * @return the current user detail
-     */
-    @GetMapping(value = "/me")
+  /**
+   * Gets current user detail.
+   *
+   * @return the current user detail
+   */
+  @GetMapping(value = "/me")
   public ResponseEntity<UserDetailsResource> getCurrentUserDetail() {
     UserDetailsResource resource = this.getRestAdapterV1()
         .findByTenantIdAndUserName(CurrentUserContext.getCurrentTenantId(), CurrentUserContext.getCurrentUser());

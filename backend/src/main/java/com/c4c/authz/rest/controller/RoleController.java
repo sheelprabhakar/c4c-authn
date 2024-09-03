@@ -103,7 +103,8 @@ public class RoleController extends BaseController {
     /**
      * Update response entity.
      *
-     * @param role the role
+     * @param roleId the role id
+     * @param role   the role
      * @return the response entity
      */
     @PutMapping("/{roleId}")

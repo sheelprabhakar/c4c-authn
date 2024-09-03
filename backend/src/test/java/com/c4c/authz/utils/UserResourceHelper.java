@@ -8,28 +8,28 @@ import java.util.UUID;
  * The type User resource helper.
  */
 public class UserResourceHelper {
-  /**
-   * The constant MOBILE.
-   */
-  public static final String MOBILE = "989898989";
-  /**
-   * The constant counter.
-   */
-  static int counter = 0;
+    /**
+     * The constant MOBILE.
+     */
+    public static final String MOBILE = "989898989";
+    /**
+     * The constant counter.
+     */
+    static int counter = 0;
 
-  /**
-   * Instantiates a new User resource helper.
-   */
-  private UserResourceHelper() {
+    /**
+     * Instantiates a new User resource helper.
+     */
+    private UserResourceHelper() {
   }
 
-  /**
-   * Gets new.
-   *
-   * @param id the id
-   * @return the new
-   */
-  public static UserResource getNew(final UUID id) {
+    /**
+     * Gets new.
+     *
+     * @param id the id
+     * @return the new
+     */
+    public static UserResource getNew(final UUID id) {
     int c = counter++;
     UserResource resource = new UserResource();
     resource.setId(id);

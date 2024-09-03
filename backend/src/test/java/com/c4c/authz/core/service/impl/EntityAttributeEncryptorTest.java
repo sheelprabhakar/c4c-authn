@@ -11,24 +11,24 @@ import org.springframework.test.util.ReflectionTestUtils;
  */
 class EntityAttributeEncryptorTest {
 
-  /**
-   * The Entity attribute encryptor under test.
-   */
-  private EntityAttributeEncryptor entityAttributeEncryptorUnderTest;
+    /**
+     * The Entity attribute encryptor under test.
+     */
+    private EntityAttributeEncryptor entityAttributeEncryptorUnderTest;
 
-  /**
-   * Sets up.
-   */
-  @BeforeEach
+    /**
+     * Sets up.
+     */
+    @BeforeEach
   void setUp() {
     entityAttributeEncryptorUnderTest = new EntityAttributeEncryptor();
     ReflectionTestUtils.setField(entityAttributeEncryptorUnderTest, "secret", "secret");
   }
 
-  /**
-   * Test convert to database column.
-   */
-  @Test
+    /**
+     * Test convert to database column.
+     */
+    @Test
   void testConvertToDatabaseColumn() {
     String encText =
         entityAttributeEncryptorUnderTest.convertToDatabaseColumn("attribute");

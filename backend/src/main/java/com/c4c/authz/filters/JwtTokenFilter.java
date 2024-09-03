@@ -22,30 +22,30 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 @Slf4j
 public class JwtTokenFilter extends OncePerRequestFilter {
-  /**
-   * The Jwt token provider.
-   */
-  private final JwtTokenProvider jwtTokenProvider;
+    /**
+     * The Jwt token provider.
+     */
+    private final JwtTokenProvider jwtTokenProvider;
 
-  /**
-   * Instantiates a new Jwt token filter.
-   *
-   * @param jwtTokenProvider the jwt token provider
-   */
-  public JwtTokenFilter(final JwtTokenProvider jwtTokenProvider) {
+    /**
+     * Instantiates a new Jwt token filter.
+     *
+     * @param jwtTokenProvider the jwt token provider
+     */
+    public JwtTokenFilter(final JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-  /**
-   * Do filter internal.
-   *
-   * @param httpServletRequest  the http servlet request
-   * @param httpServletResponse the http servlet response
-   * @param filterChain         the filter chain
-   * @throws ServletException the servlet exception
-   * @throws IOException      the io exception
-   */
-  @Override
+    /**
+     * Do filter internal.
+     *
+     * @param httpServletRequest  the http servlet request
+     * @param httpServletResponse the http servlet response
+     * @param filterChain         the filter chain
+     * @throws ServletException the servlet exception
+     * @throws IOException      the io exception
+     */
+    @Override
     protected void doFilterInternal(final HttpServletRequest httpServletRequest,
                                     final HttpServletResponse httpServletResponse,
                                     final FilterChain filterChain) throws ServletException, IOException {
@@ -71,15 +71,15 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
-  /**
-   * Update user context boolean.
-   *
-   * @param httpServletRequest  the http servlet request
-   * @param httpServletResponse the http servlet response
-   * @return the boolean
-   * @throws IOException the io exception
-   */
-  private boolean updateUserContext(final HttpServletRequest httpServletRequest,
+    /**
+     * Update user context boolean.
+     *
+     * @param httpServletRequest  the http servlet request
+     * @param httpServletResponse the http servlet response
+     * @return the boolean
+     * @throws IOException the io exception
+     */
+    private boolean updateUserContext(final HttpServletRequest httpServletRequest,
                                       final HttpServletResponse httpServletResponse) throws IOException {
         log.info("In preHandle we are Intercepting the Request");
         String requestURI = httpServletRequest.getRequestURI();
