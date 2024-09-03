@@ -103,7 +103,7 @@ class RoleControllerTest extends AbstractIntegrationTest {
                 .andExpect(status().isCreated()).andReturn();
         String string = mvcResult.getResponse().getContentAsString();
         RoleResource resource1 = TestUtils.convertJsonStringToObject(string, RoleResource.class);
-        this.mockMvc.perform(this.put(BASE_URL, resource1)).andExpect(status().isOk())
+        this.mockMvc.perform(this.put(BASE_URL+"/"+resource1.getId().toString(), resource1)).andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(resource1.getId().toString()));
 
     }

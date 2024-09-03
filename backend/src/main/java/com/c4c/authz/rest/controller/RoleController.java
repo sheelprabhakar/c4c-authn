@@ -106,8 +106,11 @@ public class RoleController extends BaseController {
      * @param role the role
      * @return the response entity
      */
-    @PutMapping
-    public ResponseEntity<RoleResource> update(final @RequestBody @Validated RoleResource role) {
+    @PutMapping("/{roleId}")
+    public ResponseEntity<RoleResource> update(@PathVariable("roleId") final UUID roleId,
+                                               final @RequestBody
+                                               @Validated RoleResource role) {
+        role.setId(roleId);
         role.setTenantId(CurrentUserContext.getCurrentTenantId());
         RoleResource resource = this.getRestAdapterV1().updateRole(role);
         return ResponseEntity.ok().body(resource);

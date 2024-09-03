@@ -2,6 +2,7 @@
   <mat-sidenav #sidenav mode="side" [(opened)]="opened">
     <mat-nav-list>
       <a routerLinkActive="active-link" mat-list-item [routerLink]="['/tenant']">Teanant Management</a>
+      <a routerLinkActive="active-link" mat-list-item [routerLink]="['/role']">Role Managment</a>
       <a routerLinkActive="active-link" mat-list-item [routerLink]="['/client']">Client Managment</a>
       <a routerLinkActive="active-link" mat-list-item [routerLink]="['/link3']">Link 3</a>
       <a routerLinkActive="active-link" mat-list-item (click)="logout()">Logout</a>

@@ -8,6 +8,8 @@ import { PolicyGuard } from './core/policy/policy.gaurd';
 import { TenantDetailsComponent } from './pages/tenant/tenant-details/tenant-details.component';
 import { ClientComponent } from './pages/client/client.component';
 import { ClientDetailsComponent } from './pages/client/client-details/client-details.component';
+import { RoleComponent } from './pages/role/role.component';
+import { RoleDetailsComponent } from './pages/role/role-details/role-details.component';
 
 export const routes: Routes = [
   {
@@ -32,6 +34,15 @@ export const routes: Routes = [
             data: { policies: ['post:client management'], breadcrumb: 'Create'}},
           {path: 'edit/:id', component: ClientDetailsComponent, canActivate: [PolicyGuard],
             data: { policies: ['put:client management', 'patch:client management'], breadcrumb: 'Edit'}}
+        ]
+      },
+      {
+        path: 'role', component: RoleComponent, canActivate: [PolicyGuard], data: { policies: ['role management'], breadcrumb: 'Role Management' },
+        children:[
+          {path: 'create', component: RoleDetailsComponent, canActivate: [PolicyGuard],
+            data: { policies: ['post:role management'], breadcrumb: 'Create'}},
+          {path: 'edit/:id', component: RoleDetailsComponent, canActivate: [PolicyGuard],
+            data: { policies: ['put:role management', 'patch:role management'], breadcrumb: 'Edit'}}
         ]
       }, // Add your routes here
     ],
