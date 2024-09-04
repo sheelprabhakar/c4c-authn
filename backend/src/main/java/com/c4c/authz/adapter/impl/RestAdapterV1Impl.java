@@ -47,6 +47,7 @@ import java.util.UUID;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -396,14 +397,14 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   /**
    * Find by pagination rest acl page.
    *
-   * @param pageIndex the page index
-   * @param pageSize  the page size
+   * @param pageable the pageable
    * @return the page
    */
   @Override
-  public Page<RestAclResource> findByPaginationRestAcl(final int pageIndex, final int pageSize) {
+  public Page<RestAclResource> findByPaginationRestAcl(final Pageable pageable) {
+
     return this.restAclConverter.createFromEntities(
-        this.restAclService.findByPagination(pageIndex, pageSize));
+        this.restAclService.findByPagination(pageable));
   }
 
   /**

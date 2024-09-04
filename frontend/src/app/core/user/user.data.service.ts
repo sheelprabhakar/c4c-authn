@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment as env } from 'src/environments/environment';
-import { PagedResponse } from '../common/paged-response.model';
+import { PaginatedResponse } from '../common/paginated-response.model';
 import { UserDetailsData } from './user.data.model';
 import { constants } from '../common/constants';
 
@@ -14,9 +14,9 @@ export class UserDataService {
 
   constructor(private http: HttpClient) {}
 
-  getData<T>(page: number, size: number): Observable<PagedResponse<T>> {
+  getData<T>(page: number, size: number): Observable<PaginatedResponse<T>> {
     //return this.http.get(`${this.apiUrl}?page=${page}&size=${size}`);
-    return this.http.get<PagedResponse<T>>(`${this.apiUrl}`);
+    return this.http.get<PaginatedResponse<T>>(`${this.apiUrl}`);
   }
 
   getDetail(): Observable<any> {

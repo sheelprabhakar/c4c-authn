@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ClientData } from './client.data.model';
 import { environment as env } from 'src/environments/environment';
-import { PagedResponse } from '../common/paged-response.model';
+import { PaginatedResponse } from '../common/paginated-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +13,9 @@ export class ClientDataService {
 
   constructor(private http: HttpClient) {}
 
-  getClients(page: number, size: number): Observable<PagedResponse<ClientData[]>> {
+  getClients(page: number, size: number): Observable<PaginatedResponse<ClientData[]>> {
     //return this.http.get(`${this.apiUrl}?page=${page}&size=${size}`);
-    return this.http.get<PagedResponse<ClientData[]>>(`${this.apiUrl}`);
+    return this.http.get<PaginatedResponse<ClientData[]>>(`${this.apiUrl}`);
   }
 
   getClientById(id: string): Observable<ClientData> {

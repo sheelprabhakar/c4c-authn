@@ -73,7 +73,7 @@ public abstract class Converter<E, R> {
      */
     public final Page<R> createFromEntities(final Page<E> entities) {
     List<R> list = entities.getContent().stream().map(this::covertFromEntity).toList();
-    return new PageImpl<>(list);
+    return new PageImpl<>(list, entities.getPageable(), entities.getTotalElements());
   }
 }
 

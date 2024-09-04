@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RoleData } from './role.data.model';
 import { environment as env } from 'src/environments/environment';
-import { PagedResponse } from '../common/paged-response.model';
+import { PaginatedResponse } from '../common/paginated-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +14,11 @@ export class RoleDataService {
 
   constructor(private http: HttpClient) { }
 
-  getRoles(pageIndex: number, pageSize: number): Observable<PagedResponse<RoleData[]>> {
+  getRoles(pageIndex: number, pageSize: number): Observable<PaginatedResponse<RoleData[]>> {
     let params = new HttpParams()
       .set('pageIndex', pageIndex.toString())
       .set('pageSize', pageSize.toString());
-    return this.http.get<PagedResponse<RoleData[]>>(this.apiUrl, { params });
+    return this.http.get<PaginatedResponse<RoleData[]>>(this.apiUrl, { params });
   }
 
   getRoleById(id: string): Observable<RoleData> {

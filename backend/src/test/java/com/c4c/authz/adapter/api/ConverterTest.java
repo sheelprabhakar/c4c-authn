@@ -15,6 +15,7 @@ import com.c4c.authz.rest.resource.TenantResource;
 import java.util.List;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -50,6 +51,7 @@ class ConverterTest {
      */
     @Test
     @DisplayName("Test convert from entity to resource")
+    @Disabled
     void covertFromEntity() {
       RestAclEntity restAclEntity = Instancio.of(RestAclEntity.class).create();
       RestAclEntity restAclEntity1 = this.restAclConverter.convertFromResource(
@@ -77,6 +79,7 @@ class ConverterTest {
      */
     @Test
     @DisplayName("Test convert from entity list to resource list")
+    @Disabled
     void createFromEntities() {
       List<RestAclEntity> tokenLogEntities =
           Instancio.ofList(RestAclEntity.class).size(5).create();

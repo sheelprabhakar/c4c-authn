@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,12 +16,14 @@ import { TableHeightDirective } from '../../shared/directives/table-height-direc
 import { MatDividerModule } from '@angular/material/divider';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
+import { RestAclDataSource } from 'src/app/core/rest-acl/rest-acl-data-source';
 
 @Component({
   selector: 'app-rest-acl',
   templateUrl: './rest-acl.component.html',
   styleUrls: ['./rest-acl.component.scss'],
   standalone: true,
+  providers: [RestAclDataSource],
   imports: [
     MatTableModule, MatPaginatorModule, MatSortModule, MatCheckboxModule,
     MatDividerModule, TableHeightDirective, MatIconModule, MatMenuModule,
@@ -33,7 +34,7 @@ export class RestAclComponent implements OnInit, AfterViewInit {
   dateFormat: string = env.dateFormat;
   displayedColumns: string[] = ['id', 'name', 'path', 'createdAt', 'action'];
   selection = new SelectionModel<RestAclData>(true, []);
-  dataSource = new MatTableDataSource<any>([]);
+  dataSource: RestAclDataSource;
   totalItems = 0;
   pageSize = env.pageSize;
   hasChildRoute = false;
@@ -43,27 +44,27 @@ export class RestAclComponent implements OnInit, AfterViewInit {
   private paginator: MatPaginator;
   private sort: MatSort;
 
-  @ViewChild('MatSort') set setSort(content: MatSort) {
+  @ViewChild(MatSort, { static: false }) set setSort(content: MatSort) {
     if (content) { // initially setter gets called with undefined
       this.sort = content;
-      this.dataSource.sort = this.sort;
-      this.paginator.page.subscribe(() => this.loadPage());
-      this.loadPage();
     }
   }
 
   @ViewChild('paginator') set setPaginator(content: MatPaginator) {
     if (content) { // initially setter gets called with undefined
       this.paginator = content;
-      this.dataSource.paginator = content;
-      this.paginator.page.subscribe(() => this.loadPage());
-      this.loadPage();
     }
   }
 
-  constructor(private dataService: RestAclDataService,     private router: Router, private route: ActivatedRoute) {}
+  constructor(private dataService: RestAclDataService, private router: Router,
+    private route: ActivatedRoute, private restAclDataSource: RestAclDataSource) {
+    this.dataSource = this.restAclDataSource;
+  }
 
   ngOnInit(): void {
+
+    this.dataSource.totalItems$.subscribe(total => this.totalItems = total);
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -73,28 +74,26 @@ export class RestAclComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.dataSource.loadData(0, 10, 'asc', 'name'); // Example of loading data
   }
 
-
   loadPage() {
-    const pageIndex = this.paginator.pageIndex;
-    const pageSize = this.paginator.pageSize;
+    if (this.paginator !== undefined && this.sort !== undefined) {
+      const pageIndex = this.paginator.pageIndex;
+      const pageSize = this.paginator.pageSize;
+      const sortDirection = this.sort.direction;
+      const sortField = this.sort.active === undefined ? 'name' : this.sort.active;
+      this.selection.clear();
+      this.dataSource.loadData(pageIndex, pageSize, sortDirection, sortField);
+    }
+  }
 
-    this.dataService
-      .getRestAcls(pageIndex, pageSize)
-      .subscribe((data) => {
-        /*const row = data.items[0];
-        for (let i = 0; i < 15; ++i) {
-          let obj2 = JSON.parse(JSON.stringify(row));
-          obj2.id = i + 1;
-          data.items.push(obj2);
-        }*/
-        data.total = data.total;
-        this.dataSource.data = data.items;
-        this.totalItems = data.total;
-      });
+  onPageChange(event: any): void {
+    this.loadPage();
+  }
+
+  onSortChange(sort: any): void {
+    this.loadPage();
   }
 
   isAllSelected() {
