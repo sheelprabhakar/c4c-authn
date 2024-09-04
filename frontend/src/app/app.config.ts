@@ -12,6 +12,7 @@ import {
 } from '@angular/common/http';
 import { routes } from './app.routes';
 import { TokenInterceptor } from './core/auth/token.interceptor';
+import { LoaderInterceptor } from './core/loader/loader.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,6 +23,11 @@ export const appConfig: ApplicationConfig = {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
       multi: true,
     },
   ],
