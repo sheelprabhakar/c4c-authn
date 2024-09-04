@@ -8,6 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -77,9 +80,13 @@ public class RestAclController extends BaseController {
     @GetMapping
     public ResponseEntity<PagedModelResponse<RestAclResource>> findByPagination(
             @RequestParam(value = "pageIndex", required = false, defaultValue = "-1") final int pageIndex,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize) {
+            @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize,
+            @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") final String sortDirection,
+            @RequestParam(value = "sortField", required = false, defaultValue = "name") final String sortField) {
+        Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+        Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by(direction, sortField));
         if (pageSize > 0) {
-            Page<RestAclResource> resources = this.getRestAdapterV1().findByPaginationRestAcl(pageIndex, pageSize);
+            Page<RestAclResource> resources = this.getRestAdapterV1().findByPaginationRestAcl(pageable);
             return ResponseEntity.ok().body(new PagedModelResponse<>(resources));
         } else {
             List<RestAclResource> resources = this.getRestAdapterV1().findAllRestAcl();

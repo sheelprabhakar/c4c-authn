@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * The interface Rest acl service.
@@ -44,11 +45,10 @@ public interface RestAclService {
     /**
      * Find by pagination page.
      *
-     * @param pageIndex the page index
-     * @param pageSize  the page size
+     * @param pageable the pageable
      * @return the page
      */
-    Page<RestAclEntity> findByPagination(int pageIndex, int pageSize);
+    Page<RestAclEntity> findByPagination(Pageable pageable);
 
     /**
      * Delete by id.

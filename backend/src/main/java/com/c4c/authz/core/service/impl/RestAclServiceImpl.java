@@ -10,6 +10,7 @@ import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,17 +98,15 @@ public class RestAclServiceImpl implements RestAclService {
     /**
      * Find by pagination page.
      *
-     * @param pageIndex the page index
-     * @param pageSize  the page size
+     * @param pageable the pageable
      * @return the page
      */
     @Override
-    public Page<RestAclEntity> findByPagination(final int pageIndex, final int pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageIndex, pageSize, Sort.by("name").ascending());
+    public Page<RestAclEntity> findByPagination(final Pageable pageable) {
         if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenantId())) {
-            return this.restAclRepository.findAll(pageRequest);
+            return this.restAclRepository.findAll(pageable);
         } else {
-            return this.restAclRepository.findAllByTenantId(pageRequest, CurrentUserContext.getCurrentTenantId());
+            return this.restAclRepository.findAllByTenantId(pageable, CurrentUserContext.getCurrentTenantId());
         }
     }
 

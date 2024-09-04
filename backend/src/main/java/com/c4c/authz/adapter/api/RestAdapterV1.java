@@ -17,6 +17,7 @@ import com.c4c.authz.rest.resource.user.UserRoleResource;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * The interface Rest adapter v 1.
@@ -139,7 +140,7 @@ public interface RestAdapterV1 {
   RestAclResource createRestAcl(RestAclResource restAclResource);
 
   /**
-   * Find by id rest acl resource.
+   * Find by id rest acl rest acl resource.
    *
    * @param restAclId the rest acl id
    * @return the rest acl resource
@@ -156,11 +157,10 @@ public interface RestAdapterV1 {
   /**
    * Find by pagination rest acl page.
    *
-   * @param pageIndex the page index
-   * @param pageSize  the page size
+   * @param pageable the pageable
    * @return the page
    */
-  Page<RestAclResource> findByPaginationRestAcl(int pageIndex, int pageSize);
+  Page<RestAclResource> findByPaginationRestAcl(Pageable pageable);
 
   /**
    * Update rest acl rest acl resource.

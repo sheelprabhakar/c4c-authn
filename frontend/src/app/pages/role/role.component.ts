@@ -89,9 +89,8 @@ export class RoleComponent implements OnInit, AfterViewInit {
           obj2.id = i + 1;
           data.items.push(obj2);
         }*/
-        data.total = data.total;
         this.dataSource.data = data.items;
-        this.totalItems = data.total;
+        this.totalItems = data.page.totalElements;
       });
   }
 

@@ -5,7 +5,7 @@ export interface PageInfo {
   totalPages: number;
 }
 
-export interface PagedResponse<T> {
+export interface PaginatedResponse<T> {
   items: T[];
   total: number;
   page: PageInfo;
