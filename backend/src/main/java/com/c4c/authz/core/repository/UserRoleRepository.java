@@ -20,7 +20,7 @@ public interface UserRoleRepository extends CrudRepository<UserRoleEntity, UserR
      * @param pageable the pageable
      * @return the page
      */
-    Page<UserRoleEntity> findAll(Pageable pageable);
+    Page<UserRoleEntity> findAll(Pageable pageRequest);
 
     /**
      * Find by user id list.

@@ -20,7 +20,7 @@ public interface RoleRepository extends CrudRepository<RoleEntity, UUID> {
      * @param pageable the pageable
      * @return the page
      */
-    Page<RoleEntity> findAll(Pageable pageable);
+    Page<RoleEntity> findAll(Pageable pageRequest);
 
     /**
      * Find all by tenant id list.
@@ -37,7 +37,7 @@ public interface RoleRepository extends CrudRepository<RoleEntity, UUID> {
      * @param tenantId the tenant id
      * @return the page
      */
-    Page<RoleEntity> findAllByTenantId(Pageable pageable, UUID tenantId);
+    Page<RoleEntity> findAllByTenantId(Pageable pageRequest, UUID tenantId);
 
     /**
      * Find by tenant id and name optional.

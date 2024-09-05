@@ -4,21 +4,20 @@ import { Observable } from 'rxjs';
 import { RestAclData } from './rest-acl.data.model'; // Update the model import
 import { environment as env } from 'src/environments/environment';
 import { PaginatedResponse } from '../common/paginated-response.model';
+import { DataService } from '../data.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RestAclDataService {
+export class RestAclDataService extends DataService<RestAclData> {
   private apiUrl = env.API_ROOT + 'v1/api/restAcl'; // Update the API URL
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    super();
+  }
 
   getRestAcls(pageIndex: number, pageSize: number, sortDirection: string, sortField: string): Observable<PaginatedResponse<RestAclData>> {
-    let params = new HttpParams()
-      .set('pageIndex', pageIndex.toString())
-      .set('pageSize', pageSize.toString())
-      .set('sortDirection', sortDirection)
-      .set('sortField', sortField);
+    let params = this.params(pageIndex, pageSize, sortDirection, sortField);
     return this.http.get<PaginatedResponse<RestAclData>>(this.apiUrl, { params });
   }
 

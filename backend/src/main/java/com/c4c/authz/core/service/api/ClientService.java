@@ -4,6 +4,7 @@ import com.c4c.authz.core.entity.ClientEntity;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * The interface Client service.
@@ -28,11 +29,10 @@ public interface ClientService {
     /**
      * Find by pagination page.
      *
-     * @param pageIndex the page index
-     * @param pageSize  the page size
+     * @param pageRequest the page request
      * @return the page
      */
-    Page<ClientEntity> findByPagination(int pageIndex, int pageSize);
+    Page<ClientEntity> findByPagination(Pageable pageRequest);
 
     /**
      * Find all list.

@@ -157,10 +157,10 @@ public interface RestAdapterV1 {
   /**
    * Find by pagination rest acl page.
    *
-   * @param pageable the pageable
+   * @param pageRequest the page request
    * @return the page
    */
-  Page<RestAclResource> findByPaginationRestAcl(Pageable pageable);
+  Page<RestAclResource> findByPaginationRestAcl(Pageable pageRequest);
 
   /**
    * Update rest acl rest acl resource.
@@ -365,11 +365,10 @@ public interface RestAdapterV1 {
   /**
    * Find by pagination client page.
    *
-   * @param pageIndex the page index
-   * @param pageSize  the page size
+   * @param pageRequest the page request
    * @return the page
    */
-  Page<ClientResource> findByPaginationClient(int pageIndex, int pageSize);
+  Page<ClientResource> findByPaginationClient(Pageable pageRequest);
 
   /**
    * Delete by id client.

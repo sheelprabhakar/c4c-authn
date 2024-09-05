@@ -13,6 +13,7 @@ import com.c4c.authz.core.service.api.SystemTenantService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -160,13 +161,11 @@ public class ClientServiceImpl implements ClientService {
     /**
      * Find by pagination page.
      *
-     * @param pageIndex the page index
-     * @param pageSize  the page size
+     * @param pageRequest the page request
      * @return the page
      */
     @Override
-    public Page<ClientEntity> findByPagination(final int pageIndex, final int pageSize) {
-        PageRequest pageRequest = PageRequest.of(pageIndex, pageSize, Sort.by("name").ascending());
+    public Page<ClientEntity> findByPagination(final Pageable pageRequest) {
         if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenantId())) {
             return this.clientRepository.findAll(pageRequest);
         } else {

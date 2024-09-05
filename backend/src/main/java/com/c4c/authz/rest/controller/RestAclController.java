@@ -73,8 +73,10 @@ public class RestAclController extends BaseController {
     /**
      * Find by pagination response entity.
      *
-     * @param pageIndex the page index
-     * @param pageSize  the page size
+     * @param pageIndex     the page index
+     * @param pageSize      the page size
+     * @param sortDirection the sort direction
+     * @param sortField     the sort field
      * @return the response entity
      */
     @GetMapping
@@ -83,10 +85,9 @@ public class RestAclController extends BaseController {
             @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize,
             @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") final String sortDirection,
             @RequestParam(value = "sortField", required = false, defaultValue = "name") final String sortField) {
-        Sort.Direction direction = Sort.Direction.fromString(sortDirection);
-        Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by(direction, sortField));
+        Pageable pageRequest = getPageableRequest(pageIndex, pageSize, sortDirection, sortField);
         if (pageSize > 0) {
-            Page<RestAclResource> resources = this.getRestAdapterV1().findByPaginationRestAcl(pageable);
+            Page<RestAclResource> resources = this.getRestAdapterV1().findByPaginationRestAcl(pageRequest);
             return ResponseEntity.ok().body(new PagedModelResponse<>(resources));
         } else {
             List<RestAclResource> resources = this.getRestAdapterV1().findAllRestAcl();
