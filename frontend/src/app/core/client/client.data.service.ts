@@ -4,33 +4,36 @@ import { Observable } from 'rxjs';
 import { ClientData } from './client.data.model';
 import { environment as env } from 'src/environments/environment';
 import { PaginatedResponse } from '../common/paginated-response.model';
+import { DataService } from '../data.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClientDataService {
+export class ClientDataService extends DataService<ClientData> {
   private apiUrl = env.API_ROOT + 'v1/api/client'; // Replace with your API URL
 
-  constructor(private http: HttpClient) {}
-
-  getClients(page: number, size: number): Observable<PaginatedResponse<ClientData[]>> {
-    //return this.http.get(`${this.apiUrl}?page=${page}&size=${size}`);
-    return this.http.get<PaginatedResponse<ClientData[]>>(`${this.apiUrl}`);
+  constructor(private http: HttpClient) {
+    super();
   }
 
-  getClientById(id: string): Observable<ClientData> {
+  findAll(pageIndex: number, pageSize: number, sortDirection: string, sortField: string): Observable<PaginatedResponse<ClientData>> {
+    let params = this.params(pageIndex, pageSize, sortDirection, sortField);
+    return this.http.get<PaginatedResponse<ClientData>>(`${this.apiUrl}`, { params });
+  }
+
+  getById(id: string): Observable<ClientData> {
     return this.http.get<ClientData>(`${this.apiUrl}/${id}`);
   }
 
-  createClient(client: ClientData): Observable<ClientData> {
+  createNew(client: ClientData): Observable<ClientData> {
     return this.http.post<ClientData>(`${this.apiUrl}?name=${client.name}`,{});
   }
 
-  updateClient(client: ClientData): Observable<ClientData> {
+  update(client: ClientData): Observable<ClientData> {
     return this.http.put<ClientData>(`${this.apiUrl}/${client.id}`, client);
   }
 
-  deleteClient(id: string): Observable<void> {
+  deleteById(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

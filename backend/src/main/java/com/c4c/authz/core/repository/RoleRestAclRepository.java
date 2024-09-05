@@ -20,7 +20,7 @@ public interface RoleRestAclRepository extends CrudRepository<RoleRestAclEntity,
    * @param pageable the pageable
    * @return the page
    */
-  Page<RoleRestAclEntity> findAll(Pageable pageable);
+  Page<RoleRestAclEntity> findAll(Pageable pageRequest);
 
   /**
    * Find all by role id list.

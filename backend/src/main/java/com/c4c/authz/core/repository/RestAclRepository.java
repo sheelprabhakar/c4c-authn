@@ -19,7 +19,7 @@ public interface RestAclRepository extends CrudRepository<RestAclEntity, UUID> {
    * @param pageable the pageable
    * @return the page
    */
-  Page<RestAclEntity> findAll(Pageable pageable);
+  Page<RestAclEntity> findAll(Pageable pageRequest);
 
   /**
    * Find all by tenant id list.
@@ -36,5 +36,5 @@ public interface RestAclRepository extends CrudRepository<RestAclEntity, UUID> {
    * @param tenantId the tenant id
    * @return the page
    */
-  Page<RestAclEntity> findAllByTenantId(Pageable pageable, UUID tenantId);
+  Page<RestAclEntity> findAllByTenantId(Pageable pageRequest, UUID tenantId);
 }

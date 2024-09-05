@@ -98,7 +98,7 @@ export class ClientDetailsComponent {
 
   fetchClientData(clientId: string): void {
     // Fetch the client data based on the clientId
-    this.dataService.getClientById(clientId).subscribe(client => {
+    this.dataService.getById(clientId).subscribe(client => {
       this.client = client;
     });
   }
@@ -118,7 +118,7 @@ export class ClientDetailsComponent {
     this.router.navigate(['client']);
   }
   private saveNew() {
-    this.dataService.createClient(this.clientForm.value as ClientData).subscribe({
+    this.dataService.createNew(this.clientForm.value as ClientData).subscribe({
       next: (value) => {
         this.errorMessage = null;
         this.router.navigate(['client']);
@@ -132,7 +132,7 @@ export class ClientDetailsComponent {
   }
   private updateExisting() {
     this.client.name = this.clientForm.value.name;
-    this.dataService.updateClient(this.client).subscribe({
+    this.dataService.update(this.client).subscribe({
       next: (value) => {
         this.errorMessage = null;
         this.router.navigate(['client']);

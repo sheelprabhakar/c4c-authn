@@ -40,7 +40,7 @@ public interface ClientRepository extends CrudRepository<ClientEntity, UUID> {
      * @param tenantId the tenant id
      * @return the page
      */
-    Page<ClientEntity> findAllByTenantId(Pageable pageable, UUID tenantId);
+    Page<ClientEntity> findAllByTenantId(Pageable pageRequest, UUID tenantId);
 
     /**
      * Find all page.
@@ -48,7 +48,7 @@ public interface ClientRepository extends CrudRepository<ClientEntity, UUID> {
      * @param pageable the pageable
      * @return the page
      */
-    Page<ClientEntity> findAll(Pageable pageable);
+    Page<ClientEntity> findAll(Pageable pageRequest);
 
     /**
      * Find all by tenant id list.

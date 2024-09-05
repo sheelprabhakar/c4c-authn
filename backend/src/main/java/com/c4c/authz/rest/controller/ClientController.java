@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -69,16 +70,21 @@ public class ClientController extends BaseController {
   /**
    * Find by pagination response entity.
    *
-   * @param pageIndex the page index
-   * @param pageSize  the page size
+   * @param pageIndex     the page index
+   * @param pageSize      the page size
+   * @param sortDirection the sort direction
+   * @param sortField     the sort field
    * @return the response entity
    */
   @GetMapping
   public ResponseEntity<PagedModelResponse<ClientResource>> findByPagination(
-      @RequestParam(value = "pageIndex", required = false, defaultValue = "-1") final int pageIndex,
-      @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize) {
+          @RequestParam(value = "pageIndex", required = false, defaultValue = "-1") final int pageIndex,
+          @RequestParam(value = "pageSize", required = false, defaultValue = "-1") final int pageSize,
+          @RequestParam(value = "sortDirection", required = false, defaultValue = "asc") final String sortDirection,
+          @RequestParam(value = "sortField", required = false, defaultValue = "name") final String sortField) {
+    Pageable pageRequest = getPageableRequest(pageIndex, pageSize, sortDirection, sortField);
     if (pageSize > 0) {
-      Page<ClientResource> resources = this.getRestAdapterV1().findByPaginationClient(pageIndex, pageSize);
+      Page<ClientResource> resources = this.getRestAdapterV1().findByPaginationClient(pageRequest);
       return ResponseEntity.ok().body(new PagedModelResponse<>(resources));
     } else {
       List<ClientResource> resources = this.getRestAdapterV1().findAllClient();

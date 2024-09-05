@@ -74,7 +74,7 @@ export class RestAclComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.loadData(0, 10, 'asc', 'name'); // Example of loading data
+    this.dataSource.loadData(0, env.pageSize, 'asc', 'name'); // Example of loading data
   }
 
   loadPage() {

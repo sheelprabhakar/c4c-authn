@@ -397,14 +397,14 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   /**
    * Find by pagination rest acl page.
    *
-   * @param pageable the pageable
+   * @param pageRequest the page request
    * @return the page
    */
   @Override
-  public Page<RestAclResource> findByPaginationRestAcl(final Pageable pageable) {
+  public Page<RestAclResource> findByPaginationRestAcl(final Pageable pageRequest) {
 
     return this.restAclConverter.createFromEntities(
-        this.restAclService.findByPagination(pageable));
+        this.restAclService.findByPagination(pageRequest));
   }
 
   /**
@@ -742,13 +742,12 @@ public class RestAdapterV1Impl implements RestAdapterV1 {
   /**
    * Find by pagination client page.
    *
-   * @param pageIndex the page index
-   * @param pageSize  the page size
+   * @param pageRequest the page request
    * @return the page
    */
   @Override
-  public Page<ClientResource> findByPaginationClient(final int pageIndex, final int pageSize) {
-    return this.clientConverter.createFromEntities(this.clientService.findByPagination(pageIndex, pageSize));
+  public Page<ClientResource> findByPaginationClient(final Pageable pageRequest) {
+    return this.clientConverter.createFromEntities(this.clientService.findByPagination(pageRequest));
   }
 
   /**

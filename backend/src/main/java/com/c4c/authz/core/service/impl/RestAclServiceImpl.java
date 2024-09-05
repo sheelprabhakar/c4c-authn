@@ -98,15 +98,15 @@ public class RestAclServiceImpl implements RestAclService {
     /**
      * Find by pagination page.
      *
-     * @param pageable the pageable
+     * @param pageRequest the page request
      * @return the page
      */
     @Override
-    public Page<RestAclEntity> findByPagination(final Pageable pageable) {
+    public Page<RestAclEntity> findByPagination(final Pageable pageRequest) {
         if (this.systemTenantService.isSystemTenant(CurrentUserContext.getCurrentTenantId())) {
-            return this.restAclRepository.findAll(pageable);
+            return this.restAclRepository.findAll(pageRequest);
         } else {
-            return this.restAclRepository.findAllByTenantId(pageable, CurrentUserContext.getCurrentTenantId());
+            return this.restAclRepository.findAllByTenantId(pageRequest, CurrentUserContext.getCurrentTenantId());
         }
     }
 

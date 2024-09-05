@@ -48,7 +48,7 @@ public interface RestAclService {
      * @param pageable the pageable
      * @return the page
      */
-    Page<RestAclEntity> findByPagination(Pageable pageable);
+    Page<RestAclEntity> findByPagination(Pageable pageRequest);
 
     /**
      * Delete by id.

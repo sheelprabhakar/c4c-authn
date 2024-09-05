@@ -1,6 +1,6 @@
 
 <router-outlet></router-outlet>
-<div *ngIf="!hasChildRoute">
+<div [ngClass]="{'hidden': hasChildRoute}">
   <h2>Role Management</h2>
   <div class="button-container">
     <button

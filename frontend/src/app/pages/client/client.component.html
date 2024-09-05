@@ -1,12 +1,12 @@
 <router-outlet></router-outlet>
-<div *ngIf="!hasChildRoute">
+<div [ngClass]="{'hidden': hasChildRoute}">
   <h2>Cient Management</h2>
   <div class="button-container">
     <button
       mat-raised-button
       color="primary"
       class="float-right"
-      (click)="onCreateNew()"
+      (click)="onCreateNew('create')"
     >
       <mat-icon>add</mat-icon> Add New Client
     </button>
@@ -74,7 +74,7 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="editElement(element.id)">Edit</button>
+            <button mat-menu-item (click)="editElement(element.id, 'edit')">Edit</button>
             <button mat-menu-item (click)="deleteElement(element.id)">
               Delete
             </button>

@@ -20,7 +20,7 @@ public interface ClientRoleRepository extends JpaRepository<ClientRoleEntity, Cl
      * @param pageable the pageable
      * @return the page
      */
-    Page<ClientRoleEntity> findAll(Pageable pageable);
+    Page<ClientRoleEntity> findAll(Pageable pageRequest);
 
     /**
      * Find by client id list.
