@@ -15,8 +15,10 @@ do
 done
 
 #priv_stmt='CREATE USER "app_user"@"%" IDENTIFIED BY "Password4"; GRANT REPLICATION SLAVE ON *.* TO "app_user"@"%"; FLUSH PRIVILEGES;'
-priv_stmt='GRANT REPLICATION SLAVE ON *.* TO "app_user"@"%"; FLUSH PRIVILEGES;'
-docker exec mysql_master sh -c "export MYSQL_PWD=Password4; mysql -u root -e '$priv_stmt'"
+#priv_stmt='GRANT REPLICATION SLAVE ON *.* TO "app_user"@"%"; FLUSH PRIVILEGES;'
+#docker exec mysql_master sh -c "export MYSQL_PWD=Password4; mysql -u root -e '$priv_stmt'"
+sql_slave_user='CREATE USER "mydb_slave_user"@"%" IDENTIFIED BY "mydb_slave_pwd"; GRANT REPLICATION SLAVE ON *.* TO "mydb_slave_user"@"%"; FLUSH PRIVILEGES;'
+docker exec mysql_master sh -c "mysql -u root -pPassword4 -e '$sql_slave_user'"
 
 until docker-compose exec mysql_slave sh -c 'export MYSQL_PWD=Password4; mysql -u root -e ";"'
 do
@@ -28,7 +30,7 @@ MS_STATUS=`docker exec mysql_master sh -c 'export MYSQL_PWD=Password4; mysql -u 
 CURRENT_LOG=`echo $MS_STATUS | awk '{print $6}'`
 CURRENT_POS=`echo $MS_STATUS | awk '{print $7}'`
 
-start_slave_stmt="CHANGE REPLICATION SOURCE TO SOURCE_HOST='mysql_master',SOURCE_USER='app_user',SOURCE_PASSWORD='Password4', GET_SOURCE_PUBLIC_KEY=1, SOURCE_LOG_FILE='$CURRENT_LOG',SOURCE_LOG_POS=$CURRENT_POS; START REPLICA;"
+start_slave_stmt="CHANGE REPLICATION SOURCE TO SOURCE_HOST='mysql_master',SOURCE_USER='mydb_slave_user',SOURCE_PASSWORD='mydb_slave_pwd', GET_SOURCE_PUBLIC_KEY=1, SOURCE_LOG_FILE='$CURRENT_LOG',SOURCE_LOG_POS=$CURRENT_POS; START REPLICA;"
 start_slave_cmd='export MYSQL_PWD=Password4; mysql -u root -e "'
 start_slave_cmd+="$start_slave_stmt"
 start_slave_cmd+='"'
